@@ -41,6 +41,13 @@ export default new Router({
       name: 'maintebook',
       component: MainteBook,
     },
+ // šš
+    {
+      path: '/pages/ListUser.html',
+      name: 'listUser',
+      component: ListUser,
+    },
+// šš
     {
       path: '*',
       name: 'sorry',

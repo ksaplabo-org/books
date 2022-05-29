@@ -42,6 +42,14 @@ module.exports = {
           filename: 'pages/maintebook.html',
           title: 'Maintenance Book',
         },
+        // šš
+        listUser: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/listUser.html',
+          title: 'User List',
+        },
+        // šš
         sorry: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',

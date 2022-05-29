@@ -59,3 +59,11 @@ export function deleteBook(title){
 
     return axios.delete(url);
 }
+
+// ★★
+export function getAllUser() {
+    const url = '/api/user';
+
+    return axios.get(url);
+}
+// ★★
