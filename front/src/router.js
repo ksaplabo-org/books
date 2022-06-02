@@ -7,7 +7,6 @@ import Sorry from './views/Sorry.vue';
 import Menu from './views/Menu.vue';
 import RentalBook from './views/RentalBook.vue';
 import MainteBook from './views/MainteBook.vue';
-import ListUser from './views/ListUser.vue';
 
 Vue.use(Router);
 
