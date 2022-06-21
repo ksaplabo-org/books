@@ -48,6 +48,12 @@ module.exports = {
           filename: 'pages/listUser.html',
           title: 'UserList',
         },
+        listBook: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/listBook.html',
+          title: 'BookList',
+        },
         addUser: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',

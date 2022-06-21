@@ -57,12 +57,14 @@ module.exports.getAll = async function (db) {
         const updateParams = {
             rentalStatus: null,
             rentalDate: null,
+            returnDate: null,
             rentalUser: null
         };
 
         if (isUpdateRental) {
             updateParams.rentalStatus = "貸出中";
             updateParams.rentalDate = moment().format("YYYY/MM/DD");
+            updateParams.returnDate = moment().add(2, 'w').format("YYYY/MM/DD");
             updateParams.rentalUser = userName;
         }
     
@@ -87,6 +89,22 @@ module.exports. remove =  async function (db, title) {
 
     try {
         return await BookModel.destroy({ where: { title: title } });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+/**
+ * ログインユーザーIDに紐づく書籍情報を取得する
+ * @param {*} db 
+ * @returns 全書籍情報（Promise）
+ */
+ module.exports.getLinkUser = async function (db, userName) {
+    const BookModel = BookRepository.getBookModel(db);
+
+    try {
+        return await BookModel.findAll({ where: { rentalUser: userName } });
     } catch (error) {
         console.log(error);
         throw error;

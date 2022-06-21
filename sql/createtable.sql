@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS user
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_0900_ai_ci;
 
+DROP TABLE IF EXISTS book;
 CREATE TABLE IF NOT EXISTS book 
 (
     title varchar(100) NOT NULL PRIMARY KEY, 
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS book
     imgUrl varchar(255),
     isbn varchar(100),
     rentalDate varchar(100),
+    returnDate varchar(100),
     rentalStatus varchar(100),
     rentalUser varchar(100)
 )

@@ -74,6 +74,10 @@
                                                                     <td>{{row.rentalDate}}</td>
                                                                 </tr>
                                                                 <tr>
+                                                                    <td>返却予定日</td>
+                                                                    <td>{{row.returnDate}}</td>
+                                                                </tr>
+                                                                <tr>
                                                                     <td>貸出者</td>
                                                                     <td>{{row.rentalUser}}</td>
                                                                 </tr>

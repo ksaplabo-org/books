@@ -29,6 +29,12 @@
                 <span>User Maintenance</span>
             </router-link>
         </li>
+        <li class="nav-item active">
+            <router-link tag="a" class="nav-link" :to="{ name: 'listBook'}">
+                <i class="fas fa-fw fa-book"></i>
+                <span>Book Status</span>
+            </router-link>
+        </li>
     </ul>
 
 </template>

@@ -77,3 +77,13 @@ export function postCreateUser(userModel) {
         "userAuth": userModel.userAuth
     })
 }
+
+export function getAllBook() {
+    
+    const url = '/api/book';
+
+    return axios.get(url , {
+            params: {}
+        }
+    );
+}

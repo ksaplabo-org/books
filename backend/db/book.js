@@ -28,6 +28,11 @@ module.exports. getBookModel = function (db) {
                 type: STRING(200),
                 allowNull: true
             },
+            returnDate: {
+                field: "returnDate",
+                type: STRING(200),
+                allowNull: true
+            },
             rentalStatus: {
                 field: "rentalStatus",
                 type: STRING(200),
