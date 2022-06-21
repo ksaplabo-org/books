@@ -52,6 +52,21 @@
               </div>
 <!-- takada -->
 
+            <div class="col-lg-6 mb-4">
+
+                <!-- Approach -->
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <router-link tag="a" :to="{ name: 'listUser'}">UserMaintenance
+                    </router-link> 
+                  </div>
+                  <div class="card-body">
+                    <p>ユーザーを管理します。</p>
+                    <p class="mb-0"></p>
+                  </div>
+                </div>
+
+              </div>
 
             </div>
 

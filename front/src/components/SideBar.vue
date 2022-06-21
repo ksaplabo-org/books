@@ -23,6 +23,12 @@
             </router-link>
         </li>
 <!-- takada -->
+        <li class="nav-item active">
+            <router-link tag="a" class="nav-link" :to="{ name: 'listUser'}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>User Maintenance</span>
+            </router-link>
+        </li>
     </ul>
 
 </template>

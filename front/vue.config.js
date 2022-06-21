@@ -42,13 +42,25 @@ module.exports = {
           filename: 'pages/maintebook.html',
           title: 'Maintenance Book',
         },
+        listUser: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/listUser.html',
+          title: 'UserList',
+        },
+        addUser: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/addUser.html',
+          title: 'AddList',
+        },
         sorry: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/sorry.html',
           title: 'Sorry',
         },
-    },
+      },
     devServer: {
       https: true,
       port: 8080,

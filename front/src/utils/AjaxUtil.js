@@ -59,3 +59,21 @@ export function deleteBook(title){
 
     return axios.delete(url);
 }
+
+export function getAllUser() {
+    const url = '/api/user';
+
+    return axios.get(url);
+}
+
+export function postCreateUser(userModel) {
+    const url = '/api/user'
+
+    return axios.post(url, {
+        "userId": userModel.userId,
+        "userName": userModel.userName,
+        "password": userModel.password,
+        "gender": userModel.gender,
+        "userAuth": userModel.userAuth
+    })
+}

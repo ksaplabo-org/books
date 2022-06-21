@@ -7,6 +7,8 @@ import Sorry from './views/Sorry.vue';
 import Menu from './views/Menu.vue';
 import RentalBook from './views/RentalBook.vue';
 import MainteBook from './views/MainteBook.vue';
+import ListUser from './views/ListUser.vue';
+import AddUser from './views/AddUser.vue';
 
 Vue.use(Router);
 
@@ -39,6 +41,16 @@ export default new Router({
       path: '/pages/maintebook.html',
       name: 'maintebook',
       component: MainteBook,
+    },
+    {
+      path: '/pages/listUser.html',
+      name: 'listUser',
+      component: ListUser,
+    },
+    {
+      path: '/pages/addUser.html',
+      name: 'addUser',
+      component: AddUser,
     },
     {
       path: '*',

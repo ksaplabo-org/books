@@ -1,6 +1,7 @@
 // Bussiness Logic define
 const AuthLogic = require("./logic/auth");
 const BookLogic = require("./logic/book");
+const  UserLogic = require("./logic/user");
 
 // DB Connection define
 const DbUtil  = require("./db/utility");
@@ -116,6 +117,37 @@ app.delete("/api/book/:title", function(req, res) {
         .catch(()  => {
             // 異常レスポンス
             console.log("failed to remove book");
+            res.status(500).send("server error occur")
+        });
+});
+
+app.get("/api/user", function(req, res) {
+    // 書籍取得する
+    UserLogic.getAll(db)
+        .then((users) => {
+            // 正常レスポンス
+            res.send(users);
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to get all book");
+            res.status(500).send("server error occur")
+        });
+});
+
+app.post("/api/user", function(req, res) {
+    // リクエスト取得
+    const user = req.body;
+
+    // ユーザー情報を登録する
+    UserLogic.create(db, user.userId, user.userName, user.password , user.gender , user.userAuth )
+        .then(() => {
+            // 正常レスポンス
+            res.send({});
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to get all book");
             res.status(500).send("server error occur")
         });
 });

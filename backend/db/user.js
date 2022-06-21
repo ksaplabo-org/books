@@ -6,23 +6,29 @@ module.exports.getUserModel = (db) => {
             {
             userId: {
                 field: "user_id",
-                type: Sequelize.STRING(100),
-                primaryKey: true
+                type: Sequelize.STRING(16),
+                primaryKey: true,
+                allowNull: false
             }, 
             userName: {
                 field: "user_name",
                 type: Sequelize.STRING(100),
-                primaryKey: true
+                allowNull: false
             }, 
             password: {
                 field: "user_password",
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(16),
                 allowNull: false
             },
-            comment: {
-                field: "comment",
-                type: Sequelize.STRING(200),
-                allowNull: true
+            gender: {
+                field: "user_gender",
+                type: Sequelize.STRING(1),
+                allowNull: false
+            },
+            userAuth: {
+                field: "user_auth",
+                type: Sequelize.STRING(1),
+                allowNull: false
             }
             },
             {
