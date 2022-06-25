@@ -67,7 +67,7 @@ export function getAllUser() {
 }
 
 export function postCreateUser(userModel) {
-    const url = '/api/user'
+    const url = '/api/user';
 
     return axios.post(url, {
         "userId": userModel.userId,
@@ -78,12 +78,9 @@ export function postCreateUser(userModel) {
     })
 }
 
-export function getAllBook() {
-    
-    const url = '/api/book';
+export function deleteUser(userId) {
 
-    return axios.get(url , {
-            params: {}
-        }
-    );
+    const url = '/api/user/' + userId;
+
+    return axios.delete(url);
 }

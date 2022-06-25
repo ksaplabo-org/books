@@ -6,13 +6,13 @@
         <form @submit.stop.prevent="signIn" method="post">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="text" id="userId" class="form-control" placeholder="User ID" required="required" autofocus="autofocus" v-model="userId">
-              <label for="inputId">User ID</label>
+              <input type="text" id="userId" class="form-control" placeholder="User ID" required="required" autofocus="autofocus" v-model="userId" autocomplete="off">
+              <label for="userId">User ID</label>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" v-model="password" >
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" v-model="password" autocomplete="off">
               <label for="inputPassword">Password</label>
             </div>
           </div>

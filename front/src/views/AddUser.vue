@@ -187,9 +187,9 @@ export default {
                 }
                 
                 // 登録実行
-                //const response =  await AjaxUtil.postCreateUser(model);
+                const response =  await AjaxUtil.postCreateUser(model);
                 // 一覧画面に戻る
-                //this.$router.push({ name: 'listUser',});
+                this.$router.push({ name: 'listUser',});
                 return;
             } catch (error) {
                 this.msg = "";

@@ -122,7 +122,7 @@ app.delete("/api/book/:title", function(req, res) {
 });
 
 app.get("/api/user", function(req, res) {
-    // 書籍取得する
+    // ユーザー取得する
     UserLogic.getAll(db)
         .then((users) => {
             // 正常レスポンス
@@ -147,7 +147,21 @@ app.post("/api/user", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to get all book");
+            console.log("failed to get all user");
+            res.status(500).send("server error occur")
+        });
+});
+
+app.delete("/api/user/:userId", function(req, res) {
+    // 書籍削除する
+    UserLogic.remove(db, req.params.userId)
+        .then(() => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to remove book");
             res.status(500).send("server error occur")
         });
 });

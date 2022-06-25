@@ -1,12 +1,14 @@
 USE intern;
 --drop table user;
 --drop table books;
+DROP TABLE IF EXISTS user;
 CREATE TABLE IF NOT EXISTS user 
 (
-    user_id varchar(100) NOT NULL PRIMARY KEY, 
-    user_name varchar(100) NOT NULL ,
-    user_password varchar(100),
-    comment varchar(200)
+    user_id char(16) NOT NULL PRIMARY KEY,
+    user_name varchar(100) NOT NULL,
+    user_password char(16) NOT NULL,
+    user_gender char(1) NOT NULL,
+    user_auth char(1) NOT NULL
 )
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_0900_ai_ci;

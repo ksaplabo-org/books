@@ -22,7 +22,7 @@
                     <div>
                         <router-link tag="a" :to="{ name: 'addUser'}">
                             <b-button variant="outline-secondary">
-                                    <b-icon class="fas fa-user-edit"> add user</b-icon>
+
                             </b-button> 
                         </router-link> 
 
@@ -31,17 +31,17 @@
 
                     <!-- User List -->
                     <form @submit.stop.prevent="updateView">
-                        <b-table responsive hover :items="items" :fields="fields">
+                        <b-table  striped responsive hover :items="items" :fields="fields">
                             <!-- button cell define -->
                             <template #cell(controls)="data">
                                 <b-button-group>
                                     <b-button variant="outline-primary">
                                         <router-link :to="'', params: { }">
-                                            <b-icon class="fas fa-fw fa-edit"></b-icon>
+                                            
                                         </router-link>
                                     </b-button>
-                                    <b-button variant="outline-danger" v-on:click="userDelete(data.fields)">
-                                        <b-icon class="fas fa-fw fa-trash"></b-icon>
+                                    <b-button variant="outline-danger"  v-on:click="userDelete(data.item.userId)">
+                                         
                                     </b-button>
                                 </b-button-group>
                             </template>
@@ -83,12 +83,9 @@ export default {
             fields: [
                 {key: 'userId', label: 'ID'},
                 {key: 'userName', label: '名前'},
-                {key: 'controls', label: ''},
+                {key: 'controls', label: ''}
             ],
-            items: [
-                {key: 'userId'},
-                {key: 'userName'}
-            ]
+            items: [],
         };
     },
     async mounted() {
@@ -112,23 +109,32 @@ export default {
             try {
                 const response = await AjaxUtil.getAllUser();
                 this.items = response.data;
-                return;
             } catch (error) {
                 this.msg = '';
                 this.errMsg = 'ユーザー取得処理に失敗しました';
                 console.log(error);
                 this.isLoading = false;
                 throw error;
+            }finally {
+                this.isLoading = false;
             }
         },
         // delete user  
-        userDelete: async function(recordData) {  
+        userDelete: async function(userId) { 
             this.isLoading = true;
-            console.log("あああ");
-            console.log(recordData);
-            this.msg = '';
-            this.errMsg = '';
-            this.isLoading = false;
+            try {
+                // 削除実行
+                const response =  await AjaxUtil.deleteUser(userId);
+                // 一覧画面に戻る
+                this.$router.push({ name: 'listUser',});
+                this.updateView();
+            } catch (error) {
+                this.msg = "";
+                this.errMsg = "ユーザー削除処理に失敗しました";
+                console.log(error)
+            } finally {
+                this.isLoading = false;
+            }
         }
     }
 }

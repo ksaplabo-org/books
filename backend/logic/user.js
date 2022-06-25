@@ -30,3 +30,20 @@ const UserRepository = require("../db/user");
         throw error;
     }
 }   
+
+/**
+ * ユーザー情報削除
+ * @param {*} db 
+ * @param {*}  userId
+ * @returns Promise（成功時 resolve/失敗時 reject）
+ */
+ module.exports. remove =  async function (db, userId) {
+    const UserModel = UserRepository.getUserModel(db);
+
+    try {
+        return await UserModel.destroy({ where: { userId: userId } });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
