@@ -67,7 +67,7 @@ export function getAllUser() {
 }
 
 export function postCreateUser(userModel) {
-    const url = '/api/user';
+    const url = '/api/user'
 
     return axios.post(url, {
         "userId": userModel.userId,
@@ -83,4 +83,14 @@ export function deleteUser(userId) {
     const url = '/api/user/' + userId;
 
     return axios.delete(url);
+}
+
+export function getAllBook() {
+    
+    const url = '/api/book';
+
+    return axios.get(url , {
+            params: {}
+        }
+    );
 }
