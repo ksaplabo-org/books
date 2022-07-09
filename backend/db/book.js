@@ -1,4 +1,4 @@
-const { STRING } = require("sequelize");
+const { STRING, DATE } = require("sequelize");
 
 module.exports. getBookModel = function (db) {
     return db.define(
@@ -25,12 +25,12 @@ module.exports. getBookModel = function (db) {
             },
             rentalDate: {
                 field: "rentalDate",
-                type: STRING(200),
+                type: DATE,
                 allowNull: true
             },
             returnDate: {
                 field: "returnDate",
-                type: STRING(200),
+                type:  DATE,
                 allowNull: true
             },
             rentalStatus: {

@@ -102,12 +102,9 @@ export default {
         updateView: async function() {
 
             try {
-                //const response = await AjaxUtil.getAllBook(this.userName);
                 const response = await AjaxUtil.getAllBook();
 
-                // Todo: JSONパースするか、別API作成してJSON形式にしないようにする。
-                //       ※現状エラーになります。
-                this.items = JSON.parse(response.data.Itens);
+                this.items = JSON.parse(response.data.Items);
                 return;
             } catch (error) {
                 this.msg = '';
