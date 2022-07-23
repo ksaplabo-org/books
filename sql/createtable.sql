@@ -1,6 +1,5 @@
 USE intern;
---drop table user;
---drop table books;
+
 DROP TABLE IF EXISTS user;
 CREATE TABLE IF NOT EXISTS user 
 (
@@ -20,8 +19,8 @@ CREATE TABLE IF NOT EXISTS book
     description varchar(1024),
     imgUrl varchar(255),
     isbn varchar(100),
-    rentalDate varchar(100),
-    returnDate varchar(100),
+    rentalDate Date,
+    returnDate Date,
     rentalStatus varchar(100),
     rentalUser varchar(100)
 )

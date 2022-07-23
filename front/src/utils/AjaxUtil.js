@@ -94,3 +94,8 @@ export function getAllBook() {
         }
     );
 }
+
+export function getLeadingAllBook(userName) {
+    const url = '/api/book/' + userName;
+    return axios.get(url);
+}

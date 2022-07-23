@@ -30,9 +30,9 @@
             </router-link>
         </li>
         <li class="nav-item active">
-            <router-link tag="a" class="nav-link" :to="{ name: 'listBook'}">
+            <router-link tag="a" class="nav-link" :to="{ name: 'leadingBook'}">
                 <i class="fas fa-fw fa-book"></i>
-                <span>Book Status</span>
+                <span>貸出状況一覧</span>
             </router-link>
         </li>
     </ul>

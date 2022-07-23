@@ -98,13 +98,14 @@ module.exports. remove =  async function (db, title) {
 /**
  * ログインユーザーIDに紐づく書籍情報を取得する
  * @param {*} db 
- * @returns 全書籍情報（Promise）
+ * @param {*} userName
+ * @returns ログインユーザーIDに紐づく全書籍情報（Promise）
  */
  module.exports.getLinkUser = async function (db, userName) {
     const BookModel = BookRepository.getBookModel(db);
 
     try {
-        return await BookModel.findAll({ where: { rentalUser: userName } });
+        return await BookModel.findAll( { where: { rentalUser: userName  } });
     } catch (error) {
         console.log(error);
         throw error;
