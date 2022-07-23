@@ -8,7 +8,7 @@ import Menu from './views/Menu.vue';
 import RentalBook from './views/RentalBook.vue';
 import MainteBook from './views/MainteBook.vue';
 import ListUser from './views/ListUser.vue';
-import ListBook from './views/ListBook.vue';
+import LeadingBook from './views/LeadingBook.vue';
 import AddUser from './views/AddUser.vue';
 
 Vue.use(Router);
@@ -49,9 +49,9 @@ export default new Router({
       component: ListUser,
     },
     {
-      path: '/pages/listBook.html',
-      name: 'listBook',
-      component: ListBook,
+      path: '/pages/leadingBook.html',
+      name: 'leadingBook',
+      component: LeadingBook,
     },
     {
       path: '/pages/addUser.html',

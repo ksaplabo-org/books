@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'menu'}">Menu</router-link>
                         </li>
-                        <li class="breadcrumb-item active">Book Status</li>
+                        <li class="breadcrumb-item active">貸出状況一覧</li>
                     </ol>
     
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -24,15 +24,7 @@
                     <!-- Book List -->
                     <form @submit.stop.prevent="updateView">
                         <b-table responsive hover :items="items" :fields="fields">
-                                                    <!-- button cell define -->
                             <template #cell(controls)="data">
-                                <b-button-group>
-                                    <b-button variant="outline-primary">
-                                        <router-link :to="'', params: { }">
-                                            <b-icon class="fas fa-fw fa-edit"></b-icon>
-                                        </router-link>
-                                    </b-button>
-                                </b-button-group>
                             </template>
                         </b-table>
                     </form>
@@ -62,7 +54,7 @@ import SideBar from '../components/SideBar.vue';
 import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 export default {
-    name : 'ListBook' ,
+    name : 'LeadingBook' ,
     props: ['flashMsg', 'flashErrMsg'],    
     components: { NaviMenu, SideBar, Footer, Loading } ,
     data() {
@@ -102,7 +94,8 @@ export default {
         updateView: async function() {
 
             try {
-                const response = await AjaxUtil.getAllBook();
+                self.userName = UserUtil.currentUserInfo().userName;
+                const response = await AjaxUtil.getLeadingAllBook(userName);
 
                 this.items = JSON.parse(response.data.Items);
                 return;
