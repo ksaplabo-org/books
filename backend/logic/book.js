@@ -105,7 +105,7 @@ module.exports. remove =  async function (db, title) {
     const BookModel = BookRepository.getBookModel(db);
 
     try {
-        return await BookModel.findAll( { where: { rentalUser: userName  } });
+        return await BookModel.findAll({ where: { rentalUser: userName  } });
     } catch (error) {
         console.log(error);
         throw error;
