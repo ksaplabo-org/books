@@ -33,53 +33,60 @@
                                         <div class ="row">
                                             <div class="col-sm-2 mb-2 mr-1" style="min-width:8rem">
                                                 <div class="row text-left ml-2 mb-3">
-                                                    <img style="height:7rem; width: 7rem;" v-if="row.imgUrl === undefinded || row.imgUrl === null || row.imgUrl === ''"
+                                                    <img style="height:7rem; width: 7rem;" v-if="row.img_url === undefinded || row.img_url === null || row.img_url === ''"
                                                          src="../../public/image/no-image.png">
-                                                    <a href="#" onclick="return false;" v-if="row.imgUrl !== undefinded && row.imgUrl !== null && row.imgUrl !== ''">
+                                                    <a href="#" onclick="return false;" v-if="row.img_url !== undefinded && row.img_url !== null && row.img_url !== ''">
                                                         <img style="height:10rem;" 
-                                                            v-bind:src="row.imgUrl" alt="" v-on:click="clickedRow = {title: row.title, imgUrl: row.imgUrl, description: row.description};" data-toggle="modal" data-target="#imagemodal">
+                                                            v-bind:src="row.img_url" alt="" v-on:click="clickedRow = {title: row.title, img_url: row.img_url, description: row.description};" data-toggle="modal" data-target="#imagemodal">
                                                     </a>
                                                 </div>
                                             </div>
 
+                       
                                             <div class="col-sm-8 ml-2 mb-2 text-left" v-if="isLoading === false">
                                                 <div class="row ml-2 mb-2" v-if="isLoading === false">
-                                                    <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.title)" 
-                                                        v-if="row.rentalStatus === undefined ||  row.rentalStatus === null ||row.rentalStatus !== '貸出中'">
+                                                   <div class="form-group">
+                                    <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
+                                      placeholder="ユーザIDを入力" autocomplete="off">
+                                </div> 
+                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id, )" 
+                                                        v-if="row.rental_status === undefined ||  row.rental_status === null ||row.rental_status !== '貸出中'">
                                                         <i class="fas fa-fw fa-file-export"></i>
                                                         <span>借りる</span>
                                                     </a>
-                                                    <a href="#" class="font-weight-bold text-primary" v-on:click="returnBook(row.title)" 
-                                                        v-if="row.rentalStatus === '貸出中' && row.rentalUser === userName">
+                                                    <a href="#" class="font-weight-bold text-primary" v-on:click="returnBook(row.isbn, row.book_id)" 
+                                                        v-if="row.rental_status === '貸出中' && row.rental_user === userName">
                                                         <i class="fas fa-fw fa-file-import"></i>
                                                         <span>返却</span>
                                                     </a>
                                                     <span class="font-weight-bold text-warning"
-                                                        v-if="row.rentalStatus === '貸出中' && row.rentalUser !== userName">
-                                                        {{row.rentalUser}} さんに貸出中です。
+                                                        v-if="row.rental_status === '貸出中' && row.rental_user !== userName">
+                                                        {{row.rental_user}} さんに貸出中です。
                                                     </span>
                                                 </div>
 
-                                                <div class="row ml-2 mb-2 text-left text-info" v-if="row.rentalStatus === '貸出中'">
+                                                <div class="row ml-2 mb-2 text-left text-info" v-if="row.rental_status === '貸出中'">
                                     
                                                     <div class="table-responsive">
                                                         <table class="table table-sm table-striped table-height-sm table-condensed" style="font-size:10pt">
                                                             <tbody>
                                                                 <tr>
                                                                     <td>貸出状況</td>
-                                                                    <td>{{row.rentalStatus}}&nbsp;</td>
+                                                                    <td>{{row.rental_status}}&nbsp;</td>
                                                                 </tr>
+                                                                <!--
                                                                 <tr>
                                                                     <td>貸出日</td>
-                                                                    <td>{{row.rentalDate}}</td>
+                                                                    <td>{{row.rental_date}}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>返却予定日</td>
-                                                                    <td>{{row.returnDate}}</td>
+                                                                    <td>{{row.return_plan_date}}</td>
                                                                 </tr>
+                                                                -->
                                                                 <tr>
                                                                     <td>貸出者</td>
-                                                                    <td>{{row.rentalUser}}</td>
+                                                                    <td>{{row.rental_user}}</td>
                                                                 </tr>
                                                              </tbody>
                                                         </table>
@@ -111,12 +118,12 @@
                             <div class="modal-title m-0 font-weight-bold text-primary text-secondary" id="myModalLabel" v-show="clickedRow">{{clickedRow.title}}</div>
                         </div>
                         <div class="modal-body">
-                            <img v-bind:src="clickedRow.imgUrl" id="imagepreview" class="img-responsive" >
+                            <img v-bind:src="clickedRow.img_url" id="imagepreview" class="img-responsive" >
                             <div class="mt-4 mb-2">概要</div>
                             <div class="multiline-text" v-show="clickedRow">{{clickedRow.description}}</div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="clickedRow.imgUrl = ''; clickedRow.description = '';">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="clickedRow.img_url = ''; clickedRow.description = '';">Close</button>
                         </div>
                     </div>
                 </div>
@@ -180,12 +187,12 @@ export default {
     },
 
     methods: {
-        rental: function(updateTitle) {
+        rental: function(isbn, book_id) {
             if (UserUtil.isSignIn()) {
                 
                 this.isLoading = true;
 
-                AjaxUtil.rentalBooks(updateTitle, this.userName)
+                AjaxUtil.regLending(isbn, book_id, this.userName)
                 .then((response) => {
                     this.updateView();
                 

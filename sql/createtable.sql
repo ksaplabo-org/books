@@ -15,14 +15,28 @@ COLLATE utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS book;
 CREATE TABLE IF NOT EXISTS book 
 (
-    title varchar(100) NOT NULL PRIMARY KEY, 
+    isbn varchar(13) NOT NULL,
+    book_id varchar(10) NOT NULL,
+    title varchar(100) NOT NULL, 
     description varchar(1024),
-    imgUrl varchar(255),
-    isbn varchar(100),
-    rentalDate Date,
-    returnDate Date,
-    rentalStatus varchar(100),
-    rentalUser varchar(100)
+    img_url varchar(255),
+    rental_status varchar(100),
+    rental_user varchar(100),
+    PRIMARY KEY(isbn,book_id)
+)
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS lending;
+CREATE TABLE IF NOT EXISTS lending 
+(
+    lending_user_id varchar(16) NOT NULL, 
+    book_id varchar(10) NOT NULL,
+    rental_date Date NOT NULL,
+    managed_user_id varchar(16) NOT NULL,
+    return_plan_date Date NOT NULL,    
+    return_act_date Date,
+    PRIMARY KEY(login_user_id,book_id,rental_date)
 )
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_0900_ai_ci;

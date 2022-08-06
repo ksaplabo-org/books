@@ -99,3 +99,8 @@ export function getLeadingAllBook(userName) {
     const url = '/api/book/' + userName;
     return axios.get(url);
 }
+
+export function regLending(userName) {
+    const url = '/api/lending/' + userName;
+    return axios.post(url);
+}
