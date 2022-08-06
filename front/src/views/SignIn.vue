@@ -6,13 +6,13 @@
         <form @submit.stop.prevent="signIn" method="post">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="text" id="userId" class="form-control" placeholder="User ID" required="required" autofocus="autofocus" v-model="userId" autocomplete="off">
+              <input type="text" id="userId" class="form-control" placeholder="User ID" autofocus="autofocus" v-model="userId" autocomplete="off">
               <label for="userId">User ID</label>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" v-model="password" autocomplete="off">
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" v-model="password" autocomplete="off" pattern="^[0-9A-Za-z]+$">
               <label for="inputPassword">Password</label>
             </div>
           </div>
@@ -66,17 +66,17 @@ export default {
         
         if (UserUtil.isSignIn()) {
           this.isLoading = false;
-          this.$router.push({ name: 'menu'});
+          this.$router.push({ name: 'top'});
         } else {
           this.isLoading = false;
-          this.errMsg = 'ログインに失敗';         
+          this.errMsg = 'ログインに失敗しました。';
         };
 
       } catch(e) {
         this.isLoading = false;
         this.errMsg = e.message;
       }
-    },
-  },
+    }
+  }
 };
 </script>

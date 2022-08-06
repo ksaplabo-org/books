@@ -3,7 +3,7 @@
         <NaviMenu/>
 
         <div id="wrapper">
-            <SideBar/>
+            <Menu/>
 
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
@@ -11,9 +11,9 @@
                     <!-- Breadcrumbs-->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'menu'}">Menu</router-link>
+                            <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
                         </li>
-                        <li class="breadcrumb-item active">Book Rental</li>
+                        <li class="breadcrumb-item active">貸出状況登録</li>
                     </ol>
 
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -148,14 +148,14 @@ import * as AjaxUtil from '@/utils/AjaxUtil';
 // 共通
 import NaviMenu from '../components/NaviMenu.vue';
 import '../utils/sb-admin';
-import SideBar from '../components/SideBar.vue';
+import Menu from '../components/Menu.vue';
 import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 
 export default {
     name: 'RentalBook',
     props: ['flashMsg', 'flashErrMsg'],    
-    components: { NaviMenu, SideBar, Footer, Loading },
+    components: { NaviMenu, Menu, Footer, Loading },
     data() {
         return {
             msg: '',
