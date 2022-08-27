@@ -4,43 +4,41 @@ module.exports. getBookModel = function (db) {
     return db.define(
             "book",
             {
+            isbn: {
+                field: "isbn",
+                type: STRING(13),
+                primaryKey: true,
+                allowNull: false
+            }, 
+            book_id: {
+                field: "book_id",
+                type: STRING(10),
+                primaryKey: true,
+                allowNull: false
+            }, 
             title: {
                 field: "title",
                 type: STRING(100),
-                primaryKey: true
-            }, 
+                allowNull: false
+            },
             description: {
                 field: "description",
                 type: STRING(1024),
-            }, 
-            imgUrl: {
-                field: "imgUrl",
+                allowNull: true
+            },
+            img_url: {
+                field: "img_url",
                 type: STRING(255),
-                allowNull: false
-            },
-            isbn: {
-                field: "isbn",
-                type: STRING(200),
                 allowNull: true
             },
-            rentalDate: {
-                field: "rentalDate",
-                type: DATE,
+            rental_status: {
+                field: "rental_status",
+                type: STRING(100),
                 allowNull: true
             },
-            returnDate: {
-                field: "returnDate",
-                type:  DATE,
-                allowNull: true
-            },
-            rentalStatus: {
-                field: "rentalStatus",
-                type: STRING(200),
-                allowNull: true
-            },
-            rentalUser: {
-                field: "rentalUser",
-                type: STRING(200),
+            rental_user: {
+                field: "rental_user",
+                type: STRING(100),
                 allowNull: true
             }},
             {

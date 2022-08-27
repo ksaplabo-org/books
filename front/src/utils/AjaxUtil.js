@@ -110,3 +110,13 @@ export function getLeadingAllBook(userName) {
     const url = '/api/book/' + userName;
     return axios.get(url);
 }
+
+export function postLending(lendModel) {
+    const url = '/api/lending/'
+
+    return axios.post(url, {
+        "isbn": lendModel.isbn,
+        "book_id": lendModel.book_id,
+        "userName": lendModel.userName
+    })
+}

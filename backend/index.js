@@ -202,4 +202,26 @@ app.delete("/api/user/:userId", function(req, res) {
         });
 });
 
+/**
+ * 貸し出し状況登録API
+ */
+ app.post("/api/lending", function(req, res) {
+    // リクエスト取得
+    const book = req.body;
+
+    // 本当はこのあたりでパラメータチェック
+
+    // 貸し出し状況登録
+    LendingLogic.reg(db, book)
+        .then((books) => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch((error)  => {
+            // 異常レスポンス
+            console.log("failed to add book");
+            res.status(500).send("server error occur")
+        });
+});
+
 app.listen(process.env.PORT || 3000);
