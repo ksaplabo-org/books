@@ -58,7 +58,13 @@ module.exports = {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/addUser.html',
-          title: 'AddList',
+          title: 'AddUser',
+        },
+        addUser: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/editUser.html',
+          title: 'EditUser',
         },
         sorry: {
           entry: 'src/main.js',

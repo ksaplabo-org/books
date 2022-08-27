@@ -16,7 +16,7 @@
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'listUser'}">User List</router-link>
                         </li>
-                        <li class="breadcrumb-item active">Add User</li>
+                        <li class="breadcrumb-item active">Edit User</li>
                     </ol>
     
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -24,7 +24,7 @@
 
                     <br>
 
-                    <form @submit.stop.prevent="userCreate" method="post">
+                    <form @submit.stop.prevent="userUpdate" method="post">
 
                         <!-- ユーザーID入力欄-->
                         <div class = "row">
@@ -33,8 +33,8 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16" pattern="^[0-9A-Za-z]{8,16}$"
-                                        placeholder="8桁以上16桁以下で入力してください。" autocomplete="off">
+                                    <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
+                                        placeholder="8桁以上16桁以下で入力してください。" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" readonly>
                                 </div> 
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <select name="auth" id="auth" required>
+                                    <select name="auth" id="auth" required disabled>
                                         <option value="0">選択してくだい。</option>
                                         <option value="1">一般</option>
                                         <option value="2">社員 </option>
@@ -96,16 +96,23 @@
                         <!-- 登録ボタン-->
                         <div class = "row">
                             <div class="col-sm-2" />
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <input class="btn btn-primary btn-block" type="submit" value="情報更新">
+                                </div> 
+                            </div>
                             <div class="col-sm-2">
                                 <div class="form-group">
-                                    <input class="btn btn-primary btn-block" type="submit" value="新規登録">
+                                    <b-button variant="outline-danger"  v-on:click="userDelete()">
+                                        ユーザー削除
+                                    </b-button>
                                 </div> 
                             </div>
                         </div>
 
                     </form>
 
-                 </div>
+                </div>
             </div>
         </div>
 
@@ -130,34 +137,59 @@ import SideBar from '../components/SideBar.vue';
 import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 export default {
-    name : 'AddUser' ,
-    props: ['flashMsg', 'flashErrMsg'],    
+    name : 'EditUser' ,
+    props: ['flashMsg', 'flashErrMsg','firstFlg','sendData'],    
     components: { NaviMenu, SideBar, Footer, Loading } ,
     data() {
         return {
             msg: '',
             errMsg: '',
             isLoading: false,
-            userId: "",
-            userName: "",
-            password: ""
+            userId: this.sendData.userId,
+            userName: this.sendData.userName,
+            password:this.sendData.password,
+            gender:this.sendData.gender,
+            auth:this.sendData.userAuth,
+            doFlg:this.firstFlg
         };
+    },
+    unload(){
+        // 一覧画面に戻る
+        this.$router.push({ name: 'listUser',});
+        this.updateView();
     },
     async mounted() {
         const self = this;
+        if(this.doFlg == "1"){
+            let selectGender = document.getElementById('gender').options;
+            for(let i = 0; i < selectGender.length; i++ ){
+                if(selectGender[i].value === this.gender){
+                    selectGender[i].selected = true;
+                    break;
+                }
+            }
+            let selectAuth = document.getElementById('auth').options;
+            for(let i = 0; i < selectAuth.length; i++ ){
+                if(selectAuth[i].value === this.auth){
+                    selectAuth[i].selected = true;
+                    break;
+                }
+            }
+            this.doFlg = "2";
+        }
+
         try {
             if (UserUtil.isSignIn()) {
                 this.msg = '';               
             } else {
                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
-            
         } catch(e) {
             self.errMsg = e.message;
         }
     },
     methods: {
-        userCreate: async function() {
+        userUpdate: async function() {
             this.isLoading = true
             try {
                 // オプション選択値取得
@@ -167,11 +199,6 @@ export default {
                 // 入力チェック
                 if(this.userId.length < 8 || this.userId.length > 16){
                     this.errMsg = "IDは8桁以上16桁以下で入力してください。";
-                    return;
-                }
-                if(this.userId.match("^[0-9A-Za-z]{8,16}$")){
-                }else{
-                    this.errMsg = "全角英数で入力してください。";
                     return;
                 }
                 if(this.userName.length < 1 || this.userName.length > 100){
@@ -197,17 +224,36 @@ export default {
                     userName: this.userName,
                     password: this.password,
                     gender:genderSelect.value,
-                    userAuth: authSelect.value
                 }
                 
-                // 登録実行
-                const response =  await AjaxUtil.postUser(model);
+                // 更新実行
+                const response =  await AjaxUtil.putUser(model);
                 // 一覧画面に戻る
                 this.$router.push({ name: 'listUser',});
                 return;
             } catch (error) {
                 this.msg = "";
-                this.errMsg = "ユーザー登録処理に失敗しました";
+                this.errMsg = "ユーザー更新処理に失敗しました";
+                console.log(error)
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        // delete user  
+        userDelete: async function() { 
+            this.isLoading = true;
+            try {
+                var result = window.confirm('削除処理を実行しますか？');
+                if( result ) {
+                    // 削除実行
+                    const response =  await AjaxUtil.deleteUser(this.userId);
+                    // 一覧画面に戻る
+                    this.$router.push({ name: 'listUser',});
+                    this.updateView();
+                 }
+            } catch (error) {
+                this.msg = "";
+                this.errMsg = "ユーザー削除処理に失敗しました";
                 console.log(error)
             } finally {
                 this.isLoading = false;
