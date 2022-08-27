@@ -192,7 +192,15 @@ export default {
                 
                 this.isLoading = true;
 
-                AjaxUtil.regLending(isbn, book_id, this.userName)
+                // 引数格納
+                const model = {
+                    isbn: isbn,
+                    book_id: book_id,
+                    username: this.userName
+                }
+                
+                // 登録実行
+                AjaxUtil.postLending(model)
                 .then((response) => {
                     this.updateView();
                 
