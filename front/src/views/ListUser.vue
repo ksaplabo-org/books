@@ -21,12 +21,10 @@
 
                     <div>
                         <router-link tag="a" :to="{ name: 'addUser'}">
-                            <b-button variant="outline-secondary">
-
-                            </b-button> 
+                            <button type="button" class="btn btn-outline-primary">新規登録</button>
                         </router-link> 
-
                     </div>
+
                     <br>
 
                     <!-- User List -->
@@ -35,20 +33,17 @@
                             <!-- button cell define -->
                             <template #cell(controls)="data">
                                 <b-button-group>
-                                    <b-button variant="outline-primary">
-                                        <router-link :to="'', params: { }">
-                                            
-                                        </router-link>
-                                    </b-button>
-                                    <b-button variant="outline-danger"  v-on:click="userDelete(data.item.userId)">
-                                         
+                                    <b-button variant="outline-primary"  v-on:click="userEdit(data.item)">
+                                        編集
                                     </b-button>
                                 </b-button-group>
                             </template>
                         </b-table>
                     </form>
+
                 </div>
             </div>
+
         </div>
 
         <!-- Scroll to Top Button-->
@@ -119,22 +114,10 @@ export default {
                 this.isLoading = false;
             }
         },
-        // delete user  
-        userDelete: async function(userId) { 
+        // edit user  
+        userEdit: async function(data) { 
             this.isLoading = true;
-            try {
-                // 削除実行
-                const response =  await AjaxUtil.deleteUser(userId);
-                // 一覧画面に戻る
-                this.$router.push({ name: 'listUser',});
-                this.updateView();
-            } catch (error) {
-                this.msg = "";
-                this.errMsg = "ユーザー削除処理に失敗しました";
-                console.log(error)
-            } finally {
-                this.isLoading = false;
-            }
+            this.$router.push({ name: 'editUser', params: {sendData:data,firstFlg:"1"}});
         }
     }
 }

@@ -12,6 +12,7 @@ const UserRepository = require("../db/user");
         throw error;
     }
 }
+
 /**
  * ユーザー情報登録
  * @param {*} db 
@@ -30,6 +31,26 @@ const UserRepository = require("../db/user");
         throw error;
     }
 }   
+
+/**
+ * ユーザー情報更新
+ * @param {*} db 
+ * @param {*}  userId
+ * @param {*}  userName
+ * @param {*}  password
+ * @param {*}  gender
+ * @returns ユーザー情報(Promise)
+ */
+ module.exports.update = async function (db, userId, userName, password,gender) {
+    const UserModel = UserRepository.getUserModel(db);
+
+    try {
+
+        return await UserModel.put({userId:userId, userName:userName, password:password, gender:gender});
+    } catch (error) {
+        throw error;
+    }
+}  
 
 /**
  * ユーザー情報削除

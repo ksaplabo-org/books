@@ -10,6 +10,7 @@ import MainteBook from './views/MainteBook.vue';
 import ListUser from './views/ListUser.vue';
 import LeadingBook from './views/LeadingBook.vue';
 import AddUser from './views/AddUser.vue';
+import EditUser from './views/EditUser.vue';
 
 Vue.use(Router);
 
@@ -57,6 +58,12 @@ export default new Router({
       path: '/pages/addUser.html',
       name: 'addUser',
       component: AddUser,
+    },
+    {
+      path: '/pages/editUser.html',
+      name: 'editUser',
+      props: true,
+      component: EditUser,
     },
     {
       path: '*',

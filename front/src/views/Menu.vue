@@ -31,12 +31,9 @@
                     <p class="mb-0"></p>
                   </div>
                 </div>
-
               </div>
 
-<!-- takada -->
               <div class="col-lg-6 mb-4">
-
                 <!-- Approach -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
@@ -48,9 +45,7 @@
                     <p class="mb-0"></p>
                   </div>
                 </div>
-
               </div>
-<!-- takada -->
 
             <div class="col-lg-6 mb-4">
 

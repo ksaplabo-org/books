@@ -66,7 +66,7 @@ export function getAllUser() {
     return axios.get(url);
 }
 
-export function postCreateUser(userModel) {
+export function postUser(userModel) {
     const url = '/api/user'
 
     return axios.post(url, {
@@ -75,6 +75,17 @@ export function postCreateUser(userModel) {
         "password": userModel.password,
         "gender": userModel.gender,
         "userAuth": userModel.userAuth
+    })
+}
+
+export function putUser(userModel) {
+    const url = '/api/user'
+
+    return axios.put(url, {
+        "userId": userModel.userId,
+        "userName": userModel.userName,
+        "password": userModel.password,
+        "gender": userModel.gender
     })
 }
 
