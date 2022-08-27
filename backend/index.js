@@ -152,23 +152,6 @@ app.post("/api/user", function(req, res) {
         });
 });
 
-app.put("/api/user", function(req, res) {
-    // リクエスト取得
-    const user = req.body;
-
-    // ユーザー情報を登録する
-    UserLogic.update(db, user.userId, user.userName, user.password , user.gender)
-        .then(() => {
-            // 正常レスポンス
-            res.send({});
-        })
-        .catch(()  => {
-            // 異常レスポンス
-            console.log("failed to get all user");
-            res.status(500).send("server error occur")
-        });
-});
-
 app.delete("/api/user/:userId", function(req, res) {
     // ユーザー削除する
     UserLogic.remove(db, req.params.userId)
