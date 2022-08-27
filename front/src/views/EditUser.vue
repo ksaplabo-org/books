@@ -224,10 +224,14 @@ export default {
                     userName: this.userName,
                     password: this.password,
                     gender:genderSelect.value,
+                    userAuth:authSelect.value
                 }
-                
+
+                // 削除実行
+                 const response1 =  await AjaxUtil.deleteUser(this.userId);
                 // 更新実行
-                const response =  await AjaxUtil.putUser(model);
+                const response2 =  await AjaxUtil.postUser(model);
+
                 // 一覧画面に戻る
                 this.$router.push({ name: 'listUser',});
                 return;
