@@ -3,7 +3,7 @@
         <NaviMenu/>
 
         <div id="wrapper">
-            <SideBar/>
+            <Menu/>
 
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
@@ -133,13 +133,13 @@ import * as AjaxUtil from '@/utils/AjaxUtil';
 // 共通
 import NaviMenu from '../components/NaviMenu.vue';
 import '../utils/sb-admin';
-import SideBar from '../components/SideBar.vue';
+import Menu from '../components/Menu.vue';
 import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 export default {
     name : 'EditUser' ,
     props: ['flashMsg', 'flashErrMsg','firstFlg','sendData'],    
-    components: { NaviMenu, SideBar, Footer, Loading } ,
+    components: { NaviMenu, Menu, Footer, Loading } ,
     data() {
         return {
             msg: '',

@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS book;
 CREATE TABLE IF NOT EXISTS book 
 (
     isbn varchar(13) NOT NULL,
-    book_id varchar(10) NOT NULL,
+    book_id varchar(13) NOT NULL,
     title varchar(100) NOT NULL, 
     description varchar(1024),
     img_url varchar(255),
@@ -30,8 +30,9 @@ COLLATE utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS lending;
 CREATE TABLE IF NOT EXISTS lending 
 (
-    lending_user_id varchar(16) NOT NULL, 
-    book_id varchar(10) NOT NULL,
+    lending_user_id varchar(16) NOT NULL,
+    isbn varchar(13) NOT NULL,
+    book_id varchar(13) NOT NULL,
     rental_date Date NOT NULL,
     managed_user_id varchar(16) NOT NULL,
     return_plan_date Date NOT NULL,    

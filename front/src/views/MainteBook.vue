@@ -252,6 +252,11 @@ export default {
             this.isLoading = true;
 
             if (UserUtil.isSignIn()) {
+                //パラメータ補正
+                // 説明を最大文字数内に補正する
+                const descriptionMaxLength = 1024;
+                description = description.substr(0, descriptionMaxLength);
+
                 AjaxUtil.addBook(title ,isbn ,description ,imgUrl)
                 .then((response) => {
                     this.searchBooks();

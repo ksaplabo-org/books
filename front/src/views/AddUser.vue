@@ -34,7 +34,8 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16" pattern="^[0-9A-Za-z]{8,16}$"
-                                      placeholder="8桁以上16桁以下で入力してください。" autocomplete="off">                                </div> 
+                                      placeholder="8桁以上16桁以下で入力してください。" autocomplete="off">
+                                </div>
                             </div>
                         </div>
                         <!-- 名前入力欄-->
