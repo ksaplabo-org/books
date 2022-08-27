@@ -51,5 +51,5 @@ export function currentUserInfo() {
  * @returns ログイン有無
  */
 export function isSignIn() {
-  return currentUserInfo() !== null;
+  return currentUserInfo() !== null ;
 }

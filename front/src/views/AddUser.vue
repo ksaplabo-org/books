@@ -3,7 +3,7 @@
         <NaviMenu/>
 
         <div id="wrapper">
-            <SideBar/>
+            <Menu/>
 
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
@@ -11,12 +11,12 @@
                     <!-- Breadcrumbs-->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'menu'}">Menu</router-link>
+                            <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
                         </li>
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'listUser'}">User List</router-link>
+                            <router-link tag="a" :to="{ name: 'listUser'}">ユーザー一覧</router-link>
                         </li>
-                        <li class="breadcrumb-item active">Add User</li>
+                        <li class="breadcrumb-item active">ユーザー追加</li>
                     </ol>
     
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -34,8 +34,8 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16" pattern="^[0-9A-Za-z]{8,16}$"
-                                        placeholder="8桁以上16桁以下で入力してください。" autocomplete="off">
-                                </div> 
+                                      placeholder="8桁以上16桁以下で入力してください。" autocomplete="off">
+                                </div>
                             </div>
                         </div>
                         <!-- 名前入力欄-->
@@ -90,7 +90,7 @@
                                         <option value="1">一般</option>
                                         <option value="2">社員 </option>
                                     </select>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                         <!-- 登録ボタン-->
@@ -126,13 +126,13 @@ import * as AjaxUtil from '@/utils/AjaxUtil';
 // 共通
 import NaviMenu from '../components/NaviMenu.vue';
 import '../utils/sb-admin';
-import SideBar from '../components/SideBar.vue';
+import Menu from '../components/Menu.vue';
 import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 export default {
     name : 'AddUser' ,
     props: ['flashMsg', 'flashErrMsg'],    
-    components: { NaviMenu, SideBar, Footer, Loading } ,
+    components: { NaviMenu, Menu, Footer, Loading } ,
     data() {
         return {
             msg: '',

@@ -3,14 +3,14 @@
     <NaviMenu/>
 
     <div id="wrapper">
-      <SideBar/>
+      <Menu/>
 
       <div id="content-wrapper" class="menu bg-light">
           <div class="container-fluid">
 
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
-              <li class="breadcrumb-item active">Menu</li>
+              <li class="breadcrumb-item active">トップページ</li>
             </ol>
 
             <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -23,7 +23,7 @@
                 <!-- Approach -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                    <router-link tag="a" :to="{ name: 'rentalbook'}">Book Rental
+                    <router-link tag="a" :to="{ name: 'rentalbook'}">貸出状況登録
                     </router-link> 
                   </div>
                   <div class="card-body">
@@ -37,7 +37,7 @@
                 <!-- Approach -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                    <router-link tag="a" :to="{ name: 'maintebook'}">Book Maintenance
+                    <router-link tag="a" :to="{ name: 'maintebook'}">ブックマスタ
                     </router-link> 
                   </div>
                   <div class="card-body">
@@ -52,8 +52,8 @@
                 <!-- Approach -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                    <router-link tag="a" :to="{ name: 'listUser'}">UserMaintenance
-                    </router-link> 
+                    <router-link tag="a" :to="{ name: 'listUser'}">ユーザー一覧
+                    </router-link>
                   </div>
                   <div class="card-body">
                     <p>ユーザー情報を管理します。</p>
@@ -76,7 +76,6 @@
                     <p class="mb-0"></p>
                   </div>
                 </div>
-
               </div>
 
             </div>
@@ -95,14 +94,14 @@
 import * as UserUtil from '@/utils/UserUtil';
 // 共通
 import NaviMenu from '../components/NaviMenu.vue';
-import SideBar from '../components/SideBar.vue';
+import Menu from '../components/Menu.vue';
 import Footer from '../components/Footer.vue';
 import '../utils/sb-admin';
 
 export default {
-  name: 'Menu',
+  name: 'Top',
   props: ['flashMsg'],
-  components: { NaviMenu, SideBar, Footer },
+  components: { NaviMenu, Menu, Footer },
   data() {
     return {
       msg: this.flashMsg,

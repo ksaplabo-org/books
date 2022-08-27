@@ -4,7 +4,7 @@ import Router from 'vue-router';
 import SignIn from './views/SignIn.vue';
 import SignOut from './views/SignOut.vue';
 import Sorry from './views/Sorry.vue';
-import Menu from './views/Menu.vue';
+import Top from './views/Top.vue';
 import RentalBook from './views/RentalBook.vue';
 import MainteBook from './views/MainteBook.vue';
 import ListUser from './views/ListUser.vue';
@@ -30,9 +30,9 @@ export default new Router({
       component: SignOut,
     },
     {
-      path: '/pages/menu.html',
-      name: 'menu',
-      component: Menu,
+      path: '/pages/top.html',
+      name: 'top',
+      component: Top,
     },
     {
       path: '/pages/rentalbook.html',

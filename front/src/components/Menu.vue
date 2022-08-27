@@ -1,32 +1,30 @@
 <template>
     
-    <!-- Sidebar -->
-    <ul class="sidebar navbar-nav">
+    <!-- Menu -->
+    <ul class="sidebar navbar-nav" ref="test">
         <li class="nav-item active">
-            <router-link tag="a" class="nav-link" :to="{ name: 'menu'}">
+            <router-link tag="a" class="nav-link" :to="{ name: 'top'}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Menu</span>
+                <span>トップページ</span>
             </router-link>
         </li>
 
         <li class="nav-item active">
             <router-link tag="a" class="nav-link" :to="{ name: 'rentalbook'}">
                 <i class="fas fa-fw fa-book-open"></i>
-                <span>Book Rental</span>
+                <span>貸出状況登録</span>
             </router-link>
         </li>
-<!-- takada -->
         <li class="nav-item active">
             <router-link tag="a" class="nav-link" :to="{ name: 'maintebook'}">
                 <i class="fas fa-fw fa-book-medical"></i>
-                <span>Book Maintenance</span>
+                <span>ブック一覧</span>
             </router-link>
         </li>
-<!-- takada -->
         <li class="nav-item active">
             <router-link tag="a" class="nav-link" :to="{ name: 'listUser'}">
                 <i class="fas fa-fw fa-user"></i>
-                <span>User Maintenance</span>
+                <span>ユーザー一覧</span>
             </router-link>
         </li>
         <li class="nav-item active">
@@ -38,3 +36,32 @@
     </ul>
 
 </template>
+
+<script>
+import * as UserUtil from '@/utils/UserUtil';
+
+export default {
+  async mounted() {
+        const self = this;
+        
+        var tests = self.$refs['test'];
+        tests.forEach(function(test) {
+            console.log(test)
+        });
+        tests.array.forEach(function(test) {
+            console.log(test);
+        });
+        
+        try {
+            if (UserUtil.isSignIn()) {
+                this.msg = '';
+                self.userAuth = UserUtil.currentUserInfo().userAuth;
+            } else {
+               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+            };
+        } catch(e) {
+            self.errMsg = e.message;
+        }
+    }
+};
+</script>

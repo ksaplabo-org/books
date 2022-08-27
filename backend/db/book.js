@@ -12,7 +12,7 @@ module.exports. getBookModel = function (db) {
             }, 
             book_id: {
                 field: "book_id",
-                type: STRING(10),
+                type: STRING(13),
                 primaryKey: true,
                 allowNull: false
             }, 
