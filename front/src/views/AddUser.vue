@@ -201,7 +201,7 @@ export default {
                 }
                 
                 // 登録実行
-                const response =  await AjaxUtil.postUser(model);
+                await AjaxUtil.postUser(model);
                 // 一覧画面に戻る
                 this.$router.push({ name: 'listUser',});
                 return;
