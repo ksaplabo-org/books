@@ -10,15 +10,17 @@ const BookRepository = require("../db/book");
  * @param {*} book 
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
- module.exports. reg = async function (db, isbn, book_id, userName) {
-    const BookModel = BookRepository.getBookModel(db, lending);
-
+ module.exports.create = async function (db, isbn, bookId, lendingUserId) {
+    const LendingModel = LendingRepository.getLendingModel(db);
     try {    
-        return await BookModel.create({
-            title : book.title,
-            isbn : book.isbn,
-            description : book.description ,
-            imgUrl : book.imgUrl          
+        return await LendingModel.create({
+            lendingUserId : lendingUserId,
+            isbn : isbn,
+            bookId : bookId,
+            rentalDate : "2022/09/03",
+            managedUserId : "intern02",
+            returnPlanDate : "2022/09/17",    
+            returnActDate : null
         });
     } catch (error) {
         console.log(error);
@@ -57,8 +59,7 @@ const BookRepository = require("../db/book");
                 model: BookModel,
                 required: true
             }]
-        });
-    } catch (error) {
+        });    } catch (error) {
         console.log(error);
         throw error;
     }

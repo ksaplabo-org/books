@@ -114,12 +114,12 @@ export function getLendingAllBook(userName) {
 }
 
 export function postLending(lendModel) {
-    const url = '/api/lending/'
-
+    const url = '/api/lending'
+    console.log("1"+lendModel.lending_user_id);
     return axios.post(url, {
         "isbn": lendModel.isbn,
         "book_id": lendModel.book_id,
-        "userName": lendModel.userName
+        "lending_user_id": lendModel.lending_user_id
     })
 }
 
