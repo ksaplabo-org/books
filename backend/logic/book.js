@@ -30,13 +30,10 @@ module.exports.getAll = async function (db) {
 
     try {    
         return await BookModel.create({
-            isbn : book.isbn,
-            book_id: book.isbn,
             title : book.title,
-            description : book.description,
-            img_url : book.imgUrl,
-            rental_status: null,
-            rental_user: null
+            isbn : book.isbn,
+            description : book.description ,
+            imgUrl : book.imgUrl          
         });
     } catch (error) {
         console.log(error);

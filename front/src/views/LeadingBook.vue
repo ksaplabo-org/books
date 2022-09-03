@@ -11,7 +11,7 @@
                     <!-- Breadcrumbs-->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
+                            <router-link tag="a" :to="{ name: 'menu'}">Menu</router-link>
                         </li>
                         <li class="breadcrumb-item active">貸出状況一覧</li>
                     </ol>
@@ -21,6 +21,23 @@
 
                     <br>
 
+                    <!-- Search Area -->
+                    <div class="row bookSearchArea">
+                        <table class="table table-sm table-height-sm table-condensed" style="font-size:10pt">
+                            <tbody>
+                                <tr>
+                                    <td class="col-lg-6 m-2"><div class="px-2">検索条件:</div><input class="m-2" v-model="searchWord" placeholder="input title." required><button v-on:click="searchBooks()" >検索</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Result Area -->
+                    <div v-if="items.length === 0">
+                        <div class="result">
+                            <div>該当データがありませんでした。</div>
+                        </div>
+                    </div>
                     <!-- Book List -->
                     <form @submit.stop.prevent="updateView">
                         <b-table responsive hover :items="items" :fields="fields">
@@ -71,42 +88,54 @@ export default {
             items: []
         };
     },
-    async mounted() {
-        const self = this;
-        try {
-            if (UserUtil.isSignIn()) {
-                this.msg = '';
-
-                self.userName = UserUtil.currentUserInfo().userName;
-
-                // 画面更新
-                this.updateView();
-               
-            } else {
-               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
-            };
-            
-        } catch(e) {
-            self.errMsg = e.message;
-        }
-    },
     methods: {
-        updateView: async function() {
+        // 書籍検索
+        searchBooks : function () {
 
-            try {
-                self.userName = UserUtil.currentUserInfo().userName;
-                const response = await AjaxUtil.getLeadingAllBook(userName);
+            this.isLoading = true;
 
-                this.items = JSON.parse(response.data.Items);
-                return;
-            } catch (error) {
+            this.msg = '';
+            this.errMsg = '';
+            this.items = [];
+
+            if (!this.searchWord || this.searchWord === '') {
+                    this.msg = '';
+                    this.errMsg = '検索条件を入力してください';
+                    this.isLoading = false;
+                    return;
+            }
+
+            // APIで検索
+            AjaxUtil.searchLeadingBooks(this.searchWord)
+            .then((response)=> {
+                let searchResultBooks = response.data.items;
+                this.isLoading = false;
+            }).catch((error) => {
                 this.msg = '';
-                this.errMsg = '貸出情報取得処理に失敗しました';
+                this.errMsg = '検索に失敗しました';
                 console.log(error);
                 this.isLoading = false;
-                throw error;
+            });
+
+        // updateView: async function() {
+
+        //     try {
+        //         self.userName = UserUtil.currentUserInfo().userName;
+        //         const response = await AjaxUtil.getLeadingAllBook(userName);
+
+        //         this.items = JSON.parse(response.data.Items);
+        //         return;
+        //     } catch (error) {
+        //         this.msg = '';
+        //         this.errMsg = '貸出情報取得処理に失敗しました';
+        //         console.log(error);
+        //         this.isLoading = false;
+        //         throw error;
+        //     }
+        // }
             }
         }
     }
-}
+
+
 </script> 
