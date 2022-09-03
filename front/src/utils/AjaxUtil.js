@@ -42,13 +42,14 @@ export function searchBooks(keyword) {
 
 export function addBook(title ,isbn ,description ,imgUrl){
 
-    const url ='/api/book';
+    const url = '/api/book';
 
     return axios.post(url , {
-                title: title ,
-                isbn: isbn ,
-                description: description ,
-                imgUrl: imgUrl 
+            "isbn": isbn,
+            "book_id": isbn,
+            "title": title,
+            "description": description,
+            "imgUrl": imgUrl
         }
     );
 }

@@ -1,5 +1,4 @@
 <template>
-    
     <!-- Menu -->
     <ul class="sidebar navbar-nav" ref="test">
         <li class="nav-item active">
@@ -8,56 +7,45 @@
                 <span>トップページ</span>
             </router-link>
         </li>
-
-        <li class="nav-item active">
-            <router-link tag="a" class="nav-link" :to="{ name: 'rentalbook'}">
-                <i class="fas fa-fw fa-book-open"></i>
-                <span>貸出状況登録</span>
-            </router-link>
-        </li>
-        <li class="nav-item active">
-            <router-link tag="a" class="nav-link" :to="{ name: 'maintebook'}">
-                <i class="fas fa-fw fa-book-medical"></i>
-                <span>ブック一覧</span>
-            </router-link>
-        </li>
-        <li class="nav-item active">
-            <router-link tag="a" class="nav-link" :to="{ name: 'listUser'}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>ユーザー一覧</span>
-            </router-link>
-        </li>
-        <li class="nav-item active">
-            <router-link tag="a" class="nav-link" :to="{ name: 'leadingBook'}">
-                <i class="fas fa-fw fa-book"></i>
-                <span>貸出状況一覧</span>
+        <li v-for="(menu, i) in menuList" :key="`bad-sample_${i}`" class="nav-item active">
+            <router-link tag="a" class="nav-link" :to="{ name: menu.name }">
+                <i v-bind:class="menu.icon"></i>
+                <span>{{ menu.title }}</span>
             </router-link>
         </li>
     </ul>
-
 </template>
 
 <script>
 import * as UserUtil from '@/utils/UserUtil';
 
 export default {
-  async mounted() {
+    data() {
+        /**
+         * メニュー定義
+         *    titile: タイトル
+         *    name: ルーティングする名称
+         *    icon: Font Awesomeのアイコンを指定
+         *    onlyAdmin: true:管理者のみ/false:管理者、一般で使用可能
+         */
+        this.userAuth = UserUtil.currentUserInfo().userAuth;
+        console.log("認証情報：" + this.userAuth);
+        return {
+            menuList: [
+                { title: '貸出状況登録', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: false },
+                { title: 'ブック一覧', name: 'maintebook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: true },
+                { title: 'ユーザー一覧', name: 'listUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
+                { title: '貸出状況一覧', name: 'leadingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false }
+            ].filter(e => this.userAuth == "1" ? !e.onlyAdmin : true)
+        }
+    },
+    async mounted() {
         const self = this;
-        
-        var tests = self.$refs['test'];
-        tests.forEach(function(test) {
-            console.log(test)
-        });
-        tests.array.forEach(function(test) {
-            console.log(test);
-        });
-        
         try {
             if (UserUtil.isSignIn()) {
                 this.msg = '';
-                self.userAuth = UserUtil.currentUserInfo().userAuth;
             } else {
-               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
         } catch(e) {
             self.errMsg = e.message;
