@@ -1,7 +1,7 @@
 const { STRING, DATE } = require("sequelize");
 
 module.exports. getBookModel = function (db) {
-    return db.define(
+    var BookModel = db.define(
             "book",
             {
             isbn: {
@@ -46,5 +46,9 @@ module.exports. getBookModel = function (db) {
                 updatedAt: false,  //デフォルト項目を生成しないように
                 tableName: "book" //明示的にテーブル名を指定
             }
-        )
+        );
+        BookModel.associate = (db) => {
+            BookModel.belongsTo(db.lending);
+        };
+        return BookModel;
 }

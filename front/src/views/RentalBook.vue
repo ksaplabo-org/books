@@ -6,6 +6,7 @@
             <Menu/>
 
             <div id="content-wrapper" class="bg-light">
+                
                 <div class="container-fluid">
 
                     <!-- Breadcrumbs-->
@@ -15,6 +16,21 @@
                         </li>
                         <li class="breadcrumb-item active">貸出状況登録</li>
                     </ol>
+
+                    <!-- Search Area -->
+                    <div class="row bookSearchArea">
+                        <table class="table table-sm table-height-sm table-condensed" style="font-size:10pt">
+                            <tbody>
+                                <tr>
+                                    <div class="col-lg-6 m-2"><div class="px-2">借りる / 返却を行うユーザIDを入力</div>
+                                                                    <div class="form-group">
+                                    <input type="text" id="registId" class="form-control"
+                                        placeholder="ユーザIDを入力してください。" required="required" v-model="registId" autocomplete="off"></div>
+                                </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
                     <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
@@ -46,10 +62,10 @@
                                             <div class="col-sm-8 ml-2 mb-2 text-left" v-if="isLoading === false">
                                                 <div class="row ml-2 mb-2" v-if="isLoading === false">
                                                    <div class="form-group">
-                                    <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
-                                      placeholder="ユーザIDを入力" autocomplete="off">
+                                    <!-- <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
+                                      placeholder="ユーザIDを入力" autocomplete="off"> -->
                                 </div> 
-                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id, )" 
+                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id)" 
                                                         v-if="row.rental_status === undefined ||  row.rental_status === null ||row.rental_status !== '貸出中'">
                                                         <i class="fas fa-fw fa-file-export"></i>
                                                         <span>借りる</span>
@@ -189,14 +205,13 @@ export default {
     methods: {
         rental: function(isbn, book_id) {
             if (UserUtil.isSignIn()) {
-                
                 this.isLoading = true;
 
                 // 引数格納
                 const model = {
-                    isbn: isbn,
                     book_id: book_id,
-                    username: this.userName
+                    isbn: isbn,
+                    lending_user_id: this.registId
                 }
                 
                 // 登録実行
@@ -218,7 +233,7 @@ export default {
                 
         } ,
         returnBook: function(updateTitle) {
-
+console.log(画面からの呼び出し2);
             this.isLoading = true;
 
             if (UserUtil.isSignIn()) {

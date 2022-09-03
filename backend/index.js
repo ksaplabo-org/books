@@ -213,9 +213,11 @@ app.delete("/api/user/:userId", function(req, res) {
     const book = req.body;
 
     // 本当はこのあたりでパラメータチェック
-
     // 貸し出し状況登録
-    LendingLogic.reg(db, book)
+    console.log(book.book_id);
+    console.log(book.isbn);
+    console.log(book.lending_user_id);
+    LendingLogic.create(db, book.book_id, book.isbn, book.lending_user_id)
         .then((books) => {
             // 正常レスポンス
             res.send({result: "success"});
