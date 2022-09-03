@@ -1,6 +1,6 @@
 const { STRING, DATE } = require("sequelize");
 
-module.exports. getBookModel = function (db) {
+module.exports. getLendingModel = function (db) {
     return db.define(
             "lending",
             {

@@ -109,3 +109,9 @@ export function postLending(lendModel) {
         "userName": lendModel.userName
     })
 }
+
+export function searchLeadingBooks(userId) {
+    const url = '/api/lending/' + userId;
+    return axios.get(url);
+
+}

@@ -1,7 +1,8 @@
 // Bussiness Logic define
 const AuthLogic = require("./logic/auth");
 const BookLogic = require("./logic/book");
-const  UserLogic = require("./logic/user");
+const UserLogic = require("./logic/user");
+const LendingLogic = require("./logic/lending");
 
 // DB Connection define
 const DbUtil  = require("./db/utility");
@@ -203,6 +204,25 @@ app.delete("/api/user/:userId", function(req, res) {
         .catch((error)  => {
             // 異常レスポンス
             console.log("failed to add book");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * ユーザIDに紐づく貸出中の書籍情報取得API
+ */
+ app.get("/api/lending/:userId", function(req, res) {
+    // 書籍情報を取得する
+    LendingLogic.getLendingUser(db, req.params.userId)
+        .then((lendingBooks) => {
+            // 正常レスポンス
+            res.send({
+                Items: JSON.stringify(lendingBooks)
+            });
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to get book");
             res.status(500).send("server error occur")
         });
 });
