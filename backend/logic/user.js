@@ -33,6 +33,40 @@ const UserRepository = require("../db/user");
 }   
 
 /**
+ * ユーザー情報更新
+ * @param {*} db 
+ * @param {*}  userId
+ * @param {*}  userName
+ * @param {*}  password
+ * @param {*}  gender
+ * @returns ユーザー情報(Promise)
+ */
+ module.exports.update = async function (db, userId,  userName, password,gender) {
+      const UserModel = UserRepository.getUserModel(db);
+
+    try {
+        // set update parameter
+        const updateParams = {
+            userName: null,
+            password: null,
+            gender: null
+        };
+
+            updateParams.userName = userName;
+            updateParams.password = password;
+            updateParams.gender = gender;
+    
+        // set filter parametero
+        const filter = { where: { userId: userId } }
+    
+        return await UserModel.update(updateParams, filter);
+
+    } catch (error) {
+        throw error;
+    }
+}  
+
+/**
  * ユーザー情報削除
  * @param {*} db 
  * @param {*}  userId

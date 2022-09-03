@@ -78,6 +78,18 @@ export function postUser(userModel) {
     })
 }
 
+export function putUser(userModel) {
+    const url = '/api/user';
+    
+    return axios.put(url, {
+        "userId": userModel.userId,
+        "userName": userModel.userName,
+        "password": userModel.password,
+        "gender": userModel.gender,
+        "userAuth": userModel.userAuth
+    })
+}
+
 export function deleteUser(userId) {
 
     const url = '/api/user/' + userId;

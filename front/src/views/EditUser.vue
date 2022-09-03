@@ -227,10 +227,7 @@ export default {
                     userAuth:authSelect.value
                 }
 
-                // 削除実行
-                 const response1 =  await AjaxUtil.deleteUser(this.userId);
-                // 更新実行
-                const response2 =  await AjaxUtil.postUser(model);
+                await AjaxUtil.putUser(model);
 
                 // 一覧画面に戻る
                 this.$router.push({ name: 'listUser',});
@@ -250,10 +247,9 @@ export default {
                 var result = window.confirm('削除処理を実行しますか？');
                 if( result ) {
                     // 削除実行
-                    const response =  await AjaxUtil.deleteUser(this.userId);
+                    await AjaxUtil.deleteUser(this.userId);
                     // 一覧画面に戻る
                     this.$router.push({ name: 'listUser',});
-                    this.updateView();
                  }
             } catch (error) {
                 this.msg = "";
