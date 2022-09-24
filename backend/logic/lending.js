@@ -7,21 +7,42 @@ const BookRepository = require("../db/book");
  * 書籍の貸し出し状況を登録する
  *
  * @param {*} db 
- * @param {*} book 
+ * @param {*} isbn 
+ * @param {*} bookId 
+ * @param {*} lendingUserId 入力されたユーザID 
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
- module.exports.create = async function (db, isbn, bookId, lendingUserId) {
+ module.exports.create = async function (db, isbn, bookId, lendingUserId, rentalDate, returnPlanDate, managedUserId) {
     const LendingModel = LendingRepository.getLendingModel(db);
+
     try {    
         return await LendingModel.create({
             lendingUserId : lendingUserId,
             isbn : isbn,
             bookId : bookId,
-            rentalDate : "2022/09/03",
-            managedUserId : "intern02",
-            returnPlanDate : "2022/09/17",    
-            returnActDate : null
+            rentalDate : rentalDate,
+            managedUserId : managedUserId,
+            returnPlanDate : returnPlanDate
         });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+/**
+ * 書籍の貸し出し状況を削除する
+ *
+ * @param {*} db 
+ * @param {*} isbn 
+ * @param {*} bookId 
+ * @param {*} lendingUserId 入力されたユーザID 
+ * @returns Promise（成功時 resolve/失敗時 reject）
+ */
+ module.exports.delete = async function (db, isbn, bookId, lendingUserId) {
+    const LendingModel = LendingRepository.getLendingModel(db);
+    try {
+        return await LendingModel.destroy({ where: { lendingUserId: lendingUserId, isbn : isbn, bookId : bookId,} });
     } catch (error) {
         console.log(error);
         throw error;
