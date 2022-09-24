@@ -35,8 +35,7 @@ CREATE TABLE IF NOT EXISTS lending
     book_id varchar(13) NOT NULL,
     rental_date Date NOT NULL,
     managed_user_id varchar(16) NOT NULL,
-    return_plan_date Date NOT NULL,    
-    return_act_date Date,
+    return_plan_date Date NOT NULL,
     PRIMARY KEY(lending_user_id,book_id,rental_date)
 )
 CHARACTER SET utf8mb4 
