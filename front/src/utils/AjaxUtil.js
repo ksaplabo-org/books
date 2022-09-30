@@ -122,7 +122,7 @@ export function postLending(lendModel) {
     })
 }
 
-export function searchLeadingBooks(userId) {
+export function searchLendingBooks(userId) {
     const url = '/api/lending/' + userId;
     return axios.get(url);
 

@@ -5,7 +5,7 @@ const Sequelize = require("sequelize");
  * @returns DBコネクション
  */
 module.exports.connect = function () {
-  return new Sequelize("intern", "intern", "intern", {
+  return new Sequelize("intern", "root", "", {
     dialect: "mysql",
     host: "localhost",
     pool: {

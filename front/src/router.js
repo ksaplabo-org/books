@@ -8,7 +8,7 @@ import Top from './views/Top.vue';
 import RentalBook from './views/RentalBook.vue';
 import MainteBook from './views/MainteBook.vue';
 import ListUser from './views/ListUser.vue';
-import LeadingBook from './views/LeadingBook.vue';
+import LendingBook from './views/LendingBook.vue';
 import AddUser from './views/AddUser.vue';
 import EditUser from './views/EditUser.vue';
 
@@ -50,9 +50,9 @@ export default new Router({
       component: ListUser,
     },
     {
-      path: '/pages/leadingBook.html',
-      name: 'leadingBook',
-      component: LeadingBook,
+      path: '/pages/lendingBook.html',
+      name: 'lendingBook',
+      component: LendingBook,
     },
     {
       path: '/pages/addUser.html',

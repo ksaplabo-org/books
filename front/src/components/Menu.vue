@@ -35,7 +35,7 @@ export default {
                 { title: '貸出状況登録', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: false },
                 { title: 'ブック一覧', name: 'maintebook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: true },
                 { title: 'ユーザー一覧', name: 'listUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
-                { title: '貸出状況一覧', name: 'leadingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false }
+                { title: '貸出状況一覧', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false }
             ].filter(e => this.userAuth == "1" ? !e.onlyAdmin : true)
         }
     },
