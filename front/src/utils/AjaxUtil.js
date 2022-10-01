@@ -144,3 +144,9 @@ export function searchLeadingBooks(userId) {
     return axios.get(url);
 
 }
+
+export function getAllSearchBooks(searchWord) {
+    const url = '/api/book/search/' + searchWord;
+    return axios.get(url);
+
+}

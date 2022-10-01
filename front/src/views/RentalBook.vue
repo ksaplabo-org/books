@@ -17,16 +17,32 @@
                         <li class="breadcrumb-item active">貸出状況登録</li>
                     </ol>
 
-                    <!-- Search Area -->
+                    <!-- 書籍名検索 -->
+                    <div class="row bookSearchArea">
+                        <table class="table table-sm table-height-sm table-condensed" style="font-size:10pt">
+                            <tbody>
+                                <tr>
+                                    <div class="col-lg-6 m-2"><div class="px-2">借りる / 返却を行う書籍名を検索</div>
+                                    <div class="form-group">
+                                        <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="書籍名を入力してください。" required>
+                                        <button v-on:click="searchBooks()" >検索</button>
+                                        </div>
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ユーザID入力欄 -->
                     <div class="row bookSearchArea">
                         <table class="table table-sm table-height-sm table-condensed" style="font-size:10pt">
                             <tbody>
                                 <tr>
                                     <div class="col-lg-6 m-2"><div class="px-2">借りる / 返却を行うユーザIDを入力</div>
-                                                                    <div class="form-group">
-                                    <input type="text" id="registId" class="form-control"
+                                    <div class="form-group">
+                                        <input type="text" id="registId" class="form-control"
                                         placeholder="ユーザIDを入力してください。" required="required" v-model="registId" autocomplete="off"></div>
-                                </div>
+                                    </div>
                                 </tr>
                             </tbody>
                         </table>
@@ -203,6 +219,35 @@ export default {
     },
 
     methods: {
+        // 書籍検索
+        searchBooks : function () {
+
+            this.isLoading = true;
+
+            this.msg = '';
+            this.errMsg = '';
+            this.items = [];
+
+            if (!this.searchWord || this.searchWord === '') {
+                    this.msg = '';
+                    this.errMsg = '検索条件を入力してください';
+                    this.isLoading = false;
+                    return;
+            }
+
+            AjaxUtil.getAllSearchBooks(this.searchWord)
+                .then((response) => {
+                    this.items = JSON.parse(response.data.Items);
+
+                }).catch((error) => {
+                    this.msg = '';
+                    this.errMsg = '検索に失敗しました';
+                    console.log(error);
+
+                }).then(() => {
+                    this.isLoading = false;
+                });
+        } ,
         rental: function(isbn, book_id) {
 
             if(this.registId == null){
