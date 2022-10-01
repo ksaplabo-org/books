@@ -210,12 +210,32 @@ app.delete("/api/user/:userId", function(req, res) {
  */
  app.post("/api/lending", function(req, res) {
     // リクエスト取得
-    const book = req.body;
+    const lending = req.body;
 
-    // 本当はこのあたりでパラメータチェック
-
+    var hiduke=new Date(); 
+    console.log(hiduke);
     // 貸し出し状況登録
-    LendingLogic.reg(db, book)
+    LendingLogic.create(db, lending.book_id, lending.isbn, lending.lending_user_id, lending.rental_date, lending.return_plan_date, lending.managed_user_id)
+        .then((books) => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch((error)  => {
+            // 異常レスポンス
+            console.log("failed to add book");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * 貸し出し状況削除API
+ */
+ app.delete("/api/lending", function(req, res) {
+    // リクエスト取得
+    const lending = req.body;
+
+    // 貸し出し状況削除
+    LendingLogic.delete(db, lending.book_id, lending.isbn, lending.lending_user_id)
         .then((books) => {
             // 正常レスポンス
             res.send({result: "success"});

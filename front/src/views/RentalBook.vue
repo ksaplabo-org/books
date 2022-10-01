@@ -6,6 +6,7 @@
             <Menu/>
 
             <div id="content-wrapper" class="bg-light">
+                
                 <div class="container-fluid">
 
                     <!-- Breadcrumbs-->
@@ -15,6 +16,21 @@
                         </li>
                         <li class="breadcrumb-item active">貸出状況登録</li>
                     </ol>
+
+                    <!-- Search Area -->
+                    <div class="row bookSearchArea">
+                        <table class="table table-sm table-height-sm table-condensed" style="font-size:10pt">
+                            <tbody>
+                                <tr>
+                                    <div class="col-lg-6 m-2"><div class="px-2">借りる / 返却を行うユーザIDを入力</div>
+                                                                    <div class="form-group">
+                                    <input type="text" id="registId" class="form-control"
+                                        placeholder="ユーザIDを入力してください。" required="required" v-model="registId" autocomplete="off"></div>
+                                </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
                     <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
@@ -46,18 +62,18 @@
                                             <div class="col-sm-8 ml-2 mb-2 text-left" v-if="isLoading === false">
                                                 <div class="row ml-2 mb-2" v-if="isLoading === false">
                                                    <div class="form-group">
-                                    <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
-                                      placeholder="ユーザIDを入力" autocomplete="off">
+                                    <!-- <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
+                                      placeholder="ユーザIDを入力" autocomplete="off"> -->
                                 </div> 
-                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id, )" 
+                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id)" 
                                                         v-if="row.rental_status === undefined ||  row.rental_status === null ||row.rental_status !== '貸出中'">
                                                         <i class="fas fa-fw fa-file-export"></i>
-                                                        <span>借りる</span>
+                                                        <span>借りる&nbsp;</span>
                                                     </a>
-                                                    <a href="#" class="font-weight-bold text-primary" v-on:click="returnBook(row.isbn, row.book_id)" 
-                                                        v-if="row.rental_status === '貸出中' && row.rental_user === userName">
+                                                    <a href="#" class="font-weight-bold text-primary" v-on:click="returnBook(row.isbn, row.book_id)" >
+                                                        
                                                         <i class="fas fa-fw fa-file-import"></i>
-                                                        <span>返却</span>
+                                                        <span>返却&nbsp;</span>
                                                     </a>
                                                     <span class="font-weight-bold text-warning"
                                                         v-if="row.rental_status === '貸出中' && row.rental_user !== userName">
@@ -188,15 +204,42 @@ export default {
 
     methods: {
         rental: function(isbn, book_id) {
+
+            if(this.registId == null){
+                    this.errMsg = "借りる/返却対象のユーザIDを入力してください。";
+                    return;
+            }
+
             if (UserUtil.isSignIn()) {
-                
-                this.isLoading = true;
+                this.isLoading = true; 
+
+                // 貸出日計算
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = now.getMonth() + 1;
+                if (month == 13){
+                    month = 1;
+                }
+                var day = now.getDate() + 1;
+
+                // 返却予定日計算
+                var returnPlanDay = new Date();
+                returnPlanDay.setDate(returnPlanDay.getDate() + 14);
+                var returnYear = returnPlanDay.getFullYear();
+                var returnMonth = returnPlanDay.getMonth() + 1;
+                if (month == 13){
+                    month = 1;
+                }
+                var returnDay = returnPlanDay.getDate() + 1;
 
                 // 引数格納
                 const model = {
-                    isbn: isbn,
                     book_id: book_id,
-                    username: this.userName
+                    isbn: isbn,
+                    lending_user_id: this.registId,
+                    rental_date: year + "/" + month + "/" + day,
+                    return_plan_date: returnYear + "/" + returnMonth + "/" + returnDay,
+                    managed_user_id: UserUtil.currentUserInfo().userid
                 }
                 
                 // 登録実行
@@ -217,12 +260,24 @@ export default {
             };
                 
         } ,
-        returnBook: function(updateTitle) {
+        returnBook: function(isbn, book_id) {
 
-            this.isLoading = true;
+            if(this.registId == null){
+                    this.errMsg = "借りる/返却対象のユーザIDを入力してください。";
+                    return;
+            }
 
             if (UserUtil.isSignIn()) {
-                AjaxUtil.returnBooks(updateTitle)
+                this.isLoading = true;
+
+                // 引数格納
+                const model = {
+                    book_id: book_id,
+                    isbn: isbn,
+                    lending_user_id: this.registId
+                }
+
+                AjaxUtil.deleteLending(model)
                 .then((response) => {
                     this.updateView();
 
