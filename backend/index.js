@@ -215,7 +215,7 @@ app.delete("/api/user/:userId", function(req, res) {
     var hiduke=new Date(); 
     console.log(hiduke);
     // 貸し出し状況登録
-    LendingLogic.create(db, lending.book_id, lending.isbn, lending.lending_user_id, lending.rental_date, lending.return_plan_date, lending.managed_user_id)
+    LendingLogic.create(db, lending.isbn, lending.book_id, lending.lending_user_id, lending.rental_date, lending.return_plan_date, lending.managed_user_id)
         .then((books) => {
             // 正常レスポンス
             res.send({result: "success"});
@@ -235,7 +235,7 @@ app.delete("/api/user/:userId", function(req, res) {
     const lending = req.body;
 
     // 貸し出し状況削除
-    LendingLogic.delete(db, lending.book_id, lending.isbn, lending.lending_user_id)
+    LendingLogic.delete(db, lending.isbn, lending.book_id, lending.lending_user_id)
         .then((books) => {
             // 正常レスポンス
             res.send({result: "success"});
@@ -262,6 +262,26 @@ app.delete("/api/user/:userId", function(req, res) {
         .catch(()  => {
             // 異常レスポンス
             console.log("failed to get book");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * 書籍名のあいまい検索結果取得API
+ */
+ app.get("/api/book/search/:searchWord", function(req, res) {
+    console.log("4番目" + req.params.searchWord);
+    // 書籍情報を取得する
+    BookLogic.getAllSearchBooks(db, req.params.searchWord)
+        .then((books) => {
+            // 正常レスポンス
+            res.send({
+                Items: JSON.stringify(books)
+            });
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to get searchBook");
             res.status(500).send("server error occur")
         });
 });
