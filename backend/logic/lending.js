@@ -15,7 +15,7 @@ const BookRepository = require("../db/book");
  module.exports.create = async function (db, isbn, bookId, lendingUserId, rentalDate, returnPlanDate, managedUserId) {
     const LendingModel = LendingRepository.getLendingModel(db);
 
-    try {    
+    try {
         return await LendingModel.create({
             lendingUserId : lendingUserId,
             isbn : isbn,
