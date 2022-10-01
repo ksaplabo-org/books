@@ -1,7 +1,11 @@
 const { STRING, DATE } = require("sequelize");
 
 module.exports. getBookModel = function (db) {
+<<<<<<< HEAD
     var BookModel = db.define(
+=======
+        var BookModel = db.define(
+>>>>>>> a9d8a5cf8f7cc5871aea5004a2a1e5a0a639669f
             "book",
             {
             isbn: {
@@ -50,5 +54,9 @@ module.exports. getBookModel = function (db) {
         BookModel.associate = (db) => {
             BookModel.belongsTo(db.lending);
         };
+<<<<<<< HEAD
         return BookModel;
 }
+=======
+        return BookModel;}
+>>>>>>> a9d8a5cf8f7cc5871aea5004a2a1e5a0a639669f

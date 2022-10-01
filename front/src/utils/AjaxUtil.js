@@ -108,7 +108,7 @@ export function getAllBook() {
     );
 }
 
-export function getLeadingAllBook(userName) {
+export function getLendingAllBook(userName) {
     const url = '/api/book/' + userName;
     return axios.get(url);
 }
@@ -139,7 +139,20 @@ export function deleteLending(lendModel) {
     })
 }
 
-export function searchLeadingBooks(userId) {
+export function deleteLending(lendModel) {
+    const url = '/api/lending'
+    return axios.request({
+        method: 'delete',
+        url: url,
+        data: {
+            "isbn": lendModel.isbn,
+            "book_id": lendModel.book_id,
+            "lending_user_id": lendModel.lending_user_id
+        }
+    })
+}
+
+export function searchLendingBooks(userId) {
     const url = '/api/lending/' + userId;
     return axios.get(url);
 

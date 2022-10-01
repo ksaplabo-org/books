@@ -48,10 +48,10 @@ module.exports = {
           filename: 'pages/listUser.html',
           title: 'ユーザー一覧',
         },
-        leadingBook: {
+        lendingBook: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
-          filename: 'pages/leadingBook.html',
+          filename: 'pages/lendingBook.html',
           title: '貸出状況一覧',
         },
         addUser: {

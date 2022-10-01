@@ -43,6 +43,7 @@
                                         <input type="text" id="registId" class="form-control"
                                         placeholder="ユーザIDを入力してください。" required="required" v-model="registId" autocomplete="off"></div>
                                     </div>
+
                                 </tr>
                             </tbody>
                         </table>

@@ -212,6 +212,8 @@ app.delete("/api/user/:userId", function(req, res) {
     // リクエスト取得
     const lending = req.body;
 
+    var hiduke=new Date(); 
+    console.log(hiduke);
     // 貸し出し状況登録
     LendingLogic.create(db, lending.isbn, lending.book_id, lending.lending_user_id, lending.rental_date, lending.return_plan_date, lending.managed_user_id)
         .then((books) => {

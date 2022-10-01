@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS user
     user_gender char(1) NOT NULL,
     user_auth char(1) NOT NULL
 )
-CHARACTER SET utf8mb4 
+CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS book;

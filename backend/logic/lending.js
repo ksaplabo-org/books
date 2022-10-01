@@ -58,10 +58,29 @@ const BookRepository = require("../db/book");
  module.exports.getLendingUser = async function (db, userId) {
     const LendingModel = LendingRepository.getLendingModel(db);
     const BookModel = BookRepository.getBookModel(db);
-    /*const LendingAndBookModel = LendingAndBookRepository.getLendingModel(db);*/
+
+    const Model = {};
+    Model.Book = BookModel;
+    Model.Lending = LendingModel;
+
+    Object.keys(Model).forEach((key) => {
+        const model = Model[key];
+        if(model.associate) {
+            model.associate(Model);
+        }
+    });
 
     try {
-        return await LendingModel.findAll({ where: { lending_user_id: userId  },raw: true, include: [{model: BookModel,required: false}]});
+        return await LendingModel.findAll({
+            where: {
+                lending_user_id: userId
+            },
+            raw: true,
+            include: [{
+                model: BookModel,
+                required: true
+            }]
+        });    
     } catch (error) {
         console.log(error);
         throw error;
