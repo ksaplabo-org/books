@@ -68,7 +68,7 @@
                 <!-- Approach -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                    <router-link tag="a" :to="{ name: 'leadingBook'}">貸出状況一覧
+                    <router-link tag="a" :to="{ name: 'lendingBook'}">貸出状況一覧
                     </router-link> 
                   </div>
                   <div class="card-body">
