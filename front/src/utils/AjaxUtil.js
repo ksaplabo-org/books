@@ -107,7 +107,7 @@ export function getAllBook() {
     );
 }
 
-export function getLeadingAllBook(userName) {
+export function getLendingAllBook(userName) {
     const url = '/api/book/' + userName;
     return axios.get(url);
 }
