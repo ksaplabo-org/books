@@ -57,5 +57,4 @@ module.exports. getLendingModel = function (db) {
         });
     }
 
-    return lending;
-}
+    return lending;}

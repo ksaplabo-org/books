@@ -29,7 +29,6 @@ export default {
          *    onlyAdmin: true:管理者のみ/false:管理者、一般で使用可能
          */
         this.userAuth = UserUtil.currentUserInfo().userAuth;
-        console.log("認証情報：" + this.userAuth);
         return {
             menuList: [
                 { title: '貸出状況登録', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: false },

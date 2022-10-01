@@ -165,12 +165,14 @@ app.put("/api/user", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to get all user");
+            console.log("failed to user update");
             res.status(500).send("server error occur")
         });
 });
 
 app.delete("/api/user/:userId", function(req, res) {
+    console.log(db)
+
     // ユーザー削除する
     UserLogic.remove(db, req.params.userId)
         .then(() => {
@@ -179,7 +181,7 @@ app.delete("/api/user/:userId", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to remove book");
+            console.log("failed to remove user");
             res.status(500).send("server error occur")
         });
 });
@@ -208,12 +210,30 @@ app.delete("/api/user/:userId", function(req, res) {
  */
  app.post("/api/lending", function(req, res) {
     // リクエスト取得
-    const book = req.body;
-
-    // 本当はこのあたりでパラメータチェック
+    const lending = req.body;
 
     // 貸し出し状況登録
-    LendingLogic.reg(db, book)
+    LendingLogic.create(db, lending.isbn, lending.book_id, lending.lending_user_id, lending.rental_date, lending.return_plan_date, lending.managed_user_id)
+        .then((books) => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to add book");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * 貸し出し状況削除API
+ */
+ app.delete("/api/lending", function(req, res) {
+    // リクエスト取得
+    const lending = req.body;
+
+    // 貸し出し状況削除
+    LendingLogic.delete(db, lending.isbn, lending.book_id, lending.lending_user_id)
         .then((books) => {
             // 正常レスポンス
             res.send({result: "success"});
@@ -232,15 +252,17 @@ app.delete("/api/user/:userId", function(req, res) {
     // 書籍情報を取得する
     LendingLogic.getLendingUser(db, req.params.userId)
         .then((lendingBooks) => {
+            console.log(lendingBooks);
             // 正常レスポンス
             res.send({
                 Items: JSON.stringify(lendingBooks)
             });
         })
-        .catch(()  => {
+        .catch((error)  => {
             // 異常レスポンス
-            console.log("failed to get book");
-            res.status(500).send("server error occur")
+            console.log("failed to get lending books");
+            console.log(error);
+            res.status(500).send("server error occur");
         });
 });
 

@@ -1,7 +1,7 @@
 const { STRING, DATE } = require("sequelize");
 
 module.exports. getBookModel = function (db) {
-    var book = db.define(
+    var BookModel = db.define(
         "book",
         {
         isbn: {
@@ -47,6 +47,5 @@ module.exports. getBookModel = function (db) {
             tableName: "book" //明示的にテーブル名を指定
         }
     );
-    
-    return book;
+    return BookModel;
 }
