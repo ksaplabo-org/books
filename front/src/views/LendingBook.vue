@@ -21,18 +21,17 @@
 
                     <br>
 
-                    <form @submit.stop.prevent="searchBooks">
+                    <form @submit.stop.prevent="searchLendingBooks">
                         <!-- Search Area -->
                         <div id="searchArea" class="row bookSearchArea">
-                            <table class="table table-sm table-height-sm" style="font-size:10pt">
+                            <table class="table table-sm table-height-sm">
                                 <tbody>
                                     <tr>
-                                        <td colspan="3" class="col-lg-2 m-2">
-                                            <div class="px-2">検索条件:
-                                                <input class="m-2" v-model="searchWord" placeholder="ユーザIDを入力してください" required>
-                                                <div class="col-sm-1">
-                                                    <input class="btn btn-primary btn-block" type="submit" value="検索">
-                                                </div>
+                                        <td>
+                                            <div class="col-sm">
+                                                ユーザーID:
+                                                <input class="m-2" v-model="searchWord" required />
+                                                <input class="btn-primary" type="submit" value="検索" />
                                             </div>
                                         </td>
                                     </tr>
@@ -68,7 +67,7 @@ import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 export default {
     name : 'LendingBook' ,
-    props: ['flashMsg', 'flashErrMsg'],    
+    props: ['flashMsg', 'flashErrMsg'],
     components: { NaviMenu, Menu, Footer, Loading } ,
     data() {
         return {
@@ -84,9 +83,38 @@ export default {
             items: []
         };
     },
+    async mounted() {
+        const self = this;
+        try {
+            if (UserUtil.isSignIn()) {
+                this.msg = '';
+
+                self.userName = UserUtil.currentUserInfo().userName;
+
+                // 画面更新
+                this.updateView();
+            } else {
+               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+            };
+        } catch(e) {
+            self.errMsg = e.message;
+        }
+    },
     methods: {
-        // 書籍検索
-        searchBooks : function () {
+        // 画面更新
+        updateView: function() {
+            // ログイン: 一般
+            if (!UserUtil.isAdmin()) {
+                // 検索エリアを非表示
+                document.getElementById("searchArea").hidden = true;
+                // 貸出状況検索処理呼び出し
+                this.searchWord = UserUtil.currentUserInfo().userid;
+                this.searchLendingBooks();
+            }
+        },
+        
+        // 貸出状況検索処理
+        searchLendingBooks : function() {
 
             this.isLoading = true;
 
@@ -94,9 +122,6 @@ export default {
             this.errMsg = '';
             this.items = [];
 
-            // ★一般の場合は、検索欄を非表示にし、ログインIDをセットして渡すようにする★
-            const searchArea = document.getElementById("searchArea");
-            
             if (!this.searchWord || this.searchWord === '') {
                 this.msg = '';
                 this.errMsg = '検索条件を入力してください';

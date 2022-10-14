@@ -28,14 +28,13 @@ export default {
          *    icon: Font Awesomeのアイコンを指定
          *    onlyAdmin: true:管理者のみ/false:管理者、一般で使用可能
          */
-        this.userAuth = UserUtil.currentUserInfo().userAuth;
         return {
             menuList: [
                 { title: '貸出状況登録', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: false },
                 { title: 'ブック一覧', name: 'maintebook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: true },
                 { title: 'ユーザー一覧', name: 'listUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
                 { title: '貸出状況一覧', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false }
-            ].filter(e => this.userAuth == "1" ? !e.onlyAdmin : true)
+            ].filter(e => !UserUtil.isAdmin() ? !e.onlyAdmin : true)
         }
     },
     async mounted() {
