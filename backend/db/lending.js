@@ -19,7 +19,6 @@ module.exports. getLendingModel = function (db) {
             book_id: {
                 field: "book_id",
                 type: STRING(13),
-                primaryKey: true,
                 allowNull: false
             },
             rental_date: {
@@ -37,11 +36,6 @@ module.exports. getLendingModel = function (db) {
                 field: "return_plan_date",
                 type: DATE,
                 allowNull: false
-            },
-            return_act_date: {
-                field: "return_act_date",
-                type: DATE,
-                allowNull: true
             }
         },
         {
