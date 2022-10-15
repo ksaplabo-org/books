@@ -40,7 +40,13 @@ module.exports = {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/maintebook.html',
-          title: 'ブック一覧',
+          title: 'ブックメンテナンス',
+        },
+        listbook: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/listBook.html',
+          title: 'ブックリスト',
         },
         listUser: {
           entry: 'src/main.js',
@@ -48,10 +54,10 @@ module.exports = {
           filename: 'pages/listUser.html',
           title: 'ユーザー一覧',
         },
-        lendingBook: {
+        leadingBook: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
-          filename: 'pages/lendingBook.html',
+          filename: 'pages/leadingBook.html',
           title: '貸出状況一覧',
         },
         addUser: {

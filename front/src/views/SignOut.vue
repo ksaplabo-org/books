@@ -1,6 +1,6 @@
 <template>
   <div class="singout">
-    <h1>Sign out</h1>
+    <h1>サインアウト</h1>
     <loading v-if="isLoading === true"/>
     <p>Please wait......</p>
   </div>

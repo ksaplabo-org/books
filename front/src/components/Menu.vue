@@ -32,10 +32,13 @@ export default {
         console.log("認証情報：" + this.userAuth);
         return {
             menuList: [
-                { title: '貸出状況登録', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: false },
-                { title: 'ブック一覧', name: 'maintebook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: true },
-                { title: 'ユーザー一覧', name: 'listUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
-                { title: '貸出状況一覧', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false }
+                { title: 'ブックリスト', name: 'listbook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: false },
+                { title: 'ブックメンテナンス', name: 'maintebook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: true },
+                { title: 'ユーザーリスト', name: 'listUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
+                { title: 'ユーザー追加', name: 'addUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
+                { title: 'ユーザーメンテナンス', name: 'eidtUser', icon: 'fas fa-fw fa-user', onlyAdmin: false },
+                { title: 'レンタルリスト', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false },
+                { title: 'レンタル', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: true }
             ].filter(e => this.userAuth == "1" ? !e.onlyAdmin : true)
         }
     },

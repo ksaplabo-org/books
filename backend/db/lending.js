@@ -19,7 +19,6 @@ module.exports. getLendingModel = function (db) {
         bookId: {
             field: "book_id",
             type: STRING(13),
-            primaryKey: true,
             allowNull: false
         },
         rentalDate: {
@@ -37,11 +36,6 @@ module.exports. getLendingModel = function (db) {
             field: "return_plan_date",
             type: DATE,
             allowNull: false
-        },
-        returnActDate: {
-            field: "return_act_date",
-            type: DATE,
-            allowNull: true
         }},
         {
             createdAt: false, //デフォルト項目を生成しないように

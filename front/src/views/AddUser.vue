@@ -1,5 +1,5 @@
 <template>
-    <div class="maintebook">
+    <div class="adduser">
         <NaviMenu/>
 
         <div id="wrapper">
@@ -70,7 +70,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <select name="gender" id="gender"  required>
-                                        <option value="0">選択してくだい。</option>
+                                        <option value="0">選択してください。</option>
                                         <option value="1">女性</option>
                                         <option value="2">男性 </option>
                                         <option value="3">非公開</option>
@@ -86,7 +86,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <select name="auth" id="auth" required>
-                                        <option value="0">選択してくだい。</option>
+                                        <option value="0">選択してください。</option>
                                         <option value="1">一般</option>
                                         <option value="2">社員 </option>
                                     </select>

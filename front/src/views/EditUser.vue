@@ -1,5 +1,5 @@
 <template>
-    <div class="maintebook">
+    <div class="edituser">
         <NaviMenu/>
 
         <div id="wrapper">
@@ -11,12 +11,12 @@
                     <!-- Breadcrumbs-->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'menu'}">Menu</router-link>
+                            <router-link tag="a" :to="{ name: 'menu'}">トップページ</router-link>
                         </li>
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'listUser'}">User List</router-link>
+                            <router-link tag="a" :to="{ name: 'listUser'}">ユーザーリスト</router-link>
                         </li>
-                        <li class="breadcrumb-item active">Edit User</li>
+                        <li class="breadcrumb-item active">ユーザーメンテナンス</li>
                     </ol>
     
                     <p class="text-primary" v-show="msg">{{ msg }}</p>

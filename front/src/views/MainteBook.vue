@@ -265,13 +265,14 @@ export default {
                     this.msg = '';
                     this.errMsg = '登録処理に失敗しました';
                     console.log(error);
-                    this.isLoading = false;
 
                 });
             
             } else {
                 this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
+
+            this.isLoading = false;
         } ,
         deleteBook : function (title){
             
@@ -286,13 +287,14 @@ export default {
                     this.msg = '';
                     this.errMsg = '削除処理に失敗しました';
                     console.log(error);
-                    this.isLoading = false;
 
                 });
             
             } else {
                 this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
+
+            this.isLoading = false;
         } 
     }
 }

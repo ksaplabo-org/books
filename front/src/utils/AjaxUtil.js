@@ -150,3 +150,12 @@ export function getAllSearchBooks(searchWord) {
     return axios.get(url);
 
 }
+
+export function alreadyLending(alreadyModel) {
+    const url = '/api/lending/already'
+    console.log("貸出状況確認処理2");
+    return axios.post(url, {
+        "isbn": alreadyModel.isbn,
+        "lending_user_id": alreadyModel.lending_user_id
+    })
+}
