@@ -21,32 +21,25 @@
 
                     <br>
 
-                    <!-- Search Area -->
-                    <div class="row bookSearchArea">
-                        <table class="table table-sm table-height-sm table-condensed" style="font-size:10pt">
-                            <tbody>
-                                <tr>
-                                    <td class="col-lg-2 m-2">
-                                        <div class="px-2">検索条件:</div>
-                                    </td>
-                                    <td class="col-lg-6 m-2">
-                                        <input class="m-2" v-model="searchWord" placeholder="ユーザ情報を入力してください" required>
-                                        <button v-on:click="searchBooks()" >検索</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Result Area -->
-                    <div v-if="items.length === 0">
-                        <div class="result">
-                            <div>該当データがありませんでした。</div>
+                    <form @submit.stop.prevent="searchLendingBooks">
+                        <!-- Search Area -->
+                        <div id="searchArea" class="row bookSearchArea">
+                            <table class="table table-sm table-height-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="col-sm">
+                                                ユーザーID:
+                                                <input class="m-2" v-model="searchWord" required />
+                                                <input class="btn-primary" type="submit" value="検索" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
 
-                    <!-- Lending Book List -->
-                    <form @submit.stop.prevent="updateView">
+                        <!-- Lending Book List -->
                         <b-table responsive hover :items="items" :fields="fields"></b-table>
                     </form>
                 </div>
@@ -64,7 +57,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import * as UserUtil from '@/utils/UserUtil';
 import * as AjaxUtil from '@/utils/AjaxUtil';
 // 共通
@@ -74,8 +66,8 @@ import Menu from '../components/Menu.vue';
 import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 export default {
-    name : 'LeadingBook' ,
-    props: ['flashMsg', 'flashErrMsg'],    
+    name : 'LendingBook' ,
+    props: ['flashMsg', 'flashErrMsg'],
     components: { NaviMenu, Menu, Footer, Loading } ,
     data() {
         return {
@@ -84,16 +76,45 @@ export default {
             userName: '',
             isLoading: false,
             fields: [
-                {key: 'title', label: '書籍名'},
-                {key: 'rentalDate', label: '貸出日'},
-                {key: 'returnDate', label: '返却予定日'}
+                {key: 'book.title', label: '書籍名'},
+                {key: 'rental_date', label: '貸出日'},
+                {key: 'return_plan_date', label: '返却予定日'}
             ],
             items: []
         };
     },
+    async mounted() {
+        const self = this;
+        try {
+            if (UserUtil.isSignIn()) {
+                this.msg = '';
+
+                self.userName = UserUtil.currentUserInfo().userName;
+
+                // 画面更新
+                this.updateView();
+            } else {
+               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+            };
+        } catch(e) {
+            self.errMsg = e.message;
+        }
+    },
     methods: {
-        // 書籍検索
-        searchBooks : function () {
+        // 画面更新
+        updateView: function() {
+            // ログイン: 一般
+            if (!UserUtil.isAdmin()) {
+                // 検索エリアを非表示
+                document.getElementById("searchArea").hidden = true;
+                // 貸出状況検索処理呼び出し
+                this.searchWord = UserUtil.currentUserInfo().userid;
+                this.searchLendingBooks();
+            }
+        },
+        
+        // 貸出状況検索処理
+        searchLendingBooks : function() {
 
             this.isLoading = true;
 
@@ -110,8 +131,11 @@ export default {
 
             // APIで検索
             AjaxUtil.searchLendingBooks(this.searchWord)
-            .then((response)=> {
-                this.items = response.data.Items;
+            .then((response) => {
+                this.items = JSON.parse(response.data.Items);
+                if (this.items.length == 0) {
+                    this.msg = "該当データがありませんでした。";
+                }
                 this.isLoading = false;
             }).catch((error) => {
                 this.msg = '';
@@ -119,7 +143,7 @@ export default {
                 console.log(error);
                 this.isLoading = false;
             });
-            }
         }
     }
-</script> 
+}
+</script>

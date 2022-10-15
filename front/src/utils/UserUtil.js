@@ -1,5 +1,6 @@
 // Ajax通信ライブラリ
 import axios from 'axios';
+import UserConst from './const/UserConst';
 
 /**
  * サインイン
@@ -52,4 +53,16 @@ export function currentUserInfo() {
  */
 export function isSignIn() {
   return currentUserInfo() !== null;
+}
+
+/**
+ * 管理者判定
+ * @returns 管理者かどうか (true:管理者 false:一般)
+ */
+export function isAdmin() {
+  const userInfo = currentUserInfo();
+  if (userInfo === null) {
+    return false;
+  }
+  return userInfo.userAuth === UserConst.UserAuth.admin;
 }
