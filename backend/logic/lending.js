@@ -92,3 +92,27 @@ const BookRepository = require("../db/book");
         throw error;
     }
 }
+
+/**
+ * 貸出/返却時の書籍の貸し出し状況を確認する
+ *
+ * @param {*} db 
+ * @param {*} isbn 
+ * @param {*} lendingUserId 入力されたユーザID 
+ * @returns Promise（成功時 resolve/失敗時 reject）
+ */
+ module.exports.selectAlreadyUser = async function (db, isbn, lendingUserId) {
+    const LendingModel = LendingRepository.getLendingModel(db);
+
+    try {    
+        return await LendingModel.findAll({
+            where: {
+                 lendingUserId: lendingUserId, 
+                 isbn : isbn
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
