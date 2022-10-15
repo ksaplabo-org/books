@@ -15,14 +15,14 @@ const BookRepository = require("../db/book");
  module.exports.create = async function (db, isbn, bookId, lendingUserId, rentalDate, returnPlanDate, managedUserId) {
     const LendingModel = LendingRepository.getLendingModel(db);
 
-    try {    
+    try {
         return await LendingModel.create({
-            lendingUserId : lendingUserId,
+            lending_user_id : lendingUserId,
             isbn : isbn,
-            bookId : bookId,
-            rentalDate : rentalDate,
-            managedUserId : managedUserId,
-            returnPlanDate : returnPlanDate
+            book_id : bookId,
+            rental_date : rentalDate,
+            managed_user_id : managedUserId,
+            return_plan_date : returnPlanDate
         });
     } catch (error) {
         console.log(error);
@@ -42,7 +42,13 @@ const BookRepository = require("../db/book");
  module.exports.delete = async function (db, isbn, bookId, lendingUserId) {
     const LendingModel = LendingRepository.getLendingModel(db);
     try {
-        return await LendingModel.destroy({ where: { lendingUserId: lendingUserId, isbn : isbn, bookId : bookId,} });
+        return await LendingModel.destroy({
+            where: {
+                lending_user_id: lendingUserId,
+                isbn : isbn,
+                book_id : bookId
+            }
+        });
     } catch (error) {
         console.log(error);
         throw error;

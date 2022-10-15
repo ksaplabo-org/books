@@ -28,8 +28,6 @@ export default {
          *    icon: Font Awesomeのアイコンを指定
          *    onlyAdmin: true:管理者のみ/false:管理者、一般で使用可能
          */
-        this.userAuth = UserUtil.currentUserInfo().userAuth;
-        console.log("認証情報：" + this.userAuth);
         return {
             menuList: [
                 { title: 'ブックリスト', name: 'listbook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: false },

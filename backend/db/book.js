@@ -48,9 +48,5 @@ module.exports. getBookModel = function (db) {
         }
     );
 
-    BookModel.associate = (db) => {
-        BookModel.belongsTo(db.lending);
-    };
-
     return BookModel;
 }

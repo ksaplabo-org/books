@@ -218,7 +218,7 @@ app.delete("/api/user/:userId", function(req, res) {
             // 正常レスポンス
             res.send({result: "success"});
         })
-        .catch((error)  => {
+        .catch(()  => {
             // 異常レスポンス
             console.log("failed to add lending");
             res.status(500).send("server error occur")
@@ -252,15 +252,17 @@ app.delete("/api/user/:userId", function(req, res) {
     // 書籍情報を取得する
     LendingLogic.getLendingUser(db, req.params.userId)
         .then((lendingBooks) => {
+            console.log(lendingBooks);
             // 正常レスポンス
             res.send({
                 Items: JSON.stringify(lendingBooks)
             });
         })
-        .catch(()  => {
+        .catch((error)  => {
             // 異常レスポンス
-            console.log("failed to get book");
-            res.status(500).send("server error occur")
+            console.log("failed to get lending books");
+            console.log(error);
+            res.status(500).send("server error occur");
         });
 });
 

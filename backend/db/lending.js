@@ -4,12 +4,47 @@ module.exports. getLendingModel = function (db) {
     var lending = db.define(
         "lending",
         {
-        lendingUserId: {
-            field: "lending_user_id",
-            type: STRING(16),
-            primaryKey: true,
-            allowNull: false
+            lending_user_id: {
+                field: "lending_user_id",
+                type: STRING(16),
+                primaryKey: true,
+                allowNull: false
+            },
+            isbn: {
+                field: "isbn",
+                type: STRING(13),
+                primaryKey: true,
+                allowNull: false
+            },
+            book_id: {
+                field: "book_id",
+                type: STRING(13),
+                primaryKey: true,
+                allowNull: false
+            },
+            rental_date: {
+                field: "rental_date",
+                type: DATE,
+                primaryKey: true,
+                allowNull: false
+            },
+            managed_user_id: {
+                field: "managed_user_id",
+                type: STRING(16),
+                allowNull: false
+            },
+            return_plan_date: {
+                field: "return_plan_date",
+                type: DATE,
+                allowNull: false
+            },
+            return_act_date: {
+                field: "return_act_date",
+                type: DATE,
+                allowNull: true
+            }
         },
+<<<<<<< HEAD
         isbn: {
             field: "isbn",
             type: STRING(13),
@@ -37,6 +72,8 @@ module.exports. getLendingModel = function (db) {
             type: DATE,
             allowNull: false
         }},
+=======
+>>>>>>> 8e350921c98d70cda3fc6598910265ccbed40938
         {
             createdAt: false, //デフォルト項目を生成しないように
             updatedAt: false,  //デフォルト項目を生成しないように
@@ -53,4 +90,3 @@ module.exports. getLendingModel = function (db) {
 
     return lending;
 }
-
