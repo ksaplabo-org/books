@@ -15,7 +15,7 @@
                         </li>
                         <li class="breadcrumb-item active">貸出状況一覧</li>
                     </ol>
-    
+
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
                     <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
