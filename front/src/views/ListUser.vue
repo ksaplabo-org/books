@@ -76,7 +76,7 @@ export default {
             errMsg: '',
             isLoading: false,
             fields: [
-                {key: 'userId', label: 'ID'},
+                {key: 'userId', label: 'ユーザーID'},
                 {key: 'userName', label: '名前'},
                 {key: 'controls', label: ''}
             ],

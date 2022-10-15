@@ -4,7 +4,7 @@ module.exports. getLendingModel = function (db) {
     var lending = db.define(
         "lending",
         {
-        lending_user_id: {
+        lendingUserId: {
             field: "lending_user_id",
             type: STRING(16),
             primaryKey: true,
@@ -16,29 +16,29 @@ module.exports. getLendingModel = function (db) {
             primaryKey: true,
             allowNull: false
         },
-        book_id: {
+        bookId: {
             field: "book_id",
             type: STRING(13),
             primaryKey: true,
             allowNull: false
         },
-        rental_date: {
+        rentalDate: {
             field: "rental_date",
             type: DATE,
             primaryKey: true,
             allowNull: false
         },
-        managed_user_id: {
+        managedUserId: {
             field: "managed_user_id",
             type: STRING(16),
             allowNull: false
         },
-        return_plan_date: {
+        returnPlanDate: {
             field: "return_plan_date",
             type: DATE,
             allowNull: false
         },
-        return_act_date: {
+        returnActDate: {
             field: "return_act_date",
             type: DATE,
             allowNull: true
@@ -57,4 +57,5 @@ module.exports. getLendingModel = function (db) {
         });
     }
 
-    return lending;}
+    return lending;
+}

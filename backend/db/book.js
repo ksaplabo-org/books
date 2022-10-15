@@ -47,5 +47,10 @@ module.exports. getBookModel = function (db) {
             tableName: "book" //明示的にテーブル名を指定
         }
     );
+
+    BookModel.associate = (db) => {
+        BookModel.belongsTo(db.lending);
+    };
+
     return BookModel;
 }

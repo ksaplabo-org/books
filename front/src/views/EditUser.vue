@@ -224,10 +224,11 @@ export default {
                     userName: this.userName,
                     password: this.password,
                     gender:genderSelect.value,
+                    userAuth:authSelect.value
                 }
-                
-                // 更新実行
-                const response =  await AjaxUtil.putUser(model);
+
+                await AjaxUtil.putUser(model);
+
                 // 一覧画面に戻る
                 this.$router.push({ name: 'listUser',});
                 return;
@@ -246,10 +247,9 @@ export default {
                 var result = window.confirm('削除処理を実行しますか？');
                 if( result ) {
                     // 削除実行
-                    const response =  await AjaxUtil.deleteUser(this.userId);
+                    await AjaxUtil.deleteUser(this.userId);
                     // 一覧画面に戻る
                     this.$router.push({ name: 'listUser',});
-                    this.updateView();
                  }
             } catch (error) {
                 this.msg = "";

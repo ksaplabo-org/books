@@ -266,4 +266,24 @@ app.delete("/api/user/:userId", function(req, res) {
         });
 });
 
+/**
+ * 書籍名のあいまい検索結果取得API
+ */
+ app.get("/api/book/search/:searchWord", function(req, res) {
+    console.log("4番目" + req.params.searchWord);
+    // 書籍情報を取得する
+    BookLogic.getAllSearchBooks(db, req.params.searchWord)
+        .then((books) => {
+            // 正常レスポンス
+            res.send({
+                Items: JSON.stringify(books)
+            });
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to get searchBook");
+            res.status(500).send("server error occur")
+        });
+});
+
 app.listen(process.env.PORT || 3000);

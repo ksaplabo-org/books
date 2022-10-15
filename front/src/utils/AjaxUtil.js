@@ -80,13 +80,14 @@ export function postUser(userModel) {
 }
 
 export function putUser(userModel) {
-    const url = '/api/user'
-
+    const url = '/api/user';
+    
     return axios.put(url, {
         "userId": userModel.userId,
         "userName": userModel.userName,
         "password": userModel.password,
-        "gender": userModel.gender
+        "gender": userModel.gender,
+        "userAuth": userModel.userAuth
     })
 }
 
@@ -113,17 +114,39 @@ export function getLendingAllBook(userName) {
 }
 
 export function postLending(lendModel) {
-    const url = '/api/lending/'
+    const url = '/api/lending'
 
     return axios.post(url, {
         "isbn": lendModel.isbn,
         "book_id": lendModel.book_id,
-        "userName": lendModel.userName
+        "lending_user_id": lendModel.lending_user_id,
+        "rental_date": lendModel.rental_date,
+        "return_plan_date": lendModel.return_plan_date,
+        "managed_user_id": lendModel.managed_user_id
+    })
+}
+
+export function deleteLending(lendModel) {
+    const url = '/api/lending'
+    return axios.request({
+        method: 'delete',
+        url: url,
+        data: {
+            "isbn": lendModel.isbn,
+            "book_id": lendModel.book_id,
+            "lending_user_id": lendModel.lending_user_id
+        }
     })
 }
 
 export function searchLendingBooks(userId) {
     const url = '/api/lending/' + userId;
+    return axios.get(url);
+
+}
+
+export function getAllSearchBooks(searchWord) {
+    const url = '/api/book/search/' + searchWord;
     return axios.get(url);
 
 }

@@ -86,7 +86,7 @@ const BookRepository = require("../db/book");
                 model: BookModel,
                 required: true
             }]
-        });
+        });    
     } catch (error) {
         console.log(error);
         throw error;

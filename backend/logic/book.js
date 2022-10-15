@@ -112,3 +112,28 @@ module.exports. remove =  async function (db, title) {
         throw error;
     }
 }
+
+/**
+ * 書籍名のあいまい検索結果を取得する
+ * @param {*} db 
+ * @param {*} searchWord
+ * @returns 全書籍情報（Promise）
+ */
+ module.exports.getAllSearchBooks = async function (db, searchWord) {
+    const BookModel = BookRepository.getBookModel(db);
+    const Sequelize = require('sequelize');
+    const Op = Sequelize.Op;
+
+    try {
+        return await BookModel.findAll({ 
+            where: {
+                title: {
+                    [Op.like]: '%' + searchWord + '%'
+                } 
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
