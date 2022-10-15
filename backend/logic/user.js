@@ -14,6 +14,22 @@ const UserRepository = require("../db/user");
 }
 
 /**
+ * 指定ユーザー情報取得
+ * @param {*} db 
+ * @param {*} userId
+ * @returns ユーザー情報(Promise)
+ */
+ module.exports.getEditUser = async function (db,userId) {
+    const UserModel = UserRepository.getUserModel(db);
+    try {
+        return  await UserModel.findByPk(userId);
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+/**
  * ユーザー情報登録
  * @param {*} db 
  * @param {*}  userId

@@ -14,7 +14,7 @@
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
                         </li>
-                        <li class="breadcrumb-item active">貸出状況登録</li>
+                        <li class="breadcrumb-item active">レンタル</li>
                     </ol>
 
                     <!-- 書籍名検索 -->

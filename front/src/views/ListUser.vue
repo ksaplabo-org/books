@@ -1,5 +1,5 @@
 <template>
-    <div class="maintebook">
+    <div class="listuser">
         <NaviMenu/>
 
         <div id="wrapper">
@@ -117,7 +117,8 @@ export default {
         // edit user  
         userEdit: async function(data) { 
             this.isLoading = true;
-            this.$router.push({ name: 'editUser', params: {sendData:data,firstFlg:"1"}});
+
+            this.$router.push({ name: 'editUser', params: {editUserId:data.userId}});
         }
     }
 }
