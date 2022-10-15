@@ -286,4 +286,24 @@ app.delete("/api/user/:userId", function(req, res) {
         });
 });
 
+/**
+ * 貸し出し状況確認API
+ */
+ app.post("/api/lending/already", function(req, res) {
+    // リクエスト取得
+    const lending = req.body;
+
+    // 貸し出し状況確認
+    LendingLogic.selectAlreadyUser(db, lending.isbn, lending.lending_user_id)
+        .then((result) => {
+            // 正常レスポンス
+            res.send(result);
+        })
+        .catch((error)  => {
+            // 異常レスポンス
+            console.log("failed to alreadyLending book");
+            res.status(500).send("server error occur")
+        });
+});
+
 app.listen(process.env.PORT || 3000);
