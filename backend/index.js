@@ -187,25 +187,6 @@ app.delete("/api/user/:userId", function(req, res) {
 });
 
 /**
- * ユーザ名に紐づく書籍情報取得API
- */
- app.get("/api/book/:userName", function(req, res) {
-    // 書籍取得する
-    BookLogic.getLinkUser(db, req.params.userName)
-        .then((books) => {
-            // 正常レスポンス
-            res.send({
-                Items: JSON.stringify(books)
-            });
-        })
-        .catch(()  => {
-            // 異常レスポンス
-            console.log("failed to get book");
-            res.status(500).send("server error occur")
-        });
-});
-
-/**
  * 貸し出し状況登録API
  */
  app.post("/api/lending", function(req, res) {
