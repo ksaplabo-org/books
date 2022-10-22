@@ -16,33 +16,32 @@ module.exports. getLendingModel = function (db) {
                 primaryKey: true,
                 allowNull: false
             },
-            book_id: {
+            bookId: {
                 field: "book_id",
                 type: STRING(13),
                 allowNull: false
             },
-            rental_date: {
+            rentalDate: {
                 field: "rental_date",
                 type: DATE,
                 primaryKey: true,
                 allowNull: false
             },
-            managed_user_id: {
+            managedUserId: {
                 field: "managed_user_id",
                 type: STRING(16),
                 allowNull: false
             },
-            return_plan_date: {
+            returnPlanDate: {
                 field: "return_plan_date",
                 type: DATE,
                 allowNull: false
+            }},
+            {
+                createdAt: false, //デフォルト項目を生成しないように
+                updatedAt: false,  //デフォルト項目を生成しないように
+                tableName: "lending" //明示的にテーブル名を指定
             }
-        },
-        {
-            createdAt: false, //デフォルト項目を生成しないように
-            updatedAt: false,  //デフォルト項目を生成しないように
-            tableName: "lending" //明示的にテーブル名を指定
-        }
     );
 
     lending.associate = function(models) {
