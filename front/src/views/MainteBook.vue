@@ -248,8 +248,6 @@ export default {
             });
         } ,
         addBook : function (title ,isbn ,description ,imgUrl){
-            
-            this.isLoading = true;
 
             if (UserUtil.isSignIn()) {
                 //パラメータ補正
@@ -257,15 +255,17 @@ export default {
                 const descriptionMaxLength = 1024;
                 description = description.substr(0, descriptionMaxLength);
 
+                this.isLoading = true;
+
                 AjaxUtil.addBook(title ,isbn ,description ,imgUrl)
                 .then((response) => {
+                    this.isLoading = false;
                     this.searchBooks();
 
                 }).catch((error) => {
                     this.msg = '';
                     this.errMsg = '登録処理に失敗しました';
                     console.log(error);
-
                 });
             
             } else {
@@ -273,21 +273,22 @@ export default {
             };
 
             this.isLoading = false;
-        } ,
-        deleteBook : function (title){
-            
-            this.isLoading = true;
+        },
+        deleteBook : function (title) {
 
             if (UserUtil.isSignIn()) {
+                
+                this.isLoading = true;
+                
                 AjaxUtil.deleteBook(title)
                 .then((response) => {
+                    this.isLoading = false;
                     this.searchBooks();
 
                 }).catch((error) => {
                     this.msg = '';
                     this.errMsg = '削除処理に失敗しました';
                     console.log(error);
-
                 });
             
             } else {

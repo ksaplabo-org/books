@@ -15,7 +15,7 @@
                         </li>
                         <li class="breadcrumb-item active">レンタルリスト</li>
                     </ol>
-    
+
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
                     <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 

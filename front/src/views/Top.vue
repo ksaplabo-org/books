@@ -8,81 +8,86 @@
       <div id="content-wrapper" class="menu bg-light">
           <div class="container-fluid">
 
-            <!-- Breadcrumbs-->
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item active">トップページ</li>
-            </ol>
-
             <p class="text-primary" v-show="msg">{{ msg }}</p>
             <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-            <div class="row">
-
-              <div class="col-lg-6 mb-4">
-
-                <!-- Approach -->
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <router-link tag="a" :to="{ name: 'rentalbook'}">貸出状況登録
-                    </router-link> 
-                  </div>
-                  <div class="card-body">
-                    <p>書籍の貸出・返却を登録します。</p>
-                    <p class="mb-0"></p>
-                  </div>
+            <!-- ロゴ -->
+            <img src="/public/image/bookstation_logo_.png" class="img-fluid d-block mx-auto">
+          
+            <!-- 図書館情報欄 -->
+            <div class="container">
+              <div class="row">
+                <!-- 休館日カレンダー -->
+                <div class="col-3 border border-dark">
+                  <label>
+                    休館日カレンダー
+                  </label>
+                </div>
+                <div class="col-1"></div>
+                <!-- 図書館情報 -->
+                <div class="col-8 border border-primary">
+                  <div class="mb-2" style="font-size:18pt">Book Station</div>
+                  <div style="font-size:14pt">〒060-0001</div>
+                  <div class="mb-2" style="font-size:14pt">北海道札幌市中央区北１条西７丁目４−４ パシフィックマークス札幌北１条</div>
+                  <span class="border-bottom"></span>
+                  <table class="table table-borderless">
+                    <tbody>
+                      <tr>
+                        <th class="col-2">開館時間</th>
+                        <td>月曜日～金曜日</td>
+                        <td class="col-7">9時00分～17時45分</td>
+                      </tr>
+                      <tr>
+                        <th class="col-2">休館日</th>
+                        <td colspan="2">土曜日・日曜日・祝日、年末年始</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
+            </div>
 
-              <div class="col-lg-6 mb-4">
-                <!-- Approach -->
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <router-link tag="a" :to="{ name: 'maintebook'}">ブックマスタ
-                    </router-link> 
-                  </div>
-                  <div class="card-body">
-                    <p>書籍を登録します。</p>
-                    <p class="mb-0"></p>
-                  </div>
-                </div>
+            <br>
+
+            <!-- お知らせ欄 -->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3 font-weight-bold">お知らせ</div>
+              <div class="card-body">
+                <form @submit.stop.prevent="updateView">
+                  <b-table  striped responsive hover :items="items" :fields="fields">
+                  </b-table>
+                </form>
               </div>
+            </div>
 
-            <div class="col-lg-6 mb-4">
+            <br>
 
-                <!-- Approach -->
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <router-link tag="a" :to="{ name: 'listUser'}">ユーザー一覧
-                    </router-link>
-                  </div>
-                  <div class="card-body">
-                    <p>ユーザー情報を管理します。</p>
-                    <p class="mb-0"></p>
-                  </div>
+            <!-- リンク欄 -->
+            <div id="linkCarousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="/public/image/no-image.png">
                 </div>
-
-              </div>
-
-            <div class="col-lg-6 mb-4">
-
-                <!-- Approach -->
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <router-link tag="a" :to="{ name: 'lendingBook'}">貸出状況一覧
-                    </router-link> 
-                  </div>
-                  <div class="card-body">
-                    <p>ユーザーの貸出状況を管理します。</p>
-                    <p class="mb-0"></p>
-                  </div>
+                <div class="carousel-item">
+                  <img src="/public/image/bookstation_logo.png">
                 </div>
+                <div class="carousel-item">
+                  <img src="/public/image/no-image.png">
+                </div>
+                <a class="carousel-control-prev" href="#linkCarousel" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#linkCarousel" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
               </div>
-
             </div>
 
           </div>
-
           <Footer/>
+
       </div>
     </div>
 
@@ -105,7 +110,12 @@ export default {
   data() {
     return {
       msg: this.flashMsg,
-      errMsg: ''
+      errMsg: '',
+      fields: [
+        {key: 'userId', label: '日時'},
+        {key: 'userName', label: '内容'}
+      ],
+      items: []
     };
   },
   async mounted() {
@@ -122,5 +132,21 @@ export default {
       this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
     }
   },
+  methods: {
+    updateView: async function() {
+      try {
+          const response = await AjaxUtil.getAllUser();
+          this.items = response.data;
+      } catch (error) {
+          this.msg = '';
+          this.errMsg = 'ユーザー取得処理に失敗しました';
+          console.log(error);
+          this.isLoading = false;
+          throw error;
+      } finally {
+          this.isLoading = false;
+      }
+    }
+  }
 };
 </script>
