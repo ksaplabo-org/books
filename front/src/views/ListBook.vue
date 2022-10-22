@@ -102,7 +102,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import * as UserUtil from '@/utils/UserUtil';
 import * as AjaxUtil from '@/utils/AjaxUtil';
 // 共通
