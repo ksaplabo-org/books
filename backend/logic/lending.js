@@ -107,7 +107,7 @@ const BookRepository = require("../db/book");
     try {    
         return await LendingModel.findAll({
             where: {
-                 lendingUserId: lendingUserId, 
+                 lending_user_id: lendingUserId, 
                  isbn : isbn
             }
         });

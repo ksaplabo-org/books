@@ -394,8 +394,7 @@ export default {
                     this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
                 };
             });
-                
-        } ,
+        },
         updateView: function() {
             // 画面更新
             const self = this;
