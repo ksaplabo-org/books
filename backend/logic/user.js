@@ -7,7 +7,7 @@ const UserRepository = require("../db/user");
  module.exports.getAll = async function (db) {
     const UserModel = UserRepository.getUserModel(db);
     try {
-        return await UserModel.findAll({ order: [ ["userName", "ASC"] ]});
+        return await UserModel.findAll({ order: [ ["user_name", "ASC"] ]});
     } catch (error) {
         throw error;
     }
@@ -42,7 +42,7 @@ const UserRepository = require("../db/user");
  module.exports.create = async function (db, userId, userName, password,gender,userAuth) {
     const UserModel = UserRepository.getUserModel(db);
     try {
-        return await UserModel.create({userId:userId, userName:userName, password:password, gender:gender, userAuth:userAuth});
+        return await UserModel.create({user_id:userId, user_name:userName, password:password, gender:gender, user_auth:userAuth});
     } catch (error) {
         throw error;
     }
@@ -63,17 +63,17 @@ const UserRepository = require("../db/user");
     try {
         // set update parameter
         const updateParams = {
-            userName: null,
+            user_name: null,
             password: null,
             gender: null
         };
 
-            updateParams.userName = userName;
+            updateParams.user_name = userName;
             updateParams.password = password;
             updateParams.gender = gender;
     
-        // set filter parametero
-        const filter = { where: { userId: userId } }
+        // set filter parameter
+        const filter = { where: { user_id: userId } }
     
         return await UserModel.update(updateParams, filter);
 
@@ -92,7 +92,7 @@ const UserRepository = require("../db/user");
     const UserModel = UserRepository.getUserModel(db);
 
     try {
-        return await UserModel.destroy({ where: { userId: userId } });
+        return await UserModel.destroy({ where: { user_id: userId } });
     } catch (error) {
         console.log(error);
         throw error;

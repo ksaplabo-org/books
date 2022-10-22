@@ -17,9 +17,9 @@ module.exports.verify = async function (db, userId, password) {
         let resultUser = null;
         if (result) {
             resultUser = {
-                userid: user.userId,
-                userName: user.userName,
-                userAuth: user.userAuth
+                userid: user.user_id,
+                userName: user.user_name,
+                userAuth: user.user_auth
             }
         }
 

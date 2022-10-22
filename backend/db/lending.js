@@ -16,23 +16,23 @@ module.exports. getLendingModel = function (db) {
                 primaryKey: true,
                 allowNull: false
             },
-            bookId: {
+            book_id: {
                 field: "book_id",
                 type: STRING(13),
                 allowNull: false
             },
-            rentalDate: {
+            rental_date: {
                 field: "rental_date",
                 type: DATE,
                 primaryKey: true,
                 allowNull: false
             },
-            managedUserId: {
+            managed_user_id: {
                 field: "managed_user_id",
                 type: STRING(16),
                 allowNull: false
             },
-            returnPlanDate: {
+            return_plan_date: {
                 field: "return_plan_date",
                 type: DATE,
                 allowNull: false

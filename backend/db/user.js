@@ -4,13 +4,13 @@ module.exports.getUserModel = (db) => {
     return db.define(
             "user",
             {
-            userId: {
+            user_id: {
                 field: "user_id",
                 type: Sequelize.STRING(16),
                 primaryKey: true,
                 allowNull: false
             }, 
-            userName: {
+            user_name: {
                 field: "user_name",
                 type: Sequelize.STRING(100),
                 allowNull: false
@@ -25,7 +25,7 @@ module.exports.getUserModel = (db) => {
                 type: Sequelize.STRING(1),
                 allowNull: false
             },
-            userAuth: {
+            user_auth: {
                 field: "user_auth",
                 type: Sequelize.STRING(1),
                 allowNull: false

@@ -173,10 +173,10 @@ export default {
         if(this.firstFlg == '1'){
             try {
                 const response = await AjaxUtil.getEditUser(this.userId);
-                this.userName = response.data.userName;
+                this.userName = response.data.user_name;
                 this.password = response.data.password;
                 this.gender = response.data.gender;
-                this.auth = response.data.userAuth;
+                this.auth = response.data.user_auth;
             } catch (error) {
                 this.msg = '';
                 this.errMsg = 'ユーザー取得処理に失敗しました';

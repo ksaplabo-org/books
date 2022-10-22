@@ -137,7 +137,6 @@ app.get("/api/user", function(req, res) {
 });
 
 app.get("/api/user/:userId", function(req, res) {
-    console.log("引数" + req.params.userId);
     // ユーザー情報を取得する
     UserLogic.getEditUser(db, req.params.userId)
         .then((user) => {
@@ -163,7 +162,7 @@ app.post("/api/user", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to get all user");
+            console.log("failed to get add user");
             res.status(500).send("server error occur")
         });
 });
