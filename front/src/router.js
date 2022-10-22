@@ -7,6 +7,7 @@ import Sorry from './views/Sorry.vue';
 import Top from './views/Top.vue';
 import RentalBook from './views/RentalBook.vue';
 import MainteBook from './views/MainteBook.vue';
+import ListBook from './views/ListBook.vue';
 import ListUser from './views/ListUser.vue';
 import LendingBook from './views/LendingBook.vue';
 import AddUser from './views/AddUser.vue';
@@ -43,6 +44,11 @@ export default new Router({
       path: '/pages/maintebook.html',
       name: 'maintebook',
       component: MainteBook,
+    },
+    {
+      path: '/pages/listbook.html',
+      name: 'listbook',
+      component: ListBook,
     },
     {
       path: '/pages/listUser.html',

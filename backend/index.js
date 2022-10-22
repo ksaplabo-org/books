@@ -131,7 +131,22 @@ app.get("/api/user", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to get all book");
+            console.log("failed to get all user");
+            res.status(500).send("server error occur")
+        });
+});
+
+app.get("/api/user/:userId", function(req, res) {
+    console.log("引数" + req.params.userId);
+    // ユーザー情報を取得する
+    UserLogic.getEditUser(db, req.params.userId)
+        .then((user) => {
+            // 正常レスポンス
+            res.send(user);
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to get all user");
             res.status(500).send("server error occur")
         });
 });
@@ -220,7 +235,7 @@ app.delete("/api/user/:userId", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to add book");
+            console.log("failed to add lending");
             res.status(500).send("server error occur")
         });
 });
@@ -270,7 +285,7 @@ app.delete("/api/user/:userId", function(req, res) {
  * 書籍名のあいまい検索結果取得API
  */
  app.get("/api/book/search/:searchWord", function(req, res) {
-    console.log("4番目" + req.params.searchWord);
+
     // 書籍情報を取得する
     BookLogic.getAllSearchBooks(db, req.params.searchWord)
         .then((books) => {
@@ -282,6 +297,26 @@ app.delete("/api/user/:userId", function(req, res) {
         .catch(()  => {
             // 異常レスポンス
             console.log("failed to get searchBook");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * 貸し出し状況確認API
+ */
+ app.post("/api/lending/already", function(req, res) {
+    // リクエスト取得
+    const lending = req.body;
+
+    // 貸し出し状況確認
+    LendingLogic.selectAlreadyUser(db, lending.isbn, lending.lending_user_id)
+        .then((result) => {
+            // 正常レスポンス
+            res.send(result);
+        })
+        .catch((error)  => {
+            // 異常レスポンス
+            console.log("failed to alreadyLending book");
             res.status(500).send("server error occur")
         });
 });

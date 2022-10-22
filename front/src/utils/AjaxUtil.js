@@ -13,7 +13,6 @@ export function getAllSapBooks() {
 }
 
 export function rentalBooks(title, userName) {
-
     const url = '/api/book/rental';
 
     return axios.put(url , {
@@ -24,7 +23,6 @@ export function rentalBooks(title, userName) {
 }
 
 export function returnBooks(title) {
-
     const url = '/api/book/return';
 
     return axios.put(url , {
@@ -41,7 +39,6 @@ export function searchBooks(keyword) {
 }
 
 export function addBook(title ,isbn ,description ,imgUrl){
-
     const url = '/api/book';
 
     return axios.post(url , {
@@ -55,7 +52,6 @@ export function addBook(title ,isbn ,description ,imgUrl){
 }
 
 export function deleteBook(title){
-
     const url = '/api/book/' + title;
 
     return axios.delete(url);
@@ -63,6 +59,12 @@ export function deleteBook(title){
 
 export function getAllUser() {
     const url = '/api/user';
+
+    return axios.get(url);
+}
+
+export function getEditUser(userId) {
+    const url = '/api/user/' + userId;
 
     return axios.get(url);
 }
@@ -92,7 +94,6 @@ export function putUser(userModel) {
 }
 
 export function deleteUser(userId) {
-
     const url = '/api/user/' + userId;
 
     return axios.delete(url);
@@ -141,6 +142,7 @@ export function deleteLending(lendModel) {
 
 export function searchLendingBooks(userId) {
     const url = '/api/lending/' + userId;
+    
     return axios.get(url);
 
 }
@@ -149,4 +151,12 @@ export function getAllSearchBooks(searchWord) {
     const url = '/api/book/search/' + searchWord;
     return axios.get(url);
 
+}
+
+export function alreadyLending(alreadyModel) {
+    const url = '/api/lending/already'
+    return axios.post(url, {
+        "isbn": alreadyModel.isbn,
+        "lending_user_id": alreadyModel.lending_user_id
+    })
 }

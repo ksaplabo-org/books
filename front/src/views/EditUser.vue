@@ -1,5 +1,5 @@
 <template>
-    <div class="maintebook">
+    <div class="edituser">
         <NaviMenu/>
 
         <div id="wrapper">
@@ -9,14 +9,14 @@
                 <div class="container-fluid">
 
                     <!-- Breadcrumbs-->
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb" id="breadcrumb">
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'menu'}">Menu</router-link>
+                            <router-link tag="a" :to="{ name: 'menu'}">トップページ</router-link>
                         </li>
-                        <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'listUser'}">User List</router-link>
+                        <li class="breadcrumb-item" id="breadcrumb-u-list">
+                            <router-link tag="a" :to="{ name: 'listUser'}">ユーザーリスト</router-link>
                         </li>
-                        <li class="breadcrumb-item active">Edit User</li>
+                        <li class="breadcrumb-item active">ユーザーメンテナンス</li>
                     </ol>
 
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -138,19 +138,19 @@ import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 export default {
     name : 'EditUser' ,
-    props: ['flashMsg', 'flashErrMsg','firstFlg','sendData'],    
+    props: ['flashMsg', 'flashErrMsg','editUserId'],    
     components: { NaviMenu, Menu, Footer, Loading } ,
     data() {
         return {
             msg: '',
             errMsg: '',
             isLoading: false,
-            userId: this.sendData.userId,
-            userName: this.sendData.userName,
-            password:this.sendData.password,
-            gender:this.sendData.gender,
-            auth:this.sendData.userAuth,
-            doFlg:this.firstFlg
+            userId: this.editUserId,
+            userName: '',
+            password:'',
+            gender:'',
+            auth:'',
+            firstFlg:'1'
         };
     },
     unload(){
@@ -160,22 +160,48 @@ export default {
     },
     async mounted() {
         const self = this;
-        if(this.doFlg == "1"){
-            let selectGender = document.getElementById('gender').options;
-            for(let i = 0; i < selectGender.length; i++ ){
-                if(selectGender[i].value === this.gender){
-                    selectGender[i].selected = true;
-                    break;
-                }
+
+        if(this.userId == null){
+            this.userId = UserUtil.currentUserInfo().userid;
+        }
+        if(!UserUtil.isAdmin()){
+            const ol =  document.getElementById('breadcrumb');
+            const li = document.getElementById('breadcrumb-u-list');
+            ol.removeChild(li);
+        }
+
+        if(this.firstFlg == '1'){
+            try {
+                const response = await AjaxUtil.getEditUser(this.userId);
+                this.userName = response.data.userName;
+                this.password = response.data.password;
+                this.gender = response.data.gender;
+                this.auth = response.data.userAuth;
+            } catch (error) {
+                this.msg = '';
+                this.errMsg = 'ユーザー取得処理に失敗しました';
+                console.log(error);
+                this.isLoading = false;
+                throw error;
+            }finally {
+                this.isLoading = false;
             }
-            let selectAuth = document.getElementById('auth').options;
+
+             let selectGender = document.getElementById('gender').options;
+             for(let i = 0; i < selectGender.length; i++ ){
+                 if(selectGender[i].value === this.gender){
+                     selectGender[i].selected = true;
+                     break;
+                 }
+             }
+             let selectAuth = document.getElementById('auth').options;
             for(let i = 0; i < selectAuth.length; i++ ){
                 if(selectAuth[i].value === this.auth){
-                    selectAuth[i].selected = true;
-                    break;
+                     selectAuth[i].selected = true;
+                     break;
                 }
             }
-            this.doFlg = "2";
+            this.firstFlg = '0';
         }
 
         try {
@@ -230,7 +256,7 @@ export default {
                 await AjaxUtil.putUser(model);
 
                 // 一覧画面に戻る
-                this.$router.push({ name: 'listUser',});
+                this.$router.push({ name: 'editUser',});
                 return;
             } catch (error) {
                 this.msg = "";
@@ -249,7 +275,12 @@ export default {
                     // 削除実行
                     await AjaxUtil.deleteUser(this.userId);
                     // 一覧画面に戻る
-                    this.$router.push({ name: 'listUser',});
+                    if(this.userId == UserUtil.currentUserInfo().userid){
+                        await UserUtil.signOut();
+                        this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+                    }else{
+                        this.$router.push({ name: 'listUser',});
+                    }
                  }
             } catch (error) {
                 this.msg = "";
