@@ -116,7 +116,7 @@ export default {
         userEdit: async function(data) { 
             this.isLoading = true;
 
-            this.$router.push({ name: 'editUser', params: {editUserId:data.userId}});
+            this.$router.push({ name: 'editUser', params: {editUserId: data.user_id}});
         }
     }
 }

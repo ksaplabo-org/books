@@ -13,7 +13,7 @@
 
             <!-- ロゴ -->
             <img src="/public/image/bookstation_logo_.png" class="img-fluid d-block mx-auto">
-          
+
             <!-- 図書館情報欄 -->
             <div class="container">
               <div class="row">

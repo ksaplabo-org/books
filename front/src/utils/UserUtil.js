@@ -38,7 +38,6 @@ export function signOut() {
  */
 export function currentUserInfo() {
   let loginUser = sessionStorage.getItem("loginUser");
-  console.log(loginUser);
   if (loginUser === null) {
     return null;
   } else {
@@ -55,7 +54,7 @@ export function isSignIn() {
   return currentUserInfo() !== null;
 }
 
-/**
+/**user_auth
  * 管理者判定
  * @returns 管理者かどうか (true:管理者 false:一般)
  */
@@ -64,5 +63,5 @@ export function isAdmin() {
   if (userInfo === null) {
     return false;
   }
-  return userInfo.userAuth === UserConst.UserAuth.admin;
+  return userInfo.userAuth === UserConst.Auth.admin;
 }
