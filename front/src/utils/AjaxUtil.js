@@ -12,26 +12,6 @@ export function getAllSapBooks() {
 
 }
 
-export function rentalBooks(title, userName) {
-    const url = '/api/book/rental';
-
-    return axios.put(url , {
-                title: title ,
-                userName: userName
-        }
-    );
-}
-
-export function returnBooks(title) {
-    const url = '/api/book/return';
-
-    return axios.put(url , {
-                title: title 
-        }
-    );
-}
-
-// takada
 export function searchBooks(keyword) {
     // search url : google books api.
     const url = 'https://www.googleapis.com/books/v1/volumes?q=' + keyword.replace(' ','+');
@@ -98,16 +78,6 @@ export function deleteUser(userId) {
     const url = '/api/user/' + userId;
 
     return axios.delete(url);
-}
-
-export function getAllBook() {
-
-    const url = '/api/book';
-
-    return axios.get(url , {
-            params: {}
-        }
-    );
 }
 
 export function postLending(lendModel) {

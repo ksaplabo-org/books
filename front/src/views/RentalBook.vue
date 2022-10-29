@@ -72,8 +72,7 @@
                        
                                             <div class="col-sm-8 ml-2 mb-2 text-left" v-if="isLoading === false">
                                                 <div class="row ml-2 mb-2" v-if="isLoading === false">
-                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id)" 
-                                                        v-if="row.rental_status === undefined ||  row.rental_status === null ||row.rental_status !== '貸出中'">
+                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id)" >
                                                         <i class="fas fa-fw fa-file-export"></i>
                                                         <span>貸出&nbsp;</span>
                                                     </a>
