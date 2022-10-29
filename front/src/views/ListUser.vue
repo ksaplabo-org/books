@@ -19,10 +19,17 @@
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
                     <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-                    <div>
-                        <router-link tag="a" :to="{ name: 'addUser'}">
-                            <button type="button" class="btn btn-outline-primary">新規登録</button>
-                        </router-link> 
+                    <!-- ユーザーID検索 -->
+                    <div class="continer" style="font-size:10pt">
+                        <div class="form-group m-2">
+                            <div class="px-2">ユーザーIDを検索</div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="ユーザーIDを入力してください" required>
+                                </div>
+                                <button class="btn-primary btn-sm" v-on:click="searchUser()" >検索</button>
+                            </div>
+                        </div>
                     </div>
 
                     <br>
@@ -112,6 +119,38 @@ export default {
                 this.isLoading = false;
             }
         },
+
+        // ユーザーIDあいまい検索
+        searchUser : function () {
+            this.isLoading = true;
+
+            this.msg = '';
+            this.errMsg = '';
+            this.items = [];
+
+            if (!this.searchWord) {
+                this.msg = '';
+                this.errMsg = '';
+                this.isLoading = false;
+                // 画面更新
+                this.updateView();
+                return;
+            }
+
+            AjaxUtil.getUser(this.searchWord)
+                .then((response) => {
+                    this.items = JSON.parse(response.data.Items);
+
+                }).catch((error) => {
+                    this.msg = '';
+                    this.errMsg = 'ユーザー検索に失敗しました 管理者にお問い合わせください';
+                    console.log(error);
+
+                }).then(() => {
+                    this.isLoading = false;
+                });
+        } ,
+        
         // edit user
         userEdit: async function(data) { 
             this.isLoading = true;
