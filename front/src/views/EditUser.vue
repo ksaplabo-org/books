@@ -8,7 +8,7 @@
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
 
-                    <!-- Breadcrumbs-->
+                    <!-- パンくずリスト -->
                     <ol class="breadcrumb" id="breadcrumb">
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
@@ -25,104 +25,77 @@
                     <br>
 
                     <form @submit.stop.prevent="userUpdate" method="post">
-
-                        <div class="container">
-                            <!-- ユーザーID -->
-                            <div class="row">
-                                <div class="col"/>
-                                <div class="col-6">
+                        <div class="row">
+                            <div class="col"/>
+                            <div class="col-6">
+                                <div class="container">
+                                    <!-- ユーザーID -->
                                     <div class="form-group">
                                         <label>ユーザーID:</label>
                                         <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
                                             placeholder="8桁以上16桁以下で入力してください。" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" readonly>
                                     </div>
-                                </div>
-                                <div class="col"/>
-                            </div>
-                            <!-- ユーザー名 -->
-                            <div class="row">
-                                <div class="col"/>
-                                <div class="col-6">
+                                    <!-- ユーザー名 -->
                                     <div class="form-group">
                                         <label>ユーザー名:</label>
                                         <input type="text" id="userName" class="form-control" maxlength="100" placeholder="100桁以下で入力してください。"
                                             required="required" v-model="userName" autocomplete="off">
                                     </div>
-                                </div>
-                                <div class="col"/>
-                            </div>
-                            <!-- パスワード -->
-                            <div class="row">
-                                <div class="col"/>
-                                <div class="col-6">
+                                    <!-- パスワード -->
                                     <div class="form-group">
                                         <label>パスワード:</label>
                                         <input type="password" id="inputPassword" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください。"
                                             required="required" v-model="password" pattern="^[0-9A-Za-z]{8,16}$">
                                     </div>
-                                </div>
-                                <div class="col"/>
-                            </div>
-                            <!-- 性別 -->
-                            <div class="row">
-                                <div class="col"/>
-                                <div class="col-6">
+                                    <!-- 性別 -->
                                     <div class="form-group">
                                         <label>性別:</label>
                                         <br>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-bind:value="woman" checked>
+                                            <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
                                             <label class="custom-control-label" for="womanRadio">女性</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-bind:value="man">
+                                            <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="man">
                                             <label class="custom-control-label" for="manRadio">男性</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-bind:value="unknown">
+                                            <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="unknown">
                                             <label class="custom-control-label" for="unknownRadio">非公開</label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col"/>
-                            </div>
-                            <!-- 権限 -->
-                            <div class="row">
-                                <div class="col"/>
-                                <div class="col-6">
+                                    <!-- 権限 -->
                                     <div class="form-group">
                                         <label>権限:</label>
                                         <br>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="generalRadio" name="authRadio" class="custom-control-input" v-bind:value="general" checked>
+                                            <input type="radio" id="generalRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="general" checked>
                                             <label class="custom-control-label" for="generalRadio">一般</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="adminRadio" name="authRadio" class="custom-control-input" v-bind:value="admin">
+                                            <input type="radio" id="adminRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="admin">
                                             <label class="custom-control-label" for="adminRadio">社員</label>
                                         </div>
                                     </div>
+                                    <!-- 更新・削除ボタン -->
+                                    <div class="row">
+                                        <div class="col">
+                                            <input class="btn btn-primary btn-block" type="submit" value="情報更新">
+                                        </div>
+                                        <div class="col">
+                                            <b-button class="btn-danger btn-block" v-on:click="userDelete()">ユーザー削除</b-button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col"/>
                             </div>
-                            <!-- 登録ボタン -->
-                            <div class="row">
-                                <div class="col"/>
-                                <div class="col-sm-2">
-                                    <input class="btn btn-primary btn-block" type="submit" value="情報更新">
-                                </div>
-                                <div class="col-sm-2">
-                                    <b-button class="btn-danger btn-block" v-on:click="userDelete()">ユーザー削除</b-button>
-                                </div>
-                                <div class="col"/>
-                            </div>
+                            <div class="col"/>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Scroll to Top Button-->
+        <!-- トップにスクロール -->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
@@ -135,7 +108,7 @@
 <script>
 import * as UserUtil from '@/utils/UserUtil';
 import * as AjaxUtil from '@/utils/AjaxUtil';
-import * as UserConst from '@/utils/const/UserConst';
+import UserConst from '@/utils/const/UserConst';
 // 共通
 import NaviMenu from '../components/NaviMenu.vue';
 import '../utils/sb-admin';
@@ -156,82 +129,51 @@ export default {
             password: '',
             gender: '',
             auth: '',
-            firstFlg:'1',
-            man: '',
-            woman: '',
-            unknown: '',
-            general: '',
-            admin: ''
+            man: UserConst.Gender.man,
+            woman: UserConst.Gender.woman,
+            unknown: UserConst.Gender.unknown,
+            general: UserConst.Auth.general,
+            admin: UserConst.Auth.admin
         };
     },
-    unload(){
-        // 一覧画面に戻る
-        this.$router.push({ name: 'listUser',});
-        this.updateView();
-    },
     async mounted() {
-        const self = this;
+        // ログイン確認
+        try {
+            if (UserUtil.isSignIn()) {
+                this.msg = '';
+            } else {
+               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+            };
+        } catch(e) {
+            self.errMsg = e.message;
+        }
 
-        if (this.userId == null) {
+        // デフォルトはログインユーザー
+        if (!this.userId) {
             this.userId = UserUtil.currentUserInfo().userid;
         }
+        // パンくずリストを編集
         if (!UserUtil.isAdmin()) {
             const ol =  document.getElementById('breadcrumb');
             const li = document.getElementById('breadcrumb-u-list');
             ol.removeChild(li);
         }
 
-        // ラジオボタンの値を設定
-        console.log("TEST: " + UserConst.UserAuth);
-        /*
-        this.man = UserConst.UserGender.man;
-        this.woman = UserConst.UserGender.woman;
-        this.unknown = UserConst.UserGender.unknown;
-        this.general = UserConst.UserAuth.general;
-        this.admin = UserConst.UserAuth.admin;
-        */
-        if (this.firstFlg == '1') {
-            try {
-                const response = await AjaxUtil.getEditUser(this.userId);
-                this.userName = response.data.user_name;
-                this.password = response.data.password;
-                this.gender = response.data.gender;
-                this.auth = response.data.user_auth;
-            } catch (error) {
-                this.msg = '';
-                this.errMsg = 'ユーザー取得処理に失敗しました';
-                console.log(error);
-                this.isLoading = false;
-                throw error;
-            } finally {
-                this.isLoading = false;
-            }
-
-            let selectGender = document.getElementById('gender').options;
-            for (let i = 0; i < selectGender.length; i++) {
-                if (selectGender[i].value === this.gender) {
-                    selectGender[i].selected = true;
-                    break;
-                }
-            }
-            let selectAuth = document.getElementById('auth').options;
-            for (let i = 0; i < selectAuth.length; i++) {
-                if (selectAuth[i].value === this.auth) {
-                    selectAuth[i].selected = true;
-                    break;
-                }
-            }
-            this.firstFlg = '0';
-        }
-
+        // ユーザー情報を各項目にセット
         try {
-            if (UserUtil.isSignIn()) {
-                this.msg = '';               
-            } else {
-               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
-            };
-        } catch(e) {
-            self.errMsg = e.message;
+            const response = await AjaxUtil.getEditUser(this.userId);
+            this.userName = response.data.user_name;
+            this.password = response.data.password;
+            this.gender = response.data.gender;
+            this.auth = response.data.user_auth;
+        } catch (error) {
+            this.msg = '';
+            this.errMsg = 'ユーザー取得処理に失敗しました';
+            console.log(error);
+            this.isLoading = false;
+            throw error;
+        } finally {
+            this.isLoading = false;
         }
     },
     methods: {
@@ -239,29 +181,25 @@ export default {
         userUpdate: async function() {
             this.isLoading = true
             try {
-                // オプション選択値取得
-                let genderSelect = document.getElementById('gender')
-                let authSelect = document.getElementById('auth')
-
                 // 入力チェック
                 if (this.userId.length < 8 || this.userId.length > 16) {
-                    this.errMsg = "IDは8桁以上16桁以下で入力してください。";
+                    this.errMsg = "IDは8桁以上16桁以下で入力してください";
                     return;
                 }
                 if (this.userName.length < 1 || this.userName.length > 100) {
-                    this.errMsg = "名前は100桁以下で入力してください。";
+                    this.errMsg = "名前は100桁以下で入力してください";
                     return;
                 }
                 if (this.password.length < 8 || this.password.length > 16) {
-                    this.errMsg = "パスワードは8桁以上16桁以下で入力してください。";
+                    this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
                     return;
                 }
-                if (genderSelect.value == "0") {
-                    this.errMsg = "性別を選択してください。";
+                if (!this.gender) {
+                    this.errMsg = "性別を選択してください";
                     return;
                 }
-                if (authSelect.value == "0") {
-                    this.errMsg = "権限を選択してください。";
+                if (!this.auth) {
+                    this.errMsg = "権限を選択してください";
                     return;
                 }
 
@@ -270,14 +208,14 @@ export default {
                     userId: this.userId,
                     userName: this.userName,
                     password: this.password,
-                    gender:genderSelect.value,
-                    userAuth:authSelect.value
+                    gender: this.gender,
+                    userAuth: this.auth
                 }
 
                 await AjaxUtil.putUser(model);
 
-                // 一覧画面に戻る
-                this.$router.push({ name: 'editUser',});
+                // リロード
+                this.$router.push({ name: 'editUser'});
                 return;
             } catch (error) {
                 this.msg = "";
@@ -292,17 +230,17 @@ export default {
             this.isLoading = true;
             try {
                 var result = window.confirm('削除処理を実行しますか？');
-                if(result) {
+                if (result) {
                     // 削除実行
                     await AjaxUtil.deleteUser(this.userId);
                     // 一覧画面に戻る
-                    if(this.userId == UserUtil.currentUserInfo().userid){
+                    if (this.userId == UserUtil.currentUserInfo().userid) {
                         await UserUtil.signOut();
-                        this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
-                    }else{
-                        this.$router.push({ name: 'listUser',});
+                        this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください'}});
+                    } else {
+                        this.$router.push({ name: 'listUser'});
                     }
-                 }
+                }
             } catch (error) {
                 this.msg = "";
                 this.errMsg = "ユーザー削除処理に失敗しました";

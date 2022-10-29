@@ -7,7 +7,7 @@ const UserRepository = require("../db/user");
  module.exports.getAll = async function (db) {
     const UserModel = UserRepository.getUserModel(db);
     try {
-        return await UserModel.findAll({ order: [ ["user_name", "ASC"] ]});
+        return await UserModel.findAll({ order: [ ["user_id", "ASC"] ]});
     } catch (error) {
         throw error;
     }
@@ -23,7 +23,6 @@ const UserRepository = require("../db/user");
     const UserModel = UserRepository.getUserModel(db);
     try {
         return  await UserModel.findByPk(userId);
-
     } catch (error) {
         throw error;
     }

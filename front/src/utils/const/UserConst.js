@@ -1,12 +1,15 @@
+/**
+ * ユーザー情報 定数
+ */
 export default {
-    // ユーザー情報 性別 定数
-    UserGender: {
+    // 性別
+    Gender: {
         woman: "1",
         man: "2",
         unknown: "3"
     },
-    // ユーザー情報 権限 定数
-    UserAuth: {
+    // 権限
+    Auth: {
         general : "1",
         admin : "2"
     }
