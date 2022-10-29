@@ -38,15 +38,16 @@ export function searchBooks(keyword) {
     return axios.get(url);
 }
 
-export function addBook(title ,isbn ,description ,imgUrl){
+export function addBook(addBookModel){
+
     const url = '/api/book';
 
     return axios.post(url , {
-            "isbn": isbn,
-            "book_id": isbn,
-            "title": title,
-            "description": description,
-            "imgUrl": imgUrl
+            "isbn": addBookModel.isbn,
+            "book_id": addBookModel.book_id,
+            "title": addBookModel.title,
+            "description": addBookModel.description,
+            "img_url": addBookModel.img_url
         }
     );
 }
@@ -100,18 +101,13 @@ export function deleteUser(userId) {
 }
 
 export function getAllBook() {
-    
+
     const url = '/api/book';
 
     return axios.get(url , {
             params: {}
         }
     );
-}
-
-export function getLendingAllBook(userName) {
-    const url = '/api/book/' + userName;
-    return axios.get(url);
 }
 
 export function postLending(lendModel) {
