@@ -52,7 +52,7 @@ module.exports = {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/listUser.html',
-          title: 'ユーザー一覧',
+          title: 'ユーザーリスト',
         },
         leadingBook: {
           entry: 'src/main.js',
