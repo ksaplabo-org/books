@@ -20,8 +20,6 @@ CREATE TABLE IF NOT EXISTS book
     title varchar(100) NOT NULL,
     description varchar(1024),
     img_url varchar(255),
-    rental_status varchar(100),
-    rental_user varchar(100),
     PRIMARY KEY(isbn,book_id)
 )
 CHARACTER SET utf8mb4

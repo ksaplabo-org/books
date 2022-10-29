@@ -12,41 +12,22 @@ export function getAllSapBooks() {
 
 }
 
-export function rentalBooks(title, userName) {
-    const url = '/api/book/rental';
-
-    return axios.put(url , {
-                title: title ,
-                userName: userName
-        }
-    );
-}
-
-export function returnBooks(title) {
-    const url = '/api/book/return';
-
-    return axios.put(url , {
-                title: title 
-        }
-    );
-}
-
-// takada
 export function searchBooks(keyword) {
     // search url : google books api.
     const url = 'https://www.googleapis.com/books/v1/volumes?q=' + keyword.replace(' ','+');
     return axios.get(url);
 }
 
-export function addBook(title ,isbn ,description ,imgUrl){
+export function addBook(addBookModel){
+
     const url = '/api/book';
 
     return axios.post(url , {
-            "isbn": isbn,
-            "book_id": isbn,
-            "title": title,
-            "description": description,
-            "imgUrl": imgUrl
+            "isbn": addBookModel.isbn,
+            "book_id": addBookModel.book_id,
+            "title": addBookModel.title,
+            "description": addBookModel.description,
+            "img_url": addBookModel.img_url
         }
     );
 }
@@ -97,21 +78,6 @@ export function deleteUser(userId) {
     const url = '/api/user/' + userId;
 
     return axios.delete(url);
-}
-
-export function getAllBook() {
-    
-    const url = '/api/book';
-
-    return axios.get(url , {
-            params: {}
-        }
-    );
-}
-
-export function getLendingAllBook(userName) {
-    const url = '/api/book/' + userName;
-    return axios.get(url);
 }
 
 export function postLending(lendModel) {

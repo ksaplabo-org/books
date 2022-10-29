@@ -6,7 +6,6 @@
             <Menu/>
 
             <div id="content-wrapper" class="bg-light">
-                
                 <div class="container-fluid">
 
                     <!-- Breadcrumbs-->
@@ -18,35 +17,31 @@
                     </ol>
 
                     <!-- 書籍名検索 -->
-                    <div class="row bookSearchArea">
-                        <table class="table table-sm table-height-sm table-condensed" style="font-size:10pt">
-                            <tbody>
-                                <tr>
-                                    <div class="col-lg-6 m-2"><div class="px-2">借りる / 返却を行う書籍名を検索</div>
-                                    <div class="form-group">
-                                        <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="書籍名を入力してください。" required>
-                                        <button v-on:click="searchBooks()" >検索</button>
-                                        </div>
-                                    </div>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="continer" style="font-size:10pt">
+                        <div class="form-group m-2">
+                            <div class="px-2">書籍名を検索</div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="書籍名を入力してください" required>
+                                </div>
+                                <button class="btn-primary btn-sm" v-on:click="searchBooks()" >検索</button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- ユーザID入力欄 -->
-                    <div class="row bookSearchArea">
-                        <table class="table table-sm table-height-sm table-condensed" style="font-size:10pt">
-                            <tbody>
-                                <tr>
-                                    <div class="col-lg-6 m-2"><div class="px-2">借りる / 返却を行うユーザIDを入力</div>
-                                    <div class="form-group">
-                                        <input type="text" id="registId" class="form-control"
-                                        placeholder="ユーザIDを入力してください。" required="required" v-model="registId" autocomplete="off"></div>
-                                    </div>
+                    <hr>
 
-                                </tr>
-                            </tbody>
-                        </table>
+                    <!-- ユーザーID入力欄 -->
+                    <div class="continer" style="font-size:10pt">
+                        <div class="form-group m-2">
+                            <div class="px-2">貸出 / 返却するユーザID</div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="text" id="registId" class="form-control"
+                                    placeholder="ユーザIDを入力してください" required="required" v-model="registId" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -74,57 +69,17 @@
                                                     </a>
                                                 </div>
                                             </div>
-
                        
                                             <div class="col-sm-8 ml-2 mb-2 text-left" v-if="isLoading === false">
                                                 <div class="row ml-2 mb-2" v-if="isLoading === false">
-                                                   <div class="form-group">
-                                    <!-- <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
-                                      placeholder="ユーザIDを入力" autocomplete="off"> -->
-                                </div> 
-                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id)" 
-                                                        v-if="row.rental_status === undefined ||  row.rental_status === null ||row.rental_status !== '貸出中'">
+                                                   <a href="#" class="font-weight-bold text-info" v-on:click="rental(row.isbn, row.book_id)" >
                                                         <i class="fas fa-fw fa-file-export"></i>
-                                                        <span>借りる&nbsp;</span>
+                                                        <span>貸出&nbsp;</span>
                                                     </a>
                                                     <a href="#" class="font-weight-bold text-primary" v-on:click="returnBook(row.isbn, row.book_id)" >
-                                                        
                                                         <i class="fas fa-fw fa-file-import"></i>
                                                         <span>返却&nbsp;</span>
                                                     </a>
-                                                    <span class="font-weight-bold text-warning"
-                                                        v-if="row.rental_status === '貸出中' && row.rental_user !== userName">
-                                                        {{row.rental_user}} さんに貸出中です。
-                                                    </span>
-                                                </div>
-
-                                                <div class="row ml-2 mb-2 text-left text-info" v-if="row.rental_status === '貸出中'">
-                                    
-                                                    <div class="table-responsive">
-                                                        <table class="table table-sm table-striped table-height-sm table-condensed" style="font-size:10pt">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>貸出状況</td>
-                                                                    <td>{{row.rental_status}}&nbsp;</td>
-                                                                </tr>
-                                                                <!--
-                                                                <tr>
-                                                                    <td>貸出日</td>
-                                                                    <td>{{row.rental_date}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>返却予定日</td>
-                                                                    <td>{{row.return_plan_date}}</td>
-                                                                </tr>
-                                                                -->
-                                                                <tr>
-                                                                    <td>貸出者</td>
-                                                                    <td>{{row.rental_user}}</td>
-                                                                </tr>
-                                                             </tbody>
-                                                        </table>
-                                                    </div>
-
                                                 </div>
                                      
                                             </div>
@@ -142,25 +97,6 @@
                 <Footer/>
 
             </div>
-
-            <!-- モーダルの設定です -->
-            <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="modal-title m-0 font-weight-bold text-primary text-secondary" id="myModalLabel" v-show="clickedRow">{{clickedRow.title}}</div>
-                        </div>
-                        <div class="modal-body">
-                            <img v-bind:src="clickedRow.img_url" id="imagepreview" class="img-responsive" >
-                            <div class="mt-4 mb-2">概要</div>
-                            <div class="multiline-text" v-show="clickedRow">{{clickedRow.description}}</div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="clickedRow.img_url = ''; clickedRow.description = '';">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- /modal -->
 
         </div>
 
@@ -230,10 +166,12 @@ export default {
             this.items = [];
 
             if (!this.searchWord || this.searchWord === '') {
-                    this.msg = '';
-                    this.errMsg = '検索条件を入力してください';
-                    this.isLoading = false;
-                    return;
+                this.msg = '';
+                this.errMsg = '検索条件を入力してください';
+                this.isLoading = false;
+                // 画面更新
+                this.updateView();
+                return;
             }
 
             AjaxUtil.getAllSearchBooks(this.searchWord)
@@ -242,7 +180,7 @@ export default {
 
                 }).catch((error) => {
                     this.msg = '';
-                    this.errMsg = '検索に失敗しました';
+                    this.errMsg = '書籍検索に失敗しました 管理者にお問い合わせください';
                     console.log(error);
 
                 }).then(() => {
@@ -251,9 +189,9 @@ export default {
         } ,
         rental: function(isbn, book_id) {
 
-            if(this.registId == null){
-                    this.errMsg = "借りる/返却対象のユーザIDを入力してください。";
-                    return;
+            if (this.registId == null){
+                this.errMsg = "ユーザIDを入力してください";
+                return;
             }
 
             const alreadyModel = {
@@ -267,13 +205,13 @@ export default {
                 const result = response.data.length > 0;
                 if (result) {
                     this.msg = '';
-                    this.errMsg = "入力されたユーザIDには既に書籍を貸出しております。";
+                    this.errMsg = "既に書籍を貸出しております";
                     this.isLoading = false;
                 }
                 return result;
             }).catch((error) => {
                 this.msg = '';
-                this.errMsg = '貸出状況確認処理に失敗しました。';
+                this.errMsg = '貸出状況確認に失敗しました 管理者にお問い合わせください';
                 console.log(error);
                 return true;
             })
@@ -317,12 +255,13 @@ export default {
                     // 登録実行
                     AjaxUtil.postLending(model)
                     .then((response) => {
-                        this.msg = "貸出処理は正常に終了しました";
+                        this.msg = "貸出登録を行いました";
+                        this.errMsg = '';
                         this.updateView();
                     
                     }).catch((error) => {
                         this.msg = '';
-                        this.errMsg = '貸出処理に失敗しました';
+                        this.errMsg = '貸出に失敗しました 管理者にお問い合わせください';
                         console.log(error);
                         this.isLoading = false;
                     
@@ -335,8 +274,8 @@ export default {
         } ,
         returnBook: function(isbn, book_id) {
 
-            if(this.registId == null){
-                    this.errMsg = "借りる/返却対象のユーザIDを入力してください。";
+            if (this.registId == null){
+                    this.errMsg = "ユーザIDを入力してください";
                     return;
             }
 
@@ -351,13 +290,13 @@ export default {
                 const result = response.data.length < 1;
                 if (result) {
                     this.msg = '';
-                    this.errMsg = "入力されたユーザIDには書籍を貸出しておりません。";
+                    this.errMsg = "書籍を貸出しておりません";
                     this.isLoading = false;
                 }
                 return result;
             }).catch((error) => {
                 this.msg = '';
-                this.errMsg = '貸出状況確認処理に失敗しました。';
+                this.errMsg = '貸出状況確認に失敗しました 管理者にお問い合わせください';
                 console.log(error);
                 return true;
             })
@@ -379,12 +318,12 @@ export default {
                     AjaxUtil.deleteLending(model)
                     .then((response) => {
                         this.errMsg = '';
-                        this.msg = "返却処理は正常に終了しました";
+                        this.msg = "返却を行いました";
                         this.updateView();
 
                     }).catch((error) => {
                         this.msg = '';
-                        this.errMsg = '返却処理に失敗しました';
+                        this.errMsg = '返却に失敗しました 管理者にお問い合わせください';
                         console.log(error);
                         this.isLoading = false;
 
@@ -407,7 +346,7 @@ export default {
 
                 }).catch((error) => {
                     this.msg = '';
-                    this.errMsg = '検索に失敗しました';
+                    this.errMsg = '書籍検索に失敗しました 管理者にお問い合わせください';
                     console.log(error);
 
                 }).then(() => {

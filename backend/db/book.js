@@ -30,16 +30,6 @@ module.exports. getBookModel = function (db) {
             field: "img_url",
             type: STRING(255),
             allowNull: true
-        },
-        rental_status: {
-            field: "rental_status",
-            type: STRING(100),
-            allowNull: true
-        },
-        rental_user: {
-            field: "rental_user",
-            type: STRING(100),
-            allowNull: true
         }},
         {
             createdAt: false, //デフォルト項目を生成しないように
