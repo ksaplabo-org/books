@@ -296,7 +296,7 @@ app.delete("/api/user/:userId", function(req, res) {
         })
         .catch((error)  => {
             // 異常レスポンス
-            console.log("failed to alreadyLending book");
+            console.log("failed to already lending book");
             res.status(500).send("server error occur")
         });
 });

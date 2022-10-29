@@ -40,10 +40,11 @@
                         </div>
 
                         <!-- Lending Book List -->
-                        <b-table responsive hover :items="items" :fields="fields"></b-table>
+                        <b-table striped responsive hover :items="items" :fields="fields"></b-table>
                     </form>
                 </div>
             </div>
+            <Footer/>
         </div>
 
         <!-- Scroll to Top Button-->

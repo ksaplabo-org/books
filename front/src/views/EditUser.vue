@@ -83,7 +83,7 @@
                                             <input class="btn btn-primary btn-block" type="submit" value="情報更新">
                                         </div>
                                         <div class="col">
-                                            <b-button class="btn-danger btn-block" v-on:click="userDelete()">ユーザー削除</b-button>
+                                            <b-button class="btn-danger btn-block" data-toggle="modal" data-target="#deleteConfirmModal">ユーザー削除</b-button>
                                         </div>
                                     </div>
                                 </div>
@@ -92,7 +92,30 @@
                         </div>
                     </form>
                 </div>
+                <Footer/>
             </div>
+
+            <!-- モーダル -->
+            <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">確認</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>削除処理を実行しますか？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="userDelete()">削除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- トップにスクロール -->
@@ -137,15 +160,17 @@ export default {
         };
     },
     async mounted() {
+        const self = this;
+
         // ログイン確認
         try {
             if (UserUtil.isSignIn()) {
                 this.msg = '';
             } else {
-               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
         } catch(e) {
-            self.errMsg = e.message;
+            this.errMsg = e.message;
         }
 
         // デフォルトはログインユーザー
@@ -170,7 +195,6 @@ export default {
             this.msg = '';
             this.errMsg = 'ユーザー取得処理に失敗しました';
             console.log(error);
-            this.isLoading = false;
             throw error;
         } finally {
             this.isLoading = false;
@@ -179,15 +203,19 @@ export default {
     methods: {
         // ユーザー更新
         userUpdate: async function() {
-            this.isLoading = true
+            this.isLoading = true;
             try {
                 // 入力チェック
                 if (this.userId.length < 8 || this.userId.length > 16) {
-                    this.errMsg = "IDは8桁以上16桁以下で入力してください";
+                    this.errMsg = "ユーザーIDは8桁以上16桁以下で入力してください";
+                    return;
+                }
+                if (!this.userId.match("^[0-9A-Za-z]{8,16}$")) {
+                    this.errMsg = "ユーザーIDは半角英数で入力してください";
                     return;
                 }
                 if (this.userName.length < 1 || this.userName.length > 100) {
-                    this.errMsg = "名前は100桁以下で入力してください";
+                    this.errMsg = "ユーザー名は100桁以下で入力してください";
                     return;
                 }
                 if (this.password.length < 8 || this.password.length > 16) {
@@ -210,7 +238,7 @@ export default {
                     password: this.password,
                     gender: this.gender,
                     userAuth: this.auth
-                }
+                };
 
                 await AjaxUtil.putUser(model);
 
@@ -220,7 +248,7 @@ export default {
             } catch (error) {
                 this.msg = "";
                 this.errMsg = "ユーザー更新処理に失敗しました";
-                console.log(error)
+                console.log(error);
             } finally {
                 this.isLoading = false;
             }
@@ -228,27 +256,25 @@ export default {
         // ユーザー削除
         userDelete: async function() {
             this.isLoading = true;
-            try {
-                var result = window.confirm('削除処理を実行しますか？');
-                if (result) {
-                    // 削除実行
-                    await AjaxUtil.deleteUser(this.userId);
-                    // 一覧画面に戻る
-                    if (this.userId == UserUtil.currentUserInfo().userid) {
-                        await UserUtil.signOut();
-                        this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください'}});
-                    } else {
-                        this.$router.push({ name: 'listUser'});
-                    }
+            // 削除実行
+            AjaxUtil.deleteUser(this.userId)
+            .then(() => {
+                // ログインユーザーが削除されているのでサインアウト
+                if (this.userId == UserUtil.currentUserInfo().userid) {
+                    UserUtil.signOut();
+                    this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください'}});
+                // 一覧画面に遷移する
+                } else {
+                    this.$router.push({ name: 'listUser'});
                 }
-            } catch (error) {
+            }).catch((error) => {
                 this.msg = "";
                 this.errMsg = "ユーザー削除処理に失敗しました";
-                console.log(error)
-            } finally {
+                console.log(error);
+            }).finally(() => {
                 this.isLoading = false;
-            }
+            });
         }
     }
 }
-</script> 
+</script>

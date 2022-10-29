@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
                         </li>
-                        <li class="breadcrumb-item active">ユーザー一覧</li>
+                        <li class="breadcrumb-item active">ユーザーリスト</li>
                     </ol>
     
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -42,6 +42,7 @@
                     </form>
                 </div>
             </div>
+            <Footer/>
         </div>
 
         <!-- Scroll to Top Button-->

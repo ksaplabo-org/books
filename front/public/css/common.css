@@ -27,15 +27,18 @@
 .modal .modal-content {
   overflow-y: initial !important;
 }
+
 .modal .modal-header {
-	height: 10vh;
+	max-height: 10vh;
 }
+
 .modal .modal-body {
-	height: 60vh/* calc(100vh - 160px) */;
+	max-height: 60vh/* calc(100vh - 160px) */;
 	overflow-y:auto;
 }
+
 .modal .modal-footer {
-	height: 5vh;
+	max-height: 10vh;
 }
 
 .modal .modal-body::-webkit-scrollbar {
@@ -43,21 +46,21 @@
   width: 16px;
   background: transparent;
 }
- 
+
 .modal .modal-body::-webkit-scrollbar-track {
   all:unset;
   -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
   border-radius: 12px;
   background: transparent;
 }
- 
+
 .modal .modal-body::-webkit-scrollbar-thumb {
   all:unset;
   -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
   border-radius: 12px;
   background: transparent;
 }
- 
+
 .modal .modal-body::-webkit-scrollbar-thumb:hover {
   -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
   background: transparent;

@@ -8,121 +8,103 @@
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
 
-                    <!-- Breadcrumbs-->
+                    <!-- パンくずリスト-->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
                         </li>
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'listUser'}">ユーザー一覧</router-link>
+                            <router-link tag="a" :to="{ name: 'listUser'}">ユーザーリスト</router-link>
                         </li>
                         <li class="breadcrumb-item active">ユーザー追加</li>
                     </ol>
-    
+
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
                     <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
                     <br>
 
                     <form @submit.stop.prevent="userCreate" method="post">
-
-                        <!-- ユーザーID入力欄-->
-                        <div class = "row">
-                            <div class="col-sm-2">
-                                <div class="float-right">ID:</div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16" pattern="^[0-9A-Za-z]{8,16}$"
-                                      placeholder="8桁以上16桁以下で入力してください。" autocomplete="off">
+                        <div class="row">
+                            <div class="col"/>
+                            <div class="col-6">
+                                <div class="container">
+                                    <!-- ユーザーID -->
+                                    <div class="form-group">
+                                        <label>ユーザーID:</label>
+                                        <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
+                                            placeholder="8桁以上16桁以下で入力してください" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$">
+                                    </div>
+                                    <!-- ユーザー名 -->
+                                    <div class="form-group">
+                                        <label>ユーザー名:</label>
+                                        <input type="text" id="userName" class="form-control" maxlength="100" placeholder="100桁以下で入力してください"
+                                            required="required" v-model="userName" autocomplete="off">
+                                    </div>
+                                    <!-- パスワード -->
+                                    <div class="form-group">
+                                        <label>パスワード:</label>
+                                        <input type="password" id="inputPassword" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
+                                            required="required" v-model="password" pattern="^[0-9A-Za-z]{8,16}$">
+                                    </div>
+                                    <!-- 性別 -->
+                                    <div class="form-group">
+                                        <label>性別:</label>
+                                        <br>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
+                                            <label class="custom-control-label" for="womanRadio">女性</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="man">
+                                            <label class="custom-control-label" for="manRadio">男性</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="unknown">
+                                            <label class="custom-control-label" for="unknownRadio">非公開</label>
+                                        </div>
+                                    </div>
+                                    <!-- 権限 -->
+                                    <div class="form-group">
+                                        <label>権限:</label>
+                                        <br>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="generalRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="general" checked>
+                                            <label class="custom-control-label" for="generalRadio">一般</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="adminRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="admin">
+                                            <label class="custom-control-label" for="adminRadio">社員</label>
+                                        </div>
+                                    </div>
+                                    <!-- 新規登録ボタン -->
+                                    <div class="row justify-content-md-center">
+                                        <div class="col-lg-4">
+                                            <input class="btn btn-primary btn-block" type="submit" value="新規登録">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col"/>
                         </div>
-                        <!-- 名前入力欄-->
-                        <div class = "row">
-                            <div class="col-sm-2">
-                                <div class="float-right">名前:</div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <input type="text" id="userName" class="form-control" maxlength="100"
-                                        placeholder="100桁以下で入力してください。" required="required" v-model="userName" autocomplete="off">
-                                </div> 
-                            </div>
-                        </div>
-                        <!-- パスワード入力欄-->
-                        <div class = "row">
-                            <div class="col-sm-2">
-                                <div class="float-right">パスワード:</div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <input type="password" id="inputPassword" class="form-control" minlength="8" maxlength="16"
-                                        placeholder="8桁以上16桁以下で入力してください。" required="required" v-model="password" pattern="^[0-9A-Za-z]{8,16}$">
-                                </div> 
-                            </div>
-                        </div>
-                        <!-- 性別入力欄-->
-                        <div class = "row">
-                            <div class="col-sm-2">
-                                <div class="float-right">性別:</div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <select name="gender" id="gender"  required>
-                                        <option value="0">選択してください。</option>
-                                        <option value="1">女性</option>
-                                        <option value="2">男性 </option>
-                                        <option value="3">非公開</option>
-                                    </select>
-                                </div> 
-                            </div>
-                        </div>
-                        <!-- 権限入力欄-->
-                        <div class = "row">
-                            <div class="col-sm-2">
-                                <div class="float-right">権限:</div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <select name="auth" id="auth" required>
-                                        <option value="0">選択してください。</option>
-                                        <option value="1">一般</option>
-                                        <option value="2">社員 </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 登録ボタン-->
-                        <div class = "row">
-                            <div class="col-sm-2" />
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input class="btn btn-primary btn-block" type="submit" value="新規登録">
-                                </div> 
-                            </div>
-                        </div>
-
                     </form>
-
                  </div>
             </div>
+            <Footer/>
         </div>
-
-        <!-- Scroll to Top Button-->
+        <!-- トップにスクロール -->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
 
         <loading v-if="isLoading === true"/>
-
     </div>
 </template>
 
 <script>
-import Vue from 'vue';
 import * as UserUtil from '@/utils/UserUtil';
 import * as AjaxUtil from '@/utils/AjaxUtil';
+import UserConst from '@/utils/const/UserConst';
 // 共通
 import NaviMenu from '../components/NaviMenu.vue';
 import '../utils/sb-admin';
@@ -140,61 +122,62 @@ export default {
             isLoading: false,
             userId: "",
             userName: "",
-            password: ""
+            password: "",
+            gender: UserConst.Gender.woman,
+            auth: UserConst.Auth.general,
+            man: UserConst.Gender.man,
+            woman: UserConst.Gender.woman,
+            unknown: UserConst.Gender.unknown,
+            general: UserConst.Auth.general,
+            admin: UserConst.Auth.admin
         };
     },
     async mounted() {
-        const self = this;
+        // サインイン確認
         try {
             if (UserUtil.isSignIn()) {
                 this.msg = '';               
             } else {
-               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
-            
         } catch(e) {
-            self.errMsg = e.message;
+            this.errMsg = e.message;
         }
     },
     methods: {
+        // ユーザー作成
         userCreate: async function() {
             this.isLoading = true
             try {
-                // オプション選択値取得
-                let genderSelect = document.getElementById('gender')
-                let authSelect = document.getElementById('auth')
-
                 // 入力チェック
-                if(this.userId.length < 8 || this.userId.length > 16){
-                    this.errMsg = "IDは8桁以上16桁以下で入力してください。";
+                if (this.userId.length < 8 || this.userId.length > 16) {
+                    this.errMsg = "ユーザーIDは8桁以上16桁以下で入力してください";
                     return;
                 }
-                if(this.userId.match("^[0-9A-Za-z]{8,16}$")){
-                }else{
-                    this.errMsg = "全角英数で入力してください。";
+                if (!this.userId.match("^[0-9A-Za-z]{8,16}$")) {
+                    this.errMsg = "ユーザーIDは半角英数で入力してください";
                     return;
                 }
-                if(this.userName.length < 1 || this.userName.length > 100){
-                    this.errMsg = "名前は100桁以下で入力してください。";
+                if (this.userName.length < 1 || this.userName.length > 100) {
+                    this.errMsg = "ユーザー名は100桁以下で入力してください";
                     return;
                 }
-                if(this.password.length < 8 || this.password.length > 16){
-                    this.errMsg = "パスワードは8桁以上16桁以下で入力してください。";
+                if (this.password.length < 8 || this.password.length > 16) {
+                    this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
                     return;
                 }
-                if(genderSelect.value == "0"){
-                    this.errMsg = "性別を選択してください。";
+                if (!this.gender) {
+                    this.errMsg = "性別を選択してください";
                     return;
                 }
-                if(authSelect.value == "0"){
-                    this.errMsg = "権限を選択してください。";
+                if (!this.auth) {
+                    this.errMsg = "権限を選択してください";
                     return;
                 }
-
+                // ユーザーID重複チェック
                 const response = await AjaxUtil.getEditUser(this.userId);
-                console.log(response)
-                if(response.data  !== ''){
-                    this.errMsg = "登録データが重複しています。";
+                if (response.data !== '') {
+                    this.errMsg = "登録データが重複しています";
                     return;
                 }
 
@@ -203,14 +186,14 @@ export default {
                     userId: this.userId,
                     userName: this.userName,
                     password: this.password,
-                    gender:genderSelect.value,
-                    userAuth: authSelect.value
+                    gender: this.gender,
+                    userAuth: this.auth
                 }
-                
                 // 登録実行
                 await AjaxUtil.postUser(model);
+
                 // 一覧画面に戻る
-                this.$router.push({ name: 'listUser',});
+                this.$router.push({ name: 'listUser'});
                 return;
             } catch (error) {
                 this.msg = "";
@@ -222,4 +205,4 @@ export default {
         }
     }
 }
-</script> 
+</script>
