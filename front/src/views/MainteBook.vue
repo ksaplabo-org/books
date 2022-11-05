@@ -10,9 +10,7 @@
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <router-link tag="a" :to="{ name: 'top' }"
-                >トップページ</router-link
-              >
+              <router-link tag="a" :to="{ name: 'top' }">トップページ</router-link>
             </li>
             <li class="breadcrumb-item active">書籍管理</li>
           </ol>
@@ -41,6 +39,8 @@
               </div>
             </div>
           </div>
+
+          <hr>
 
           <!-- Result Area -->
           <div class="row">
