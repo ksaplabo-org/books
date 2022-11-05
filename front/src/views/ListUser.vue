@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
                         </li>
-                        <li class="breadcrumb-item active">ユーザーリスト</li>
+                        <li class="breadcrumb-item active">ユーザー一覧</li>
                     </ol>
     
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -25,7 +25,7 @@
                             <div class="px-2">ユーザーIDを検索</div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="ユーザーIDを入力してください" required>
+                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                 </div>
                                 <button class="btn-primary btn-sm" v-on:click="searchUser()" >検索</button>
                             </div>

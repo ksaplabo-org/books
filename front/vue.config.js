@@ -40,19 +40,19 @@ module.exports = {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/maintebook.html',
-          title: 'ブックメンテナンス',
+          title: '書籍管理',
         },
         listbook: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/listBook.html',
-          title: 'ブックリスト',
+          title: '書籍一覧',
         },
         listUser: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/listUser.html',
-          title: 'ユーザーリスト',
+          title: 'ユーザー一覧',
         },
         leadingBook: {
           entry: 'src/main.js',
@@ -70,7 +70,7 @@ module.exports = {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/editUser.html',
-          title: 'ユーザーメンテナンス',
+          title: 'ユーザー管理',
         },
         sorry: {
           entry: 'src/main.js',

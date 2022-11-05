@@ -30,13 +30,13 @@ export default {
          */
         return {
             menuList: [
-                { title: 'ブックリスト', name: 'listbook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: false },
-                { title: 'ブックメンテナンス', name: 'maintebook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: true },
-                { title: 'ユーザーリスト', name: 'listUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
+                { title: '書籍一覧', name: 'listbook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: false },
+                { title: '書籍管理', name: 'maintebook', icon: 'fas fa-fw fa-book-medical', onlyAdmin: true },
+                { title: 'ユーザー一覧', name: 'listUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
                 { title: 'ユーザー追加', name: 'addUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
-                { title: 'ユーザーメンテナンス', name: 'editUser', icon: 'fas fa-fw fa-user', onlyAdmin: false },
+                { title: 'ユーザー管理', name: 'editUser', icon: 'fas fa-fw fa-user', onlyAdmin: false },
                 { title: 'レンタル', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: true },
-                { title: 'レンタルリスト', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false }
+                { title: 'レンタル一覧', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false }
             ].filter(e => !UserUtil.isAdmin() ? !e.onlyAdmin : true)
         }
     },

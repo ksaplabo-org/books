@@ -14,7 +14,7 @@
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
                         </li>
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'listUser'}">ユーザーリスト</router-link>
+                            <router-link tag="a" :to="{ name: 'listUser'}">ユーザー一覧</router-link>
                         </li>
                         <li class="breadcrumb-item active">ユーザー追加</li>
                     </ol>

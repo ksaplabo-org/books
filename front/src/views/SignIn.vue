@@ -1,19 +1,19 @@
 <template>
   <div class="singin container">
     <div class="card card-login mx-auto mt-5">
-      <div class="card-header text-left">Login</div>
+      <div class="card-header text-left">サインイン</div>
       <div class="card-body text-left">
         <form @submit.stop.prevent="signIn" method="post">
           <div class="form-group">
             <div class="form-label-group">
               <input type="text" id="userId" class="form-control" placeholder="User ID" autofocus="autofocus" v-model="userId" autocomplete="off">
-              <label for="userId">User ID</label>
+              <label for="userId">ユーザーID</label>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
               <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" v-model="password" autocomplete="off" pattern="^[0-9A-Za-z]+$">
-              <label for="inputPassword">Password</label>
+              <label for="inputPassword">パスワード</label>
             </div>
           </div>
           <div class="form-group">
@@ -26,7 +26,7 @@
               </div>
             </div>
           </div>
-          <input class="btn btn-primary btn-block" type="submit" value="Login">
+          <input class="btn btn-primary btn-block" type="submit" value="サインイン">
         </form>
         <div class="text-center">
         </div>
