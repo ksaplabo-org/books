@@ -38,3 +38,14 @@ CREATE TABLE IF NOT EXISTS lending
 )
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS information;
+CREATE TABLE IF NOT EXISTS information
+(
+    date Date NOT NULL,
+    no TINYINT NOT NULL,
+    content varchar(100) NOT NULL,
+    PRIMARY KEY(date, no)
+)
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci;
