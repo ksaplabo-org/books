@@ -3,6 +3,7 @@ const AuthLogic = require("./logic/auth");
 const BookLogic = require("./logic/book");
 const UserLogic = require("./logic/user");
 const LendingLogic = require("./logic/lending");
+const InformationLogic = require("./logic/information");
 
 // DB Connection define
 const DbUtil  = require("./db/utility");
@@ -37,7 +38,25 @@ app.post("/api/signIn", function(req, res) {
             res.status(500).send("server error occur")
         });
 });
- 
+
+/**
+ * お知らせ取得API
+ */
+app.get("/api/information", function(req, res) {
+    InformationLogic.getAll(db)
+        .then((information) => {
+            // 正常レスポンス
+            res.send({
+                Items: JSON.stringify(information)
+            });
+        })
+        .catch(() => {
+            // 異常レスポンス
+            console.log("failed to get information");
+            res.status(500).send("server error occur");
+        });
+});
+
 /**
  * 書籍情報取得API
  */

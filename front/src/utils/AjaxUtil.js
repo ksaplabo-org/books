@@ -12,6 +12,10 @@ export function getAllSapBooks() {
 
 }
 
+export function searchInformation() {
+    const url = '/api/information';
+    return axios.get(url);
+}
 export function searchBooks(keyword) {
     // search url : google books api.
     const url = 'https://www.googleapis.com/books/v1/volumes?q=' + keyword.replace(' ','+');

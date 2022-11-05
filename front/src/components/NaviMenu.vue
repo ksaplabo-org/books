@@ -3,10 +3,7 @@
         <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
             <router-link class="navbar-brand mr-1" :to="{ name: 'top'}">
-                <!--
-                <img src="/public/image/bookstation_logo.png">
-                -->
-                Book Station
+                <img src="/public/image/logo.png" class="img-fluid" style="width: 176px;, height: 26px;">
             </router-link>
 
             <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">

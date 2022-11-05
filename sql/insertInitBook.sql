@@ -1,5 +1,6 @@
 use intern;
 
+delete from book;
 insert into book values ('9784774176734','1','Amazon Web Services 実践入門','柔軟な開発を可能にするインフラ構築・運用の勘所。ブラウザでの設定もコマンド操作も丁寧に解説。','https://books.google.com/books/content?id=6LayjgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api');
 insert into book values ('9784839964566','1','Amazon WebServicesを使ったサーバレスアプリケーション開発ガイド','null','https://books.google.com/books/content?id=NzjItAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api');
 insert into book values ('9784797392579','1','Amazon Web Services パターン別構築・運用ガイド','AWSのサービスの概要と導入方法を徹底解説 ※この電子書籍は固定レイアウト型で配信されております。固定レイアウト型は文字だけを拡大することや、文字列のハイライト、検索、辞書の参照、引用などの機能が使用できません。 AWS（Amazon Web Services）によるクラウドシステム構築・運用のノウハウを紹介。 AWSの主要サービスの概要から、サービスを活用したクラウド上でのシステムの構築手順と設定方法を詳細に解説します。目的に応じたサーバ構築方法と、サービスの選び方を徹底的に丁寧に解説します。 AWSマネジメントコンソールからの設定に加えて、CLIやSDKを使った実践的な技術も掲載。企業などのAWS導入の全ての工程に関わった著者陣による、現場で培った実践的なノウハウが凝縮された一冊です。 Webサービスや自社サイトのシステム構築にAWSの導入を考えている人、WordPressを使ったサイトの公開を考えている人、とにかくAWSについて知りたい人、AWSに興味を持つ全ての人にお勧めです。','https://books.google.com/books/content?id=gYtSDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api');
