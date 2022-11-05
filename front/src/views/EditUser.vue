@@ -241,9 +241,6 @@ export default {
                 };
 
                 await AjaxUtil.putUser(model);
-
-                // リロード
-                this.$router.push({ name: 'editUser'});
                 return;
             } catch (error) {
                 this.msg = "";
