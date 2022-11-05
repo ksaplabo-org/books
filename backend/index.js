@@ -136,6 +136,26 @@ app.get("/api/user", function(req, res) {
         });
 });
 
+/**
+ * ユーザーIDのあいまい検索結果取得API
+ */
+ app.get("/api/user/search/:searchWord", function(req, res) {
+
+    // ユーザー情報を取得する
+    UserLogic.getUser(db, req.params.searchWord)
+        .then((books) => {
+            // 正常レスポンス
+            res.send({
+                Items: JSON.stringify(books)
+            });
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to get user");
+            res.status(500).send("server error occur")
+        });
+});
+
 app.get("/api/user/:userId", function(req, res) {
     // ユーザー情報を取得する
     UserLogic.getEditUser(db, req.params.userId)

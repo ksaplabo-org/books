@@ -14,6 +14,31 @@ const UserRepository = require("../db/user");
 }
 
 /**
+ * ユーザーIDのあいまい検索結果を取得する
+ * @param {*} db 
+ * @param {*} searchWord
+ * @returns ユーザー情報（Promise）
+ */
+ module.exports.getUser = async function (db, searchWord) {
+    const UserModel = UserRepository.getUserModel(db);
+    const Sequelize = require('sequelize');
+    const Op = Sequelize.Op;
+
+    try {
+        return await UserModel.findAll({ 
+            where: {
+                user_id: {
+                    [Op.like]: '%' + searchWord + '%'
+                } 
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+/**
  * 指定ユーザー情報取得
  * @param {*} db 
  * @param {*} userId

@@ -34,11 +34,11 @@
                     <!-- ユーザーID入力欄 -->
                     <div class="continer" style="font-size:10pt">
                         <div class="form-group m-2">
-                            <div class="px-2">貸出 / 返却するユーザID</div>
+                            <div class="px-2">貸出 / 返却するユーザーID</div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <input type="text" id="registId" class="form-control"
-                                    placeholder="ユーザIDを入力してください" required="required" v-model="registId" autocomplete="off">
+                                    placeholder="ユーザーIDを入力してください" required="required" v-model="registId" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -190,7 +190,7 @@ export default {
         rental: function(isbn, book_id) {
 
             if (this.registId == null){
-                this.errMsg = "ユーザIDを入力してください";
+                this.errMsg = "ユーザーIDを入力してください";
                 return;
             }
 
@@ -275,7 +275,7 @@ export default {
         returnBook: function(isbn, book_id) {
 
             if (this.registId == null){
-                    this.errMsg = "ユーザIDを入力してください";
+                    this.errMsg = "ユーザーIDを入力してください";
                     return;
             }
 

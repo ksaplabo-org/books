@@ -44,6 +44,12 @@ export function getAllUser() {
     return axios.get(url);
 }
 
+export function getUser(searchWord) {
+    const url = '/api/user/search/' + searchWord;
+    return axios.get(url);
+
+}
+
 export function getEditUser(userId) {
     const url = '/api/user/' + userId;
 
