@@ -189,7 +189,8 @@ export default {
         } ,
         rental: function(isbn, book_id) {
 
-            if (this.registId == null){
+            if (this.registId === undefined){
+                this.msg = '';
                 this.errMsg = "ユーザーIDを入力してください";
                 return;
             }
@@ -296,7 +297,8 @@ export default {
         } ,
         returnBook: function(isbn, book_id) {
 
-            if (this.registId == null){
+            if (this.registId === undefined){
+                this.msg = '';
                 this.errMsg = "ユーザーIDを入力してください";
                 return;
             }
