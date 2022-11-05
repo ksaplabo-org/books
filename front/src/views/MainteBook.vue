@@ -14,7 +14,7 @@
                 >トップページ</router-link
               >
             </li>
-            <li class="breadcrumb-item active">ブックマスタ</li>
+            <li class="breadcrumb-item active">書籍管理</li>
           </ol>
 
           <p class="text-primary" v-show="msg">{{ msg }}</p>
@@ -23,7 +23,7 @@
           <!-- 登録する書籍名入力欄 -->
           <div class="continer" style="font-size: 10pt">
             <div class="form-group m-2">
-              <div class="px-2">登録する書籍名を検索</div>
+              <div class="px-2">書籍名を検索</div>
               <div class="row">
                 <div class="col-lg-6">
                   <input
@@ -31,7 +31,7 @@
                     id="searchWord"
                     class="form-control"
                     v-model="searchWord"
-                    placeholder="書籍名を入力してください"
+                    placeholder="入力してください"
                     required
                   />
                 </div>
@@ -203,7 +203,6 @@
                   clickedRow.description = '';
                 "
               >
-                Close
               </button>
             </div>
           </div>
@@ -337,7 +336,7 @@ export default {
             })
             .catch((error) => {
               this.msg = "";
-              this.errMsg = "マスタ取得に失敗しました";
+              this.errMsg = "書籍取得に失敗しました";
               console.log(error);
               this.isLoading = false;
             });

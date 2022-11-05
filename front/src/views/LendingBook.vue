@@ -13,13 +13,11 @@
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'menu'}">トップページ</router-link>
                         </li>
-                        <li class="breadcrumb-item active">レンタルリスト</li>
+                        <li class="breadcrumb-item active">レンタル一覧</li>
                     </ol>
 
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
                     <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
-
-                    <br>
 
                     <form @submit.stop.prevent="searchLendingBooks">
                         <!-- Search Area -->
@@ -27,13 +25,11 @@
                             <table class="table table-sm table-height-sm">
                                 <tbody>
                                     <tr>
-                                        <td>
-                                            <div class="col-sm">
-                                                ユーザーID:
-                                                <input class="m-2" v-model="searchWord" required />
-                                                <input class="btn-primary" type="submit" value="検索" />
-                                            </div>
-                                        </td>
+                                        <div class="col-sm">
+                                            ユーザーID:
+                                            <input class="m-2" v-model="searchWord" required />
+                                            <input class="btn-primary" type="submit" value="検索" />
+                                        </div>
                                     </tr>
                                 </tbody>
                             </table>

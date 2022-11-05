@@ -22,7 +22,7 @@
                             <div class="px-2">書籍名を検索</div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="書籍名を入力してください" required>
+                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                 </div>
                                 <button class="btn-primary btn-sm" v-on:click="searchBooks()" >検索</button>
                             </div>
@@ -38,7 +38,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <input type="text" id="registId" class="form-control"
-                                    placeholder="ユーザーIDを入力してください" required="required" v-model="registId" autocomplete="off">
+                                    placeholder="入力してください" required="required" v-model="registId" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -275,8 +275,8 @@ export default {
         returnBook: function(isbn, book_id) {
 
             if (this.registId == null){
-                    this.errMsg = "ユーザーIDを入力してください";
-                    return;
+                this.errMsg = "ユーザーIDを入力してください";
+                return;
             }
 
             const alreadyModel = {
