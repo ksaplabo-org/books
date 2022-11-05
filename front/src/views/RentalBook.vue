@@ -199,77 +199,99 @@ export default {
                 lending_user_id: this.registId
             }
             
-            // 確認処理実行
-            AjaxUtil.alreadyLending(alreadyModel)
-            .then((response) => {
-                const result = response.data.length > 0;
-                if (result) {
-                    this.msg = '';
-                    this.errMsg = "既に書籍を貸出しております";
-                    this.isLoading = false;
-                }
-                return result;
+            // ユーザーID存在チェック → 貸出チェック → 貸出登録
+            AjaxUtil.getEditUser(this.registId)
+                .then((response) => {
+                    const result = response.data;
+                    if (result === '') {
+                        this.msg = '';
+                        this.errMsg = "登録されていないユーザーIDです";
+                        this.isLoading = false;
+                    }
+                    return result;
             }).catch((error) => {
                 this.msg = '';
-                this.errMsg = '貸出状況確認に失敗しました 管理者にお問い合わせください';
+                this.errMsg = 'ユーザーID確認に失敗しました 管理者にお問い合わせください';
                 console.log(error);
                 return true;
             })
-            .then((isAlready) => {
-                if (isAlready) {
+            .then((notUserId) => {
+                if (!notUserId) {
                     return;
                 }
 
-                if (UserUtil.isSignIn()) {
-                    this.isLoading = true; 
-
-                    // 貸出日計算
-                    var now = new Date();
-                    var year = now.getFullYear();
-                    var month = now.getMonth() + 1;
-                    if (month == 13){
-                        month = 1;
-                    }
-                    var day = now.getDate() + 1;
-
-                    // 返却予定日計算
-                    var returnPlanDay = new Date();
-                    returnPlanDay.setDate(returnPlanDay.getDate() + 14);
-                    var returnYear = returnPlanDay.getFullYear();
-                    var returnMonth = returnPlanDay.getMonth() + 1;
-                    if (month == 13){
-                        month = 1;
-                    }
-                    var returnDay = returnPlanDay.getDate() + 1;
-
-                    // 引数格納
-                    const model = {
-                        book_id: book_id,
-                        isbn: isbn,
-                        lending_user_id: this.registId,
-                        rental_date: year + "/" + month + "/" + day,
-                        return_plan_date: returnYear + "/" + returnMonth + "/" + returnDay,
-                        managed_user_id: UserUtil.currentUserInfo().userid
-                    }
-                    
-                    // 登録実行
-                    AjaxUtil.postLending(model)
-                    .then((response) => {
-                        this.msg = "貸出登録を行いました";
-                        this.errMsg = '';
-                        this.updateView();
-                    
-                    }).catch((error) => {
+                // 貸出チェック
+                AjaxUtil.alreadyLending(alreadyModel)
+                .then((response) => {
+                    const result = response.data.length > 0;
+                    if (result) {
                         this.msg = '';
-                        this.errMsg = '貸出に失敗しました 管理者にお問い合わせください';
-                        console.log(error);
+                        this.errMsg = "既に書籍を貸出しております";
                         this.isLoading = false;
-                    
-                    });
+                    }
+                    return result;
+                }).catch((error) => {
+                    this.msg = '';
+                    this.errMsg = '貸出状況確認に失敗しました 管理者にお問い合わせください';
+                    console.log(error);
+                    return true;
+                })
+                .then((isAlready) => {
+                    if (isAlready) {
+                        return;
+                    }
 
-                } else {
-                    this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
-                };
+                    if (UserUtil.isSignIn()) {
+                        this.isLoading = true; 
+
+                        // 貸出日計算
+                        var now = new Date();
+                        var year = now.getFullYear();
+                        var month = now.getMonth() + 1;
+                        if (month == 13){
+                            month = 1;
+                        }
+                        var day = now.getDate() + 1;
+
+                        // 返却予定日計算
+                        var returnPlanDay = new Date();
+                        returnPlanDay.setDate(returnPlanDay.getDate() + 14);
+                        var returnYear = returnPlanDay.getFullYear();
+                        var returnMonth = returnPlanDay.getMonth() + 1;
+                        if (month == 13){
+                            month = 1;
+                        }
+                        var returnDay = returnPlanDay.getDate() + 1;
+
+                        // 引数格納
+                        const model = {
+                            book_id: book_id,
+                            isbn: isbn,
+                            lending_user_id: this.registId,
+                            rental_date: year + "/" + month + "/" + day,
+                            return_plan_date: returnYear + "/" + returnMonth + "/" + returnDay,
+                            managed_user_id: UserUtil.currentUserInfo().userid
+                        }
+                    
+                        // 貸出登録実行
+                        AjaxUtil.postLending(model)
+                        .then((response) => {
+                            this.msg = "貸出登録を行いました";
+                            this.errMsg = '';
+                            this.updateView();
+                    
+                        }).catch((error) => {
+                            this.msg = '';
+                            this.errMsg = '貸出に失敗しました 管理者にお問い合わせください';
+                            console.log(error);
+                            this.isLoading = false;
+                    
+                        });
+
+                    } else {
+                        this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+                    };
+                });
             });
         } ,
         returnBook: function(isbn, book_id) {
@@ -284,7 +306,7 @@ export default {
                 lending_user_id: this.registId
             }
             
-            // 確認処理実行
+            // 返却チェック → 返却処理
             AjaxUtil.alreadyLending(alreadyModel)
             .then((response) => {
                 const result = response.data.length < 1;
