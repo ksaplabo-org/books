@@ -77,7 +77,12 @@ const BookRepository = require("../db/book");
     });
 
     try {
+        const sequelize = require('sequelize');
         return await LendingModel.findAll({
+            attributes: [
+                [sequelize.fn('DATE_FORMAT', sequelize.col('rental_date'), '%Y/%m/%d'), 'rental_date'],
+                [sequelize.fn('DATE_FORMAT', sequelize.col('return_plan_date'), '%Y/%m/%d'), 'return_plan_date']
+            ],
             where: {
                 lending_user_id: userId
             },

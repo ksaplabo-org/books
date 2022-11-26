@@ -21,21 +21,19 @@
 
                     <form @submit.stop.prevent="searchLendingBooks">
                         <!-- Search Area -->
-                        <div id="searchArea" class="row bookSearchArea">
-                            <table class="table table-sm table-height-sm">
-                                <tbody>
-                                    <tr>
-                                        <div class="col-sm">
-                                            ユーザーID:
-                                            <input class="m-2" v-model="searchWord" required />
-                                            <input class="btn-primary" type="submit" value="検索" />
-                                        </div>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div id="searchArea" class="continer" style="font-size:10pt">
+                            <div class="form-group m-2">
+                                <div class="px-2">ユーザーIDで検索</div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
+                                    </div>
+                                    <input class="btn-primary" type="submit" value="検索" />
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Lending Book List -->
+                        <!-- レンタル一覧 -->
                         <b-table striped responsive hover :items="items" :fields="fields"></b-table>
                     </form>
                 </div>
