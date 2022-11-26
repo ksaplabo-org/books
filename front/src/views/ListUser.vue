@@ -78,7 +78,7 @@ export default {
     components: { NaviMenu, Menu, Footer, Loading } ,
     data() {
         return {
-            msg: '',
+            msg: this.flashMsg,
             errMsg: '',
             isLoading: false,
             fields: [
@@ -93,7 +93,6 @@ export default {
         const self = this;
         try {
             if (UserUtil.isSignIn()) {
-                this.msg = '';
                 // 画面更新
                 await this.updateView();
                

@@ -53,6 +53,7 @@ export default new Router({
     {
       path: '/pages/listUser.html',
       name: 'listUser',
+      props: true,
       component: ListUser,
     },
     {
