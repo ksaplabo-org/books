@@ -54,25 +54,6 @@ const UserRepository = require("../db/user");
 }
 
 /**
- * ユーザー情報登録
- * @param {*} db 
- * @param {*}  userId
- * @param {*}  userName
- * @param {*}  password
- * @param {*}  gender
- * @param {*}  userAuth
- * @returns ユーザー情報(Promise)
- */
- module.exports.create = async function (db, userId, userName, password,gender,userAuth) {
-    const UserModel = UserRepository.getUserModel(db);
-    try {
-        return await UserModel.create({user_id:userId, user_name:userName, password:password, gender:gender, user_auth:userAuth});
-    } catch (error) {
-        throw error;
-    }
-}   
-
-/**
  * ユーザー情報更新
  * @param {*} db 
  * @param {*}  userId

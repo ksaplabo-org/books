@@ -189,23 +189,6 @@ app.get("/api/user/:userId", function(req, res) {
         });
 });
 
-app.post("/api/user", function(req, res) {
-    // リクエスト取得
-    const user = req.body;
-
-    // ユーザー情報を登録する
-    UserLogic.create(db, user.userId, user.userName, user.password , user.gender , user.userAuth )
-        .then(() => {
-            // 正常レスポンス
-            res.send({});
-        })
-        .catch(()  => {
-            // 異常レスポンス
-            console.log("failed to get add user");
-            res.status(500).send("server error occur")
-        });
-});
-
 app.put("/api/user", function(req, res) {
     // リクエスト取得
     const user = req.body;
