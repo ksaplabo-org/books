@@ -32,20 +32,20 @@
                                     <!-- ユーザーID -->
                                     <div class="form-group">
                                         <label>ユーザーID:</label>
-                                        <input type="text" id="userId" class="form-control" required="required" v-model="userId" minlength="8" maxlength="16"
-                                            placeholder="8桁以上16桁以下で入力してください。" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" readonly>
+                                        <input type="text" id="userId" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください。"
+                                            v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" required readonly>
                                     </div>
                                     <!-- ユーザー名 -->
                                     <div class="form-group">
                                         <label>ユーザー名:</label>
                                         <input type="text" id="userName" class="form-control" maxlength="100" placeholder="100桁以下で入力してください。"
-                                            required="required" v-model="userName" autocomplete="off">
+                                            v-model="userName" autocomplete="off" required>
                                     </div>
                                     <!-- パスワード -->
                                     <div class="form-group">
                                         <label>パスワード:</label>
                                         <input type="password" id="inputPassword" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください。"
-                                            required="required" v-model="password" pattern="^[0-9A-Za-z]{8,16}$">
+                                            v-model="password" pattern="^[0-9A-Za-z]{8,16}$" required>
                                     </div>
                                     <!-- 性別 -->
                                     <div class="form-group">
@@ -106,11 +106,11 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>削除処理を実行しますか？</p>
+                            <p>削除してよろしいですか？</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="userDelete()">削除</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
                         </div>
                     </div>
                 </div>
@@ -214,12 +214,24 @@ export default {
                     this.errMsg = "ユーザーIDは半角英数で入力してください";
                     return;
                 }
-                if (this.userName.length < 1 || this.userName.length > 100) {
+                if (!this.userName) {
+                    this.errMsg = "ユーザー名を入力してください";
+                    return;
+                }
+                if (this.userName.length > 100) {
                     this.errMsg = "ユーザー名は100桁以下で入力してください";
+                    return;
+                }
+                if (!this.password) {
+                    this.errMsg = "パスワードを入力してください";
                     return;
                 }
                 if (this.password.length < 8 || this.password.length > 16) {
                     this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
+                    return;
+                }
+                if (!this.password.match("^[0-9A-Za-z]{8,16}$")) {
+                    this.errMsg = "パスワードは半角英数で入力してください";
                     return;
                 }
                 if (!this.gender) {
@@ -241,6 +253,7 @@ export default {
                 };
 
                 await AjaxUtil.putUser(model);
+                this.msg = "登録に成功しました"
                 return;
             } catch (error) {
                 this.msg = "";
