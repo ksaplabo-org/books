@@ -32,8 +32,27 @@
                                         <input type="text" id="userId" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
                                             v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" required>
                                     </div>
-                                    <!-- ユーザー名 -->
-                                    <!-- パスワード -->
+                                    <!--
+                                        ユーザー名
+                                            入力形式：テキストボックス
+                                            最大文字数：100
+                                            プレースホルダー：100桁以下で入力してください
+                                            入力：必須
+                                    -->
+
+                                    <!--
+                                        パスワード
+                                            入力形式：テキストボックス
+                                            最大文字数：16
+                                            最小文字数：8
+                                            プレースホルダー：8桁以上16桁以下で入力してください
+                                            半角英数字チェック：
+                                                正規表現でチェックする。
+                                                使用する正規表現：^[0-9A-Za-z]{8,16}$
+                                                ★↑無駄が多いので修正する必要がある★
+                                            入力：必須
+                                            その他：入力値はマスクする
+                                    -->
                                     <!-- 性別 -->
                                     <div class="form-group">
                                         <label>性別:</label>
@@ -51,7 +70,14 @@
                                             <label class="custom-control-label" for="unknownRadio">非公開</label>
                                         </div>
                                     </div>
-                                    <!-- 権限 -->
+                                    <!--
+                                        権限
+                                            入力形式：ラジオボタン
+                                            設定項目：
+                                                一般：0
+                                                職員：1
+                                            初期値：一般
+                                    -->
 
                                     <!-- 新規登録ボタン -->
                                     <div class="row justify-content-md-center">
@@ -121,7 +147,8 @@ export default {
         userCreate: async function() {
             this.isLoading = true
             try {
-                // 入力チェック
+                // ▼入力チェック
+                // ユーザーID
                 if (!this.userId) {
                     this.errMsg = "ユーザーIDを入力してください";
                     return;
@@ -134,14 +161,34 @@ export default {
                     this.errMsg = "ユーザーIDは半角英数で入力してください";
                     return;
                 }
+                /**
+                 * パスワード
+                 *     
+                 */
 
                 if (!this.gender) {
                     this.errMsg = "性別を選択してください";
                     return;
                 }
-                // ユーザーID重複チェック
+                /**
+                 * ユーザーID重複チェック
+                 *     DBにすでに登録されているユーザーIDの場合はエラーとする。
+                 *      エラーメッセージ：登録データが重複しています
+                 */
 
-                // 登録実行
+                /**
+                 * 登録処理
+                 *     作成したユーザー情報更新処理をコールする
+                 *     処理フロー：
+                 *          front
+                 *              AjaxUtil.js
+                 *                  非同期通信(axios)でbackendと通信する
+                 *            ↓↓↓
+                 *          backend
+                 *              index.js(APIの受け口)
+                 *                  AjaxUtil.jsで指定したURLの受け口を作り、DBへの登録結果をレスポンスに格納する
+                 *                  
+                 */
 
                 // 一覧画面に戻る
                 this.$router.push({ name: 'listUser', params: {flashMsg: '登録に成功しました'}});
