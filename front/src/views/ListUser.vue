@@ -25,19 +25,18 @@
                             <div class="px-2">ユーザーIDを検索</div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
+                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください">
                                 </div>
-                                <button class="btn-primary btn-sm" v-on:click="searchUser()" >検索</button>
+                                <button class="btn-primary btn-sm" v-on:click="getUserList()" >検索</button>
                             </div>
                         </div>
                     </div>
 
                     <br>
 
-                    <!-- User List -->
+                    <!-- ユーザー一覧 -->
                     <form @submit.stop.prevent="updateView">
                         <b-table  striped responsive hover :items="items" :fields="fields">
-                            <!-- button cell define -->
                             <template #cell(controls)="data">
                                 <b-button-group>
                                     <b-button variant="outline-primary"  v-on:click="userEdit(data.item)">
@@ -105,53 +104,49 @@ export default {
         }
     },
     methods: {
+        // 画面更新
         updateView: async function() {
-            try {
-                const response = await AjaxUtil.getAllUser();
-                this.items = response.data;
-            } catch (error) {
-                this.msg = '';
-                this.errMsg = 'ユーザー取得処理に失敗しました';
-                console.log(error);
-                this.isLoading = false;
-                throw error;
-            }finally {
-                this.isLoading = false;
-            }
-        },
-
-        // ユーザーIDあいまい検索
-        searchUser : function () {
-            this.isLoading = true;
-
+            // 初期化
             this.msg = '';
             this.errMsg = '';
             this.items = [];
 
+            // ユーザー一覧取得処理
+            this.getUserList();
+        },
+        // ユーザー一覧取得処理
+        getUserList: async function() {
+            this.isLoading = true;
+
+            // 検索値が未入力の場合
             if (!this.searchWord) {
-                this.msg = '';
-                this.errMsg = '';
-                this.isLoading = false;
-                // 画面更新
-                this.updateView();
-                return;
-            }
-
-            AjaxUtil.getUser(this.searchWord)
-                .then((response) => {
-                    this.items = JSON.parse(response.data.Items);
-
-                }).catch((error) => {
+                try {
+                    const response = await AjaxUtil.getAllUser();
+                    this.items = response.data;
+                } catch (error) {
                     this.msg = '';
-                    this.errMsg = 'ユーザー検索に失敗しました 管理者にお問い合わせください';
+                    this.errMsg = 'ユーザー取得処理に失敗しました';
                     console.log(error);
-
-                }).then(() => {
+                    throw error;
+                } finally {
                     this.isLoading = false;
-                });
-        } ,
-        
-        // edit user
+                }
+                return;
+            } else {
+                // ユーザーIDあいまい検索
+                AjaxUtil.getUser(this.searchWord)
+                    .then((response) => {
+                        this.items = JSON.parse(response.data.Items);
+                    }).catch((error) => {
+                        this.msg = '';
+                        this.errMsg = 'ユーザー検索に失敗しました 管理者にお問い合わせください';
+                        console.log(error);
+                    }).finally(() => {
+                        this.isLoading = false;
+                    });
+            }
+        },
+        // ユーザー編集
         userEdit: async function(data) { 
             this.isLoading = true;
 
