@@ -160,8 +160,11 @@ app.get("/api/user", function(req, res) {
  */
  app.get("/api/user/search/:searchWord", function(req, res) {
 
-    // ユーザー情報を取得する
-    UserLogic.getUser(db, req.params.searchWord)
+    /**
+     * ユーザー情報取得処理を呼び出す
+     * Promise()を書き換えること
+     */
+    Promise()
         .then((books) => {
             // 正常レスポンス
             res.send({

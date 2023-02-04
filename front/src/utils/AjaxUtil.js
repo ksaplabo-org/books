@@ -49,9 +49,10 @@ export function getAllUser() {
 }
 
 export function getUser(searchWord) {
-    const url = '/api/user/search/' + searchWord;
-    return axios.get(url);
-
+    /**
+     * ユーザーIDあいまい検索
+     *    URL: /api/user/search/ + 検索するユーザーID
+     */
 }
 
 export function getEditUser(userId) {

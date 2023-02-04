@@ -25,9 +25,12 @@
                             <div class="px-2">ユーザーIDを検索</div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください">
+                                    <!--
+                                        ユーザーID検索 入力欄
+                                            プレースホルダー: 入力してください
+                                    -->
                                 </div>
-                                <button class="btn-primary btn-sm" v-on:click="getUserList()" >検索</button>
+                                <button class="btn-primary btn-sm" v-on:click="updateView()" >検索</button>
                             </div>
                         </div>
                     </div>
@@ -39,9 +42,10 @@
                         <b-table  striped responsive hover :items="items" :fields="fields">
                             <template #cell(controls)="data">
                                 <b-button-group>
-                                    <b-button variant="outline-primary"  v-on:click="userEdit(data.item)">
-                                        編集
-                                    </b-button>
+                                    <!--
+                                        編集ボタン
+                                            押下時、userEdit関数を呼び出す
+                                    -->
                                 </b-button-group>
                             </template>
                         </b-table>
@@ -94,7 +98,6 @@ export default {
             if (UserUtil.isSignIn()) {
                 // 画面更新
                 await this.updateView();
-               
             } else {
                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
@@ -118,8 +121,11 @@ export default {
         getUserList: async function() {
             this.isLoading = true;
 
-            // 検索値が未入力の場合
-            if (!this.searchWord) {
+            /**
+             * 検索値が未入力の場合の条件式を記入する
+             * ※trueを書き換えること
+             */
+            if (true) {
                 try {
                     const response = await AjaxUtil.getAllUser();
                     this.items = response.data;
@@ -134,16 +140,19 @@ export default {
                 return;
             } else {
                 // ユーザーIDあいまい検索
-                AjaxUtil.getUser(this.searchWord)
-                    .then((response) => {
-                        this.items = JSON.parse(response.data.Items);
-                    }).catch((error) => {
-                        this.msg = '';
-                        this.errMsg = 'ユーザー検索に失敗しました 管理者にお問い合わせください';
-                        console.log(error);
-                    }).finally(() => {
-                        this.isLoading = false;
-                    });
+                /**
+                 * ユーザーIDあいまい検索
+                 *     コールするAPI
+                 *          AjaxUtil
+                 *              getUser
+                 *      成功時
+                 *          一覧の変数に、APIのレスポンスを格納する
+                 *      失敗時
+                 *          メッセージ表示を初期化
+                 *          エラーメッセージを表示
+                 *              ユーザー検索に失敗しました 管理者にお問い合わせください
+                 *      最後にロードマスクを解除する
+                 */
             }
         },
         // ユーザー編集
