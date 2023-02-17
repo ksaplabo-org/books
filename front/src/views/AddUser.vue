@@ -25,71 +25,69 @@
                         <div class="row">
                             <div class="col"/>
                             <div class="col-6">
-                                <div class="container">
-                                    <!-- ユーザーID -->
-                                    <div class="form-group">
-                                        <label>ユーザーID:</label>
-                                        <input type="text" id="userId" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
-                                            v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" required>
-                                    </div>
-                                    <!--
-                                        ユーザー名
-                                            入力形式：テキストボックス
-                                            最大文字数：100
-                                            プレースホルダー：100桁以下で入力してください
-                                            入力：必須
-                                    -->
+                                <!-- ユーザーID -->
+                                <div class="form-group">
+                                    <label>ユーザーID:</label>
+                                    <input type="text" id="userId" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
+                                        v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" required>
+                                </div>
+                                <!--
+                                    ユーザー名
+                                        入力形式：テキストボックス
+                                        最大文字数：100
+                                        プレースホルダー：100桁以下で入力してください
+                                        入力：必須
+                                -->
 
-                                    <!--
-                                        パスワード
-                                            入力形式：テキストボックス
-                                            最大文字数：16
-                                            最小文字数：8
-                                            プレースホルダー：8桁以上16桁以下で入力してください
-                                            半角英数字チェック：
-                                                正規表現でチェックする。
-                                                使用する正規表現：^[0-9A-Za-z]{8,16}$
-                                            入力：必須
-                                            その他：入力値はマスクする
-                                    -->
-                                    <!-- 性別 -->
-                                    <div class="form-group">
-                                        <label>性別:</label>
-                                        <br>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
-                                            <label class="custom-control-label" for="womanRadio">女性</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="man">
-                                            <label class="custom-control-label" for="manRadio">男性</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="unknown">
-                                            <label class="custom-control-label" for="unknownRadio">非公開</label>
-                                        </div>
+                                <!--
+                                    パスワード
+                                        入力形式：テキストボックス
+                                        最大文字数：16
+                                        最小文字数：8
+                                        プレースホルダー：8桁以上16桁以下で入力してください
+                                        半角英数字チェック：
+                                            正規表現でチェックする。
+                                            使用する正規表現：^[0-9A-Za-z]{8,16}$
+                                        入力：必須
+                                        その他：入力値はマスクする
+                                -->
+                                <!-- 性別 -->
+                                <div class="form-group">
+                                    <label>性別:</label>
+                                    <br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
+                                        <label class="custom-control-label" for="womanRadio">女性</label>
                                     </div>
-                                    <!--
-                                        権限
-                                            入力形式：ラジオボタン
-                                            設定項目：
-                                                一般：0
-                                                職員：1
-                                            初期値：一般
-                                    -->
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="man">
+                                        <label class="custom-control-label" for="manRadio">男性</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="unknown">
+                                        <label class="custom-control-label" for="unknownRadio">非公開</label>
+                                    </div>
+                                </div>
+                                <!--
+                                    権限
+                                        入力形式：ラジオボタン
+                                        設定項目：
+                                            一般：0
+                                            職員：1
+                                        初期値：一般
+                                -->
 
-                                    <!-- 新規登録ボタン -->
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-lg-4">
-                                            <input class="btn btn-primary btn-block" type="submit" value="新規登録">
-                                        </div>
+                                <!-- 新規登録ボタン -->
+                                <div class="row justify-content-md-center">
+                                    <div class="col-lg-4">
+                                        <input class="btn btn-primary btn-block" type="submit" value="新規登録">
                                     </div>
                                 </div>
                             </div>
                             <div class="col"/>
                         </div>
                     </form>
-                 </div>
+                </div>
             </div>
             <Footer/>
         </div>
