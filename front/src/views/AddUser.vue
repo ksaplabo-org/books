@@ -28,60 +28,58 @@
                         <div class="row">
                             <div class="col"/>
                             <div class="col-6">
-                                <div class="container">
-                                    <!-- ユーザーID -->
-                                    <div class="form-group">
-                                        <label>ユーザーID:</label>
-                                        <input type="text" id="userId" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
-                                            v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" required>
+                                <!-- ユーザーID -->
+                                <div class="form-group">
+                                    <label>ユーザーID:</label>
+                                    <input type="text" id="userId" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
+                                        v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" required>
+                                </div>
+                                <!-- ユーザー名 -->
+                                <div class="form-group">
+                                    <label>ユーザー名:</label>
+                                    <input type="text" id="userName" class="form-control" maxlength="100" placeholder="100桁以下で入力してください"
+                                        v-model="userName" autocomplete="off" required>
+                                </div>
+                                <!-- パスワード -->
+                                <div class="form-group">
+                                    <label>パスワード:</label>
+                                    <input type="password" id="inputPassword" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
+                                        v-model="password" pattern="^[0-9A-Za-z]{8,16}$" required>
+                                </div>
+                                <!-- 性別 -->
+                                <div class="form-group">
+                                    <label>性別:</label>
+                                    <br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
+                                        <label class="custom-control-label" for="womanRadio">女性</label>
                                     </div>
-                                    <!-- ユーザー名 -->
-                                    <div class="form-group">
-                                        <label>ユーザー名:</label>
-                                        <input type="text" id="userName" class="form-control" maxlength="100" placeholder="100桁以下で入力してください"
-                                            v-model="userName" autocomplete="off" required>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="man">
+                                        <label class="custom-control-label" for="manRadio">男性</label>
                                     </div>
-                                    <!-- パスワード -->
-                                    <div class="form-group">
-                                        <label>パスワード:</label>
-                                        <input type="password" id="inputPassword" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
-                                            v-model="password" pattern="^[0-9A-Za-z]{8,16}$" required>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="unknown">
+                                        <label class="custom-control-label" for="unknownRadio">非公開</label>
                                     </div>
-                                    <!-- 性別 -->
-                                    <div class="form-group">
-                                        <label>性別:</label>
-                                        <br>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
-                                            <label class="custom-control-label" for="womanRadio">女性</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="man">
-                                            <label class="custom-control-label" for="manRadio">男性</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="unknown">
-                                            <label class="custom-control-label" for="unknownRadio">非公開</label>
-                                        </div>
+                                </div>
+                                <!-- 権限 -->
+                                <div class="form-group">
+                                    <label>権限:</label>
+                                    <br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="generalRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="general" checked>
+                                        <label class="custom-control-label" for="generalRadio">一般</label>
                                     </div>
-                                    <!-- 権限 -->
-                                    <div class="form-group">
-                                        <label>権限:</label>
-                                        <br>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="generalRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="general" checked>
-                                            <label class="custom-control-label" for="generalRadio">一般</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="adminRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="admin">
-                                            <label class="custom-control-label" for="adminRadio">社員</label>
-                                        </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="adminRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="admin">
+                                        <label class="custom-control-label" for="adminRadio">社員</label>
                                     </div>
-                                    <!-- 新規登録ボタン -->
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-lg-4">
-                                            <input class="btn btn-primary btn-block" type="submit" value="新規登録">
-                                        </div>
+                                </div>
+                                <!-- 新規登録ボタン -->
+                                <div class="row justify-content-md-center">
+                                    <div class="col-lg-4">
+                                        <input class="btn btn-primary btn-block" type="submit" value="新規登録">
                                     </div>
                                 </div>
                             </div>
@@ -92,11 +90,13 @@
             </div>
             <Footer/>
         </div>
+
         <!-- トップにスクロール -->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
 
+        <!-- ローディングマスク -->
         <loading v-if="isLoading === true"/>
     </div>
 </template>
@@ -120,11 +120,13 @@ export default {
             msg: '',
             errMsg: '',
             isLoading: false,
-            userId: "",
-            userName: "",
-            password: "",
+            // 各項目初期値
+            userId: '',
+            userName: '',
+            password: '',
             gender: UserConst.Gender.woman,
             auth: UserConst.Auth.general,
+            // 各ラジオボタン設定値
             man: UserConst.Gender.man,
             woman: UserConst.Gender.woman,
             unknown: UserConst.Gender.unknown,
@@ -136,7 +138,8 @@ export default {
         // サインイン確認
         try {
             if (UserUtil.isSignIn()) {
-                this.msg = '';               
+                this.msg = this.flashMsg;
+                this.errMsg = this.flashErrMsg;
             } else {
                 this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
@@ -148,6 +151,7 @@ export default {
         // ユーザー作成
         userCreate: async function() {
             this.isLoading = true
+
             try {
                 // 入力チェック
                 if (!this.userId) {
@@ -191,9 +195,10 @@ export default {
                     return;
                 }
                 // ユーザーID重複チェック
-                const response = await AjaxUtil.getEditUser(this.userId);
-                if (response.data !== '') {
-                    this.errMsg = "登録データが重複しています";
+                const response = await AjaxUtil.getUserFindById(this.userId);
+                const userInfo = JSON.parse(response.data.Items);
+                if (userInfo) {
+                    this.errMsg = '入力されたユーザーは既に登録されています';
                     return;
                 }
 
@@ -203,18 +208,18 @@ export default {
                     userName: this.userName,
                     password: this.password,
                     gender: this.gender,
-                    userAuth: this.auth
+                    auth: this.auth
                 }
-                // 登録実行
+
+                // 登録
                 await AjaxUtil.postUser(model);
 
-                // 一覧画面に戻る
+                // 一覧画面に遷移する
                 this.$router.push({ name: 'listUser', params: {flashMsg: '登録に成功しました'}});
-                return;
-            } catch (error) {
-                this.msg = "";
-                this.errMsg = "ユーザー登録処理に失敗しました";
-                console.log(error)
+            } catch (e) {
+                this.msg = '';
+                this.errMsg = 'ユーザー登録に失敗しました';
+                console.log(e)
             } finally {
                 this.isLoading = false;
             }

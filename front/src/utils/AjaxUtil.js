@@ -43,49 +43,49 @@ export function deleteBook(title){
 }
 
 export function getAllUser() {
-    const url = '/api/user';
+    const url = '/api/users';
 
     return axios.get(url);
 }
 
-export function getUser(searchWord) {
-    const url = '/api/user/search/' + searchWord;
+export function getUserFindByIncludeIdOrName(searchWord) {
+    const url = '/api/users/search/' + searchWord;
     return axios.get(url);
 
 }
 
-export function getEditUser(userId) {
-    const url = '/api/user/' + userId;
+export function getUserFindById(userId) {
+    const url = '/api/users/' + userId;
 
     return axios.get(url);
 }
 
 export function postUser(userModel) {
-    const url = '/api/user'
+    const url = '/api/users'
 
     return axios.post(url, {
         "userId": userModel.userId,
         "userName": userModel.userName,
         "password": userModel.password,
         "gender": userModel.gender,
-        "userAuth": userModel.userAuth
+        "auth": userModel.auth
     })
 }
 
 export function putUser(userModel) {
-    const url = '/api/user';
+    const url = '/api/users';
     
     return axios.put(url, {
         "userId": userModel.userId,
         "userName": userModel.userName,
         "password": userModel.password,
         "gender": userModel.gender,
-        "userAuth": userModel.userAuth
+        "auth": userModel.auth
     })
 }
 
 export function deleteUser(userId) {
-    const url = '/api/user/' + userId;
+    const url = '/api/users/' + userId;
 
     return axios.delete(url);
 }

@@ -8,7 +8,7 @@
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
 
-                    <!-- Breadcrumbs-->
+                    <!-- パンくずリスト -->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
@@ -100,11 +100,12 @@
 
         </div>
 
-        <!-- Scroll to Top Button-->
+        <!-- スクロールトップボタン -->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
 
+        <!-- ローディングマスク -->
         <loading v-if="isLoading === true"/>
 
     </div>
@@ -201,7 +202,7 @@ export default {
             }
             
             // ユーザーID存在チェック → 貸出チェック → 貸出登録
-            AjaxUtil.getEditUser(this.registId)
+            AjaxUtil.getUserFindById(this.registId)
                 .then((response) => {
                     const result = response.data;
                     if (result === '') {

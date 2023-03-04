@@ -1,124 +1,144 @@
 const UserRepository = require("../db/user");
 /**
- * 全ユーザー情報取得
+ * ユーザー情報一覧を取得
  * @param {*} db 
  * @returns ユーザー情報(Promise)
  */
  module.exports.getAll = async function (db) {
     const UserModel = UserRepository.getUserModel(db);
     try {
-        return await UserModel.findAll({ order: [ ["user_id", "ASC"] ]});
-    } catch (error) {
-        throw error;
+        return await UserModel.findAll(
+            {
+                order: [
+                    ["user_id", "ASC"]
+                ]
+            }
+        );
+    } catch (e) {
+        throw e;
     }
 }
 
 /**
- * ユーザーIDのあいまい検索結果を取得する
+ * ユーザー情報取得
+ *   部分一致検索(ユーザーID、ユーザー名)
  * @param {*} db 
- * @param {*} searchWord
+ * @param {*} word
  * @returns ユーザー情報（Promise）
  */
- module.exports.getUser = async function (db, searchWord) {
+ module.exports.findByIncludeIdOrName = async function (db, word) {
     const UserModel = UserRepository.getUserModel(db);
     const Sequelize = require('sequelize');
     const Op = Sequelize.Op;
 
     try {
-        return await UserModel.findAll({ 
-            where: {
-                user_id: {
-                    [Op.like]: '%' + searchWord + '%'
-                } 
+        return await UserModel.findAll(
+            {
+                where: {
+                    [Op.or]: {
+                        user_id: {[Op.like]: '%' + word + '%'},
+                        user_name: {[Op.like]: '%' + word + '%'}
+                    }
+                },
+                order: [
+                    ["user_id", "ASC"]
+                ]
             }
-        });
-    } catch (error) {
-        console.log(error);
-        throw error;
+        );
+    } catch (e) {
+        throw e;
     }
 }
 
 /**
- * 指定ユーザー情報取得
+ * ユーザー情報取得
+ *   完全一致検索(ユーザーID)
  * @param {*} db 
  * @param {*} userId
  * @returns ユーザー情報(Promise)
  */
- module.exports.getEditUser = async function (db,userId) {
+ module.exports.findById = async function (db, userId) {
     const UserModel = UserRepository.getUserModel(db);
     try {
-        return  await UserModel.findByPk(userId);
-    } catch (error) {
-        throw error;
+        return await UserModel.findByPk(userId);
+    } catch (e) {
+        throw e;
     }
 }
 
 /**
  * ユーザー情報登録
  * @param {*} db 
- * @param {*}  userId
- * @param {*}  userName
- * @param {*}  password
- * @param {*}  gender
- * @param {*}  userAuth
- * @returns ユーザー情報(Promise)
+ * @param {*} userId
+ * @param {*} userName
+ * @param {*} password
+ * @param {*} gender
+ * @param {*} auth
+ * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports.create = async function (db, userId, userName, password,gender,userAuth) {
+ module.exports.create = async function (db, userId, userName, password, gender, auth) {
     const UserModel = UserRepository.getUserModel(db);
     try {
-        return await UserModel.create({user_id:userId, user_name:userName, password:password, gender:gender, user_auth:userAuth});
-    } catch (error) {
-        throw error;
+        return await UserModel.create(
+            {
+                user_id: userId,
+                user_name: userName,
+                password: password,
+                gender: gender,
+                auth: auth
+            }
+        );
+    } catch (e) {
+        throw e;
     }
-}   
+}
 
 /**
  * ユーザー情報更新
  * @param {*} db 
- * @param {*}  userId
- * @param {*}  userName
- * @param {*}  password
- * @param {*}  gender
- * @returns ユーザー情報(Promise)
+ * @param {*} userId
+ * @param {*} userName
+ * @param {*} password
+ * @param {*} gender
+ * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports.update = async function (db, userId,  userName, password,gender) {
-      const UserModel = UserRepository.getUserModel(db);
-
+ module.exports.update = async function (db, userId, userName, password, gender) {
+    const UserModel = UserRepository.getUserModel(db);
     try {
-        // set update parameter
-        const updateParams = {
-            user_name: null,
-            password: null,
-            gender: null
-        };
-
-            updateParams.user_name = userName;
-            updateParams.password = password;
-            updateParams.gender = gender;
-    
-        // set filter parameter
-        const filter = { where: { user_id: userId } }
-    
-        return await UserModel.update(updateParams, filter);
-
-    } catch (error) {
-        throw error;
+        return await UserModel.update(
+            {
+                user_name: userName,
+                password: password,
+                gender: gender
+            },
+            {
+                where: {
+                    user_id: userId
+                }
+            }
+        );
+    } catch (e) {
+        throw e;
     }
 }  
 
 /**
  * ユーザー情報削除
  * @param {*} db 
- * @param {*}  userId
- * @returns Promise（成功時 resolve/失敗時 reject）
+ * @param {*} userId
+ * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports. remove =  async function (db, userId) {
+ module.exports.remove = async function (db, userId) {
     const UserModel = UserRepository.getUserModel(db);
-
     try {
-        return await UserModel.destroy({ where: { user_id: userId } });
-    } catch (error) {
-        console.log(error);
-        throw error;
+        return await UserModel.destroy(
+            {
+                where: {
+                    user_id: userId
+                }
+            }
+        );
+    } catch (e) {
+        throw e;
     }
 }

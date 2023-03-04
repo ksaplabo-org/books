@@ -8,7 +8,7 @@
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
 
-                    <!-- Breadcrumbs-->
+                    <!-- パンくずリスト -->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'menu'}">トップページ</router-link>
@@ -41,11 +41,12 @@
             <Footer/>
         </div>
 
-        <!-- Scroll to Top Button-->
+        <!-- スクロールトップボタン -->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
 
+        <!-- ローディングマスク -->
         <loading v-if="isLoading === true"/>
 
     </div>

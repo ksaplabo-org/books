@@ -7,7 +7,7 @@
 
       <div id="content-wrapper" class="bg-light">
         <div class="container-fluid">
-          <!-- Breadcrumbs-->
+          <!-- パンくずリスト -->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <router-link tag="a" :to="{ name: 'top' }">トップページ</router-link>
@@ -211,7 +211,7 @@
       <!-- /modal -->
     </div>
 
-    <!-- Scroll to Top Button-->
+    <!-- スクロールトップボタン -->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>

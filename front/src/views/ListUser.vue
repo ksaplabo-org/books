@@ -8,7 +8,7 @@
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
 
-                    <!-- Breadcrumbs-->
+                    <!-- パンくずリスト-->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
@@ -27,20 +27,20 @@
                                 <div class="col-lg-6">
                                     <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                 </div>
-                                <button class="btn-primary btn-sm" v-on:click="searchUser()" >検索</button>
+                                <button class="btn-primary btn-sm" v-on:click="onClickSearchButton()" >検索</button>
                             </div>
                         </div>
                     </div>
 
                     <br>
 
-                    <!-- User List -->
+                    <!-- ユーザー一覧 -->
                     <form @submit.stop.prevent="updateView">
                         <b-table  striped responsive hover :items="items" :fields="fields">
-                            <!-- button cell define -->
+                            <!-- ボタンセル定義 -->
                             <template #cell(controls)="data">
                                 <b-button-group>
-                                    <b-button variant="outline-primary"  v-on:click="userEdit(data.item)">
+                                    <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)">
                                         編集
                                     </b-button>
                                 </b-button-group>
@@ -52,18 +52,18 @@
             <Footer/>
         </div>
 
-        <!-- Scroll to Top Button-->
+        <!-- スクロールトップボタン-->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
 
+        <!-- ローディングマスク -->
         <loading v-if="isLoading === true"/>
 
     </div>
 </template>
 
 <script>
-import Vue from 'vue';
 import * as UserUtil from '@/utils/UserUtil';
 import * as AjaxUtil from '@/utils/AjaxUtil';
 // 共通
@@ -75,10 +75,10 @@ import Loading from '../components/Loading.vue';
 export default {
     name : 'ListUser' ,
     props: ['flashMsg', 'flashErrMsg'],    
-    components: { NaviMenu, Menu, Footer, Loading } ,
+    components: { NaviMenu, Menu, Footer, Loading },
     data() {
         return {
-            msg: this.flashMsg,
+            msg: '',
             errMsg: '',
             isLoading: false,
             fields: [
@@ -87,75 +87,78 @@ export default {
                 {key: 'controls', label: ''}
             ],
             items: [],
+            searchWord: ''
         };
     },
     async mounted() {
-        const self = this;
         try {
+            // ログイン確認
             if (UserUtil.isSignIn()) {
                 // 画面更新
-                await this.updateView();
-               
+                this.updateView();
+
+                // メッセージ設定
+                this.msg = this.flashMsg;
+                this.errMsg = this.flashErrMsg;
             } else {
-               this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+               this.$router.push({ name: 'signin', params: { flashMsg: 'サインインしてください' }});
             };
-            
         } catch(e) {
-            self.errMsg = e.message;
+            this.errMsg = e.message;
         }
     },
     methods: {
-        updateView: async function() {
-            try {
-                const response = await AjaxUtil.getAllUser();
-                this.items = response.data;
-            } catch (error) {
-                this.msg = '';
-                this.errMsg = 'ユーザー取得処理に失敗しました';
-                console.log(error);
-                this.isLoading = false;
-                throw error;
-            }finally {
-                this.isLoading = false;
-            }
-        },
-
-        // ユーザーIDあいまい検索
-        searchUser : function () {
-            this.isLoading = true;
-
+        // 画面更新
+        updateView: function() {
             this.msg = '';
             this.errMsg = '';
-            this.items = [];
 
-            if (!this.searchWord) {
-                this.msg = '';
-                this.errMsg = '';
-                this.isLoading = false;
-                // 画面更新
-                this.updateView();
-                return;
-            }
-
-            AjaxUtil.getUser(this.searchWord)
-                .then((response) => {
-                    this.items = JSON.parse(response.data.Items);
-
-                }).catch((error) => {
-                    this.msg = '';
-                    this.errMsg = 'ユーザー検索に失敗しました 管理者にお問い合わせください';
-                    console.log(error);
-
-                }).then(() => {
-                    this.isLoading = false;
-                });
-        } ,
-        
-        // edit user
-        userEdit: async function(data) { 
+            // ユーザー情報検索処理
+            this.getUsers();
+        },
+        // ユーザー検索処理
+        getUsers: function() {
             this.isLoading = true;
-
-            this.$router.push({ name: 'editUser', params: {editUserId: data.user_id}});
+            
+            // 検索文字が入力されている場合
+            if (this.searchWord) {
+                // 部分一致検索
+                AjaxUtil.getUserFindByIncludeIdOrName(this.searchWord)
+                    .then((response) => {
+                        this.items = JSON.parse(response.data.Items);
+                    }).catch((e) => {
+                        this.msg = '';
+                        this.errMsg = 'ユーザー検索に失敗しました';
+                        console.log(e);
+                    }).finally(() => {
+                        this.isLoading = false;
+                    });
+            // 検索文字が未入力の場合
+            } else {
+                // 全件検索
+                AjaxUtil.getAllUser()
+                    .then((response) => {
+                        this.items = JSON.parse(response.data.Items);
+                    })
+                    .catch((e) => {
+                        this.msg = '';
+                        this.errMsg = 'ユーザー検索に失敗しました';
+                        console.log(e);
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                    })
+            }
+        },
+        // 検索ボタン押下時
+        onClickSearchButton: function() {
+            // ユーザー情報検索処理
+            this.getUsers();
+        },
+        // 編集ボタン押下時
+        onClickEditButton: function(data) {
+            // 編集画面へ遷移する
+            this.$router.push({ name: 'editUser', query: { userId: data.user_id }});
         }
     }
 }

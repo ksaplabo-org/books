@@ -33,6 +33,7 @@
       </div>
     </div>
 
+    <!-- ローディングマスク -->
     <loading v-if="isLoading === true"/>    
   </div>
 </template>
