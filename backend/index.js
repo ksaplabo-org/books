@@ -24,8 +24,6 @@ app.post("/api/signIn", function(req, res) {
     // リクエスト取得
     const user = req.body;
 
-    // 本当はこのあたりでパラメータチェック
-
     // 検証する
     AuthLogic.verify(db, user.userId, user.password)
         .then((result) => {
@@ -40,7 +38,7 @@ app.post("/api/signIn", function(req, res) {
 });
 
 /**
- * お知らせ取得API
+ * お知らせ一覧取得API
  */
 app.get("/api/information", function(req, res) {
     InformationLogic.getAll(db)
@@ -61,9 +59,6 @@ app.get("/api/information", function(req, res) {
  * 書籍情報取得API
  */
 app.get("/api/book", function(req, res) {
-    // リクエスト取得
-
-    // 書籍取得する
     BookLogic.getAll(db)
         .then((books) => {
             // 正常レスポンス
@@ -85,15 +80,13 @@ app.post("/api/book", function(req, res) {
     // リクエスト取得
     const book = req.body;
 
-    // 本当はこのあたりでパラメータチェック
-
     // 書籍追加する
     BookLogic.add(db, book)
-        .then((books) => {
+        .then(() => {
             // 正常レスポンス
             res.send({result: "success"});
         })
-        .catch((error)  => {
+        .catch(()  => {
             // 異常レスポンス
             console.log("failed to add book");
             res.status(500).send("server error occur")
@@ -105,8 +98,6 @@ app.post("/api/book", function(req, res) {
  */
 app.put("/api/book/:operation", function(req, res) {
     const requestBody = req.body;
-
-    // 本当はこのあたりでパラメータチェック
 
     // 書籍更新する
     const isUpdateRental = (req.params.operation === "rental");
@@ -141,12 +132,17 @@ app.delete("/api/book/:title", function(req, res) {
         });
 });
 
-app.get("/api/user", function(req, res) {
+/**
+ * ユーザー情報一覧取得API
+ */
+app.get("/api/users", function(req, res) {
     // ユーザー取得する
     UserLogic.getAll(db)
         .then((users) => {
             // 正常レスポンス
-            res.send(users);
+            res.send({
+                Items: JSON.stringify(users)
+            });
         })
         .catch(()  => {
             // 異常レスポンス
@@ -156,12 +152,33 @@ app.get("/api/user", function(req, res) {
 });
 
 /**
- * ユーザーIDのあいまい検索結果取得API
+ * ユーザー情報取得API
+ *   ユーザーIDで検索
  */
- app.get("/api/user/search/:searchWord", function(req, res) {
+app.get("/api/users/:id", function(req, res) {
+    // ユーザー情報を取得する
+    UserLogic.findById(db, req.params.id)
+        .then((user) => {
+            // 正常レスポンス
+            res.send({
+                Items: JSON.stringify(user)
+            });
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to get user");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * ユーザー情報取得API
+ *   ユーザーID、ユーザー名の部分一致検索
+ */
+ app.get("/api/users/search/:word", function(req, res) {
 
     // ユーザー情報を取得する
-    UserLogic.getUser(db, req.params.searchWord)
+    UserLogic.findByIncludeIdOrName(db, req.params.word)
         .then((books) => {
             // 正常レスポンス
             res.send({
@@ -175,38 +192,30 @@ app.get("/api/user", function(req, res) {
         });
 });
 
-app.get("/api/user/:userId", function(req, res) {
-    // ユーザー情報を取得する
-    UserLogic.getEditUser(db, req.params.userId)
-        .then((user) => {
-            // 正常レスポンス
-            res.send(user);
-        })
-        .catch(()  => {
-            // 異常レスポンス
-            console.log("failed to get all user");
-            res.status(500).send("server error occur")
-        });
-});
-
-app.post("/api/user", function(req, res) {
+/**
+ * ユーザー情報追加API
+ */
+app.post("/api/users", function(req, res) {
     // リクエスト取得
     const user = req.body;
 
     // ユーザー情報を登録する
-    UserLogic.create(db, user.userId, user.userName, user.password , user.gender , user.userAuth )
+    UserLogic.create(db, user.userId, user.userName, user.password , user.gender , user.auth)
         .then(() => {
             // 正常レスポンス
             res.send({});
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to get add user");
+            console.log("failed to add user");
             res.status(500).send("server error occur")
         });
 });
 
-app.put("/api/user", function(req, res) {
+/**
+ * ユーザー情報更新API
+ */
+app.put("/api/users", function(req, res) {
     // リクエスト取得
     const user = req.body;
 
@@ -218,16 +227,19 @@ app.put("/api/user", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to user update");
+            console.log("failed to update user");
             res.status(500).send("server error occur")
         });
 });
 
-app.delete("/api/user/:userId", function(req, res) {
+/**
+ * ユーザー情報削除API
+ */
+app.delete("/api/users/:id", function(req, res) {
     console.log(db)
 
     // ユーザー削除する
-    UserLogic.remove(db, req.params.userId)
+    UserLogic.remove(db, req.params.id)
         .then(() => {
             // 正常レスポンス
             res.send({result: "success"});

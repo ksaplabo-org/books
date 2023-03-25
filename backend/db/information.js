@@ -1,10 +1,10 @@
 const { STRING, DATE, TINYINT } = require("sequelize");
 
 module.exports. getInformationModel = function(db) {
-    var informationModel = db.define(
+    return db.define(
         "information",
         {
-            Date: {
+            date: {
                 field: "date",
                 type: DATE,
                 primaryKey: true,
@@ -28,5 +28,4 @@ module.exports. getInformationModel = function(db) {
             tableName: "information" //明示的にテーブル名を指定
         }
     );
-    return informationModel;
 }

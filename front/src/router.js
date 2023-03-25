@@ -69,7 +69,6 @@ export default new Router({
     {
       path: '/pages/editUser.html',
       name: 'editUser',
-      props: true,
       component: EditUser,
     },
     {

@@ -23,7 +23,7 @@ export default {
     data() {
         /**
          * メニュー定義
-         *    titile: タイトル
+         *    title: タイトル
          *    name: ルーティングする名称
          *    icon: Font Awesomeのアイコンを指定
          *    onlyAdmin: true:管理者のみ/false:管理者、一般で使用可能

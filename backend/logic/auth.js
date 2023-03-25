@@ -19,7 +19,7 @@ module.exports.verify = async function (db, userId, password) {
             resultUser = {
                 userid: user.user_id,
                 userName: user.user_name,
-                userAuth: user.user_auth
+                auth: user.auth
             }
         }
 
