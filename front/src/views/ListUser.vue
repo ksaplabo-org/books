@@ -22,7 +22,7 @@
                     <!-- ユーザーID検索 -->
                     <div class="continer" style="font-size:10pt">
                         <div class="form-group m-2">
-                            <div class="px-2">ユーザーIDを検索</div>
+                            <div class="px-2">ユーザーID/ユーザー名を検索</div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>

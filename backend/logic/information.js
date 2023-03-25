@@ -1,14 +1,12 @@
-// moment import
-const moment = require("moment");
 const InformationRepository = require("../db/information");
 const sequelize = require("sequelize");
 
 /**
- * お知らせを取得する
+ * お知らせ一覧を取得する
  * @param {*} db 
  * @returns お知らせ情報（Promise）
  */
-module.exports.getAll = async function (db) {
+module.exports.getAll = async function(db) {
     const InformationModel = InformationRepository.getInformationModel(db);
 
     try {
@@ -28,8 +26,8 @@ module.exports.getAll = async function (db) {
                 ]
             }
         );
-    } catch (error) {
-        console.log(error);
-        throw error;
+    } catch (e) {
+        console.log(e);
+        throw e;
     }
 }

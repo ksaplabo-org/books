@@ -38,7 +38,7 @@ app.post("/api/signIn", function(req, res) {
 });
 
 /**
- * お知らせ取得API
+ * お知らせ一覧取得API
  */
 app.get("/api/information", function(req, res) {
     InformationLogic.getAll(db)
