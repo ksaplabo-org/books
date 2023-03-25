@@ -39,13 +39,11 @@ export function addBook(addBookModel){
 
 export function deleteBook(title){
     const url = '/api/book/' + title;
-
     return axios.delete(url);
 }
 
 export function getAllUser() {
     const url = '/api/users';
-
     return axios.get(url);
 }
 
@@ -57,12 +55,11 @@ export function getUserFindByIncludeIdOrName(searchWord) {
 
 export function getUserFindById(userId) {
     const url = '/api/users/' + userId;
-
     return axios.get(url);
 }
 
 export function postUser(userModel) {
-    const url = '/api/users'
+    const url = '/api/users';
 
     return axios.post(url, {
         "userId": userModel.userId,
@@ -74,10 +71,9 @@ export function postUser(userModel) {
 }
 
 export function putUser(userModel) {
-    const url = '/api/users';
+    const url = '/api/users/' + userModel.userId;
     
     return axios.put(url, {
-        "userId": userModel.userId,
         "userName": userModel.userName,
         "password": userModel.password,
         "gender": userModel.gender,

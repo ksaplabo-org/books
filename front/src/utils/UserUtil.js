@@ -10,7 +10,7 @@ import UserConst from './const/UserConst';
  * @returns 
  */
 export function signIn(userId, password) {
-  const url = '/api/signIn';
+  const url = '/api/sign-in';
 
   return axios.post(url, {
       userId: userId, 

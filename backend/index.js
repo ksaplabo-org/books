@@ -1,17 +1,17 @@
-// Bussiness Logic define
+// ビジネスロジック定義
 const AuthLogic = require("./logic/auth");
 const BookLogic = require("./logic/book");
 const UserLogic = require("./logic/user");
 const LendingLogic = require("./logic/lending");
 const InformationLogic = require("./logic/information");
 
-// DB Connection define
+// DB接続定義
 const DbUtil  = require("./db/utility");
 const db = DbUtil.connect();
 
-// Express setting
-const  express  = require("express");
-const  { json }  = require("body-parser");
+// Express設定
+const express = require("express");
+const { json } = require("body-parser");
 const cors  = require("cors");
 const app = express();
 app.use(json())
@@ -20,7 +20,7 @@ app.use(cors())
 /**
  * サインインAPI
  */
-app.post("/api/signIn", function(req, res) {
+app.post("/api/sign-in", function(req, res) {
     // リクエスト取得
     const user = req.body;
 
@@ -215,17 +215,17 @@ app.post("/api/users", function(req, res) {
 /**
  * ユーザー情報更新API
  */
-app.put("/api/users", function(req, res) {
+app.put("/api/users/:id", function(req, res) {
     // リクエスト取得
     const user = req.body;
 
     // ユーザー情報を登録する
-    UserLogic.update(db, user.userId, user.userName, user.password , user.gender)
+    UserLogic.update(db, req.params.id, user.userName, user.password , user.gender)
         .then(() => {
             // 正常レスポンス
-            res.send({});
+            res.send();
         })
-        .catch(()  => {
+        .catch(() => {
             // 異常レスポンス
             console.log("failed to update user");
             res.status(500).send("server error occur")
