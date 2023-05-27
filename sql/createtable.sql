@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS information
 (
     date Date NOT NULL,
     no TINYINT NOT NULL,
+    title varchar(100) NOT NULL,
     content varchar(100) NOT NULL,
     PRIMARY KEY(date, no)
 )
