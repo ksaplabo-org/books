@@ -16,6 +16,11 @@ module.exports. getInformationModel = function(db) {
                 primaryKey: true,
                 allowNull: false
             },
+            title: {
+                field: "title",
+                type: STRING(100),
+                allowNull: false
+            },
             content: {
                 field: "content",
                 type: STRING(100),

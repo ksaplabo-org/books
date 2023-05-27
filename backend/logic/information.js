@@ -22,6 +22,7 @@ module.exports.getAll = async function(db) {
                         'date'
                     ],
                     'no',
+                    'title',
                     'content'
                 ]
             }
