@@ -18,6 +18,29 @@ module.exports.getAll = async function (db) {
     }
 }
 
+module.exports.get = async function(db, isbn) {
+    const BookModel = BookRepository.getBookModel(db);
+    const sequelize = require('sequelize');
+
+    try {
+        return await BookModel.findAll(
+            {
+                attributes: [
+                    'isbn',
+                    [sequelize.fn('count', sequelize.col('book_id')), 'stock']
+                ],
+                where: {
+                    isbn: isbn
+                },
+                group: 'isbn'
+            }
+        );
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+}
+
 /**
  * 書籍を追加する
  *
@@ -25,10 +48,10 @@ module.exports.getAll = async function (db) {
  * @param {*} book 
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
- module.exports. add = async function (db, book) {
+ module.exports.add = async function (db, book) {
     const BookModel = BookRepository.getBookModel(db, book);
 
-    try {    
+    try {
         return await BookModel.create({
             isbn : book.isbn,
             book_id : book.book_id,
@@ -50,7 +73,7 @@ module.exports.getAll = async function (db) {
  * @param {*} isUpdateRental
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
- module.exports. updateState = async function (db, title, userName, isUpdateRental) {
+ module.exports.updateState = async function (db, title, userName, isUpdateRental) {
     const BookModel = BookRepository.getBookModel(db);
 
     try {
@@ -85,7 +108,7 @@ module.exports.getAll = async function (db) {
  * @param {*} title 
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
-module.exports. remove =  async function (db, title) {
+module.exports.remove =  async function (db, title) {
     const BookModel = BookRepository.getBookModel(db);
 
     try {

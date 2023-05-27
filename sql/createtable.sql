@@ -16,11 +16,11 @@ DROP TABLE IF EXISTS book;
 CREATE TABLE IF NOT EXISTS book
 (
     isbn varchar(13) NOT NULL,
-    book_id varchar(13) NOT NULL,
+    book_id varchar(18) NOT NULL,
     title varchar(100) NOT NULL,
     description varchar(1024),
     img_url varchar(255),
-    PRIMARY KEY(isbn,book_id)
+    PRIMARY KEY(isbn, book_id)
 )
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;

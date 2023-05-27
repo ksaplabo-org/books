@@ -23,6 +23,11 @@ export function searchBooks(keyword) {
     return axios.get(url);
 }
 
+export function getBook(isbn) {
+    const url = '/api/book/' + isbn;
+    return axios.get(url);
+}
+
 export function addBook(addBookModel){
 
     const url = '/api/book';

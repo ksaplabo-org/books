@@ -56,7 +56,7 @@ app.get("/api/information", function(req, res) {
 });
 
 /**
- * 書籍情報取得API
+ * 書籍情報全件取得API
  */
 app.get("/api/book", function(req, res) {
     BookLogic.getAll(db)
@@ -66,7 +66,26 @@ app.get("/api/book", function(req, res) {
                 Items: JSON.stringify(books)
             });
         })
-        .catch(()  => {
+        .catch(() => {
+            // 異常レスポンス
+            console.log("failed to get books");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * 書籍情報取得API
+ */
+app.get("/api/book/:isbn", function(req, res) {
+    // 書籍情報を取得する
+    BookLogic.get(db, req.params.isbn)
+        .then((book) => {
+            // 正常レスポンス
+            res.send({
+                Items: JSON.stringify(book)
+            });
+        })
+        .catch(() => {
             // 異常レスポンス
             console.log("failed to get book");
             res.status(500).send("server error occur")

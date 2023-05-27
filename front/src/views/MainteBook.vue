@@ -97,55 +97,23 @@
 
                     <div class="col-sm-8 ml-2 mb-2 text-left">
                       <div class="table-responsive">
-                        <table
-                          class="
-                            table
-                            table-sm
-                            table-striped
-                            table-height-sm
-                            table-condensed
-                          "
-                          style="font-size: 10pt"
-                        >
-                          <tbody>
-                            <tr>
-                              <td>在庫</td>
-                              <td>
-                                {{
-                                  row.isMaster ? "本棚にあります" : "未入庫"
-                                }}&nbsp;
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>操作</td>
-                              <td>
-                                <a
-                                  href="#"
-                                  v-if="row.isMaster === true"
-                                  v-on:click="deleteBook(row.title)"
-                                  >&nbsp;
-                                  <i class="fas fa-fw fa-file-export"></i>
-                                  <span>マスタ削除</span>
-                                </a>
-                                <a
-                                  href="#"
-                                  v-else
-                                  v-on:click="
-                                    addBook(
-                                      row.title,
-                                      row.isbn_13,
-                                      row.description,
-                                      row.imgUrl
-                                    )
-                                  "
-                                  >&nbsp;
-                                  <i class="fas fa-fw fa-file-export"></i>
-                                  <span>登録</span>
-                                </a>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <b-table  striped responsive hover :items="[{'stock': row.stock}]" :fields="fields">
+                            <!-- ボタンセル定義 -->
+                            <template #cell(addButton)="data">
+                                <b-button-group>
+                                    <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)">
+                                        追加
+                                    </b-button>
+                                </b-button-group>
+                            </template>
+                            <template #cell(deleteButton)="data">
+                                <b-button-group>
+                                    <b-button variant="outline-danger" data-toggle="modal" data-target="#deleteModal">
+                                      削除
+                                    </b-button>
+                                </b-button-group>
+                            </template>
+                        </b-table>
                       </div>
                     </div>
                   </div>
@@ -209,6 +177,35 @@
         </div>
       </div>
       <!-- /modal -->
+
+      <!-- 削除確認モーダル -->
+      <div class="modal modal-dialog-scrollable fade" id="deleteModal" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="myModalLabel">削除確認</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <p>削除するbook idを選択してください。</p>
+                      <button class="dropdown-toggle" variant="outline-primary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true">
+                        Dropdown button
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="userDelete()">削除</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
 
     <!-- スクロールトップボタン -->
@@ -221,7 +218,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import * as UserUtil from "@/utils/UserUtil";
 import * as AjaxUtil from "@/utils/AjaxUtil";
 // 共通
@@ -244,6 +240,11 @@ export default {
       clickedRow: {},
       searchWord: "",
       isLoading: false,
+      fields: [
+        {key: "stock", label: "在庫"},
+        {key: "addButton", label: ""},
+        {key: "deleteButton", label: ""}
+      ]
     };
   },
   methods: {
@@ -298,6 +299,11 @@ export default {
               //
             }
 
+            // ISBN13桁がない書籍は登録できないので表示対象外とする
+            if (result.isbn_13 === "") {
+              return;
+            }
+
             // 内容
             try {
               result.description = result.volumeInfo.description;
@@ -313,38 +319,32 @@ export default {
             } catch {
               result.imgUrl = "";
             }
-          });
 
-          // マスタ登録済みか
-          AjaxUtil.getAllSapBooks()
-            .then((response) => {
-              let masterBooks = JSON.parse(response.data.Items);
-
-              searchResultBooks.forEach((result) => {
-                result.isMaster = masterBooks.some((masterBook) => {
-                  return (
-                    (result.isbn_10 != "" &&
-                      result.isbn_10 === masterBook.isbn) ||
-                    (result.isbn_13 != "" && result.isbn_13 === masterBook.isbn)
-                  );
+            // 在庫数
+            try {
+              result.stock = 0;
+              AjaxUtil.getBook(result.isbn_13)
+                .then((book) => {
+                  const item = JSON.parse(book.data.Items);
+                  if (item.length !== 0) {
+                    result.stock = item[0].stock;
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
                 });
-              });
-
-              // データセット
-              this.items = searchResultBooks;
-              this.isLoading = false;
-            })
-            .catch((error) => {
-              this.msg = "";
-              this.errMsg = "書籍取得に失敗しました";
-              console.log(error);
-              this.isLoading = false;
-            });
+            } catch {
+              //
+            }
+            this.items.push(result);
+          });
         })
         .catch((error) => {
           this.msg = "";
           this.errMsg = "検索に失敗しました";
           console.log(error);
+        })
+        .finally(() => {
           this.isLoading = false;
         });
     },
@@ -401,6 +401,13 @@ export default {
         });
       }
     },
+    onClickDeleteButton: function(isbn) {
+      this.isLoading = true;
+
+      // isbnに紐づくbook_idを取得する
+
+      this.isLoading = false;
+    }
   },
 };
 </script>
