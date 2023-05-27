@@ -222,14 +222,6 @@ export default {
         userUpdate: function() {
 
             // 入力チェック
-            if (this.userId.length < 8 || this.userId.length > 16) {
-                this.errMsg = "ユーザーIDは8桁以上16桁以下で入力してください";
-                return;
-            }
-            if (!this.userId.match("^[0-9A-Za-z]{8,16}$")) {
-                this.errMsg = "ユーザーIDは半角英数で入力してください";
-                return;
-            }
             if (!this.userName) {
                 this.errMsg = "ユーザー名を入力してください";
                 return;
