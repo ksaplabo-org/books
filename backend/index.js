@@ -77,7 +77,6 @@ app.get("/api/book", function(req, res) {
  * 書籍情報取得API
  */
 app.get("/api/book/:isbn", function(req, res) {
-    // 書籍情報を取得する
     BookLogic.get(db, req.params.isbn)
         .then((book) => {
             // 正常レスポンス
@@ -88,7 +87,25 @@ app.get("/api/book/:isbn", function(req, res) {
         .catch(() => {
             // 異常レスポンス
             console.log("failed to get book");
-            res.status(500).send("server error occur")
+            res.status(500).send("server error occur");
+        });
+});
+
+/**
+ * 書籍のbook_id一覧取得API
+ */
+app.get("/api/book/ids/:isbn", function(req, res) {
+    BookLogic.getIdList(db, req.params.isbn)
+        .then((bookIds) => {
+            // 正常レスポンス
+            res.send({
+                Items: JSON.stringify(bookIds)
+            });
+        })
+        .catch(() => {
+            // 異常レスポンス
+            console.log("failed to get book ids");
+            res.status(500).send("server error occur");
         });
 });
 
@@ -135,11 +152,9 @@ app.put("/api/book/:operation", function(req, res) {
 /**
  * 書籍情報削除API
  */
-app.delete("/api/book/:title", function(req, res) {
-    // 本当はこのあたりでパラメータチェック
-
+app.delete("/api/book/:id", function(req, res) {
     // 書籍削除する
-    BookLogic.remove(db, req.params.title)
+    BookLogic.remove(db, req.params.id)
         .then(() => {
             // 正常レスポンス
             res.send({result: "success"});

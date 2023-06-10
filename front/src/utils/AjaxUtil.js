@@ -28,6 +28,11 @@ export function getBook(isbn) {
     return axios.get(url);
 }
 
+export function getBookIdList(isbn) {
+    const url = '/api/book/ids/' + isbn;
+    return axios.get(url);
+}
+
 export function addBook(addBookModel){
 
     const url = '/api/book';
@@ -42,9 +47,8 @@ export function addBook(addBookModel){
     );
 }
 
-export function deleteBook(title){
-    const url = '/api/book/' + title;
-
+export function deleteBook(bookId){
+    const url = '/api/book/' + bookId;
     return axios.delete(url);
 }
 

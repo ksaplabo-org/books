@@ -18,37 +18,25 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <!-- 登録する書籍名入力欄 -->
+          <!-- 書籍検索欄 -->
           <div class="continer" style="font-size: 10pt">
             <div class="form-group m-2">
               <div class="px-2">書籍名を検索</div>
               <div class="row">
                 <div class="col-lg-6">
-                  <input
-                    type="text"
-                    id="searchWord"
-                    class="form-control"
-                    v-model="searchWord"
-                    placeholder="入力してください"
-                    required
-                  />
+                  <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required/>
                 </div>
-                <button class="btn-primary btn-sm" v-on:click="searchBooks()">
-                  検索
-                </button>
+                <button class="btn-primary btn-sm" v-on:click="searchBooks()">検索</button>
               </div>
             </div>
           </div>
 
           <hr>
 
-          <!-- Result Area -->
+          <!-- 検索結果表示欄 -->
           <div class="row">
-            <div
-              class="col-lg-6 mb-4"
-              v-for="(row, key, index) in items"
-              :key="index"
-            >
+            <div class="col-lg-6 mb-4" v-for="(row, key, index) in items" :key="index">
+              
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <div class="m-0 font-weight-bold text-primary text-secondary">
@@ -97,18 +85,17 @@
 
                     <div class="col-sm-8 ml-2 mb-2 text-left">
                       <div class="table-responsive">
-                        <b-table  striped responsive hover :items="[{'stock': row.stock}]" :fields="fields">
-                            <!-- ボタンセル定義 -->
-                            <template #cell(addButton)="data">
+                        <b-table striped responsive hover :items="[{'stock': row.stock}]" :fields="fields">
+                            <template #cell(addBtn)="data">
                                 <b-button-group>
-                                    <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)">
+                                    <b-button variant="outline-primary" v-on:click="onClickEditButton(row.item)">
                                         追加
                                     </b-button>
                                 </b-button-group>
                             </template>
-                            <template #cell(deleteButton)="data">
+                            <template #cell(delBtn)="data">
                                 <b-button-group>
-                                    <b-button variant="outline-danger" data-toggle="modal" data-target="#deleteModal">
+                                    <b-button variant="outline-danger" data-toggle="modal" data-target="#deleteStockModal" v-on:click="onClickDeleteButton(row.isbn_13)">
                                       削除
                                     </b-button>
                                 </b-button-group>
@@ -125,7 +112,7 @@
         <Footer />
       </div>
 
-      <!-- モーダルの設定です -->
+      <!-- 書籍詳細モーダル -->
       <div
         class="modal fade"
         id="imagemodal"
@@ -176,11 +163,10 @@
           </div>
         </div>
       </div>
-      <!-- /modal -->
 
       <!-- 削除確認モーダル -->
-      <div class="modal modal-dialog-scrollable fade" id="deleteModal" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog">
+      <div class="modal fade" id="deleteStockModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
               <div class="modal-content">
                   <div class="modal-header">
                       <h5 class="modal-title" id="myModalLabel">削除確認</h5>
@@ -189,18 +175,16 @@
                       </button>
                   </div>
                   <div class="modal-body">
-                      <p>削除するbook idを選択してください。</p>
-                      <button class="dropdown-toggle" variant="outline-primary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true">
-                        Dropdown button
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                      </div>
+                      <!-- 削除モーダル用のエラーメッセージ -->
+                      <p class="text-danger" v-show="delErrMsg">{{ delErrMsg }}</p>
+
+                      <br>
+
+                      <label for="bookIdList">削除するbook idを選択してください。</label>
+                      <select class="form-control" id="bookIdList" v-model="delBookId"></select>
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="userDelete()">削除</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="deleteBook()">削除</button>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
                   </div>
               </div>
@@ -235,20 +219,21 @@ export default {
     return {
       msg: "",
       errMsg: "",
+      delErrMsg: "",
       items: [],
-      userName: "",
       clickedRow: {},
       searchWord: "",
       isLoading: false,
       fields: [
         {key: "stock", label: "在庫"},
-        {key: "addButton", label: ""},
-        {key: "deleteButton", label: ""}
-      ]
+        {key: "addBtn", label: ""},
+        {key: "delBtn", label: ""}
+      ],
+      delBookId:''
     };
   },
   methods: {
-    // 書籍検索
+    // 書籍検索処理
     searchBooks: function () {
       this.isLoading = true;
 
@@ -299,7 +284,7 @@ export default {
               //
             }
 
-            // ISBN13桁がない書籍は登録できないので表示対象外とする
+            // ISBN13桁がない書籍は登録できないので表示対象外
             if (result.isbn_13 === "") {
               return;
             }
@@ -348,6 +333,7 @@ export default {
           this.isLoading = false;
         });
     },
+    // 書籍追加処理
     addBook: function (title, isbn, description, imgUrl) {
       //パラメータ補正
       // 説明を最大文字数内に補正する
@@ -356,6 +342,7 @@ export default {
       const addBookModel = {
         isbn: isbn,
         title: title,
+        // ★book idは動的にする。※backendの責務★
         book_id: "1",
         description: description,
         img_url: imgUrl,
@@ -380,33 +367,67 @@ export default {
         });
       }
     },
-    deleteBook: function (title) {
-      this.isLoading = true;
-
-      if (UserUtil.isSignIn()) {
-        AjaxUtil.deleteBook(title)
-          .then((response) => {
-            this.searchBooks();
-          })
-          .catch((error) => {
-            this.msg = "";
-            this.errMsg = "削除処理に失敗しました";
-            console.log(error);
-            this.isLoading = false;
-          });
-      } else {
-        this.$router.push({
-          name: "signin",
-          params: { flashMsg: "サインインしてください" },
-        });
-      }
-    },
+    // 削除ボタン押下イベント
     onClickDeleteButton: function(isbn) {
+      this.delErrMsg = "";
+      this.isLoading = true;
+      
+      const select = document.getElementById("bookIdList");
+      // book_idセレクトボックスを初期化
+      this.delBookId = "";
+      while(select.lastChild) {
+        select.removeChild(select.lastChild);
+      }
+
+      // isbnからbook idの一覧を取得する
+      AjaxUtil.getBookIdList(isbn)
+        .then((response) => {
+          const bookIdList = JSON.parse(response.data.Items);
+          // ★取得形式が「配列 in Map」となっているので、「配列 in 文字列」に修正する★
+          for (const el of bookIdList) {
+            let option = document.createElement('option');
+            option.text = el.book_id;
+            option.value = el.book_id;
+            select.appendChild(option);
+          }
+        })
+        .catch((e) => {
+          this.msg = "";
+          // ★エラーメッセージ内容については要検討★
+          this.errMsg = "book_idの取得に失敗しました";
+          console.log(e);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    // 書籍削除処理
+    deleteBook: function () {
+      this.delErrMsg = "";
       this.isLoading = true;
 
-      // isbnに紐づくbook_idを取得する
+      // bookIdのチェック
+      if (this.delBookId === "") {
+        this.isLoading = false;
+        this.delErrMsg = "book idを選択してください";
+        return;
+      }
 
-      this.isLoading = false;
+      AjaxUtil.deleteBook(delBookId)
+        .then(() => {
+          // ★削除成功ダイアログ？削除メッセージ？★
+          this.msg = "削除に成功しました";
+        })
+        .catch((e) => {
+          console.log(e);
+          // ★メッセージは要検討★
+          this.errMsg = "削除に失敗しました";
+        })
+        .finally(() => {
+          this.isLoading = false;
+          // 削除モーダルを閉じる
+          
+        });
     }
   },
 };

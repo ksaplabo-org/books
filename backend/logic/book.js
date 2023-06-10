@@ -42,6 +42,35 @@ module.exports.get = async function(db, isbn) {
 }
 
 /**
+ * isbnからbook_idの一覧を取得する
+ * @param {*} db
+ * @param {*} isbn
+ */
+module.exports.getIdList = async function(db, isbn) {
+    const BookModel = BookRepository.getBookModel(db);
+
+    try {
+        return await BookModel.findAll(
+            {
+                attributes: [
+                    'book_id'
+                ],
+                where: {
+                    isbn: isbn
+                },
+                order: [
+                    ['book_id', 'ASC']
+                ]
+            }
+        );
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+}
+
+
+/**
  * 書籍を追加する
  *
  * @param {*} db 
@@ -105,14 +134,14 @@ module.exports.get = async function(db, isbn) {
 /**
  * 書籍情報を削除する
  * @param {*} db 
- * @param {*} title 
+ * @param {*} bookId 
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
-module.exports.remove =  async function (db, title) {
+module.exports.remove =  async function (db, bookId) {
     const BookModel = BookRepository.getBookModel(db);
 
     try {
-        return await BookModel.destroy({ where: { title: title } });
+        return await BookModel.destroy({ where: { book_id: bookId } });
     } catch (error) {
         console.log(error);
         throw error;
