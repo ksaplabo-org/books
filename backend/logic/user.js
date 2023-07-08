@@ -9,9 +9,15 @@ const UserRepository = require("../db/user");
     try {
         return await UserModel.findAll(
             {
+                /**
+                 * ★問題3[ユーザー一覧] Start
+                 * データ取得時にユーザーIDで昇順表示するようにする。
+                 * (現在は「権限(auth)」で降順になっている。)
+                 */
                 order: [
-                    ["user_id", "ASC"]
+                    ["auth", "DESC"]
                 ]
+                /**★問題3[ユーザー一覧] End*/
             }
         );
     } catch (e) {
@@ -34,12 +40,30 @@ const UserRepository = require("../db/user");
     try {
         return await UserModel.findAll(
             {
+                /**
+                 * ★問題4[ユーザー一覧] Start
+                 * 検索条件指定してデータ取得をする際に、ユーザーIDだけでなくユーザー名でも検索できるようにする。
+                 * (現在は「権限(auth)」で降順になっている。)
+                 * 
+                 * Sequelize：Node.js用のORマッパー
+                 * Op：様々な演算子を使用できるようになる
+                 * 　　<例>
+                 *     Op.or：OR条件
+                 *     Op.and：AND条件
+                 *     Op.like：指定した文字列に一致する
+                 *     Op.notLike：指定した文字列に一致しない
+                 * 
+                 * ★問題5[ユーザー一覧] Start
+                 * データ抽出結果に問題がないかどうか最終確認する。
+                 */
                 where: {
                     [Op.or]: {
                         user_id: {[Op.like]: '%' + word + '%'},
-                        user_name: {[Op.like]: '%' + word + '%'}
+                        auth:'1'
                     }
                 },
+                /**★問題4[ユーザー一覧] End*/
+                /**★問題5[ユーザー一覧] End*/
                 order: [
                     ["user_id", "ASC"]
                 ]
@@ -79,15 +103,15 @@ const UserRepository = require("../db/user");
  module.exports.create = async function (db, userId, userName, password, gender, auth) {
     const UserModel = UserRepository.getUserModel(db);
     try {
+        /**
+         * ★問題11[ユーザー追加] Start
+         * 登録処理が正常に実行できるようにする。
+         */
         return await UserModel.create(
             {
-                user_id: userId,
-                user_name: userName,
-                password: password,
-                gender: gender,
-                auth: auth
             }
         );
+        /**★問題11[ユーザー一覧] End*/
     } catch (e) {
         throw e;
     }
@@ -112,9 +136,17 @@ const UserRepository = require("../db/user");
                 gender: gender
             },
             {
+                /**
+                 * ★問題4 Start★
+                 * 更新処理を呼び出せるように処理を記載する。
+                 * ※ユーザー情報追加API(app.post("/api/users", function(req, res))を参照
+                 * 
+                 * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
+                 */
                 where: {
                     user_id: userId
                 }
+                /**★問題4 Start★ */
             }
         );
     } catch (e) {

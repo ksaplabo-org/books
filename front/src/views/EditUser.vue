@@ -28,12 +28,18 @@
                         <div class="row">
                             <div class="col"/>
                             <div class="col-6">
+                                <!--
+                                   ★問題1 Start★
+                                    ユーザーIDを編集できないようにする。
+                                    ※inputタグの文末に何か追加する。
+                                -->
                                 <!-- ユーザーID -->
                                 <div class="form-group">
                                     <label>ユーザーID:</label>
                                     <input type="text" id="userId" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください。"
-                                        v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" required readonly>
+                                        v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$">
                                 </div>
+                                <!--★問題1 End★-->
                                 <!-- ユーザー名 -->
                                 <div class="form-group">
                                     <label>ユーザー名:</label>
