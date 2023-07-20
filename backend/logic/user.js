@@ -100,16 +100,18 @@ const UserRepository = require("../db/user");
  * @param {*} userName
  * @param {*} password
  * @param {*} gender
+ * @param {*} auth
  * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports.update = async function (db, userId, userName, password, gender) {
+ module.exports.update = async function (db, userId, userName, password, gender, auth) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.update(
             {
                 user_name: userName,
                 password: password,
-                gender: gender
+                gender: gender,
+                auth: auth
             },
             {
                 where: {

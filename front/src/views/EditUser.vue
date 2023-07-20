@@ -192,6 +192,14 @@ export default {
             // 編集対象のユーザーIDを設定する
             this.userId = query.userId ? query.userId : UserUtil.currentUserInfo().userid;
 
+            // ログインユーザーが更新対象の場合
+            if (this.userId == UserUtil.currentUserInfo().userid) {
+                // 権限の編集不可設定
+                for (let radio of document.getElementsByName("authRadio")) {
+                    radio.disabled = true;
+                }
+            }
+
             // パンくずリストを編集
             if (!query.userId) {
                 // クエリストリングがない = メニューから直接遷移
