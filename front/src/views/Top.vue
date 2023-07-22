@@ -13,8 +13,12 @@
 
             <!-- 図書館イメージ -->
             <div class="d-flex align-items-stretch">
-              <img src="/public/image/library.png" class="img-fluid">
-              <img src="/public/image/title.png" class="img-fluid">
+              <div>
+                <img src="/public/image/library.png" class="img-fluid">
+              </div>
+              <div>
+                <img src="/public/image/title.png" class="img-fluid">
+              </div>
             </div>
 
             <br>
