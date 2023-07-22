@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 module.exports.getUserModel = (db) => {
     return db.define(
-            "intern",
+            "student",
             {
                 id: {
                     field: "id",
@@ -24,7 +24,7 @@ module.exports.getUserModel = (db) => {
             {
                 createdAt: false, //デフォルト項目を生成しないように
                 updatedAt: false,  //デフォルト項目を生成しないように
-                tableName: "intern" //明示的にテーブル名を指定
+                tableName: "student" //明示的にテーブル名を指定
             }
         )
 }

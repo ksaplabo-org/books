@@ -1,5 +1,5 @@
 <template>
-    <div class="intern">
+    <div class="student">
         <NaviMenu/>
 
         <div id="wrapper">
@@ -34,7 +34,7 @@ import Menu from '../components/Menu.vue';
 import Footer from '../components/Footer.vue';
 import Loading from '../components/Loading.vue';
 export default {
-    name : 'Intern' ,
+    name : 'Student',
     props: ['flashMsg', 'flashErrMsg'],    
     components: { NaviMenu, Menu, Footer, Loading },
     data() {

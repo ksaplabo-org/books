@@ -12,7 +12,7 @@ import ListUser from './views/ListUser.vue';
 import LendingBook from './views/LendingBook.vue';
 import AddUser from './views/AddUser.vue';
 import EditUser from './views/EditUser.vue';
-import Intern from './views/Intern.vue';
+import Student from './views/Student.vue';
 
 Vue.use(Router);
 
@@ -73,9 +73,9 @@ export default new Router({
       component: EditUser,
     },
     {
-      path: '/pages/intern.html',
-      name: 'intern',
-      component: Intern,
+      path: '/pages/student.html',
+      name: 'student',
+      component: Student,
     },
     {
       path: '*',

@@ -32,8 +32,8 @@
                                 <!-- ユーザーID -->
                                 <div class="form-group">
                                     <label></label>
-                                    <input type="text" id="userId" class="form-control" placeholder="1桁以上16桁以下で入力してください"
-                                        v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{1,16}$" required>
+                                    <input type="text" id="userId" class="form-control" placeholder="16桁以下で入力してください"
+                                        v-model="userId" autocomplete="off">
                                 </div>
                                 <!-- ユーザーID検索 -->
                                 <!--★問題1 End★-->
@@ -54,7 +54,7 @@
                                 <div class="form-group">
                                     <label>パスワード:</label>
                                     <input type="password" id="inputPassword" class="form-control" placeholder="8桁以上16桁以下で入力してください"
-                                        v-model="password" pattern="^[0-9A-Za-z]{8,16}$" required>
+                                        v-model="password">
                                 </div>
                                 <!-- 性別 -->
                                 <div class="form-group">
@@ -186,7 +186,7 @@ export default {
                  * ユーザーID桁数チェックを行う。
                  * 桁数：1～16文字
                  * エラーがある場合は以下のエラーメッセージを表示する。
-                 * エラーメッセージ：「ユーザーIDは1桁以上16桁以下で入力してください」
+                 * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
                  */
 
 

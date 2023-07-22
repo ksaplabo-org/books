@@ -72,11 +72,11 @@ module.exports = {
           filename: 'pages/editUser.html',
           title: 'ユーザー管理',
         },
-        intern: {
+        student: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
-          filename: 'pages/intern.html',
-          title: 'インターン課題用',
+          filename: 'pages/student.html',
+          title: '学生用',
         },
         sorry: {
           entry: 'src/main.js',
