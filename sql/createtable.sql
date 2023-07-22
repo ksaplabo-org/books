@@ -50,3 +50,14 @@ CREATE TABLE IF NOT EXISTS information
 )
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS intern;
+CREATE TABLE IF NOT EXISTS intern
+(
+    id varchar(8) NOT NULL,
+    first_name varchar(20) NOT NULL,
+    last_name varchar(20) NOT NULL,
+    PRIMARY KEY(id)
+)
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci;

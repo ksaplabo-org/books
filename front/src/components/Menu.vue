@@ -36,7 +36,8 @@ export default {
                 { title: 'ユーザー追加', name: 'addUser', icon: 'fas fa-fw fa-user', onlyAdmin: true },
                 { title: 'ユーザー管理', name: 'editUser', icon: 'fas fa-fw fa-user', onlyAdmin: false },
                 { title: 'レンタル', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: true },
-                { title: 'レンタル一覧', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false }
+                { title: 'レンタル一覧', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false },
+                { title: 'インターン課題用', name: 'intern', icon: 'fas fa-fw fa-user', onlyAdmin: false }
             ].filter(e => !UserUtil.isAdmin() ? !e.onlyAdmin : true)
         }
     },
