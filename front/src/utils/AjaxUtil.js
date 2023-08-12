@@ -137,3 +137,9 @@ export function alreadyLending(alreadyModel) {
         "lending_user_id": alreadyModel.lending_user_id
     })
 }
+
+export function getAllStudent() {
+    const url = '/api/students';
+
+    return axios.get(url);
+}
