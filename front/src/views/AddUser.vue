@@ -27,25 +27,25 @@
                             <div class="col-6">
                                 <!-- ユーザーID -->
                                 <div class="form-group">
-                                    <label>ユーザーID:</label>
-                                    <input type="text" id="userId" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
-                                        v-model="userId" autocomplete="off" pattern="^[0-9A-Za-z]{8,16}$" required>
+                                    <label>ユーザーID</label>
+                                    <input type="text" id="userId" class="form-control" placeholder="1桁以上16桁以下で入力してください"
+                                        v-model="userId" autocomplete="off">
                                 </div>
                                 <!-- ユーザー名 -->
                                 <div class="form-group">
-                                    <label>ユーザー名:</label>
-                                    <input type="text" id="userName" class="form-control" maxlength="100" placeholder="100桁以下で入力してください"
-                                        v-model="userName" autocomplete="off" required>
+                                    <label>ユーザー名</label>
+                                    <input type="text" id="userName" class="form-control" placeholder="100桁以下で入力してください"
+                                        v-model="userName" autocomplete="off">
                                 </div>
                                 <!-- パスワード -->
                                 <div class="form-group">
-                                    <label>パスワード:</label>
-                                    <input type="password" id="inputPassword" class="form-control" minlength="8" maxlength="16" placeholder="8桁以上16桁以下で入力してください"
-                                        v-model="password" pattern="^[0-9A-Za-z]{8,16}$" required>
+                                    <label>パスワード</label>
+                                    <input type="password" id="inputPassword" class="form-control" placeholder="8桁以上16桁以下で入力してください"
+                                        v-model="password">
                                 </div>
                                 <!-- 性別 -->
                                 <div class="form-group">
-                                    <label>性別:</label>
+                                    <label>性別</label>
                                     <br>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
@@ -62,7 +62,7 @@
                                 </div>
                                 <!-- 権限 -->
                                 <div class="form-group">
-                                    <label>権限:</label>
+                                    <label>権限</label>
                                     <br>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="generalRadio" name="authRadio" class="custom-control-input" v-model="auth" v-bind:value="general" checked>
