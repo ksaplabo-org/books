@@ -67,7 +67,7 @@ export default {
     },
     async mounted() {
         try {
-            // ログイン確認
+            // サインイン確認
             if (UserUtil.isSignIn()) {
                 // 画面更新
                 this.updateView();

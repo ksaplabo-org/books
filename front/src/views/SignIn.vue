@@ -70,7 +70,7 @@ export default {
           this.$router.push({ name: 'top'});
         } else {
           this.isLoading = false;
-          this.errMsg = 'ログインに失敗しました。';
+          this.errMsg = 'サインインに失敗しました。';
         };
 
       } catch(e) {

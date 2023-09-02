@@ -34,7 +34,7 @@ export function signOut() {
 /**
  * ユーザー情報取得
  *
- * @returns ログインユーザー情報
+ * @returns サインインユーザー情報
  */
 export function currentUserInfo() {
   let loginUser = sessionStorage.getItem("loginUser");
@@ -46,9 +46,9 @@ export function currentUserInfo() {
 }
 
 /**
- * ログイン判定
+ * サインイン判定
  * 
- * @returns ログイン有無
+ * @returns サインイン有無
  */
 export function isSignIn() {
   return currentUserInfo() !== null;

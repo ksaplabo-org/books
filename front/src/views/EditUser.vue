@@ -165,7 +165,7 @@ export default {
     },
     async mounted() {
         try {
-            // ログイン確認
+            // サインイン確認
             if (UserUtil.isSignIn()) {
                 // 画面更新
                 await this.updateView();
@@ -183,6 +183,8 @@ export default {
     methods: {
         // 画面更新
         updateView: function() {
+            this.isLoading = true;
+
             this.msg = '';
             this.errMsg = '';
 
@@ -192,7 +194,7 @@ export default {
             // 編集対象のユーザーIDを設定する
             this.userId = query.userId ? query.userId : UserUtil.currentUserInfo().userid;
 
-            // ログインユーザーが更新対象の場合
+            // サインインユーザーが更新対象の場合
             if (this.userId == UserUtil.currentUserInfo().userid) {
                 // 権限の編集不可設定
                 for (let radio of document.getElementsByName("authRadio")) {
@@ -273,7 +275,7 @@ export default {
             // 更新
             AjaxUtil.putUser(model)
                 .then(() => {
-                    this.msg = '登録に成功しました'
+                    this.msg = 'ユーザー更新に成功しました'
                 })
                 .catch((e) => {
                     this.msg = '';
@@ -291,7 +293,7 @@ export default {
             // 削除
             AjaxUtil.deleteUser(this.userId)
                 .then(() => {
-                    // ログインユーザーが削除された場合
+                    // サインインユーザーが削除された場合
                     if (this.userId == UserUtil.currentUserInfo().userid) {
                         // サインアウト
                         UserUtil.signOut();

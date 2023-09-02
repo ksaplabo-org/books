@@ -22,12 +22,32 @@
                     <!-- ユーザーID検索 -->
                     <div class="continer" style="font-size:10pt">
                         <div class="form-group m-2">
-                            <div class="px-2">ユーザーID/ユーザー名を検索</div>
+                            <!-- 追加課題用 ST -->
+                            <!--
+                            <div class="px-2">検索方法</div>
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
+                                <div class="col-lg-3">
+                                    <div class="border border-secondary rounded bg-white">
+                                        <div class="custom-control custom-radio custom-control-inline m-2">
+                                            <input type="radio" id="serchModeIdName" name="serchModeRadio" class="custom-control-input" value="modeUser" v-model="serchMode" checked>
+                                            <label class="custom-control-label" for="serchModeIdName">ID/名前</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline m-2">
+                                            <input type="radio" id="serchModeAuth" name="serchModeRadio" class="custom-control-input" value="modeAuth" v-model="serchMode">
+                                            <label class="custom-control-label" for="serchModeAuth">権限</label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button class="btn-primary btn-sm" v-on:click="onClickSearchButton()" >検索</button>
+                            </div>
+                            -->
+                            <!-- 追加課題用 ED -->
+
+                            <div class="px-2 mt-2">ユーザーID/ユーザー名を検索</div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <input type="text" id="searchWord" class="form-control border-secondary" v-model="searchWord" placeholder="入力してください" required>
+                                </div>
+                                <button class="btn-primary btn-sm" v-on:click="getUsers()" >検索</button>
                             </div>
                         </div>
                     </div>
@@ -87,12 +107,15 @@ export default {
                 {key: 'controls', label: ''}
             ],
             items: [],
+            // 追加課題用 ST
+            //serchMode: 'modeUser',
+            // 追加課題用 ED
             searchWord: ''
         };
     },
     async mounted() {
         try {
-            // ログイン確認
+            // サインイン確認
             if (UserUtil.isSignIn()) {
                 // 画面更新
                 this.updateView();
@@ -149,11 +172,6 @@ export default {
                         this.isLoading = false;
                     })
             }
-        },
-        // 検索ボタン押下時
-        onClickSearchButton: function() {
-            // ユーザー情報検索処理
-            this.getUsers();
         },
         // 編集ボタン押下時
         onClickEditButton: function(data) {

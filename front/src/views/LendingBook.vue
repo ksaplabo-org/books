@@ -99,7 +99,7 @@ export default {
     methods: {
         // 画面更新
         updateView: function() {
-            // ログイン: 一般
+            // サインイン: 一般
             if (!UserUtil.isAdmin()) {
                 // 検索エリアを非表示
                 document.getElementById("searchArea").hidden = true;
