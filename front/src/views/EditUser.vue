@@ -300,7 +300,7 @@ export default {
                         this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください'}});
                     } else {
                         // 一覧画面に遷移する
-                        this.$router.push({ name: 'listUser'});
+                        this.$router.push({ name: 'listUser', params: {flashMsg: '削除に成功しました'}});
                     }
                 }).catch((e) => {
                     this.msg = '';
