@@ -217,20 +217,20 @@ app.post("/api/users", function(req, res) {
  * ユーザー情報更新API
  */
 app.put("/api/users", function(req, res) {
-    // リクエスト取得
-    const user = req.body;
+/**
+ * ★問題3 Start★
+ * 更新処理を呼び出せるように処理を記載する。
+ * ※ユーザー情報追加API(app.post("/api/users", function(req, res))を参照
+ * 
+ * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
+ */
 
-    // ユーザー情報を登録する
-    UserLogic.update(db, user.userId, user.userName, user.password , user.gender, user.auth)
-        .then(() => {
-            // 正常レスポンス
-            res.send({});
-        })
-        .catch(()  => {
-            // 異常レスポンス
-            console.log("failed to update user");
-            res.status(500).send("server error occur")
-        });
+
+
+
+
+
+/**★問題3 End★*/
 });
 
 /**
@@ -350,20 +350,6 @@ app.delete("/api/users/:id", function(req, res) {
             // 異常レスポンス
             console.log("failed to already lending book");
             res.status(500).send("server error occur")
-        });
-});
-
-app.get("/api/students", function(req, res) {
-    StudentLogic.getAll(db)
-        .then((students) => {
-            // 正常レスポンス
-            res.send({
-                Items: JSON.stringify(students)
-            });
-        })
-        .catch(() => {
-            console.log("failed to get student");
-            res.status(500).send("server error occur");
         });
 });
 

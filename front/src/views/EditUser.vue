@@ -28,12 +28,18 @@
                         <div class="row">
                             <div class="col"/>
                             <div class="col-6">
+                                <!--
+                                   ★問題1 Start★
+                                    ユーザーIDを編集できないようにする。
+                                    ※inputタグの文末に何か追加する。
+                                -->
                                 <!-- ユーザーID -->
                                 <div class="form-group">
                                     <label>ユーザーID</label>
                                     <input type="text" id="userId" class="form-control" placeholder="1桁以上16桁以下で入力してください。"
-                                        v-model="userId" autocomplete="off" readonly>
+                                        v-model="userId" autocomplete="off">
                                 </div>
+                                <!--★問題1 End★-->
                                 <!-- ユーザー名 -->
                                 <div class="form-group">
                                     <label>ユーザー名</label>
@@ -300,7 +306,7 @@ export default {
                         this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください'}});
                     } else {
                         // 一覧画面に遷移する
-                        this.$router.push({ name: 'listUser'});
+                        this.$router.push({ name: 'listUser', params: {flashMsg: '削除に成功しました'}});
                     }
                 }).catch((e) => {
                     this.msg = '';

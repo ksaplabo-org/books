@@ -42,13 +42,23 @@
                             -->
                             <!-- 追加課題用 ED -->
 
-                            <div class="px-2 mt-2">ユーザーID/ユーザー名を検索</div>
+                            <!--
+                                ★問題1 Start★
+                                ・検索欄上部の文言を設計書通りに変更する。
+                                ・検索ボタンをクリックした際に検索処理を呼び出すようにする。
+
+                                divタグ：特に単体では意味をなさない。
+                                        タグで囲んだ部分をグループ化することができる。
+                                function() {}：何もしてない処理。
+                            -->
+                            <div class="px-2"></div>
                             <div class="row">
-                                <div class="col-lg-3">
-                                    <input type="text" id="searchWord" class="form-control border-secondary" v-model="searchWord" placeholder="入力してください" required>
+                                <div class="col-lg-6">
+                                    <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                 </div>
-                                <button class="btn-primary btn-sm" v-on:click="getUsers()" >検索</button>
+                                <button class="btn-primary btn-sm" v-on:click="function() {}" >検索</button>
                             </div>
+                            <!--★問題1 End★-->
                         </div>
                     </div>
 
@@ -101,11 +111,22 @@ export default {
             msg: '',
             errMsg: '',
             isLoading: false,
+            /**
+             * ★問題2 Start★
+             * 一覧にユーザー名の列を追加する
+             * 
+             * <DB取得一覧>
+             * ユーザーID：user_id
+             * ユーザー名：user_name
+             * パスワード：password
+             * 性別：gender
+             * 権限：auth
+             */
             fields: [
                 {key: 'user_id', label: 'ユーザーID'},
-                {key: 'user_name', label: '名前'},
                 {key: 'controls', label: ''}
             ],
+            /*★問題2 End★*/
             items: [],
             // 追加課題用 ST
             //serchMode: 'modeUser',

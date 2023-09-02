@@ -25,18 +25,30 @@
                         <div class="row">
                             <div class="col"/>
                             <div class="col-6">
+                                <!--
+                                   ★問題1 Start★
+                                    ユーザーID入力欄左側の文言を設計書通りに設定する。
+                                -->
                                 <!-- ユーザーID -->
                                 <div class="form-group">
-                                    <label>ユーザーID</label>
+                                    <label></label>
                                     <input type="text" id="userId" class="form-control" placeholder="1桁以上16桁以下で入力してください"
                                         v-model="userId" autocomplete="off">
                                 </div>
+                                <!--★問題1 End★-->
+                                <!--
+                                    ★問題2 Start★
+                                    ユーザー名入力欄を追加する。
+
+                                    ユーザーID表示箇所を参考にして作成する。
+                                    (minlength,Patternは不要)
+                                -->
                                 <!-- ユーザー名 -->
-                                <div class="form-group">
-                                    <label>ユーザー名</label>
-                                    <input type="text" id="userName" class="form-control" placeholder="100桁以下で入力してください"
-                                        v-model="userName" autocomplete="off">
-                                </div>
+
+
+
+
+                                <!--★問題2 End★-->
                                 <!-- パスワード -->
                                 <div class="form-group">
                                     <label>パスワード</label>
@@ -46,19 +58,24 @@
                                 <!-- 性別 -->
                                 <div class="form-group">
                                     <label>性別</label>
+                                    <!--
+                                    ★問題3 Start★
+                                        各ラジオボタンに対応する文言を設定する。
+                                    -->
                                     <br>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
-                                        <label class="custom-control-label" for="womanRadio">女性</label>
+                                        <label class="custom-control-label" for="womanRadio"></label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="man">
-                                        <label class="custom-control-label" for="manRadio">男性</label>
+                                        <label class="custom-control-label" for="manRadio"></label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="unknown">
-                                        <label class="custom-control-label" for="unknownRadio">非公開</label>
+                                        <label class="custom-control-label" for="unknownRadio"></label>
                                     </div>
+                                    <!--★問題3 End★-->
                                 </div>
                                 <!-- 権限 -->
                                 <div class="form-group">
@@ -151,34 +168,79 @@ export default {
 
             try {
                 // 入力チェック
-                if (!this.userId) {
-                    this.errMsg = "ユーザーIDを入力してください";
-                    return;
-                }
-                if (this.userId.length < 8 || this.userId.length > 16) {
-                    this.errMsg = "ユーザーIDは8桁以上16桁以下で入力してください";
-                    return;
-                }
-                if (!this.userId.match("^[0-9A-Za-z]{8,16}$")) {
+                /**
+                 * ★問題4 Start★
+                 * ユーザーID必須入力チェックを行う。
+                 * エラーがある場合は以下のエラーメッセージを表示する。
+                 * エラーメッセージ：「ユーザーIDを入力してください」
+                 */
+
+
+
+
+                /*★問題4 End★*/
+                /**
+                 * ★問題5 Start★
+                 * ユーザーID桁数チェックを行う。
+                 * 桁数：1～16文字
+                 * エラーがある場合は以下のエラーメッセージを表示する。
+                 * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
+                 */
+
+
+
+
+                /*★問題5 End★*/
+                if (!this.userId.match("^[0-9A-Za-z]{1,16}$")) {
                     this.errMsg = "ユーザーIDは半角英数で入力してください";
                     return;
                 }
-                if (!this.userName) {
-                    this.errMsg = "ユーザー名を入力してください";
-                    return;
-                }
-                if (this.userName.length > 100) {
-                    this.errMsg = "ユーザー名は100桁以下で入力してください";
-                    return;
-                }
-                if (!this.password) {
-                    this.errMsg = "パスワードを入力してください";
-                    return;
-                }
-                if (this.password.length < 8 || this.password.length > 16) {
-                    this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
-                    return;
-                }
+                /**
+                 * ★問題6 Start★
+                 * ユーザー名必須入力チェックを行う。
+                 * エラーがある場合は以下のエラーメッセージを表示する。
+                 * エラーメッセージ：「ユーザー名を入力してください」
+                 */
+
+
+
+
+                /*★問題6 End★*/
+                /**
+                 * ★問題7 Start★
+                 * ユーザー名桁数チェックを行う。
+                 * 桁数：1～100文字
+                 * エラーがある場合は以下のエラーメッセージを表示する。
+                 * エラーメッセージ：「ユーザー名は100桁以下で入力してください」
+                 */
+
+
+
+
+                /*★問題7 End★*/
+                /**
+                 * ★問題8 Start★
+                 * パスワード必須入力チェックを行う。
+                 * エラーがある場合は以下のエラーメッセージを表示する。
+                 * エラーメッセージ：「パスワードを入力してください」
+                 */
+
+
+
+
+                /*★問題8 End★*/
+                /**
+                 * ★問題9 Start★
+                 * パスワード桁数チェックを行う。
+                 * 桁数：8～16文字
+                 * エラーがある場合は以下のエラーメッセージを表示する。
+                 * エラーメッセージ：「パスワードは8桁以上16桁以下で入力してください」
+                 */
+
+
+
+
+                /*★問題9 End★*/
                 if (!this.password.match("^[0-9A-Za-z]{8,16}$")) {
                     this.errMsg = "パスワードは半角英数で入力してください";
                     return;
@@ -191,13 +253,19 @@ export default {
                     this.errMsg = "権限を選択してください";
                     return;
                 }
-                // ユーザーID重複チェック
-                const response = await AjaxUtil.getUserFindById(this.userId);
+                /**
+                 * ★問題10 Start★
+                 * データ登録時の重複チェックを正常に行えるようにする。
+                 * ※どこかが違います。
+                 */
+                // 重複チェック
+                const response = await AjaxUtil.getUserFindById(this.userName);
                 const userInfo = JSON.parse(response.data.Items);
                 if (userInfo) {
                     this.errMsg = '入力されたユーザーは既に登録されています';
                     return;
                 }
+                /*★問題10 End★*/
 
                 // 引数格納
                 const model = {
