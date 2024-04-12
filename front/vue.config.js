@@ -72,6 +72,30 @@ module.exports = {
           filename: 'pages/editUser.html',
           title: 'ユーザー管理',
         },
+        editinfo: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/editInfo.html',
+          title: 'お知らせ編集1',
+        },
+        editinfo2: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/editInfo2.html',
+          title: 'お知らせ編集2',
+        },
+        editinfo2: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/editInfo3.html',
+          title: 'お知らせ編集3',
+        },
+        editinfo2: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/editInfo4.html',
+          title: 'お知らせ編集4',
+        },
         student: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
