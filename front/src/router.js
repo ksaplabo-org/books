@@ -13,10 +13,6 @@ import LendingBook from './views/LendingBook.vue';
 import AddUser from './views/AddUser.vue';
 import EditUser from './views/EditUser.vue';
 import Student from './views/Student.vue';
-import EditInfo from './views/EditInformation.vue';
-import EditInfo2 from './views/EditInformation2.vue';
-import EditInfo3 from './views/EditInformation3.vue';
-import EditInfo4 from './views/EditInformation4.vue';
 
 Vue.use(Router);
 
@@ -80,26 +76,6 @@ export default new Router({
       path: '/pages/student.html',
       name: 'student',
       component: Student,
-    },
-    {
-      path: '/pages/editinfo.html',
-      name: 'editinfo',
-      component: EditInfo,
-    },
-    {
-      path: '/pages/editinfo2.html',
-      name: 'editinfo2',
-      component: EditInfo2,
-    },
-    {
-      path: '/pages/editinfo3.html',
-      name: 'editinfo3',
-      component: EditInfo3,
-    },
-    {
-      path: '/pages/editinfo4.html',
-      name: 'editinfo4',
-      component: EditInfo4,
     },
     {
       path: '*',

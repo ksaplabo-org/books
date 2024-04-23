@@ -37,11 +37,7 @@ export default {
                 { title: 'ユーザー管理', name: 'editUser', icon: 'fas fa-fw fa-user', onlyAdmin: false },
                 { title: 'レンタル', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: true },
                 { title: 'レンタル一覧', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false },
-                { title: 'お知らせ編集V1.0', name: 'editinfo', icon: 'fas fa-fw fa-info-circle', onlyAdmin: true },
-                { title: 'お知らせ編集V2.0', name: 'editinfo2', icon: 'fas fa-fw fa-info-circle', onlyAdmin: true },
-                { title: 'お知らせ編集V2.1', name: 'editinfo3', icon: 'fas fa-fw fa-info-circle', onlyAdmin: true },
-                { title: 'お知らせ編集V2.x(配布用)', name: 'editinfo4', icon: 'fas fa-fw fa-info-circle', onlyAdmin: true },
-                { title: '学生用', name: 'student', icon: 'fas fa-fw fa-user', onlyAdmin: false }
+                //{ title: '学生用', name: 'student', icon: 'fas fa-fw fa-user', onlyAdmin: false }
             ].filter(e => !UserUtil.isAdmin() ? !e.onlyAdmin : true)
         }
     },
