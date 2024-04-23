@@ -217,21 +217,21 @@ app.post("/api/users", function(req, res) {
  * ユーザー情報更新API
  */
 app.put("/api/users", function(req, res) {
-    // リクエスト取得
-    const user = req.body;
-
-    // ユーザー情報を登録する
-    UserLogic.update(db, user.userId, user.userName, user.password , user.gender, user.auth)
-        .then(() => {
-            // 正常レスポンス
-            res.send({});
-        })
-        .catch(()  => {
-            // 異常レスポンス
-            console.log("failed to update user");
-            res.status(500).send("server error occur")
-        });
-});
+    /**
+     * ★問題3 Start★
+     * 更新処理を呼び出せるように処理を記載する。
+     * ※ユーザー情報追加API(app.post("/api/users", function(req, res))を参照
+     * 
+     * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
+     */
+    
+    
+    
+    
+    
+    
+    /**★問題3 End★*/
+    });
 
 /**
  * ユーザー情報削除API
