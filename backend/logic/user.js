@@ -15,7 +15,7 @@ module.exports.getAll = async function (db) {
                  * (現在は「権限(auth)」で降順になっている。)
                  */
                 order: [
-                    ["user_id", "ASC"]
+                    ["auth", "DESC"]
                 ]
                 /**★問題3[ユーザー一覧] End*/
             }
@@ -55,11 +55,18 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
                  */
                 where: {
                     [Op.or]: {
-                        user_id: {[Op.like]: '%' + word + '%'},
-                        user_name: {[Op.like]: '%' + word + '%'},
+                        user_id: { [Op.like]: '%' + word + '%' },
+                        auth: '1'
                     }
                 },
                 /**★問題4[ユーザー一覧] End*/
+
+                /**
+                 * ★問題5[ユーザー一覧] Start
+                 * データ抽出結果が設計書の要望通りに出力されているかどうか確認する。
+                 */
+
+                /**★問題5[ユーザー一覧] End*/
             }
         );
     } catch (e) {
@@ -74,7 +81,7 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
  * @param {*} userId
  * @returns ユーザー情報(Promise)
  */
- module.exports.findById = async function (db, userId) {
+module.exports.findById = async function (db, userId) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.findByPk(userId);
@@ -136,15 +143,15 @@ module.exports.update = async function (db, userId, userName, password, gender, 
                  * 更新対象データを絞る条件を追加してください。
                  * ※現在は全てのデータを更新するように設定されています。
                  */
-                 
-                 
+
+
                 /**★問題4 End★ */
             }
         );
     } catch (e) {
         throw e;
     }
-}  
+}
 
 /**
  * ユーザー情報削除
@@ -152,7 +159,7 @@ module.exports.update = async function (db, userId, userName, password, gender, 
  * @param {*} userId
  * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports.remove = async function (db, userId) {
+module.exports.remove = async function (db, userId) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.destroy(
