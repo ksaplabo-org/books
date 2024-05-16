@@ -146,7 +146,6 @@ export function alreadyLending(alreadyModel) {
 }
 
 export function getAllStudent() {
-    const url = '/api/students';
-
+    const url = 'https://cjx8hky0ic.execute-api.ap-northeast-1.amazonaws.com/fukushimaTest/item';
     return axios.get(url);
 }

@@ -15,7 +15,7 @@ module.exports.getAll = async function (db) {
                  * (現在は「権限(auth)」で降順になっている。)
                  */
                 order: [
-                    ["auth", "DESC"]
+                    ["user_id", "ASC"]
                 ]
                 /**★問題3[ユーザー一覧] End*/
             }
@@ -56,7 +56,7 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
                 where: {
                     [Op.or]: {
                         user_id: {[Op.like]: '%' + word + '%'},
-                        auth:'1'
+                        user_name: {[Op.like]: '%' + word + '%'},
                     }
                 },
                 /**★問題4[ユーザー一覧] End*/

@@ -98,7 +98,7 @@ export default {
 
             AjaxUtil.getAllStudent()
                 .then((response) => {
-                    for (const student of JSON.parse(response.data.Items)) {
+                    for (const student of JSON.parse(response.request.response)) {
                         this.items.push({
                             "id": student.id,
                             "name": student.last_name + " " + student.first_name
