@@ -4,7 +4,7 @@ const UserRepository = require("../db/user");
  * @param {*} db 
  * @returns ユーザー情報(Promise)
  */
-module.exports.getAll = async function (db) {
+ module.exports.getAll = async function (db) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.findAll(
@@ -32,7 +32,7 @@ module.exports.getAll = async function (db) {
  * @param {*} word
  * @returns ユーザー情報（Promise）
  */
-module.exports.findByIncludeIdOrName = async function (db, word) {
+ module.exports.findByIncludeIdOrName = async function (db, word) {
     const UserModel = UserRepository.getUserModel(db);
     const Sequelize = require('sequelize');
     const Op = Sequelize.Op;
@@ -60,6 +60,13 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
                     }
                 },
                 /**★問題4[ユーザー一覧] End*/
+
+                /**
+                 * ★問題5[ユーザー一覧] Start
+                 * データ抽出結果が設計書の要望通りに出力されているかどうか確認する。
+                 */
+
+                /**★問題5[ユーザー一覧] End*/
             }
         );
     } catch (e) {
@@ -93,7 +100,7 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
  * @param {*} auth
  * @returns Promise(成功:resolve/失敗:reject)
  */
-module.exports.create = async function (db, userId, userName, password, gender, auth) {
+ module.exports.create = async function (db, userId, userName, password, gender, auth) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         /**
@@ -120,7 +127,7 @@ module.exports.create = async function (db, userId, userName, password, gender, 
  * @param {*} auth
  * @returns Promise(成功:resolve/失敗:reject)
  */
-module.exports.update = async function (db, userId, userName, password, gender, auth) {
+ module.exports.update = async function (db, userId, userName, password, gender, auth) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.update(
