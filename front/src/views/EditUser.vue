@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label>ユーザーID</label>
                                     <input type="text" id="userId" class="form-control" placeholder="1桁以上16桁以下で入力してください。"
-                                        v-model="userId" autocomplete="off">
+                                        v-model="userId" autocomplete="off" readonly>
                                 </div>
                                 <!--★問題1 End★-->
                                 <!-- ユーザー名 -->

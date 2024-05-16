@@ -109,6 +109,11 @@ module.exports.create = async function (db, userId, userName, password, gender, 
          */
         return await UserModel.create(
             {
+                user_id: userId,
+                user_name: userName,
+                password: password,
+                gender: gender,
+                auth: auth
             }
         );
         /**★問題11[ユーザー追加] End*/
@@ -143,7 +148,9 @@ module.exports.update = async function (db, userId, userName, password, gender, 
                  * 更新対象データを絞る条件を追加してください。
                  * ※現在は全てのデータを更新するように設定されています。
                  */
-
+                where: {
+                    user_id: userId
+                }
 
                 /**★問題4 End★ */
             }

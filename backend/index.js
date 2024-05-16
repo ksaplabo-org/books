@@ -224,14 +224,22 @@ app.put("/api/users", function(req, res) {
      * 
      * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
      */
-    
-    
-    
-    
-    
-    
+    // リクエスト取得
+    const user = req.body;
+
+    // ユーザー情報を登録する
+    UserLogic.update(db, user.userId, user.userName, user.password, user.gender, user.auth)
+        .then(() => {
+            // 正常レスポンス
+            res.send({});
+        })
+        .catch(() => {
+            // 異常レスポンス
+            console.log("failed to update user");
+            res.status(500).send("server error occur")
+        });
     /**★問題3 End★*/
-    });
+});
 
 /**
  * ユーザー情報削除API
