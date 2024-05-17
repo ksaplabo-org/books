@@ -103,7 +103,7 @@ export default {
             isLoading: false,
             fields: [
                 {key: 'user_id', label: 'ユーザーID'},
-                {key: 'user_name', label: '名前'},
+                {key: 'user_name', label: 'ユーザー名'},
                 {key: 'controls', label: ''}
             ],
             items: [],
