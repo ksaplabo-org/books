@@ -40,13 +40,15 @@
                                     ★問題2 Start★
                                     ユーザー名入力欄を追加する。
                                     
+                                    ユーザーID表示箇所を参考にして作成する。
                                     (minlength,Patternは不要)
                                 -->
+                           
+                                <!-- ユーザー名 -->
                                 <label>ユーザー名</label>
                                     <input type="text" id="userName" class="form-control" placeholder="100桁以下で入力してください"
                                         v-model="userName" autocomplete="off">
-                                   
-                                <!-- ユーザー名 -->
+
                                 <!--★問題2 End★-->
                                 <!-- パスワード -->
                                 <div class="form-group">
@@ -174,7 +176,7 @@ export default {
                  * エラーメッセージ：「ユーザーIDを入力してください」
                  */
                 if(!this.userId){
-                    this.errMsg = 'ユーザーIDを入力して下さい';
+                    this.errMsg = "ユーザーIDを入力して下さい";
                     return;
                 }
 
@@ -207,8 +209,8 @@ export default {
                  * エラーメッセージ：「ユーザー名を入力してください」
                  */
 
-                if(!this.userName ){
-                    this.errMsg = 'ユーザー名を入力してください';
+                if(!this.userName){
+                    this.errMsg = "ユーザー名を入力してください";
                     return;
                 }
 
@@ -236,7 +238,7 @@ export default {
                  * エラーメッセージ：「パスワードを入力してください」
                  */
                     if(!this.password){
-                    this.errMsg = 'パスワードを入力してください';
+                    this.errMsg = "パスワードを入力してください";
                     return;
                 }
 
@@ -252,7 +254,7 @@ export default {
                  */
 
 
-                     if(this.password.length > 16 || this.password.length <8 ){
+                     if(this.password.length > 16 || this.password.length < 8){
                         this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
                     return;
                     }

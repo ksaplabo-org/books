@@ -38,7 +38,7 @@
                                 </div>
                                 <button class="btn-primary btn-sm" v-on:click="getUsers()" >検索</button>
                             </div>
-                            <!--★問題1 End★  完了-->
+                            <!--★問題1 End★-->
                         </div>
                     </div>
 
@@ -107,7 +107,7 @@ export default {
                 {key: 'user_name', label: '名前'},
                 {key: 'controls', label: ''}
             ],
-            /*★問題2 End★ 完了*/
+            /*★問題2 End★*/
             items: [],
             searchWord: ''
         };
