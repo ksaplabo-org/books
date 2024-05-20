@@ -57,7 +57,6 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
                     [Op.or]: {
                         user_id: {[Op.like]: '%' + word + '%'},
                         user_name: {[Op.like]: '%' + word + '%'},
-                        // auth:'1'
                     }
                 },
                 order: [
@@ -152,7 +151,9 @@ module.exports.update = async function (db, userId, userName, password, gender, 
                  * 更新対象データを絞る条件を追加してください。
                  * ※現在は全てのデータを更新するように設定されています。
                  */
-                 where: {user_id: userId}
+                 where: {
+                    user_id: userId
+                }
                 /**★問題4 End★ */
             }
         );

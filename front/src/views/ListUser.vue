@@ -177,11 +177,7 @@ export default {
         onClickEditButton: function(data) {
             // 編集画面へ遷移する
             this.$router.push({ name: 'editUser', query: { userId: data.user_id }});
-        },
-        onClickSearchButton: function() {
-            this.isLoading = true;
-
-        },
+        }
     }
 }
 </script>
