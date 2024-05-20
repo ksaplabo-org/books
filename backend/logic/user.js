@@ -65,7 +65,9 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
                  * ★問題5[ユーザー一覧] Start
                  * データ抽出結果が設計書の要望通りに出力されているかどうか確認する。
                  */
-
+                order: [
+                    ["user_id", "ASC"]
+                ]
                 /**★問題5[ユーザー一覧] End*/
             }
         );

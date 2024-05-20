@@ -176,7 +176,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザーIDを入力してください」
                  */
-                if (this.userId === "") {
+                if (!this.userId) {
                     this.errMsg = "ユーザーIDを入力してください";
                     return;
                 }
@@ -190,7 +190,7 @@ export default {
                  * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
                  */
                 
-                if (1 > this.userId.length || this.userId.length > 16) {
+                if (this.userId.length > 16) {
                     this.errMsg = "ユーザーIDは1桁以上16桁以下で入力してください";
                     return;
                 }
@@ -206,7 +206,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザー名を入力してください」
                  */
-                if (this.userName === "") {
+                if (!this.userName) {
                     this.errMsg = "ユーザー名を入力してください";
                     return;
                 }
@@ -233,7 +233,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「パスワードを入力してください」
                  */
-                if (this.password=== "") {
+                if (!this.password) {
                     this.errMsg = "パスワードを入力してください";
                     return;
                 }

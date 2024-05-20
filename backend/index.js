@@ -227,7 +227,7 @@ app.put("/api/users", function(req, res) {
     // リクエスト取得
     const user = req.body;
 
-    // ユーザー情報を登録する
+    // ユーザー情報を更新する
     UserLogic.update(db, user.userId, user.userName, user.password , user.gender , user.auth)
         .then(() => {
             // 正常レスポンス
@@ -235,7 +235,7 @@ app.put("/api/users", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to add user");
+            console.log("failed to update user");
             res.status(500).send("server error occur")
         });
 

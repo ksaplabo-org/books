@@ -74,15 +74,6 @@ export function postUser(userModel) {
 }
 
 export function putUser(userModel) {
-    const url = '/api/users'
-
-    return axios.put(url, {
-        "userId": userModel.userId,
-        "userName": userModel.userName,
-        "password": userModel.password,
-        "gender": userModel.gender,
-        "auth": userModel.auth
-    })
     /**
      * ★問題2[ユーザー管理] Start★
      * 編集処理を呼び出せるように処理を記載する。
@@ -93,11 +84,16 @@ export function putUser(userModel) {
      * put:更新
      * delete:削除
      */
-    
-    
-    
-    
-    
+    const url = '/api/users'
+
+    return axios.put(url, {
+        "userId": userModel.userId,
+        "userName": userModel.userName,
+        "password": userModel.password,
+        "gender": userModel.gender,
+        "auth": userModel.auth
+    })
+
     /**★問題2 End★*/
     }
 
