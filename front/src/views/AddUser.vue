@@ -226,7 +226,7 @@ export default {
                  */
 
                 if (this.userName.length > 100){
-                    this.errMsg = '名前は100桁以下で入力してください';
+                    this.errMsg = 'ユーザー名は100桁以下で入力してください';
                     return;
                 }
 
