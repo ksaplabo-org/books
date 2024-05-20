@@ -194,7 +194,7 @@ export default {
                  * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
                  */
 
-                if(this.userId.length > 17 && this.userId.length < 1){
+                if(this.userId.length > 16){
                     this.errMsg = "ユーザーIDは16桁以下で入力してください";
                     return;
                 }
@@ -227,7 +227,7 @@ export default {
                  * エラーメッセージ：「ユーザー名は100桁以下で入力してください」
                  */
 
-                if(this.userName.length > 100 || this.userName.length < 1){
+                if(this.userName.length > 100){
                     this.errMsg = "ユーザー名は100桁以下で入力してください";
                     return;
                 }
@@ -256,7 +256,7 @@ export default {
                  * エラーメッセージ：「パスワードは8桁以上16桁以下で入力してください」
                  */
 
-                if(this.password.length > 16 || this.password.length < 9){
+                if(this.password.length > 16 || this.password.length < 8){
                     this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
                     return;
                 }

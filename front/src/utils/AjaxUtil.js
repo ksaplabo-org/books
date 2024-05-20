@@ -83,7 +83,7 @@ export function putUser(userModel) {
      * post:登録
      * put:更新
      * delete:削除
-    */
+     */
     
      const url = '/api/users'
 

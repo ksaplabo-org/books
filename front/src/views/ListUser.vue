@@ -22,6 +22,15 @@
                     <!-- ユーザーID検索 -->
                     <div class="continer" style="font-size:10pt">
                         <div class="form-group m-2">
+                            <!--
+                                ★問題1 Start★
+                                ・検索欄上部の文言を設計書通りに変更する。
+                                ・検索ボタンをクリックした際に検索処理を呼び出すようにする。
+
+                                divタグ：特に単体では意味をなさない。
+                                　　　　 タグで囲んだ部分をグループ化することができる。
+                                function() {}：何もしていない処理。
+                            -->
                             <div class="px-2">ユーザーID/ユーザー名を検索</div>
                             <div class="row">
                                 <div class="col-lg-6">
