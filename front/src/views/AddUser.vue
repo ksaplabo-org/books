@@ -45,7 +45,7 @@
                                 <!-- ユーザー名 -->
 
                                 <div class="form-group">
-                                    <label>名前</label>
+                                    <label>ユーザー名</label>
                                     <input type="text" id="userName" class="form-control" placeholder="100桁以下で入力してください"
                                         v-model="userName" autocomplete="off">
                                 </div>
@@ -177,7 +177,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザーIDを入力してください」
                  */
-                if (!this.userId || this.userId === ""){
+                if (!this.userId){
                     this.errMsg = 'ユーザーIDを入力してください';
                     return;
                 }
@@ -210,8 +210,8 @@ export default {
                  * エラーメッセージ：「ユーザー名を入力してください」
                  */
 
-                if (!this.userName || this.userName === ""){
-                    this.errMsg = '名前を入力してください';
+                if (!this.userName){
+                    this.errMsg = 'ユーザー名を入力してください';
                     return;
                 }
 
@@ -239,7 +239,7 @@ export default {
                  * エラーメッセージ：「パスワードを入力してください」
                  */
 
-                if (!this.password || this.password === ""){
+                if (!this.password){
                     this.errMsg = 'パスワードを入力してください';
                     return;
                 }

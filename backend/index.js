@@ -234,7 +234,7 @@ app.put("/api/users", function(req, res) {
         })
         .catch(()  => {
             // 異常レスポンス
-            console.log("failed to add user");
+            console.log("failed to update user");
             res.status(500).send("server error occur")
         });
     

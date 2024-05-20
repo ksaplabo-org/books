@@ -15,7 +15,7 @@ module.exports.getAll = async function (db) {
                  * (現在は「権限(auth)」で降順になっている。)
                  */
                 order: [
-                    ["auth", "ASC"]
+                    ["user_id", "ASC"]
                 ]
                 /**★問題3[ユーザー一覧] End*/
             }
@@ -66,7 +66,7 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
                  * データ抽出結果が設計書の要望通りに出力されているかどうか確認する。
                  */
                 order: [
-                    ["auth", "ASC"]
+                    ["user_id", "ASC"]
                 ]
                 /**★問題5[ユーザー一覧] End*/
             }
