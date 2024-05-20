@@ -37,7 +37,7 @@
                                 <div class="col-lg-6">
                                     <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                 </div>
-                                <button class="btn-primary btn-sm" v-on:click="getUsers" >
+                                <button class="btn-primary btn-sm" v-on:click="getUsers()" >
                                     検索
                                 </button>
                             </div>

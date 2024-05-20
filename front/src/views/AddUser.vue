@@ -192,7 +192,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
                  */
-                if (this.userId.match("^[0-9A-Za-z]{17,100}$")) {
+                if (this.userId.length > 16) {
                     this.errMsg = "ユーザーIDは16桁以下で入力してください";
                     return;
                 }
@@ -209,7 +209,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザー名を入力してください」
                  */
-                if(!this.userName || this.userName === ""){
+                if(!this.userName){
                     this.errMsg = 'ユーザー名を入力してください';
                     return;
                 }
@@ -223,7 +223,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザー名は100桁以下で入力してください」
                  */
-                if (this.userName.match("^[0-9A-Za-z]{100,10000}$")) {
+                if (this.userName.length > 100) {
                     this.errMsg = "ユーザー名は100桁以下で入力してください";
                     return;
                 }
@@ -235,7 +235,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「パスワードを入力してください」
                  */
-                if(!this.password || this.password === ""){
+                if(!this.password){
                     this.errMsg = 'パスワードを入力してください';
                     return;
                 }
