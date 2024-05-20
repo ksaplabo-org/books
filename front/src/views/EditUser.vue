@@ -43,8 +43,8 @@
                                 <!-- ユーザー名 -->
                                 <div class="form-group">
                                     <label>ユーザー名</label>
-                                    <input type="text" id="userName" class="form-control" placeholder="100桁以下で入力してください。"
-                                        v-model="userName" autocomplete="off">
+                                    <input type="text" id="userId" class="form-control" placeholder="100桁以下で入力してください。"
+                                        v-model="userId" autocomplete="off" readonly>
                                 </div>
                                 <!-- パスワード -->
                                 <div class="form-group">

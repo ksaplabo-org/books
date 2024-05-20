@@ -32,11 +32,13 @@
                                 function() {}：何もしてない処理。
                             -->
                             <div class="px-2"></div>
+                            <div class="rabel">ユーザーID/ユーザー名を検索</div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                 </div>
-                                <button class="btn-primary btn-sm" v-on:click="function() {}" >検索</button>
+                                <button class="btn-primary btn-sm" v-on:click="getUsers()" >検索</button>
+
                             </div>
                             <!--★問題1 End★-->
                         </div>
@@ -104,7 +106,8 @@ export default {
              */
             fields: [
                 {key: 'user_id', label: 'ユーザーID'},
-                {key: 'controls', label: ''}
+                {key: 'controls', label: ''},
+                {key: 'user_name', label: 'ユーザー名'}
             ],
             /*★問題2 End★*/
             items: [],

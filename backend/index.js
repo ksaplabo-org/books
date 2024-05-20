@@ -225,7 +225,19 @@ app.put("/api/users", function(req, res) {
      * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
      */
     
+    const user = req.body;
+
+    UserLogic.create(db, user.userId, user.Name, user.password, user.gender, user.auth)
     
+    .then(() => {
+        res.send({});
+    })
+
+    .catch(() => {
+        console.log("failed to update user");
+        res.status(500).send("server error occur")
+    });
+
     
     
     
