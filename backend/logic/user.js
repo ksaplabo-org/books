@@ -15,7 +15,7 @@ module.exports.getAll = async function (db) {
                  * (現在は「権限(auth)」で降順になっている。)
                  */
                 order: [
-                    ["auth", "DESC"]
+                    ["user_id", "ASC"]
                 ]
                 /**★問題3[ユーザー一覧] End*/
             }
@@ -56,7 +56,7 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
                 where: {
                     [Op.or]: {
                         user_id: {[Op.like]: '%' + word + '%'},
-                        auth:'1'
+                        user_name: {[Op.like]: '%' + word + '%'}
                     }
                 },
                 /**★問題4[ユーザー一覧] End*/
@@ -65,6 +65,9 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
                  * ★問題5[ユーザー一覧] Start
                  * データ抽出結果が設計書の要望通りに出力されているかどうか確認する。
                  */
+                order: [
+                    ["user_id", "ASC"]
+                ]
 
                 /**★問題5[ユーザー一覧] End*/
             }
@@ -109,6 +112,11 @@ module.exports.create = async function (db, userId, userName, password, gender, 
          */
         return await UserModel.create(
             {
+                user_id : userId,
+                password : password,
+                user_name : userName,
+                gender : gender,
+                auth : auth
             }
         );
         /**★問題11[ユーザー追加] End*/
@@ -143,8 +151,11 @@ module.exports.update = async function (db, userId, userName, password, gender, 
                  * 更新対象データを絞る条件を追加してください。
                  * ※現在は全てのデータを更新するように設定されています。
                  */
-                 
-                 
+                where: {
+                    user_id: userId
+                }
+                
+                
                 /**★問題4 End★ */
             }
         );

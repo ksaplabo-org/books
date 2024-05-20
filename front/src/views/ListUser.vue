@@ -26,17 +26,20 @@
                                 ★問題1 Start★
                                 ・検索欄上部の文言を設計書通りに変更する。
                                 ・検索ボタンをクリックした際に検索処理を呼び出すようにする。
-
                                 divタグ：特に単体では意味をなさない。
                                         タグで囲んだ部分をグループ化することができる。
                                 function() {}：何もしてない処理。
                             -->
-                            <div class="px-2"></div>
+                            <div class="px-2">
+                                ユーザID/ユーザ名を検索
+                            </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                 </div>
-                                <button class="btn-primary btn-sm" v-on:click="function() {}" >検索</button>
+                                <button class="btn-primary btn-sm" v-on:click="getUsers" >
+                                    検索
+                                </button>
                             </div>
                             <!--★問題1 End★-->
                         </div>
@@ -104,6 +107,7 @@ export default {
              */
             fields: [
                 {key: 'user_id', label: 'ユーザーID'},
+                {key: 'user_name', label: '名前'},
                 {key: 'controls', label: ''}
             ],
             /*★問題2 End★*/

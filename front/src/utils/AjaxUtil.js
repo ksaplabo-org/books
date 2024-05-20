@@ -84,7 +84,14 @@ export function putUser(userModel) {
      * put:更新
      * delete:削除
      */
-    
+    const url = '/api/users'
+    return axios.put(url, {
+        "userId": userModel.userId,
+        "userName": userModel.userName,
+        "password": userModel.password,
+        "gender": userModel.gender,
+        "auth": userModel.auth
+    })
     
     
     
