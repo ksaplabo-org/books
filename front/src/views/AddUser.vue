@@ -31,10 +31,11 @@
                                 -->
                                 <!-- ユーザーID -->
                                 <div class="form-group">
-                                    <label></label>
+                                    <label>ユーザーID</label>
                                     <input type="text" id="userId" class="form-control" placeholder="1桁以上16桁以下で入力してください"
                                         v-model="userId" autocomplete="off">
                                 </div>
+
                                 <!--★問題1 End★-->
                                 <!--
                                     ★問題2 Start★
@@ -45,8 +46,11 @@
                                 -->
                                 <!-- ユーザー名 -->
 
-
-
+                                <div class="form-group">
+                                    <label>ユーザー名</label>
+                                    <input type="text" id="userName" class="form-control" placeholder="100桁以下で入力してください"
+                                        v-model="userName" autocomplete="off">
+                                </div>
 
                                 <!--★問題2 End★-->
                                 <!-- パスワード -->
@@ -65,15 +69,15 @@
                                     <br>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="womanRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="woman" checked>
-                                        <label class="custom-control-label" for="womanRadio"></label>
+                                        <label class="custom-control-label" for="womanRadio">女性</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="manRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="man">
-                                        <label class="custom-control-label" for="manRadio"></label>
+                                        <label class="custom-control-label" for="manRadio">男性</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="unknownRadio" name="genderRadio" class="custom-control-input" v-model="gender" v-bind:value="unknown">
-                                        <label class="custom-control-label" for="unknownRadio"></label>
+                                        <label class="custom-control-label" for="unknownRadio">非公開</label>
                                     </div>
                                     <!--★問題3 End★-->
                                 </div>
@@ -174,9 +178,11 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザーIDを入力してください」
                  */
-
-
-
+                
+                if (this.userId == "") {
+                    this.errMsg = "ユーザーIDを入力してください";
+                    return;
+                }
 
                 /*★問題4 End★*/
                 /**
@@ -187,8 +193,10 @@ export default {
                  * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
                  */
 
-
-
+                if (this.userId.length > 16) {
+                    this.errMsg = "ユーザーIDは16桁以下で入力してください";
+                    return;
+                }
 
                 /*★問題5 End★*/
                 if (!this.userId.match("^[0-9A-Za-z]{1,16}$")) {
@@ -201,9 +209,11 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザー名を入力してください」
                  */
-
-
-
+                
+                if (this.userName == "") {
+                    this.errMsg = "ユーザー名を入力してください";
+                    return;
+                }
 
                 /*★問題6 End★*/
                 /**
@@ -214,8 +224,10 @@ export default {
                  * エラーメッセージ：「ユーザー名は100桁以下で入力してください」
                  */
 
-
-
+                if (this.userId.length > 100) {
+                    this.errMsg = "ユーザー名は100桁以下で入力してください";
+                    return;
+                }
 
                 /*★問題7 End★*/
                 /**
@@ -225,8 +237,10 @@ export default {
                  * エラーメッセージ：「パスワードを入力してください」
                  */
 
-
-
+                if (this.password == "") {
+                    this.errMsg = "パスワードを入力してください";
+                    return;
+                }
 
                 /*★問題8 End★*/
                 /**
@@ -237,8 +251,10 @@ export default {
                  * エラーメッセージ：「パスワードは8桁以上16桁以下で入力してください」
                  */
 
-
-
+                if (this.password.length > 16 || this.password.length < 8) {
+                    this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
+                    return;
+                }
 
                 /*★問題9 End★*/
                 if (!this.password.match("^[0-9A-Za-z]{8,16}$")) {
@@ -259,7 +275,7 @@ export default {
                  * ※どこかが違います。
                  */
                 // 重複チェック
-                const response = await AjaxUtil.getUserFindById(this.userName);
+                const response = await AjaxUtil.getUserFindById(this.userId);
                 const userInfo = JSON.parse(response.data.Items);
                 if (userInfo) {
                     this.errMsg = '入力されたユーザーは既に登録されています';
