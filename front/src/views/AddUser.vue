@@ -39,7 +39,7 @@
                                 <!--
                                     ★問題2 Start★
                                     ユーザー名入力欄を追加する。
-                                
+
                                     ユーザーID表示箇所を参考にして作成する。
                                     (minlength,Patternは不要)
                                 -->
@@ -179,7 +179,7 @@ export default {
                  * エラーメッセージ：「ユーザーIDを入力してください」
                  */
                  if (!this.userId) {
-                    this.errMsg = "ユーザーIDは半角英数で入力してください";
+                    this.errMsg = "ユーザーIDを入力してください";
                     return;
                  }
 
@@ -193,14 +193,17 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
                  */
-                if(this.userId.length >16 ){
+                if(this.userId.length > 16) {
                     this.errMsg = "ユーザーIDは16桁以下で入力してください";
                     return;
                 }
 
 
                 /*★問題5 End★*/
-                
+                if (!this.userId.match("^[0-9A-Za-z]{1,16}$")) {
+                    this.errMsg = "ユーザーIDは半角英数で入力してください";
+                    return;
+                }
                 /**
                  * ★問題6 Start★
                  * ユーザー名必須入力チェックを行う。
@@ -222,7 +225,7 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「ユーザー名は100桁以下で入力してください」
                  */
-                 if(this.userName.length >100 ){
+                 if(this.userName.length > 100) {
                     this.errMsg = "ユーザー名は100桁以下で入力してください";
                     return;
                 }

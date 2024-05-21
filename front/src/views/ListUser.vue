@@ -106,8 +106,8 @@ export default {
              */
             fields: [
                 {key: 'user_id', label: 'ユーザーID'},
+                {key: 'user_name', label: '名前'},
                 {key: 'controls', label: ''},
-                {key: 'user_name', label: 'ユーザー名'}
             ],
             /*★問題2 End★*/
             items: [],

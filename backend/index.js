@@ -227,7 +227,7 @@ app.put("/api/users", function(req, res) {
     
     const user = req.body;
 
-    UserLogic.create(db, user.userId, user.Name, user.password, user.gender, user.auth)
+    UserLogic.update(db, user.userId, user.userName, user.password, user.gender, user.auth)
     
     .then(() => {
         res.send({});

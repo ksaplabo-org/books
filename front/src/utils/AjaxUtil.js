@@ -87,10 +87,11 @@ export function putUser(userModel) {
     
     const url = '/api/users';
     return axios.put(url,{
-        "userId": userModel,userId,
-        "userName": userModel,userName,
-        "password": userModel,password,
-        "auth": userModel,auth
+        "userId": userModel.userId,
+        "userName": userModel.userName,
+        "password": userModel.password,
+        "gender": userModel.gender,
+        "auth": userModel.auth
 
     })
     
