@@ -12,10 +12,14 @@
             <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
             <!-- 図書館情報欄 -->
-            <div class="d-flex align-items-stretch" text-align: center>
+            <div class="d-flex align-items-stretch">
               <!-- 図書館イメージ -->
-                <img src="/public/image/library.png" class="img-fluid" width="100%" height:auto>
-                <img src="/public/image/title.png" class="img-fluid" width="100%" height:auto>
+              <div>
+                  <img src="/public/image/library.png" class="img-fluid">
+              </div>
+              <div>
+                  <img src="/public/image/title.png" class="img-fluid">
+              </div>
             </div>
 
             <br>

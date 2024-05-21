@@ -202,7 +202,7 @@
                   clickedRow.imgUrl = '';
                   clickedRow.description = '';
                 "
-              >
+              >閉じる
               </button>
             </div>
           </div>

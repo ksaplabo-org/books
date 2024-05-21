@@ -180,10 +180,10 @@ app.get("/api/users/:id", function(req, res) {
 
     // ユーザー情報を取得する
     UserLogic.findByIncludeIdOrName(db, req.params.word)
-        .then((books) => {
+        .then((users) => {
             // 正常レスポンス
             res.send({
-                Items: JSON.stringify(books)
+                Items: JSON.stringify(users)
             });
         })
         .catch(()  => {
@@ -261,7 +261,7 @@ app.delete("/api/users/:id", function(req, res) {
 
     // 貸し出し状況登録
     LendingLogic.create(db, lending.isbn, lending.book_id, lending.lending_user_id, lending.rental_date, lending.return_plan_date, lending.managed_user_id)
-        .then((books) => {
+        .then(() => {
             // 正常レスポンス
             res.send({result: "success"});
         })
