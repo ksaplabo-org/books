@@ -142,7 +142,7 @@ const UserRepository = require("../db/user");
                  */
                  
                  
-                /**★問題4 Start★ */
+                /**★問題4 End★ */
             }
         );
     } catch (e) {

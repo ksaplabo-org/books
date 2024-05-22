@@ -191,7 +191,7 @@ export default {
 
 
                 /*★問題5 End★*/
-                if (!this.userId.match("^[0-9A-Za-z]{1,16}$")) {
+                if (!this.userId.match("^[0-9A-Za-z]*$")) {
                     this.errMsg = "ユーザーIDは半角英数で入力してください";
                     return;
                 }
@@ -241,7 +241,7 @@ export default {
 
 
                 /*★問題9 End★*/
-                if (!this.password.match("^[0-9A-Za-z]{8,16}$")) {
+                if (!this.password.match("^[0-9A-Za-z]*$")) {
                     this.errMsg = "パスワードは半角英数で入力してください";
                     return;
                 }
