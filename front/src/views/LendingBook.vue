@@ -28,7 +28,7 @@
                                     <div class="col-lg-6">
                                         <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                     </div>
-                                    <input class="btn-primary" type="submit" value="検索" />
+                                    <input class="btn-primary btn-sm" type="submit" value="検索" />
                                 </div>
                             </div>
                         </div>
