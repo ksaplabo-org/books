@@ -31,7 +31,7 @@ app.post("/api/signIn", function(req, res) {
             // 正常レスポンス
             res.send(result);
         })
-        .catch(()=>{
+        .catch(() => {
             // 異常レスポンス
             console.log("failed to verify");
             res.status(500).send("server error occur")
@@ -68,7 +68,7 @@ app.post("/api/information", function(req, res) {
             // 正常レスポンス
             res.send({});
         })
-        .catch(()  => {
+        .catch(() => {
             // 異常レスポンス
             console.log("failed to add information");
             res.status(500).send("server error occur")
@@ -87,7 +87,7 @@ app.put("/api/information", function(req, res) {
             // 正常レスポンス
             res.send({});
         })
-        .catch(()  => {
+        .catch(() => {
             // 異常レスポンス
             console.log("failed to update information");
             res.status(500).send("server error occur")
@@ -95,7 +95,7 @@ app.put("/api/information", function(req, res) {
 });
 
 /**
- * お知らせ更新API
+ * お知らせ削除API
  */
 app.delete("/api/information", function(req, res) {
     const info = req.body;
@@ -105,7 +105,7 @@ app.delete("/api/information", function(req, res) {
             // 正常レスポンス
             res.send({result: "success"});
         })
-        .catch(()  => {
+        .catch(() => {
             // 異常レスポンス
             console.log("failed to remove information");
             res.status(500).send("server error occur")

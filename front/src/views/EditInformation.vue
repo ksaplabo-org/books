@@ -66,19 +66,23 @@
                         <!-- 登録内容入力欄 -->
                         <div class="modal-body">
                             <p class="text-danger" v-show="errMsg_Modal">{{ errMsg_Modal }}</p>
-                            <div class="row pr-3 pb-3">
-                                <div class="col-3">お知らせ:</div>
-                                <textarea id="informationTitle" class="form-control col-9" v-model="informationTitle" autocomplete="off"></textarea>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">お知らせ</div>
+                                <div class="col-9">
+                                    <textarea id="informationTitle" class="form-control" v-model="informationTitle" autocomplete="off"></textarea>
+                                </div>
                             </div>
-                            <div class="row pr-3 pb-3">
-                                <div class="col-3">詳細:</div>
-                                <textarea id="informationContent" class="form-control col-9" v-model="informationContent" autocomplete="off"></textarea>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">詳細</div>
+                                <div class="col-9">
+                                    <textarea id="informationContent" class="form-control" v-model="informationContent" autocomplete="off"></textarea>
+                                </div>
                             </div>
                         </div>
                         <!-- フッター -->
                         <div class="modal-footer">
                             <button class="btn btn-primary">登録</button>
-                            <button type="button" class="btn btn-secondary" id="addcloseButton" data-dismiss="modal" v-on:click="informationTitle = '',informationContent = '',errMsg_Modal = ''">閉じる</button>
+                            <button type="button" class="btn btn-secondary" id="addmodalCloseButton" data-dismiss="modal" v-on:click="informationTitle = '',informationContent = '',errMsg_Modal = ''">閉じる</button>
                         </div>
                     </form>
                     </div>
@@ -98,27 +102,31 @@
                         <!-- 登録内容編集欄 -->
                         <div class="modal-body">
                             <p class="text-danger" v-show="errMsg_Modal">{{ errMsg_Modal }}</p>
-                            <div class="row pr-3 pt-3 pb-3">
-                                <div class="col-3">ID:</div>
-                                <div id="informationNumber" class="col-9">{{ informationNumber }}</div>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">ID</div>
+                                <div id="informationNumber" class="col-9 col-form-label">{{ informationNumber }}</div>
                             </div>
-                            <div class="row pr-3 pt-3 pb-3">
-                                <div class="col-3">掲載日:</div>
-                                <div id="informationDate" class="col-9">{{ informationDate }}</div>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">掲載日</div>
+                                <div id="informationDate" class="col-9 col-form-label">{{ informationDate }}</div>
                             </div>
-                            <div class="row pr-3 pt-3 pb-3">
-                                <div class="col-3">お知らせ:</div>
-                                <textarea id="informationTitle" class="form-control col-9 " v-model="informationTitle" autocomplete="off"></textarea>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">お知らせ</div>
+                                <div class="col-9">
+                                    <textarea id="informationTitle" class="form-control" v-model="informationTitle" autocomplete="off"></textarea>
+                                </div>
                             </div>
-                            <div class="row pr-3 pb-3">
-                                <div class="col-3">詳細:</div>
-                                <textarea id="informationContent" class="form-control col-9" v-model="informationContent" autocomplete="off"></textarea>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">詳細</div>
+                                <div class="col-9">
+                                    <textarea id="informationContent" class="form-control" v-model="informationContent" autocomplete="off"></textarea>
+                                </div>
                             </div>
                         </div>
                         <!-- フッター -->
                         <div class="modal-footer">
                             <button class="btn btn-primary">更新</button>
-                            <button type="button" class="btn btn-secondary" id="updateCloseButton" data-dismiss="modal" v-on:click="informationTitle = '',informationContent = '',informationNumber = '',informationDate = '', errMsg_Modal = ''">閉じる</button>
+                            <button type="button" class="btn btn-secondary" id="updatemodalCloseButton" data-dismiss="modal" v-on:click="informationTitle = '',informationContent = '',informationNumber = '',informationDate = '', errMsg_Modal = ''">閉じる</button>
                         </div>
                     </form>
                     </div>
@@ -136,27 +144,27 @@
                         </div>
                         <!-- 登録内容確認欄 -->
                         <div class="modal-body">
-                            <div class="row pt-3 pb-3">
-                                <div class="col-3">ID:</div>
-                                <div id="informationNumber" class="col-9">{{ informationNumber }}</div>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">ID</div>
+                                <div id="informationNumber" class="col-9 col-form-label">{{ informationNumber }}</div>
                             </div>
-                            <div class="row pt-3 pb-3">
-                                <div class="col-3">掲載日:</div>
-                                <div id="informationDate" class="col-9">{{ informationDate }}</div>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">掲載日</div>
+                                <div id="informationDate" class="col-9 col-form-label">{{ informationDate }}</div>
                             </div>
-                            <div class="row pt-3 pb-3">
-                                <div class="col-3">お知らせ:</div>
-                                <div id="informationTitle" class="col-9">{{informationTitle}}</div>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">お知らせ</div>
+                                <div id="informationTitle" class="col-9 col-form-label">{{informationTitle}}</div>
                             </div>
-                            <div class="row pt-3 pb-3">
-                                <div class="col-3">詳細:</div>
-                                <div id="informationContent" class="col-9">{{informationContent}}</div>
+                            <div class="row pb-3">
+                                <div class="col-3 col-form-label">詳細</div>
+                                <div id="informationContent" class="col-9 col-form-label">{{informationContent}}</div>
                             </div>
                         </div>
                         <!-- フッター -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" v-on:click="deleteInformation">削除</button>
-                            <button type="button" class="btn btn-secondary" id="deleteCloseButton" data-dismiss="modal" v-on:click="informationTitle = '',informationContent = '',informationNumber = '',informationDate = '', errMsg_Modal = ''">閉じる</button>
+                            <button type="button" class="btn btn-secondary" id="deletemodalCloseButton" data-dismiss="modal" v-on:click="informationTitle = '',informationContent = '',informationNumber = '',informationDate = '', errMsg_Modal = ''">閉じる</button>
                         </div>
                     </div>
                 </div>
@@ -292,7 +300,7 @@ export default {
                 })
                 .finally(() => {
                     //モーダルを閉じる
-                    document.getElementById('addcloseButton').click( function(){
+                    document.getElementById('addmodalCloseButton').click( function(){
                         document.getElementById('addmodal').modal('hide');
                     });
                     this.isLoading = false;
@@ -344,7 +352,7 @@ export default {
                 })
                 .finally(() => {
                     //モーダルを閉じる
-                    document.getElementById('updateCloseButton').click( function(){
+                    document.getElementById('updatemodalCloseButton').click( function(){
                         document.getElementById('updatemodal').modal('hide');
                     });
                     this.isLoading = false;
@@ -365,15 +373,15 @@ export default {
                 .catch((e) => {
                     this.errMsg = 'お知らせ情報の削除に失敗しました';
                     console.log(e);
-                    this.isLoading = false;
                 })
                 .finally(() => {
                     //モーダルを閉じる
-                    document.getElementById('deleteCloseButton').click( function(){
+                    document.getElementById('deletemodalCloseButton').click( function(){
                         document.getElementById('deletemodal').modal('hide');
                     });
+                    this.isLoading = false;
                 }
-            ); 
+            );
         }
     }
 }
