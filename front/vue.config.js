@@ -84,6 +84,12 @@ module.exports = {
           filename: 'pages/sorry.html',
           title: 'Sorry',
         },
+        editInformation: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/editInformation.html',
+          title: 'お知らせ管理',
+        },
       },
     devServer: {
       https: true,
