@@ -57,6 +57,66 @@ app.get("/api/information", function(req, res) {
 });
 
 /**
+ * お知らせ情報追加API
+ */
+app.post("/api/information", function(req, res) {
+    // リクエスト取得
+    const information = req.body;
+
+    // お知らせ情報を登録する
+    InformationLogic.create(db, information.title, information.content)
+        .then(() => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch(() => {
+            // 異常レスポンス
+            console.log("failed to add information");
+            res.status(500).send("server error occur");
+        });
+});
+
+/**
+ * お知らせ情報更新API
+ */
+app.put("/api/information", function(req, res) {
+    // リクエスト取得
+    const information = req.body;
+
+    // お知らせ情報を更新する
+    InformationLogic.update(db, information.date, information.no, information.title, information.content)
+        .then(() => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch(() => {
+            // 異常レスポンス
+            console.log("failed to update information");
+            res.status(500).send("server error occur");
+        });
+});
+
+/**
+ * お知らせ情報削除API
+ */
+app.delete("/api/information", function(req, res) {
+    // リクエスト取得
+    const information = req.body;
+
+    // お知らせ情報を削除する
+    InformationLogic.remove(db, information.date, information.no)
+        .then(() => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to remove information");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
  * 書籍情報取得API
  */
 app.get("/api/book", function(req, res) {

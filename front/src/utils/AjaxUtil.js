@@ -6,8 +6,8 @@ export function getAllSapBooks() {
     const url = '/api/book';
 
     return axios.get(url , {
-            params: {}
-        }
+        params: {}
+    }
     );
 
 }
@@ -15,6 +15,38 @@ export function getAllSapBooks() {
 export function getInformation() {
     const url = '/api/information';
     return axios.get(url);
+}
+
+export function postInformation(informationModel) {
+    const url = '/api/information';
+    return axios.post(url, {
+        "title": informationModel.title,
+        "content": informationModel.content
+    }
+    );
+}
+
+export function putInformation(informationModel) {
+    const url = '/api/information';
+    return axios.put(url, {
+        "date": informationModel.date,
+        "no": informationModel.no,
+        "title": informationModel.title,
+        "content": informationModel.content
+    }
+    );
+}
+
+export function deleteInformation(informationModel) {
+    const url = '/api/information';
+    return axios.request({
+        method: 'delete',
+        url: url,
+        data: {
+            "date": informationModel.date,
+            "no": informationModel.no
+        }
+    })
 }
 
 export function searchBooks(keyword) {
@@ -28,12 +60,12 @@ export function addBook(addBookModel){
     const url = '/api/book';
 
     return axios.post(url , {
-            "isbn": addBookModel.isbn,
-            "book_id": addBookModel.book_id,
-            "title": addBookModel.title,
-            "description": addBookModel.description,
-            "img_url": addBookModel.img_url
-        }
+        "isbn": addBookModel.isbn,
+        "book_id": addBookModel.book_id,
+        "title": addBookModel.title,
+        "description": addBookModel.description,
+        "img_url": addBookModel.img_url
+    }
     );
 }
 
@@ -95,7 +127,7 @@ export function putUser(userModel) {
     })
 
     /**★問題2 End★*/
-    }
+}
 
 export function deleteUser(userId) {
     const url = '/api/users/' + userId;
@@ -131,7 +163,7 @@ export function deleteLending(lendModel) {
 
 export function searchLendingBooks(userId) {
     const url = '/api/lending/' + userId;
-    
+
     return axios.get(url);
 
 }
