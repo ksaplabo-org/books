@@ -55,7 +55,71 @@ app.get("/api/information", function(req, res) {
             res.status(500).send("server error occur");
         });
 });
+/**
+ * お知らせ新規登録API
+ */
+app.post("/api/information", function(req, res) {
+    // リクエスト取得
+    const Information = req.body;
 
+    //お知らせを登録する
+    InformationLogic.create(db, Information.no, Information.date, Information.title, Information.content)
+        .then(() => {
+            // 正常レスポンス
+            res.send({});
+        })
+        .catch(()  => {
+            
+            // 異常レスポンス
+            console.log("failed to create information");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * お知らせ情報更新API
+ */
+app.put("/api/information", function(req, res) {
+    
+     // リクエスト取得
+     const Information = req.body;
+
+     // お知らせを更新する
+     InformationLogic.update(db, Information.no, Information.date, Information.title, Information.content)
+         .then(() => {
+             // 正常レスポンス
+             res.send({});
+         })
+         .catch(()  => {
+             // 異常レスポンス
+             console.log("failed to update information");
+             res.status(500).send("server error occur")
+         });
+    
+    });
+/**
+ * お知らせ削除API
+ */
+app.delete("/api/information", function(req, res) {
+    
+    // リクエスト取得
+    const Information = req.body;
+
+    // お知らせを削除する
+    InformationLogic.remove(db, Information.no, Information.date)
+    .then(() => {
+        // 正常レスポンス
+        res.send({});
+    })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log(Information.no);
+            console.log("failed to delete information");
+            res.status(500).send("server error occur")
+        });
+   
+   
+   });
 /**
  * 書籍情報取得API
  */
