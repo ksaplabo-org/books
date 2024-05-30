@@ -78,12 +78,18 @@ module.exports = {
           filename: 'pages/student.html',
           title: '学生課題',
         },
+        editInformation: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/editInformation.html',
+          title: 'お知らせ管理',
+        },
         sorry: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
           filename: 'pages/sorry.html',
           title: 'Sorry',
-        },
+        }
       },
     devServer: {
       https: true,

@@ -379,4 +379,64 @@ app.get("/api/students", function(req, res) {
         });
 });
 
+/**
+ * お知らせ新規登録API
+ */
+app.post("/api/information", function(req, res) {
+    // リクエスト取得
+    const info = req.body;
+
+    // 新規お知らせを追加する
+    InformationLogic.create(db, info.title, info.content)
+        .then(() => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to add information");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * お知らせ更新登録API
+ */
+app.put("/api/information", function(req, res) {
+    // リクエスト取得
+    const updateInfo = req.body;
+
+    // お知らせ更新する
+    InformationLogic.update(db,updateInfo.date,updateInfo.no, updateInfo.title, updateInfo.content)
+        .then(() => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to update information");
+            res.status(500).send("server error occur")
+        });
+});
+
+/**
+ * お知らせ削除API
+ */
+app.delete("/api/information", function(req, res) {
+    // リクエスト取得
+    const deleteInfo = req.body;
+
+    // お知らせ削除する
+    InformationLogic.remoeve(db,deleteInfo.date,deleteInfo.no)
+        .then(() => {
+            // 正常レスポンス
+            res.send({result: "success"});
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to delete information");
+            res.status(500).send("server error occur")
+        });
+});
+
 app.listen(process.env.PORT || 3000);

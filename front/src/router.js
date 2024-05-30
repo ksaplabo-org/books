@@ -12,6 +12,7 @@ import ListUser from './views/ListUser.vue';
 import LendingBook from './views/LendingBook.vue';
 import AddUser from './views/AddUser.vue';
 import EditUser from './views/EditUser.vue';
+import EditInformation from './views/EditInformation.vue';
 import Student from './views/Student.vue';
 
 Vue.use(Router);
@@ -71,6 +72,11 @@ export default new Router({
       path: '/pages/editUser.html',
       name: 'editUser',
       component: EditUser,
+    },
+    {
+      path: '/pages/editInformation.html',
+      name: 'editInformation',
+      component: EditInformation,
     },
     {
       path: '/pages/student.html',

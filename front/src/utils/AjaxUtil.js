@@ -119,6 +119,49 @@ export function postLending(lendModel) {
     })
 }
 
+/**
+ * お知らせ新規登録処理
+ */
+export function postInformation(userInfo){
+    const url = '/api/information'
+
+    return axios.post(url, {
+        "no": userInfo.no,
+        "date": userInfo.date,
+        "title": userInfo.title,
+        "content": userInfo.content,
+    })
+}
+
+/**
+ * お知らせ更新処理
+ */
+export function putInformation(userInfo){
+    const url = '/api/information'
+
+    return axios.put(url, {
+        "no": userInfo.no,
+        "date": userInfo.date,
+        "title": userInfo.title,
+        "content": userInfo.content,
+    })
+}
+
+/**
+ * お知らせ削除処理
+ */
+export function deleteInformation(userInfo){
+    const url = '/api/information';
+
+    return axios.request({
+        method: 'delete',
+        url: url,
+        data: {
+            "no": userInfo.no,
+            "date": userInfo.date
+    }})
+}
+
 export function deleteLending(lendModel) {
     const url = '/api/lending'
     return axios.request({
