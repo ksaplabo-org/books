@@ -37,6 +37,7 @@ export default {
                 { title: 'ユーザー管理', name: 'editUser', icon: 'fas fa-fw fa-user', onlyAdmin: false },
                 { title: 'レンタル', name: 'rentalbook', icon: 'fas fa-fw fa-book', onlyAdmin: true },
                 { title: 'レンタル一覧', name: 'lendingBook', icon: 'fas fa-fw fa-book', onlyAdmin: false },
+                { title: 'お知らせ管理', name: 'editinformation', icon: 'fas fa-fw fa-info-circle', onlyAdmin: true },
                 //{ title: '学生用', name: 'student', icon: 'fas fa-fw fa-user', onlyAdmin: false }
             ].filter(e => !UserUtil.isAdmin() ? !e.onlyAdmin : true)
         }

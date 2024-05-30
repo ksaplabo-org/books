@@ -45,7 +45,7 @@ module.exports = {
         listbook: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
-          filename: 'pages/listBook.html',
+          filename: 'pages/listbook.html',
           title: '書籍一覧',
         },
         listUser: {
@@ -54,10 +54,10 @@ module.exports = {
           filename: 'pages/listUser.html',
           title: 'ユーザー一覧',
         },
-        leadingBook: {
+        lendingBook: {
           entry: 'src/main.js',
           template: 'public/pages/index.html',
-          filename: 'pages/leadingBook.html',
+          filename: 'pages/lendingBook.html',
           title: '貸出状況一覧',
         },
         addUser: {
@@ -77,6 +77,12 @@ module.exports = {
           template: 'public/pages/index.html',
           filename: 'pages/student.html',
           title: '学生課題',
+        },
+        editinformation: {
+          entry: 'src/main.js',
+          template: 'public/pages/index.html',
+          filename: 'pages/editinformation.html',
+          title: 'お知らせ管理',
         },
         sorry: {
           entry: 'src/main.js',

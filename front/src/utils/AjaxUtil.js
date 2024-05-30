@@ -17,6 +17,37 @@ export function getInformation() {
     return axios.get(url);
 }
 
+export function putInformation(informationModel) {
+    const url = '/api/information';
+    return axios.put(url,{
+        "no": informationModel.no,
+        "date": informationModel.date,
+        "title": informationModel.title,
+        "content": informationModel.content
+    });
+}
+export function postInformation(informationModel) {
+    const url = '/api/information';
+    
+    return axios.post(url, {
+        "no": informationModel.no,
+        "date": informationModel.date,
+        "title": informationModel.title,
+        "content": informationModel.content
+    })
+}
+export function deleteInformation(informationModel){
+    const url = '/api/information';
+
+    return axios.request({
+        method: 'delete',
+        url: url,
+        data: {
+            "no": informationModel.no,
+            "date": informationModel.date
+        }
+    })
+}
 export function searchBooks(keyword) {
     // search url : google books api.
     const url = 'https://www.googleapis.com/books/v1/volumes?q=' + keyword.replace(' ','+');
