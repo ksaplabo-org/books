@@ -15,7 +15,7 @@ module.exports.getAll = async function (db) {
                  * (現在は「権限(auth)」で降順になっている。)
                  */
                 order: [
-                    ["auth", "DESC"]
+                    ["user_id", "ASC"]
                 ]
                 /**★問題3[ユーザー一覧] End*/
             }

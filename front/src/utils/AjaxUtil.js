@@ -150,6 +150,6 @@ export function alreadyLending(alreadyModel) {
 }
 
 export function getAllStudent() {
-    const url = 'https://cjx8hky0ic.execute-api.ap-northeast-1.amazonaws.com/fukushimaTest/item';
+    const url = 'https://zfqiczn84j.execute-api.ap-northeast-1.amazonaws.com/BookStation/student';
     return axios.get(url);
 }

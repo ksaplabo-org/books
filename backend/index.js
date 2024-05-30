@@ -361,18 +361,18 @@ app.delete("/api/users/:id", function(req, res) {
         });
 });
 
-app.get("/api/students", function(req, res) {
-    StudentLogic.getAll(db)
-        .then((students) => {
-            // 正常レスポンス
-            res.send({
-                Items: JSON.stringify(students)
-            });
-        })
-        .catch(() => {
-            console.log("failed to get student");
-            res.status(500).send("server error occur");
-        });
-});
+// app.get("/api/students", function(req, res) {
+//     StudentLogic.getAll(db)
+//         .then((students) => {
+//             // 正常レスポンス
+//             res.send({
+//                 Items: JSON.stringify(students)
+//             });
+//         })
+//         .catch(() => {
+//             console.log("failed to get student");
+//             res.status(500).send("server error occur");
+//         });
+// });
 
 app.listen(process.env.PORT || 3000);
