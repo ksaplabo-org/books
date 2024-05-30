@@ -42,7 +42,6 @@ module.exports.getAll = async function(db) {
 /**
  * お知らせ情報登録
  * @param {*} db 
- * @param {*} date
  * @param {*} title
  * @param {*} content
  * @returns お知らせ情報（Promise）

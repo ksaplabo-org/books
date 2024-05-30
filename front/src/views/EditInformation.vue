@@ -67,30 +67,29 @@
                                 以下の内容でお知らせを登録してよろしいですか？</div>
                         </div>
                         <div class="modal-body">
-                            <div class="mt-2 mb-4">
-                                <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
-                                <b-row align-v="start" no-gutters>
-                                    <b-col col lg="3">
-                                        <label for="addModalTextareaTitle" class="form-label">お知らせ:</label>
-                                    </b-col>
-                                    <b-col col lg="9">
-                                        <textarea class="form-control" id="addModalTextareaTitle" v-model="title"
-                                            rows="2"></textarea>
-                                    </b-col>
-                                </b-row>
+                            <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
+                            <b-row align-v="start" no-gutters>
+                                <b-col cols="3">
+                                    <label for="addModalTextareaTitle" class="form-label">お知らせ</label>
+                                </b-col>
+                                <b-col cols="9">
+                                    <textarea class="form-control" id="addModalTextareaTitle" v-model="title"
+                                        rows="2"></textarea>
+                                </b-col>
+                            </b-row>
 
-                                <br>
+                            <br>
 
-                                <b-row align-v="start" no-gutters>
-                                    <b-col col lg="3">
-                                        <label for="addModalTextareaContent" class="form-label">詳細:</label>
-                                    </b-col>
-                                    <b-col col lg="9">
-                                        <textarea class="form-control" id="addModalTextareaContent" v-model="content"
-                                            rows="2"></textarea>
-                                    </b-col>
-                                </b-row>
-                            </div>
+                            <b-row align-v="start" no-gutters>
+                                <b-col cols="3">
+                                    <label for="addModalTextareaContent" class="form-label">詳細</label>
+                                </b-col>
+                                <b-col cols="9">
+                                    <textarea class="form-control" id="addModalTextareaContent" v-model="content"
+                                        rows="2"></textarea>
+                                </b-col>
+                            </b-row>
+                            <div class="mt-4"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" @click="addInformation()">
@@ -117,44 +116,43 @@
                                 以下の内容でお知らせを更新してよろしいですか？</div>
                         </div>
                         <div class="modal-body">
-                            <div class="mt-2 mb-4">
-                                <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
-                                <b-row align-v="start" no-gutters>
-                                    <b-col col lg="3">ID:</b-col>
-                                    <b-col col lg="9">
-                                        <div class="text" v-show="clickedRow">{{ clickedRow.id }}</div>
-                                    </b-col>
-                                </b-row>
-                                <br>
-                                <b-row align-v="start" no-gutters>
-                                    <b-col col lg="3">掲載日:</b-col>
-                                    <b-col col lg="9">
-                                        <div class="text" v-show="clickedRow">{{ clickedRow.date }}</div>
-                                    </b-col>
-                                </b-row>
-                                <br>
-                                <b-row align-v="start" no-gutters>
-                                    <b-col col lg="3">
-                                        <label for="updateModalTextareaTitle" class="form-label">お知らせ:</label>
-                                    </b-col>
-                                    <b-col col lg="9">
-                                        <textarea class="form-control" id="updateModalTextareaTitle" rows="2"
-                                            v-model="clickedRow.title"></textarea>
-                                    </b-col>
-                                </b-row>
+                            <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
+                            <b-row align-v="start" no-gutters>
+                                <b-col cols="3">ID</b-col>
+                                <b-col cols="9">
+                                    <div class="text" v-show="clickedRow">{{ clickedRow.id }}</div>
+                                </b-col>
+                            </b-row>
+                            <br>
+                            <b-row align-v="start" no-gutters>
+                                <b-col cols="3">掲載日</b-col>
+                                <b-col cols="9">
+                                    <div class="text" v-show="clickedRow">{{ clickedRow.date }}</div>
+                                </b-col>
+                            </b-row>
+                            <br>
+                            <b-row align-v="start" no-gutters>
+                                <b-col cols="3">
+                                    <label for="updateModalTextareaTitle" class="form-label">お知らせ</label>
+                                </b-col>
+                                <b-col cols="9">
+                                    <textarea class="form-control" id="updateModalTextareaTitle" rows="2"
+                                        v-model="clickedRow.title"></textarea>
+                                </b-col>
+                            </b-row>
 
-                                <br>
+                            <br>
 
-                                <b-row align-v="start" align-h="between" no-gutters>
-                                    <b-col col lg="3">
-                                        <label for="updateModalTextareaContent" class="form-label">詳細:</label>
-                                    </b-col>
-                                    <b-col col lg="9">
-                                        <textarea class="form-control" id="updateModalTextareaContent" rows="2"
-                                            v-model="clickedRow.text"></textarea>
-                                    </b-col>
-                                </b-row>
-                            </div>
+                            <b-row align-v="start" align-h="between" no-gutters>
+                                <b-col cols="3">
+                                    <label for="updateModalTextareaContent" class="form-label">詳細</label>
+                                </b-col>
+                                <b-col cols="9">
+                                    <textarea class="form-control" id="updateModalTextareaContent" rows="2"
+                                        v-model="clickedRow.text"></textarea>
+                                </b-col>
+                            </b-row>
+                            <div class="mt-4"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" @click="updateInformation()">
@@ -181,37 +179,36 @@
                                 以下のお知らせを削除してよろしいですか？</div>
                         </div>
                         <div class="modal-body">
-                            <div class="mt-2 mb-4">
-                                <b-row align-v="start" no-gutters>
-                                    <b-col col lg="3">ID:</b-col>
-                                    <b-col col lg="9">
-                                        <div class="text" v-show="clickedRow">{{ clickedRow.id }}</div>
-                                    </b-col>
-                                </b-row>
-                                <br>
-                                <b-row align-v="start" no-gutters>
-                                    <b-col col lg="3">掲載日:</b-col>
-                                    <b-col col lg="9">
-                                        <div class="text" v-show="clickedRow">{{ clickedRow.date }}</div>
-                                    </b-col>
-                                </b-row>
-                                <br>
-                                <b-row align-v="start" no-gutters>
-                                    <b-col col lg="3">お知らせ:</b-col>
-                                    <b-col col lg="9">
-                                        <div class="text" v-show="clickedRow">{{ clickedRow.title }}</div>
-                                    </b-col>
-                                </b-row>
+                            <b-row align-v="start" no-gutters>
+                                <b-col cols="3">ID</b-col>
+                                <b-col cols="9">
+                                    <div class="text" v-show="clickedRow">{{ clickedRow.id }}</div>
+                                </b-col>
+                            </b-row>
+                            <br>
+                            <b-row align-v="start" no-gutters>
+                                <b-col cols="3">掲載日</b-col>
+                                <b-col cols="9">
+                                    <div class="text" v-show="clickedRow">{{ clickedRow.date }}</div>
+                                </b-col>
+                            </b-row>
+                            <br>
+                            <b-row align-v="start" no-gutters>
+                                <b-col cols="3">お知らせ</b-col>
+                                <b-col cols="9">
+                                    <div class="text" v-show="clickedRow">{{ clickedRow.title }}</div>
+                                </b-col>
+                            </b-row>
 
-                                <br>
+                            <br>
 
-                                <b-row align-v="start" align-h="between" no-gutters>
-                                    <b-col col lg="3">詳細:</b-col>
-                                    <b-col col lg="9">
-                                        <div class="text" v-show="clickedRow">{{ clickedRow.text }}</div>
-                                    </b-col>
-                                </b-row>
-                            </div>
+                            <b-row align-v="start" align-h="between" no-gutters>
+                                <b-col cols="3">詳細</b-col>
+                                <b-col cols="9">
+                                    <div class="text" v-show="clickedRow">{{ clickedRow.text }}</div>
+                                </b-col>
+                            </b-row>
+                            <div class="mt-4"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" @click="deleteInformation()">
@@ -318,52 +315,53 @@ export default {
             this.modalErrMsg = '';
             this.isLoading = true;
 
-            // 入力チェック
-            if (!this.title) {
-                this.modalErrMsg = 'お知らせを入力してください';
+            try {
+                // 入力チェック
+                if (!this.title) {
+                    this.modalErrMsg = 'お知らせを入力してください';
+                    return;
+                };
+
+                if (this.title.length > 100) {
+                    this.modalErrMsg = 'お知らせは100桁以下で入力してください';
+                    return;
+                };
+
+                if (!this.content) {
+                    this.modalErrMsg = '詳細を入力してください';
+                    return;
+                };
+
+                if (this.content.length > 100) {
+                    this.modalErrMsg = '詳細は100桁以下で入力してください';
+                    return;
+                };
+
+                // 登録したいお知らせ情報の「お知らせ」「詳細」を格納
+                const model = {
+                    title: this.title,
+                    content: this.content
+                };
+
+                AjaxUtil.postInformation(model)
+                    .then(() => {
+                        $("#addModal").modal("hide");
+                        this.updateView();
+                        this.msg = 'お知らせ情報の登録に成功しました';
+                    })
+                    .catch((e) => {
+                        $("#addModal").modal("hide");
+                        this.errMsg = 'お知らせ情報の登録に失敗しました';
+                        console.log(e);
+                    })
+                    .finally(() => {
+                        this.title = '';
+                        this.content = '';
+                    });
+            } finally {
+                // 処理が try から抜ける前にローディングをオフにする
                 this.isLoading = false;
-                return;
             };
-
-            if (this.title.length > 100) {
-                this.modalErrMsg = 'お知らせは100桁以下で入力してください';
-                this.isLoading = false;
-                return;
-            };
-
-            if (!this.content) {
-                this.modalErrMsg = '詳細を入力してください';
-                this.isLoading = false;
-                return;
-            };
-
-            if (this.content.length > 100) {
-                this.modalErrMsg = '詳細は100桁以下で入力してください';
-                this.isLoading = false;
-                return;
-            };
-
-            const model = {
-                title: this.title,
-                content: this.content
-            };
-
-            AjaxUtil.postInformation(model)
-                .then((response) => {
-                    $("#addModal").modal("hide");
-                    this.updateView();
-                    this.msg = 'お知らせ情報の登録に成功しました';
-                })
-                .catch((e) => {
-                    $("#addModal").modal("hide");
-                    this.errMsg = 'お知らせ情報の登録に失敗しました';
-                    console.log(e);
-                })
-                .finally(() => {
-                    this.title = '';
-                    this.content = '';
-                    this.isLoading = false;
-                });
         },
         // お知らせ更新
         updateInformation: function () {
@@ -371,52 +369,51 @@ export default {
             this.errMsg = '';
             this.modalErrMsg = '';
             this.isLoading = true;
-            // 入力チェック
-            if (!this.clickedRow.title) {
-                this.modalErrMsg = 'お知らせを入力してください';
+
+            try {
+                // 入力チェック
+                if (!this.clickedRow.title) {
+                    this.modalErrMsg = 'お知らせを入力してください';
+                    return;
+                };
+
+                if (this.clickedRow.title.length > 100) {
+                    this.modalErrMsg = 'お知らせは100桁以下で入力してください';
+                    return;
+                };
+
+                if (!this.clickedRow.text) {
+                    this.modalErrMsg = '詳細を入力してください';
+                    return;
+                };
+
+                if (this.clickedRow.text.length > 100) {
+                    this.modalErrMsg = '詳細は100桁以下で入力してください';
+                    return;
+                };
+
+                // 更新したいお知らせ情報の「掲載日」「番号」「お知らせ」「詳細」を格納
+                const model = {
+                    no: this.clickedRow.id,
+                    date: this.clickedRow.date,
+                    title: this.clickedRow.title,
+                    content: this.clickedRow.text
+                };
+
+                AjaxUtil.putInformation(model)
+                    .then(() => {
+                        $("#updateModal").modal("hide");
+                        this.updateView();
+                        this.msg = 'お知らせ情報の更新に成功しました';
+                    })
+                    .catch((e) => {
+                        $("#updateModal").modal("hide");
+                        this.errMsg = 'お知らせ情報の更新に失敗しました';
+                        console.log(e);
+                    });
+            } finally {
                 this.isLoading = false;
-                return;
             };
-
-            if (this.clickedRow.title.length > 100) {
-                this.modalErrMsg = 'お知らせは100桁以下で入力してください';
-                this.isLoading = false;
-                return;
-            };
-
-            if (!this.clickedRow.text) {
-                this.modalErrMsg = '詳細を入力してください';
-                this.isLoading = false;
-                return;
-            };
-
-            if (this.clickedRow.text.length > 100) {
-                this.modalErrMsg = '詳細は100桁以下で入力してください';
-                this.isLoading = false;
-                return;
-            };
-
-            const model = {
-                no: this.clickedRow.id,
-                date: this.clickedRow.date,
-                title: this.clickedRow.title,
-                content: this.clickedRow.text
-            };
-
-            AjaxUtil.putInformation(model)
-                .then((response) => {
-                    $("#updateModal").modal("hide");
-                    this.updateView();
-                    this.msg = 'お知らせ情報の更新に成功しました';
-                })
-                .catch((e) => {
-                    $("#updateModal").modal("hide");
-                    this.errMsg = 'お知らせ情報の更新に失敗しました';
-                    console.log(e);
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
         },
         // お知らせ削除
         deleteInformation: function () {
@@ -424,13 +421,14 @@ export default {
             this.errMsg = '';
             this.isLoading = true;
 
+            // 削除したいお知らせ情報の主キー（「掲載日」と「番号」）を格納
             const model = {
                 date: this.clickedRow.date,
                 no: this.clickedRow.id
             };
 
             AjaxUtil.deleteInformation(model)
-                .then((response) => {
+                .then(() => {
                     $("#deleteModal").modal("hide");
                     this.updateView();
                     this.msg = 'お知らせ情報の削除に成功しました';
@@ -441,6 +439,7 @@ export default {
                     console.log(e);
                 })
                 .finally(() => {
+                    // 処理が try から抜ける前にローディングをオフにする
                     this.isLoading = false;
                 });
         }

@@ -109,7 +109,7 @@ app.delete("/api/information", function(req, res) {
             // 正常レスポンス
             res.send({result: "success"});
         })
-        .catch(()  => {
+        .catch(() => {
             // 異常レスポンス
             console.log("failed to remove information");
             res.status(500).send("server error occur")
