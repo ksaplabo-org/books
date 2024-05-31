@@ -8,14 +8,14 @@
             <div id="content-wrapper" class="bg-light">
                 <div class="container-fluid">
 
-                    <!-- パンくずリスト-->
+                    <!-- パンくずリスト -->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
                         </li>
                         <li class="breadcrumb-item active">お知らせ管理</li>
                     </ol>
-                    <!-- ここまでパンくずリスト-->
+                    <!-- ここまでパンくずリスト -->
     
                     <p class="text-primary" v-show="msg">{{ msg }}</p>
                     <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
@@ -28,7 +28,7 @@
                                     <div class="mr-auto font-weight-bold">お知らせ一覧</div>
                                     <div class="text-right">
                                         <b-button variant="primary" v-on:click="clickedRow = {id: data.item.no, title: data.item.title, text: data.item.content};"
-                                        data-toggle="modal" data-target="#newModal">
+                                        data-toggle="modal" data-target="#addInfoModal">
                                             新規登録
                                         </b-button>
                                     </div>    
@@ -41,33 +41,33 @@
                                 
                                 <b-table striped responsive hover :items="items" :fields="fields">
                                     <!-- ボタンセル定義 -->
-                                    
                                     <template #cell(controls)="data">
                                         <b-button-group>
                                             <b-button variant="outline-primary" v-on:click="clickedRow = {id: data.item.no, date: data.item.date, title: data.item.title, text: data.item.content};"
-                                            data-toggle="modal" data-target="#editModal">
+                                            data-toggle="modal" data-target="#editInfoModal">
                                                 編集
                                             </b-button>
                                         </b-button-group>
                                         <b-button-group>    
                                             <b-button variant="outline-danger" v-on:click="clickedRow = {id: data.item.no, date: data.item.date, title: data.item.title, text: data.item.content};"
-                                            data-toggle="modal" data-target="#deleteModal">
+                                            data-toggle="modal" data-target="#deleteInfoModal">
                                                 削除
                                             </b-button>
                                         </b-button-group>
+                                        <!-- ボタンセル定義ここまで -->
                                     </template>
                                 </b-table>
                             </div>
                         </form>
                     </div>
-                    <!--お知らせ一覧ここまで-->
+                    <!-- お知らせ一覧ここまで -->
                 </div>
             </div>
             <Footer/>
         </div>
 
         <!-- 新規登録モーダルの設定 -->
-        <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade" id="addInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -99,7 +99,7 @@
         <!-- /新規登録モーダルここまで -->
 
         <!-- 編集モーダルの設定 -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade" id="editInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -139,7 +139,7 @@
         <!-- /編集モーダルここまで -->
 
         <!-- 削除モーダルの設定 -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade" id="deleteInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -173,7 +173,7 @@
                 </div>
             </div>
         </div>
-        <!-- /削除登録モーダルここまで -->
+        <!-- /削除モーダルここまで -->
 
         <!-- スクロールトップボタン-->
         <a class="scroll-to-top rounded" href="#page-top">
@@ -197,187 +197,124 @@ import Loading from '../components/Loading.vue';
 import { deleteInformation } from '../utils/AjaxUtil';
 
 export default {
-  name: 'Top',
-  props: ['flashMsg','flashErrMsg'],
-  components: { NaviMenu, Menu, Footer, Loading},
-  data() {
-    return {
-      isLoading: false,
-      msg: this.flashMsg,
-      errMsg: '',
-      errMsgModal: '',
-      clickedRow: {},
-      fields: [
-        {key: 'no', label: 'ID'},
-        {key: 'date', label: '掲載日'},
-        {key: 'title', label: 'お知らせ'},
-        {key: 'controls', label: ''}
-      ],
-      items: [],
-      //新規登録の初期設定
-      textInfo: '',
-      textContent: '',
-      no : 0,
-      date : ''
-    };
-  },
-  async mounted() {
-    try {
-      if (UserUtil.isSignIn()) {
-        console.log('ok');
-        // 画面更新
-        this.updateView();
-      } else {
-        this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
-      };
-    } catch(e) {
-        this.errMsg = e.message;
-    }
-  },
-  methods: {
-    // 画面更新
-    updateView: async function() {
-      this.msg = '';
-      this.errMsg = '';
-
-      // お知らせ取得
-      this.getAllInformation();
+    name: 'EditInformation',
+    props: ['flashMsg','flashErrMsg'],
+    components: { NaviMenu, Menu, Footer, Loading},
+    data() {
+        return {
+        isLoading: false,
+        msg: this.flashMsg,
+        errMsg: '',
+        errMsgModal: '',
+        clickedRow: {},
+        fields: [
+            {key: 'no', label: 'ID'},
+            {key: 'date', label: '掲載日'},
+            {key: 'title', label: 'お知らせ'},
+            {key: 'controls', label: ''}
+        ],
+        items: [],
+        //  新規登録の初期設定
+        no : 0,
+        date : '',
+        textInfo: '',
+        textContent: ''
+        };
     },
-    // お知らせ取得処理
-    getAllInformation: function() {
-      this.isLoading = true;
-      this.items = [];
-
-      AjaxUtil.getInformation()
-        .then((response) => {
-          this.items = JSON.parse(response.data.Items);
-          this.isLoading = false;
-        })
-        .catch((e) => {
-          this.msg = '';
-          this.errMsg = 'お知らせ取得処理に失敗しました';
-          console.log(e);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    // お知らせ新規登録
-    addInformation: async function(){
-        
-        //メッセージの初期化
-        this.errMsg = '';
-        this.msg = '';
-        
-        //  入力チェック処理
-        if(!this.textInfo){
-            this.errMsgModal = 'お知らせを入力してください';
-            return;
-        }
-        
-        if(this.textInfo.length > 100){
-            this.errMsgModal = 'お知らせは100桁以下で入力してください';
-            return;
-        }
-        
-        if(!this.textContent){
-            this.errMsgModal = '詳細を入力してください'
-            return;
-        }
-        
-        if(this.textContent.length > 100){
-            this.errMsgModal = '詳細は100桁以下で入力してください';
-            return;
-        } 
-        
-        const model = {
-            title : this.textInfo,
-            content : this.textContent
-        }
-        
-        //  ローディング設定
-        this.isLoading = true;
-        
-        //  登録処理
-        AjaxUtil.postInformation(model)
-        .then(() => {
+    async mounted() {
+        try {
+        if (UserUtil.isSignIn()) {
+            console.log('ok');
+            //  画面更新
             this.updateView();
-            this.msg = 'お知らせ情報の登録に成功しました';
-            this.errMsg = '';
-            $('#newModal').modal('hide');
-            this.textInfo = '';
-            this.textContent = '';
-            this.errMsgModal = '';
-        })
-        .catch((e) => {
-            this.msg = '';
-            this.errMsg = 'お知らせ情報の登録に失敗しました';
-            $('#newModal').modal('hide');
-            this.textInfo = '';
-            this.textContent = '';
-            this.errMsgModal = '';
-            console.log(e);
-        })
-        .finally(() => {
+        } else {
+            this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+        };
+        } catch(e) {
+            this.errMsg = e.message;
+        }
+    },
+    methods: {
+        //  画面更新
+        updateView: async function() {
+        this.msg = '';
+        this.errMsg = '';
+
+        //  お知らせ取得
+        this.getAllInformation();
+        },
+        //  お知らせ取得処理
+        getAllInformation: function() {
+        this.isLoading = true;
+        this.items = [];
+
+        AjaxUtil.getInformation()
+            .then((response) => {
+            this.items = JSON.parse(response.data.Items);
             this.isLoading = false;
-        }
-    )
-    },
-    //  お知らせ更新
-    updateInformation: async function(){
-        
-        //初期化
-        this.msg = '';
-        this.errMsg = '';
-        
-        //  入力チェック
-        if(!this.clickedRow.title){
-            this.errMsgModal = 'お知らせを入力してください';
-            return;
-        }
-
-        if(this.clickedRow.title.length > 100){
-            this.errMsgModal = 'お知らせは100桁以下で入力してください';
-            return;
-        }
-        
-        if(!this.clickedRow.text){
-            this.errMsgModal = '詳細を入力してください';
-            return;
-        }
-        
-        if(this.clickedRow.text.length > 100){
-            this.errMsgModal = '詳細は100桁以下で入力してください';
-            return;
-        }
-
-        const model = {
-            no: this.clickedRow.id,
-            date: this.clickedRow.date,
-            title : this.clickedRow.title,
-            content : this.clickedRow.text
-        }
-
-        //　ローディング設定
-        this.isLoading = true;
-
-        //  更新処理
-        AjaxUtil.putInformation(model)
-        .then(() => {
+            })
+            .catch((e) => {
+            this.msg = '';
+            this.errMsg = 'お知らせ取得処理に失敗しました';
+            console.log(e);
+            })
+            .finally(() => {
+            this.isLoading = false;
+            });
+        },
+        //  お知らせ新規登録
+        addInformation: async function(){
+            
+            //  メッセージの初期化
+            this.errMsg = '';
+            this.msg = '';
+            
+            //  入力チェック処理
+            if(!this.textInfo){
+                this.errMsgModal = 'お知らせを入力してください';
+                return;
+            }
+            
+            if(this.textInfo.length > 100){
+                this.errMsgModal = 'お知らせは100桁以下で入力してください';
+                return;
+            }
+            
+            if(!this.textContent){
+                this.errMsgModal = '詳細を入力してください'
+                return;
+            }
+            
+            if(this.textContent.length > 100){
+                this.errMsgModal = '詳細は100桁以下で入力してください';
+                return;
+            } 
+            
+            const model = {
+                title : this.textInfo,
+                content : this.textContent
+            }
+            
+            //  ローディング設定
+            this.isLoading = true;
+            
+            //  登録処理
+            AjaxUtil.postInformation(model)
+            .then(() => {
                 this.updateView();
-                this.msg = 'お知らせ情報の更新に成功しました';
+                this.msg = 'お知らせ情報の登録に成功しました';
                 this.errMsg = '';
-                $('#editModal').modal('hide');
-                this.clickedRow.title = '';
-                this.clickedRow.text = '';
+                $('#addInfoModal').modal('hide');
+                this.textInfo = '';
+                this.textContent = '';
                 this.errMsgModal = '';
             })
             .catch((e) => {
                 this.msg = '';
-                this.errMsg = 'お知らせ情報の更新に失敗しました';
-                $('#editModal').modal('hide');
-                this.clickedRow.title = '';
-                this.clickedRow.text = '';
+                this.errMsg = 'お知らせ情報の登録に失敗しました';
+                $('#addInfoModal').modal('hide');
+                this.textInfo = '';
+                this.textContent = '';
                 this.errMsgModal = '';
                 console.log(e);
             })
@@ -385,42 +322,105 @@ export default {
                 this.isLoading = false;
             }
         )
-    },
-    //  お知らせ削除
-    deleteInformation: async function(){
-
-        //  初期化
-        this.msg = '';
-        this.errMsg = '';
-
-        //　ローディング設定
-        this.isLoading = true;
-
-        const model = {
-            no: this.clickedRow.id,
-            date: this.clickedRow.date
-        }
-
-        //  削除処理
-        AjaxUtil.deleteInformation(model)
-        .then(() => {
-                this.updateView();
-                this.msg = 'お知らせ情報の削除に成功しました';
-                this.errMsg = '';
-                $('#deleteModal').modal('hide');
-            })
-            .catch((e) => {
-                this.updateView();
-                this.msg = '';
-                this.errMsg = 'お知らせ情報の削除に失敗しました';
-                $('#deleteModal').modal('hide');
-                console.log(e);
-            })
-            .finally(() => {
-                this.isLoading = false;
+        },
+        //  お知らせ更新
+        updateInformation: async function(){
+            
+            //  メッセージの初期化
+            this.msg = '';
+            this.errMsg = '';
+            
+            //  入力チェック
+            if(!this.clickedRow.title){
+                this.errMsgModal = 'お知らせを入力してください';
+                return;
             }
-        )
+
+            if(this.clickedRow.title.length > 100){
+                this.errMsgModal = 'お知らせは100桁以下で入力してください';
+                return;
+            }
+            
+            if(!this.clickedRow.text){
+                this.errMsgModal = '詳細を入力してください';
+                return;
+            }
+            
+            if(this.clickedRow.text.length > 100){
+                this.errMsgModal = '詳細は100桁以下で入力してください';
+                return;
+            }
+
+            const model = {
+                no: this.clickedRow.id,
+                date: this.clickedRow.date,
+                title : this.clickedRow.title,
+                content : this.clickedRow.text
+            }
+
+            //　ローディング設定
+            this.isLoading = true;
+
+            //  更新処理
+            AjaxUtil.putInformation(model)
+            .then(() => {
+                    this.updateView();
+                    this.msg = 'お知らせ情報の更新に成功しました';
+                    this.errMsg = '';
+                    $('#editInfoModal').modal('hide');
+                    this.clickedRow.title = '';
+                    this.clickedRow.text = '';
+                    this.errMsgModal = '';
+                })
+                .catch((e) => {
+                    this.msg = '';
+                    this.errMsg = 'お知らせ情報の更新に失敗しました';
+                    $('#editInfoModal').modal('hide');
+                    this.clickedRow.title = '';
+                    this.clickedRow.text = '';
+                    this.errMsgModal = '';
+                    console.log(e);
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                }
+            )
+        },
+        //  お知らせ削除
+        deleteInformation: async function(){
+
+            //  メッセージの初期化
+            this.msg = '';
+            this.errMsg = '';
+
+            //　ローディング設定
+            this.isLoading = true;
+
+            const model = {
+                no: this.clickedRow.id,
+                date: this.clickedRow.date
+            }
+
+            //  削除処理
+            AjaxUtil.deleteInformation(model)
+            .then(() => {
+                    this.updateView();
+                    this.msg = 'お知らせ情報の削除に成功しました';
+                    this.errMsg = '';
+                    $('#deleteInfoModal').modal('hide');
+                })
+                .catch((e) => {
+                    this.updateView();
+                    this.msg = '';
+                    this.errMsg = 'お知らせ情報の削除に失敗しました';
+                    $('#deleteInfoModal').modal('hide');
+                    console.log(e);
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                }
+            )
+        }
     }
-  }
 };
 </script>

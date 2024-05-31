@@ -122,43 +122,41 @@ export function postLending(lendModel) {
 /**
  * お知らせ新規登録処理
  */
-export function postInformation(userInfo){
+export function postInformation(informationModel){
     const url = '/api/information'
 
     return axios.post(url, {
-        "no": userInfo.no,
-        "date": userInfo.date,
-        "title": userInfo.title,
-        "content": userInfo.content,
+        "no": informationModel.no,
+        "date": informationModel.date,
+        "title": informationModel.title,
+        "content": informationModel.content
     })
 }
 
 /**
  * お知らせ更新処理
  */
-export function putInformation(userInfo){
+export function putInformation(informationModel){
     const url = '/api/information'
 
     return axios.put(url, {
-        "no": userInfo.no,
-        "date": userInfo.date,
-        "title": userInfo.title,
-        "content": userInfo.content,
+        "title": informationModel.title,
+        "content": informationModel.content
     })
 }
 
 /**
  * お知らせ削除処理
  */
-export function deleteInformation(userInfo){
+export function deleteInformation(informationModel){
     const url = '/api/information';
 
     return axios.request({
         method: 'delete',
         url: url,
         data: {
-            "no": userInfo.no,
-            "date": userInfo.date
+            "no": informationModel.no,
+            "date": informationModel.date
     }})
 }
 

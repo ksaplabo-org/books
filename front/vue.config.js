@@ -89,7 +89,7 @@ module.exports = {
           template: 'public/pages/index.html',
           filename: 'pages/sorry.html',
           title: 'Sorry',
-        }
+        },
       },
     devServer: {
       https: true,

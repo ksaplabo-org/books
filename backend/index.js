@@ -384,10 +384,10 @@ app.get("/api/students", function(req, res) {
  */
 app.post("/api/information", function(req, res) {
     // リクエスト取得
-    const info = req.body;
+    const addInfo = req.body;
 
     // 新規お知らせを追加する
-    InformationLogic.create(db, info.title, info.content)
+    InformationLogic.create(db, addInfo.title, addInfo.content)
         .then(() => {
             // 正常レスポンス
             res.send({result: "success"});
@@ -400,14 +400,14 @@ app.post("/api/information", function(req, res) {
 });
 
 /**
- * お知らせ更新登録API
+ * お知らせ更新API
  */
 app.put("/api/information", function(req, res) {
     // リクエスト取得
     const updateInfo = req.body;
 
-    // お知らせ更新する
-    InformationLogic.update(db,updateInfo.date,updateInfo.no, updateInfo.title, updateInfo.content)
+    // お知らせを更新する
+    InformationLogic.update(db, updateInfo.date, updateInfo.no, updateInfo.title, updateInfo.content)
         .then(() => {
             // 正常レスポンス
             res.send({result: "success"});
@@ -426,8 +426,8 @@ app.delete("/api/information", function(req, res) {
     // リクエスト取得
     const deleteInfo = req.body;
 
-    // お知らせ削除する
-    InformationLogic.remoeve(db,deleteInfo.date,deleteInfo.no)
+    // お知らせを削除する
+    InformationLogic.remoeve(db, deleteInfo.date, deleteInfo.no)
         .then(() => {
             // 正常レスポンス
             res.send({result: "success"});
