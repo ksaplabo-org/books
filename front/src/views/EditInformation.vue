@@ -313,107 +313,104 @@ export default {
             this.msg = '';
             this.errMsg = '';
             this.modalErrMsg = '';
+
+            // 入力チェック
+            if (!this.title) {
+                this.modalErrMsg = 'お知らせを入力してください';
+                return;
+            };
+
+            if (this.title.length > 100) {
+                this.modalErrMsg = 'お知らせは100桁以下で入力してください';
+                return;
+            };
+
+            if (!this.content) {
+                this.modalErrMsg = '詳細を入力してください';
+                return;
+            };
+
+            if (this.content.length > 100) {
+                this.modalErrMsg = '詳細は100桁以下で入力してください';
+                return;
+            };
+
+            // 登録したいお知らせ情報の「お知らせ」「詳細」を格納
+            const model = {
+                title: this.title,
+                content: this.content
+            };
+
             this.isLoading = true;
 
-            try {
-                // 入力チェック
-                if (!this.title) {
-                    this.modalErrMsg = 'お知らせを入力してください';
-                    return;
-                };
-
-                if (this.title.length > 100) {
-                    this.modalErrMsg = 'お知らせは100桁以下で入力してください';
-                    return;
-                };
-
-                if (!this.content) {
-                    this.modalErrMsg = '詳細を入力してください';
-                    return;
-                };
-
-                if (this.content.length > 100) {
-                    this.modalErrMsg = '詳細は100桁以下で入力してください';
-                    return;
-                };
-
-                // 登録したいお知らせ情報の「お知らせ」「詳細」を格納
-                const model = {
-                    title: this.title,
-                    content: this.content
-                };
-
-                AjaxUtil.postInformation(model)
-                    .then(() => {
-                        $("#addModal").modal("hide");
-                        this.updateView();
-                        this.msg = 'お知らせ情報の登録に成功しました';
-                    })
-                    .catch((e) => {
-                        $("#addModal").modal("hide");
-                        this.errMsg = 'お知らせ情報の登録に失敗しました';
-                        console.log(e);
-                    })
-                    .finally(() => {
-                        this.title = '';
-                        this.content = '';
-                    });
-            } finally {
-                // 処理が try から抜ける前にローディングをオフにする
-                this.isLoading = false;
-            };
+            AjaxUtil.postInformation(model)
+                .then(() => {
+                    $("#addModal").modal("hide");
+                    this.updateView();
+                    this.msg = 'お知らせ情報の登録に成功しました';
+                })
+                .catch((e) => {
+                    $("#addModal").modal("hide");
+                    this.errMsg = 'お知らせ情報の登録に失敗しました';
+                    console.log(e);
+                })
+                .finally(() => {
+                    this.title = '';
+                    this.content = '';
+                    this.isLoading = false;
+                });
         },
         // お知らせ更新
         updateInformation: function () {
             this.msg = '';
             this.errMsg = '';
             this.modalErrMsg = '';
+
+            // 入力チェック
+            if (!this.clickedRow.title) {
+                this.modalErrMsg = 'お知らせを入力してください';
+                return;
+            };
+
+            if (this.clickedRow.title.length > 100) {
+                this.modalErrMsg = 'お知らせは100桁以下で入力してください';
+                return;
+            };
+
+            if (!this.clickedRow.text) {
+                this.modalErrMsg = '詳細を入力してください';
+                return;
+            };
+
+            if (this.clickedRow.text.length > 100) {
+                this.modalErrMsg = '詳細は100桁以下で入力してください';
+                return;
+            };
+
+            // 更新したいお知らせ情報の「掲載日」「番号」「お知らせ」「詳細」を格納
+            const model = {
+                no: this.clickedRow.id,
+                date: this.clickedRow.date,
+                title: this.clickedRow.title,
+                content: this.clickedRow.text
+            };
+
             this.isLoading = true;
 
-            try {
-                // 入力チェック
-                if (!this.clickedRow.title) {
-                    this.modalErrMsg = 'お知らせを入力してください';
-                    return;
-                };
-
-                if (this.clickedRow.title.length > 100) {
-                    this.modalErrMsg = 'お知らせは100桁以下で入力してください';
-                    return;
-                };
-
-                if (!this.clickedRow.text) {
-                    this.modalErrMsg = '詳細を入力してください';
-                    return;
-                };
-
-                if (this.clickedRow.text.length > 100) {
-                    this.modalErrMsg = '詳細は100桁以下で入力してください';
-                    return;
-                };
-
-                // 更新したいお知らせ情報の「掲載日」「番号」「お知らせ」「詳細」を格納
-                const model = {
-                    no: this.clickedRow.id,
-                    date: this.clickedRow.date,
-                    title: this.clickedRow.title,
-                    content: this.clickedRow.text
-                };
-
-                AjaxUtil.putInformation(model)
-                    .then(() => {
-                        $("#updateModal").modal("hide");
-                        this.updateView();
-                        this.msg = 'お知らせ情報の更新に成功しました';
-                    })
-                    .catch((e) => {
-                        $("#updateModal").modal("hide");
-                        this.errMsg = 'お知らせ情報の更新に失敗しました';
-                        console.log(e);
-                    });
-            } finally {
-                this.isLoading = false;
-            };
+            AjaxUtil.putInformation(model)
+                .then(() => {
+                    $("#updateModal").modal("hide");
+                    this.updateView();
+                    this.msg = 'お知らせ情報の更新に成功しました';
+                })
+                .catch((e) => {
+                    $("#updateModal").modal("hide");
+                    this.errMsg = 'お知らせ情報の更新に失敗しました';
+                    console.log(e);
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
         },
         // お知らせ削除
         deleteInformation: function () {
@@ -439,7 +436,6 @@ export default {
                     console.log(e);
                 })
                 .finally(() => {
-                    // 処理が try から抜ける前にローディングをオフにする
                     this.isLoading = false;
                 });
         }
