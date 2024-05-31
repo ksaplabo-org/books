@@ -17,46 +17,41 @@ export function getInformation() {
     return axios.get(url);
 }
 
-export function postInformation(InformationModel){
+export function postInformation(InformationModel) {
 
     const url = '/api/information';
 
     return axios.post(url , {
-        "no": InformationModel.no,
-        "date": InformationModel.date,
         "title": InformationModel.title,
-        "content": InformationModel.content,
-        }
-    )
+        "content": InformationModel.content
+    })
 }
 
 export function putInformation(InformationModel) {
     
     const url = '/api/information';
 
-    return axios.put(url, {
+    return axios.put(url , {
         "no": InformationModel.no,
         "date": InformationModel.date,
         "title": InformationModel.title,
         "content": InformationModel.content
     })
-    
-    }
+}
 
-    export function deleteInformation(InformationModel){
+export function deleteInformation(InformationModel) {
 
-        const url = '/api/information';
+    const url = '/api/information';
     
-        return axios.request({
-            method: 'delete',
-            url: url,
-            data: {
+    return axios.request({
+        method: 'delete',
+        url: url,
+        data: {
                 "no": InformationModel.no,
                 "date": InformationModel.date
-                
-            }
-        })
-    }    
+        }
+    })
+ }    
 
 
 export function searchBooks(keyword) {
