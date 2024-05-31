@@ -1,12 +1,15 @@
-const { now } = require("moment");
 const InformationRepository = require("../db/information");
 const sequelize = require("sequelize");
 
 /**
  * お知らせを追加する
+ * @param {*} db 
+ * @returns お知らせ情報（Promise）
  */
 module.exports.create = async function(db, date, title, content){
     const InformationModel = InformationRepository.getInformationModel(db);
+
+    date= new Date().setHours(9, 0, 0);
 
     const info = await InformationModel.findAll({       //infoに今日のお知らせのみを入れる
         where:{
@@ -31,14 +34,15 @@ module.exports.create = async function(db, date, title, content){
         throw e;
     }
 }
+
 /**
  * お知らせ一覧を取得する
  * @param {*} db 
  * @returns お知らせ情報（Promise）
  */
-
 module.exports.getAll = async function(db) {
     const InformationModel = InformationRepository.getInformationModel(db);
+
     try {
         return await InformationModel.findAll(
             {
@@ -69,11 +73,15 @@ module.exports.getAll = async function(db) {
 
 /**
  * お知らせを更新する
+ * @param {*} db 
+ * @returns お知らせ情報（Promise）
  */
 module.exports.update = async function (db, no, date, title, content){
     const InformationModel = InformationRepository.getInformationModel(db);
+
     let today = new Date(date);
     today.setHours(today.getHours() + 9);
+
     try {
         return await InformationModel.update({
             title : title,
@@ -92,11 +100,15 @@ module.exports.update = async function (db, no, date, title, content){
 
 /**
  * お知らせを削除する
+ * @param {*} db 
+ * @returns お知らせ情報（Promise）
  */
 module.exports.remove = async function (db, id, date){
     const InformationModel = InformationRepository.getInformationModel(db);
+
     let today = new Date(date);
     today.setHours(today.getHours() + 9);
+    
     try{
         return await InformationModel.destroy({
             where:{

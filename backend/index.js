@@ -55,10 +55,11 @@ app.get("/api/information", function(req, res) {
             res.status(500).send("server error occur");
         });
 });
+
 /**
  * お知らせ情報削除API
  */
-app.delete("/api/information", function(req, res){
+app.delete("/api/information", function(req, res) {
     // リクエスト取得
     const information = req.body;
     InformationLogic.remove(db, information.no, information.date)
@@ -72,13 +73,14 @@ app.delete("/api/information", function(req, res){
             res.status(500).send("server error occur")
         });
 });
+
 /**
  * お知らせ情報更新API
  */
-app.put("/api/information", function(req, res){
+app.put("/api/information", function(req, res) {
     // リクエスト取得
     const information = req.body;
-    InformationLogic.update(db, information.no, information.date, information.title , information.content)
+    InformationLogic.update(db, information.no, information.date, information.title, information.content)
         .then(() => {
             // 正常レスポンス
             res.send({});
@@ -89,13 +91,14 @@ app.put("/api/information", function(req, res){
             res.status(500).send("server error occur");
         });
 });
+
 /**
  * お知らせ情報追加API
  */
-app.post("/api/information", function(req, res){
+app.post("/api/information", function(req, res) {
     // リクエスト取得
     const information = req.body;
-    InformationLogic.create(db, information.date, information.title , information.content)
+    InformationLogic.create(db, information.date, information.title, information.content)
         .then(() => {
             // 正常レスポンス
             res.send({});
@@ -160,7 +163,7 @@ app.put("/api/book/:operation", function(req, res) {
         })
         .catch((error)  => {
             // 異常レスポンス
-            console.log("failed to update information status"+error);
+            console.log("failed to update book status"+error);
             res.status(500).send("server error occur")
         });
 });

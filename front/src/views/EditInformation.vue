@@ -64,7 +64,7 @@
                     <form @submit.stop.prevent="addInformation" method="post">
 
                         <div class="modal-body">
-                            <p class="text-danger" v-show="errMsgM">{{ errMsgM }}</p>
+                            <p class="text-danger" v-show="errMsg_Modal">{{ errMsg_Modal }}</p>
                             <div class="d-flex justify-content-between">
                                 <label for="title" class="form-label">お知らせ</label>
                                 <textarea class="form-control" style="width: 350px;" id="title" v-model="title" rows="2"></textarea>
@@ -78,7 +78,7 @@
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">登録</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="Close" v-on:click="resetModal">閉じる</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_new" v-on:click="resetModal">閉じる</button>
                         </div>
 
                     </form>
@@ -97,7 +97,7 @@
                     <form @submit.stop.prevent="updateInformation" method="put">
 
                         <div class="modal-body">
-                            <p class="text-danger" v-show="errMsgM">{{ errMsgM }}</p>
+                            <p class="text-danger" v-show="errMsg_Modal">{{ errMsg_Modal }}</p>
                             <div id="NO" class="d-flex justify-content-between">
                                 <div class="col-3">
                                     ID
@@ -139,7 +139,7 @@
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">更新</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cLose" v-on:click="resetErr">閉じる</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_edit" v-on:click="resetErr">閉じる</button>
                         </div>
 
                     </form>
@@ -197,7 +197,7 @@
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger">削除</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="clOse">閉じる</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_delete">閉じる</button>
                         </div>
 
                     </form>
@@ -236,20 +236,19 @@ export default {
         return {
             msg: '',
             errMsg: '',
-            errMsgM: '',
+            errMsg_Modal: '',
             fields: [
                 {key: 'no', label: 'ID'},
                 {key: 'date', label: '掲載日'},
                 {key: 'title', label: 'お知らせ'},
                 {key: 'controls', label: ''}
             ],
-            date:'',
             no:'',
+            date:'',
             title:'',
             content:'',
             clickedRow: {},
             items: [], 
-            userName: '',
             isLoading: false
         };
     },
@@ -270,31 +269,32 @@ export default {
     methods: {
         addInformation: async function() {
             this.isLoading = true
+            
+            if(!this.title){
+                this.errMsg_Modal = 'お知らせを入力してください';
+                return;
+            }
+            if (this.title.length > 100) {
+                this.errMsg_Modal = 'お知らせは100桁以下で入力してください';
+                return;
+            }
+            if(!this.content){
+                this.errMsg_Modal = '詳細を入力してください';
+                return;
+            }
+            if (this.content.length > 100) {
+                this.errMsg_Modal = '詳細は100桁以下で入力してください';
+                return;
+            }
             try {
-                if(!this.title){
-                    this.errMsgM = 'お知らせを入力してください';
-                    return;
-                }
-                if (this.title.length > 100) {
-                    this.errMsgM = 'お知らせは100桁以下で入力してください';
-                    return;
-                }
-                if(!this.content){
-                    this.errMsgM = '詳細を入力してください';
-                    return;
-                }
-                if (this.content.length > 100) {
-                    this.errMsgM = '詳細は100桁以下で入力してください';
-                    return;
-                }
-
                 // 引数格納
                 const model = {
-                    date: new Date().setHours(9, 0, 0),
+                    date: this.date,
                     title: this.title,
                     content: this.content
                 }
                 // お知らせ追加
+            
                 await AjaxUtil.postInformation(model);
                 // 画面更新
                 this.updateView();
@@ -311,23 +311,24 @@ export default {
         },
         updateInformation: async function() {
             this.isLoading = true
+            
+            if(!this.clickedRow.title){
+                this.errMsg_Modal = 'お知らせを入力してください';
+                return;
+            }
+            if (this.clickedRow.title.length > 100) {
+                this.errMsg_Modal = 'お知らせは100桁以下で入力してください';
+                return;
+            }
+            if(!this.clickedRow.text){
+                this.errMsg_Modal = '詳細を入力してください';
+                return;
+            }
+            if (this.clickedRow.text.length > 100) {
+                this.errMsg_Modal = '詳細は100桁以下で入力してください';
+                return;
+            }
             try {
-                if(!this.clickedRow.title){
-                    this.errMsgM = 'お知らせを入力してください';
-                    return;
-                }
-                if (this.clickedRow.title.length > 100) {
-                    this.errMsgM = 'お知らせは100桁以下で入力してください';
-                    return;
-                }
-                if(!this.clickedRow.text){
-                    this.errMsgM = '詳細を入力してください';
-                    return;
-                }
-                if (this.clickedRow.text.length > 100) {
-                    this.errMsgM = '詳細は100桁以下で入力してください';
-                    return;
-                }
                 // 引数格納
                 const model = {
                     no: this.clickedRow.no,
@@ -383,21 +384,21 @@ export default {
         },
         // モーダル閉じる処理
         closeModal: function(){
-            const closeModalButtonN = document.getElementById('Close');
-            closeModalButtonN.click();
-            const closeModalButtonE = document.getElementById('cLose');
-            closeModalButtonE.click();
-            const closeModalButtonD = document.getElementById('clOse');
-            closeModalButtonD.click();
+            const closeModalButtonNew = document.getElementById('close_new');
+            closeModalButtonNew.click();
+            const closeModalButtonEdit = document.getElementById('close_edit');
+            closeModalButtonEdit.click();
+            const closeModalButtonDelete = document.getElementById('close_delete');
+            closeModalButtonDelete.click();
         },
         // モーダルリセット処理
         resetModal: function(){
             this.title='';
             this.content='';
-            this.errMsgM ='';
+            this.errMsg_Modal ='';
         },
         resetErr: function(){
-            this.errMsgM ='';
+            this.errMsg_Modal ='';
         },
         // お知らせ取得処理
         getInformation: function() {
