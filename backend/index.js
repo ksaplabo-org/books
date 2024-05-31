@@ -206,7 +206,7 @@ app.post("/api/users", function(req, res) {
             // 正常レスポンス
             res.send({});
         })
-        .catch(()  => {
+        .catch(() => {
             // 異常レスポンス
             console.log("failed to add user");
             res.status(500).send("server error occur")
@@ -371,6 +371,65 @@ app.get("/api/students", function(req, res) {
         })
         .catch(() => {
             console.log("failed to get student");
+            res.status(500).send("server error occur");
+        });
+});
+
+/**
+ * お知らせ新規登録API
+ */
+app.post("/api/information", function(req, res) {
+    // リクエスト取得
+    const information = req.body;
+    
+    // ユーザー情報を登録する
+    InformationLogic.create(db, information.title, information.content)
+    .then(() => {
+        // 正常レスポンス
+        res.send({});
+    })
+    .catch((e) => {
+        // 異常レスポンス
+        console.log(e);
+        console.log("failed to add information");
+        res.status(500).send("server error occur");
+    });
+});
+
+/**
+ * お知らせ更新API
+ */
+app.put("/api/information", function(req, res) {
+    // リクエスト取得
+    const information = req.body;
+    // ユーザー情報を登録する
+    InformationLogic.update(db, information.no, information.date, information.title, information.content)
+    .then(() => {
+        // 正常レスポンス
+        res.send({});
+    })
+    .catch((e) => {
+        // 異常レスポンス
+        console.log("failed to update information");
+        res.status(500).send("server error occur");
+    });
+});
+
+/**
+ * お知らせ削除API
+ */
+app.delete("/api/information/", function(req, res) {
+    const information = req.body;
+
+    // お知らせを削除する
+    InformationLogic.remove(db, information.no, information.date)
+        .then(() => {
+            // 正常レスポンス
+            res.send({});
+        })
+        .catch(()  => {
+            // 異常レスポンス
+            console.log("failed to remove information");
             res.status(500).send("server error occur");
         });
 });

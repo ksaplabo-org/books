@@ -155,3 +155,36 @@ export function getAllStudent() {
 
     return axios.get(url);
 }
+
+export function postInformation(information) {
+    const url = '/api/information'
+
+    return axios.post(url, {
+        "title": information.title,
+        "content": information.content,
+    })
+}
+
+export function putInformation(information) {
+    const url = '/api/information'
+
+    return axios.put(url, {
+        "no": information.no,
+        "date": information.date,
+        "title": information.title,
+        "content": information.content
+    })
+}
+
+export function deleteInformation(information) {
+    const url = '/api/information/'
+    
+    const data = {
+        "no": information.no,
+        "date": information.date,
+    }
+
+    return axios.delete(url, {
+        data: data
+    })
+}

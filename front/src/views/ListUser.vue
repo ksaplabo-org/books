@@ -11,7 +11,7 @@
                     <!-- パンくずリスト-->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <router-link tag="a" :to="{ name: 'top'}">トップページ</router-link>
+                            <router-link tag="a" :to="{name: 'top'}">トップページ</router-link>
                         </li>
                         <li class="breadcrumb-item active">ユーザー一覧</li>
                     </ol>
@@ -31,10 +31,9 @@
                                         タグで囲んだ部分をグループ化することができる。
                                 function() {}：何もしてない処理。
                             -->
-                            <div class="px-2"></div>
+                            <div class="px-2">ユーザーID/ユーザー名を検索</div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <p>ユーザーID/ユーザー名を検索</p>
                                     <input type="text" id="searchWord" class="form-control" v-model="searchWord" placeholder="入力してください" required>
                                 </div>
                                 <button class="btn-primary btn-sm" v-on:click="getUsers()" >検索</button>

@@ -13,6 +13,7 @@ import LendingBook from './views/LendingBook.vue';
 import AddUser from './views/AddUser.vue';
 import EditUser from './views/EditUser.vue';
 import Student from './views/Student.vue';
+import EditInformation from './views/EditInformation.vue';
 
 Vue.use(Router);
 
@@ -47,7 +48,7 @@ export default new Router({
       component: MainteBook,
     },
     {
-      path: '/pages/listbook.html',
+      path: '/pages/listBook.html',
       name: 'listbook',
       component: ListBook,
     },
@@ -76,6 +77,11 @@ export default new Router({
       path: '/pages/student.html',
       name: 'student',
       component: Student,
+    },
+    {
+      path: '/pages/editInformation.html',
+      name: 'editInformation',
+      component: EditInformation,
     },
     {
       path: '*',
