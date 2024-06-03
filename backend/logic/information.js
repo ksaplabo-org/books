@@ -50,32 +50,32 @@ module.exports.create = async function(db, no, date, title, content) {
     const InformationModel = InformationRepository.getInformationModel(db);
    
     //今日の日付の取得
-    var now = new Date();
-    var year = now.getFullYear();
+    const now = new Date();
+    const year = now.getFullYear();
     /**
      * 今日の月の取得
      * getmonthは月を0から11で数えているため1を足す
      * 13月になってしまった場合1月に戻るように条件を付与
      */    
-    var month = now.getMonth() + 1;
+    const month = now.getMonth() + 1;
     if (month == 13){
         month = 1;
     }
-    var day = now.getDate();
-    now_date = year + "/" + month + "/" + day;
+    const day = now.getDate();
+    const now_date = year + "/" + month + "/" + day;
     //日本時間に直す
-    var japan_date = new Date(now_date);
+    const japan_date = new Date(now_date);
     japan_date.setHours(japan_date.getHours() + 9);
                 
     //idの自動採番処理
     //dateをYYYY/MM/DDの形に直し、今日のデータの'no'の最大値を取得
-    var max_no = await InformationModel.max('no', {
+    const max_no = await InformationModel.max('no', {
         where: sequelize.where(sequelize.fn('date_format', sequelize.col('date'),'%Y/%m/%d'), date),
         where: {
             date: japan_date
         }
     })
-    auto_no = max_no + 1; 
+    const auto_no = max_no + 1; 
     try {
         return await InformationModel.create(
             {
