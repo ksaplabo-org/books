@@ -6,7 +6,7 @@ const sequelize = require("sequelize");
  * @param {*} db 
  * @returns お知らせ情報（Promise）
  */
-module.exports.getAll = async function (db) {
+module.exports.getAll = async function(db) {
     const InformationModel = InformationRepository.getInformationModel(db);
 
     try {
@@ -24,6 +24,9 @@ module.exports.getAll = async function (db) {
                     'no',
                     'title',
                     'content'
+                ],
+                order: [
+                    ["date", "DESC"]
                 ]
             }
         );
@@ -46,32 +49,33 @@ module.exports.create = async function (db, title, content) {
     //日付取得
     const now = new Date();
     const year = now.getFullYear();
+    //月を0~11で取得するため1を足す
     const getmonth = now.getMonth() + 1;
+    //一桁月の二桁目を0で埋める 
     const month = ('0'+ getmonth).slice(-2);
-    const day = now.getDate();
-    var newDate = year + "-" + month + "-" + day;
+    const getDate = now.getDate()
+    //一桁日の二桁目を0で埋める
+    const day = ('0'+ getDate).slice(-2);
+    var newDate = year + "/" + month + "/" + day;
 
     var date = new Date(newDate);
+    //協定世界時を日本時間にする（時差9時間）
     date.setHours(date.getHours() + 9);
 
     //自動採番
-    var no = 0;
-    const noData = await InformationModel.findAll()
-    .then(function (allData) {
-            allData.forEach((element) => {
-                if (element.dataValues.date == newDate) {
-                    if (no < element.dataValues.no) {
-                        no = element.dataValues.no;
-                    }
-                }
-            });
-            return no = no + 1;
-        })
+    const no = await InformationModel.max(
+        'no',
+        {
+            where: {
+                where: sequelize.where(sequelize.fn('date_format', sequelize.col('date'), '%Y/%m/%d'), newDate)
+            }
+        }
+    )
 
     try {
         return await InformationModel.create(
             {
-                no: noData,
+                no: no + 1,
                 date: date,
                 title: title,
                 content: content
@@ -94,6 +98,7 @@ module.exports.create = async function (db, title, content) {
 module.exports.update = async function (db, no, date, title, content) {
     const InformationModel = InformationRepository.getInformationModel(db);
     const newDate = new Date(date);
+    //協定世界時を日本時間にする（時差9時間）
     newDate.setHours(newDate.getHours() + 9);
     
     try {
@@ -124,6 +129,7 @@ module.exports.update = async function (db, no, date, title, content) {
 module.exports.remove = async function (db, no, date) {
     const InformationModel = InformationRepository.getInformationModel(db);
     const newDate = new Date(date);
+    //協定世界時を日本時間にする（時差9時間）
     newDate.setHours(newDate.getHours() + 9);
 
     try {

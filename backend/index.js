@@ -206,7 +206,7 @@ app.post("/api/users", function(req, res) {
             // 正常レスポンス
             res.send({});
         })
-        .catch(() => {
+        .catch(()  => {
             // 異常レスポンス
             console.log("failed to add user");
             res.status(500).send("server error occur")
@@ -402,6 +402,7 @@ app.post("/api/information", function(req, res) {
 app.put("/api/information", function(req, res) {
     // リクエスト取得
     const information = req.body;
+    
     // ユーザー情報を登録する
     InformationLogic.update(db, information.no, information.date, information.title, information.content)
     .then(() => {

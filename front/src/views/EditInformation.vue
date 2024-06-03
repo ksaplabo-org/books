@@ -26,7 +26,7 @@
                             <div class="card-header py-3 d-flex">
                                 <div class="m-0 font-weight-bold align-self-center">お知らせ一覧</div>
                                 <b-button-group class="ml-auto">
-                                    <b-button variant="btn btn-primary" data-toggle="modal" data-target="#newinfomodal" v-on:click="errMsg = ''; msg = '';">
+                                    <b-button variant="btn btn-primary" data-toggle="modal" data-target="#newInfoModal" v-on:click="errMsg = ''; msg = '';">
                                         新規登録
                                     </b-button>
                                 </b-button-group>
@@ -39,7 +39,7 @@
                                         <b-button-group>
                                             <b-button variant="outline-primary"
                                                 v-on:click="clickedRow = { no: data.item.no, date: data.item.date, title: data.item.title, content: data.item.content};"
-                                                data-toggle="modal" data-target="#updateinfomodal">
+                                                data-toggle="modal" data-target="#updateInfoModal">
                                                 編集
                                             </b-button>
                                         </b-button-group>
@@ -47,7 +47,7 @@
                                         <b-button-group>
                                             <b-button variant="outline-danger"
                                                 v-on:click="clickedRow = { no: data.item.no, date: data.item.date, title: data.item.title, content: data.item.content};"
-                                                data-toggle="modal" data-target="#deleteinfomodal">
+                                                data-toggle="modal" data-target="#deleteInfoModal">
                                                 削除
                                             </b-button>
                                         </b-button-group>
@@ -60,9 +60,9 @@
                 <Footer />
             </div>
 
-            <!-- 新規作成モーダルの設定です -->
+            <!-- 新規作成モーダルの設定 -->
             <form @submit.stop.prevent="addInformation" method="post">
-                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="newinfomodal" tabindex="-1"
+                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="newInfoModal" tabindex="-1"
                     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -94,9 +94,9 @@
             </form>
             <!-- /modal -->
 
-            <!-- お知らせ更新モーダルの設定です -->
+            <!-- お知らせ更新モーダルの設定 -->
             <form @submit.stop.prevent="updateInformation" method="put">
-                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="updateinfomodal" tabindex="-1"
+                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="updateInfoModal" tabindex="-1"
                     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -138,8 +138,8 @@
             </form>
             <!-- /modal -->
 
-            <!-- 削除画面モーダルの設定です -->
-            <div class="modal fade" data-backdrop="static" data-keyboard="false" id="deleteinfomodal" tabindex="-1"
+            <!-- 削除画面モーダルの設定 -->
+            <div class="modal fade" data-backdrop="static" data-keyboard="false" id="deleteInfoModal" tabindex="-1"
                 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -291,7 +291,6 @@ export default {
             // 登録
             await AjaxUtil.postInformation(model)
                 .then(() => {
-                    $('#newinfomodal').modal('hide');
                     this.updateView();
                     this.msg = 'お知らせ情報の登録に成功しました';
                     this.title = '';
@@ -302,6 +301,7 @@ export default {
                     console.log(e);
                 })
                 .finally(() => {
+                    $('#newInfoModal').modal('hide');
                     this.isLoading = false;
                 })
         },
@@ -339,7 +339,6 @@ export default {
             // 更新
             await AjaxUtil.putInformation(model)
                 .then(() => {
-                    $('#updateinfomodal').modal('hide');
                     this.updateView();
                     this.msg = 'お知らせ情報の更新に成功しました';
                 })
@@ -348,6 +347,7 @@ export default {
                     console.log(e);
                 })
                 .finally(() => {
+                    $('#updateInfoModal').modal('hide');
                     this.isLoading = false;
                 })
         },
@@ -363,7 +363,6 @@ export default {
             // 削除
             AjaxUtil.deleteInformation(model)
                 .then(() => {
-                    $('#deleteinfomodal').modal('hide');
                     this.updateView();
                     this.msg = 'お知らせ情報の削除に成功しました';
                 })
@@ -373,6 +372,7 @@ export default {
                     console.log(e);
                 })
                 .finally(() => {
+                    $('#deleteInfoModal').modal('hide');
                     this.isLoading = false;
                 });
         },
