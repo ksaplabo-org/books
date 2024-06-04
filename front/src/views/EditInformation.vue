@@ -175,7 +175,7 @@
         </div>
         <!-- /削除モーダルここまで -->
 
-        <!-- スクロールトップボタン-->
+        <!-- スクロールトップボタン -->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
@@ -214,7 +214,7 @@ export default {
             {key: 'controls', label: ''}
         ],
         items: [],
-        //  新規登録の初期設定
+        // 各設定の初期化
         no : 0,
         date : '',
         textInfo: '',
@@ -225,7 +225,7 @@ export default {
         try {
         if (UserUtil.isSignIn()) {
             console.log('ok');
-            //  画面更新
+            // 画面更新
             this.updateView();
         } else {
             this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
@@ -235,15 +235,15 @@ export default {
         }
     },
     methods: {
-        //  画面更新
+        // 画面更新
         updateView: async function() {
         this.msg = '';
         this.errMsg = '';
 
-        //  お知らせ取得
+        // お知らせ取得
         this.getAllInformation();
         },
-        //  お知らせ取得処理
+        // お知らせ取得処理
         getAllInformation: function() {
         this.isLoading = true;
         this.items = [];
@@ -262,14 +262,14 @@ export default {
             this.isLoading = false;
             });
         },
-        //  お知らせ新規登録
+        // お知らせ新規登録
         addInformation: async function(){
             
-            //  メッセージの初期化
+            // メッセージの初期化
             this.errMsg = '';
             this.msg = '';
             
-            //  入力チェック処理
+            // 入力チェック処理
             if(!this.textInfo){
                 this.errMsgModal = 'お知らせを入力してください';
                 return;
@@ -295,10 +295,10 @@ export default {
                 content : this.textContent
             }
             
-            //  ローディング設定
+            // ローディング設定
             this.isLoading = true;
             
-            //  登録処理
+            // 登録処理
             AjaxUtil.postInformation(model)
             .then(() => {
                 this.updateView();
@@ -323,14 +323,14 @@ export default {
             }
         )
         },
-        //  お知らせ更新
+        // お知らせ更新
         updateInformation: async function(){
             
-            //  メッセージの初期化
+            // メッセージの初期化
             this.msg = '';
             this.errMsg = '';
             
-            //  入力チェック
+            // 入力チェック
             if(!this.clickedRow.title){
                 this.errMsgModal = 'お知らせを入力してください';
                 return;
@@ -358,10 +358,10 @@ export default {
                 content : this.clickedRow.text
             }
 
-            //　ローディング設定
+            // ローディング設定
             this.isLoading = true;
 
-            //  更新処理
+            // 更新処理
             AjaxUtil.putInformation(model)
             .then(() => {
                     this.updateView();
@@ -386,14 +386,14 @@ export default {
                 }
             )
         },
-        //  お知らせ削除
+        // お知らせ削除
         deleteInformation: async function(){
 
-            //  メッセージの初期化
+            // メッセージの初期化
             this.msg = '';
             this.errMsg = '';
 
-            //　ローディング設定
+            // ローディング設定
             this.isLoading = true;
 
             const model = {
@@ -401,7 +401,7 @@ export default {
                 date: this.clickedRow.date
             }
 
-            //  削除処理
+            // 削除処理
             AjaxUtil.deleteInformation(model)
             .then(() => {
                     this.updateView();

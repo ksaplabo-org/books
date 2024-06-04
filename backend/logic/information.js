@@ -48,19 +48,19 @@ module.exports.create = async function(db, title, content){
     
     const InformationModel = InformationRepository.getInformationModel(db);
     
-    //  日付の取得処理(オプション)
+    // 日付の取得処理(オプション)
     const options = {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit'
     }
 
-    //  現在の日付を取得し、DBとの型を合わせるため整形する
+    // 現在の日付を取得し、DBとの型を合わせるため整形する
     const now = new Date();
     const nowDate = now.toLocaleDateString('ja-JP', options);
     const nowDateRepair = nowDate.replaceAll('/', '-');
     
-    //  DBから日付が現在の日付と同じお知らせ情報の中で最も大きい ID を取得する
+    // DBから日付が現在の日付と同じお知らせ情報の中で最も大きい ID を取得する
     const id = await InformationModel.max("no", {
         where: {
             where: sequelize.where(sequelize.fn('date_format', sequelize.col('date'), '%Y-%m-%d'), nowDateRepair)
@@ -83,13 +83,13 @@ module.exports.create = async function(db, title, content){
 /**
  * お知らせを更新する
  * @param {*} db 
- * @param {*} title
  * @param {*} date
- * @param {*} content
  * @param {*} no
+ * @param {*} title
+ * @param {*} content
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
-module.exports.update = async function(db, title, date, content, no){
+module.exports.update = async function(db, date, no, title, content){
 
     const InformationModel = InformationRepository.getInformationModel(db);
 

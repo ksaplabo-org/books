@@ -126,8 +126,6 @@ export function postInformation(informationModel){
     const url = '/api/information'
 
     return axios.post(url, {
-        "no": informationModel.no,
-        "date": informationModel.date,
         "title": informationModel.title,
         "content": informationModel.content
     })
@@ -140,6 +138,8 @@ export function putInformation(informationModel){
     const url = '/api/information'
 
     return axios.put(url, {
+        "no": informationModel.no,
+        "date": informationModel.date,
         "title": informationModel.title,
         "content": informationModel.content
     })
