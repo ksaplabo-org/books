@@ -118,11 +118,11 @@
                                 </div>
                                 <div class="title container d-flex p-0">
                                     <label for="title" class="col-3 p-0" name="title">お知らせ</label>
-                                    <textarea v-model="clickedRow.title" id="title updateTitle" class="col-9" rows="3">{{ clickedRow.title }}</textarea>
+                                    <textarea v-model="clickedRow.title" id="title updateTitle" class="col-9" rows="3"></textarea>
                                 </div>
                                 <div class="content mt-3 container d-flex p-0">
                                     <label for="clickedRow.content" class="col-3 p-0" name="content">詳細</label>
-                                    <textarea v-model="clickedRow.content" id="content updateContent" class="col-9" rows="3">{{ clickedRow.content }}</textarea>
+                                    <textarea v-model="clickedRow.content" id="content updateContent" class="col-9" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
