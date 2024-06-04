@@ -3,14 +3,16 @@ const sequelize = require("sequelize");
 
 /**
  * お知らせを追加する
- * @param {*} db 
+ * @param {*} db
+ * @param {*} title
+ * @param {*} content
  * @returns お知らせ情報（Promise）
  */
-module.exports.create = async function(db, date, title, content){
+module.exports.create = async function(db, title, content){
     const InformationModel = InformationRepository.getInformationModel(db);
 
-    date= new Date().setHours(9, 0, 0);
-
+    var date = new Date().setHours(9, 0, 0);//今日の日付を取得後、午前9時に設定することでデータベースが世界標準時で受け取った際に日付のずれが無いようにする
+    console.log(date);
     const info = await InformationModel.findAll({       //infoに今日のお知らせのみを入れる
         where:{
             date:date
@@ -73,7 +75,11 @@ module.exports.getAll = async function(db) {
 
 /**
  * お知らせを更新する
- * @param {*} db 
+ * @param {*} db
+ * @param {*} no
+ * @param {*} date
+ * @param {*} title
+ * @param {*} content
  * @returns お知らせ情報（Promise）
  */
 module.exports.update = async function (db, no, date, title, content){
@@ -100,10 +106,12 @@ module.exports.update = async function (db, no, date, title, content){
 
 /**
  * お知らせを削除する
- * @param {*} db 
+ * @param {*} db
+ * @param {*} no
+ * @param {*} date
  * @returns お知らせ情報（Promise）
  */
-module.exports.remove = async function (db, id, date){
+module.exports.remove = async function (db, no, date){
     const InformationModel = InformationRepository.getInformationModel(db);
 
     let today = new Date(date);
@@ -113,7 +121,7 @@ module.exports.remove = async function (db, id, date){
         return await InformationModel.destroy({
             where:{
                 date : today,
-                no : id
+                no : no
             }
         });
     } catch (e) {

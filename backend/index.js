@@ -98,7 +98,7 @@ app.put("/api/information", function(req, res) {
 app.post("/api/information", function(req, res) {
     // リクエスト取得
     const information = req.body;
-    InformationLogic.create(db, information.date, information.title, information.content)
+    InformationLogic.create(db, information.title, information.content)
         .then(() => {
             // 正常レスポンス
             res.send({});

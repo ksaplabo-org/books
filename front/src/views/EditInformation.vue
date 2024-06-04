@@ -26,12 +26,12 @@
                     <div class="card shadow mb-4" style="width: auto;">
                         <form @submit.stop.prevent="menu">
                             <div class="card-header">
-                                <h3 class="d-flex justify-content-between"><!-- タグ内の要素を両端揃えにする -->
-                                    <div>お知らせ一覧</div>
-                                    <b-button variant="primary" v-on:click="" data-toggle="modal" data-target="#newInfo">
+                                <div class="d-flex justify-content-between align-items-center" ><!-- タグ内の要素を両端揃え、上下中央揃えにする -->
+                                    <div class="m-0 font-weight-bold">お知らせ一覧</div>
+                                    <b-button variant="primary" data-toggle="modal" data-target="#newInfo">
                                         新規登録
                                     </b-button>
-                                </h3>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <b-table striped responsive hover :items="items" :fields="fields"><!-- テーブルを取得 -->
@@ -41,7 +41,7 @@
                                         data-toggle="modal" data-target="#editInfo">
                                             編集
                                         </b-button>
-                                        <b-button variant="outline-danger"v-on:click="clickedRow = {no: data.item.no, date: data.item.date, title: data.item.title, text: data.item.content};" 
+                                        <b-button variant="outline-danger" v-on:click="clickedRow = {no: data.item.no, date: data.item.date, title: data.item.title, text: data.item.content};" 
                                         data-toggle="modal" data-target="#delInfo">
                                             削除
                                         </b-button>
@@ -64,7 +64,7 @@
                     <form @submit.stop.prevent="addInformation" method="post">
 
                         <div class="modal-body">
-                            <p class="text-danger" v-show="errMsg_Modal">{{ errMsg_Modal }}</p>
+                            <p class="text-danger" v-show="errMsgModal">{{ errMsgModal }}</p>
                             <div class="d-flex justify-content-between">
                                 <label for="title" class="form-label">お知らせ</label>
                                 <textarea class="form-control" style="width: 350px;" id="title" v-model="title" rows="2"></textarea>
@@ -97,7 +97,7 @@
                     <form @submit.stop.prevent="updateInformation" method="put">
 
                         <div class="modal-body">
-                            <p class="text-danger" v-show="errMsg_Modal">{{ errMsg_Modal }}</p>
+                            <p class="text-danger" v-show="errMsgModal">{{ errMsgModal }}</p>
                             <div id="NO" class="d-flex justify-content-between">
                                 <div class="col-3">
                                     ID
@@ -236,7 +236,7 @@ export default {
         return {
             msg: '',
             errMsg: '',
-            errMsg_Modal: '',
+            errMsgModal: '',
             fields: [
                 {key: 'no', label: 'ID'},
                 {key: 'date', label: '掲載日'},
@@ -268,28 +268,27 @@ export default {
 
     methods: {
         addInformation: async function() {
-            this.isLoading = true
             
             if(!this.title){
-                this.errMsg_Modal = 'お知らせを入力してください';
+                this.errMsgModal = 'お知らせを入力してください';
                 return;
             }
             if (this.title.length > 100) {
-                this.errMsg_Modal = 'お知らせは100桁以下で入力してください';
+                this.errMsgModal = 'お知らせは100桁以下で入力してください';
                 return;
             }
             if(!this.content){
-                this.errMsg_Modal = '詳細を入力してください';
+                this.errMsgModal = '詳細を入力してください';
                 return;
             }
             if (this.content.length > 100) {
-                this.errMsg_Modal = '詳細は100桁以下で入力してください';
+                this.errMsgModal = '詳細は100桁以下で入力してください';
                 return;
             }
             try {
+                this.isLoading = true;
                 // 引数格納
                 const model = {
-                    date: this.date,
                     title: this.title,
                     content: this.content
                 }
@@ -310,25 +309,25 @@ export default {
             }
         },
         updateInformation: async function() {
-            this.isLoading = true
             
             if(!this.clickedRow.title){
-                this.errMsg_Modal = 'お知らせを入力してください';
+                this.errMsgModal = 'お知らせを入力してください';
                 return;
             }
             if (this.clickedRow.title.length > 100) {
-                this.errMsg_Modal = 'お知らせは100桁以下で入力してください';
+                this.errMsgModal = 'お知らせは100桁以下で入力してください';
                 return;
             }
             if(!this.clickedRow.text){
-                this.errMsg_Modal = '詳細を入力してください';
+                this.errMsgModal = '詳細を入力してください';
                 return;
             }
             if (this.clickedRow.text.length > 100) {
-                this.errMsg_Modal = '詳細は100桁以下で入力してください';
+                this.errMsgModal = '詳細は100桁以下で入力してください';
                 return;
             }
             try {
+                this.isLoading = true;
                 // 引数格納
                 const model = {
                     no: this.clickedRow.no,
@@ -351,8 +350,8 @@ export default {
             }
         },
         deleteInformation: async function() {
-            this.isLoading = true
             try {
+                this.isLoading = true;
                 // 引数格納
                 const model = {
                     no: this.clickedRow.no,
@@ -395,10 +394,10 @@ export default {
         resetModal: function(){
             this.title='';
             this.content='';
-            this.errMsg_Modal ='';
+            this.errMsgModal ='';
         },
         resetErr: function(){
-            this.errMsg_Modal ='';
+            this.errMsgModal ='';
         },
         // お知らせ取得処理
         getInformation: function() {

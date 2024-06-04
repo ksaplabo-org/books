@@ -32,7 +32,6 @@ export function postInformation(informationModel) {
     const url = '/api/information';
     
     return axios.post(url, {
-        "date": informationModel.date,
         "title": informationModel.title,
         "content": informationModel.content
     })
