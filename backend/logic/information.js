@@ -26,7 +26,8 @@ module.exports.getAll = async function(db) {
                     'content'
                 ],
                 order: [
-                    ["date", "DESC"]
+                    ["date", "DESC"],
+                    ["no", "DESC"]
                 ]
             }
         );
@@ -56,9 +57,9 @@ module.exports.create = async function (db, title, content) {
     const getDate = now.getDate()
     //一桁日の二桁目を0で埋める
     const day = ('0'+ getDate).slice(-2);
-    var newDate = year + "/" + month + "/" + day;
+    const newDate = year + "/" + month + "/" + day;
 
-    var date = new Date(newDate);
+    const date = new Date(newDate);
     //協定世界時を日本時間にする（時差9時間）
     date.setHours(date.getHours() + 9);
 

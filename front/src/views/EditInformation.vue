@@ -110,21 +110,19 @@
                                 <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
                                 <div class="title container d-flex p-0 mb-2">
                                     <label for="title" class="col-3 p-0" name="title">ID</label>
-                                    <p class="col-9 p-0" v-show="clickedRow" id="updateNo">{{ clickedRow.no }}</p>
+                                    <p class="col-9 p-0" id="updateNo">{{ clickedRow.no }}</p>
                                 </div>
                                 <div class="title container d-flex p-0 mb-2">
                                     <label for="title" class="col-3 p-0" name="title">掲載日</label>
-                                    <p class="col-9 p-0" v-show="clickedRow" id="updateDate">{{ clickedRow.date }}</p>
+                                    <p class="col-9 p-0" id="updateDate">{{ clickedRow.date }}</p>
                                 </div>
                                 <div class="title container d-flex p-0">
                                     <label for="title" class="col-3 p-0" name="title">お知らせ</label>
-                                    <textarea v-model="clickedRow.title" id="title updateTitle" class="col-9" rows="3"
-                                        v-show="clickedRow">{{ clickedRow.title }}</textarea>
+                                    <textarea v-model="clickedRow.title" id="title updateTitle" class="col-9" rows="3">{{ clickedRow.title }}</textarea>
                                 </div>
                                 <div class="content mt-3 container d-flex p-0">
                                     <label for="clickedRow.content" class="col-3 p-0" name="content">詳細</label>
-                                    <textarea v-model="clickedRow.content" id="content updateContent" class="col-9"
-                                        rows="3" v-show="clickedRow">{{ clickedRow.content }}</textarea>
+                                    <textarea v-model="clickedRow.content" id="content updateContent" class="col-9" rows="3">{{ clickedRow.content }}</textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -151,19 +149,19 @@
                         <div class="modal-body">
                             <div class="id container d-flex p-0">
                                 <p class="col-3 p-0" name="id">ID</p>
-                                <p id="id" class="col-9" v-show="clickedRow">{{ clickedRow.no }}</p>
+                                <p id="id" class="col-9">{{ clickedRow.no }}</p>
                             </div>
                             <div class="date container d-flex p-0 mt-2">
                                 <p class="col-3 p-0" name="date">掲載日</p>
-                                <p id="date" class="col-9" v-show="clickedRow">{{ clickedRow.date }}</p>
+                                <p id="date" class="col-9">{{ clickedRow.date }}</p>
                             </div>
                             <div class="title container d-flex p-0 mt-2">
                                 <p class="col-3 p-0" name="title">お知らせ</p>
-                                <p id="title" class="col-9" v-show="clickedRow">{{ clickedRow.title }}</p>
+                                <p id="title" class="col-9">{{ clickedRow.title }}</p>
                             </div>
                             <div class="content container d-flex p-0 mt-2">
                                 <p class="col-3 p-0" name="content">詳細</p>
-                                <p id="content" class="col-9" v-show="clickedRow">{{ clickedRow.content }}</p>
+                                <p id="content" class="col-9">{{ clickedRow.content }}</p>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -224,7 +222,6 @@ export default {
     async mounted() {
         try {
             if (UserUtil.isSignIn()) {
-                console.log('ok');
                 this.msg = this.flashMsg;
                 this.errMsg = this.flashErrMsg;
                 // 画面更新
