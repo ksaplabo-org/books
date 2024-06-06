@@ -151,5 +151,6 @@ export function alreadyLending(alreadyModel) {
 
 export function getAllStudent() {
     const url = 'https://zfqiczn84j.execute-api.ap-northeast-1.amazonaws.com/BookStation/student';
+    // const url = 'https://zfqiczn84j.execute-api.ap-northeast-1.amazonaws.com/BookStation/nonProxyStudent';
     return axios.get(url);
 }
