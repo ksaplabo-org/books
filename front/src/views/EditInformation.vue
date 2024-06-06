@@ -154,11 +154,11 @@
                             </div>
                             <div class="row pb-3">
                                 <div class="col-3 col-form-label">お知らせ</div>
-                                <div id="informationTitle" class="col-9 col-form-label">{{informationTitle}}</div>
+                                <div id="informationTitle" class="col-9 col-form-label text-break">{{informationTitle}}</div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-3 col-form-label">詳細</div>
-                                <div id="informationContent" class="col-9 col-form-label">{{informationContent}}</div>
+                                <div id="informationContent" class="col-9 col-form-label text-break">{{informationContent}}</div>
                             </div>
                         </div>
                         <!-- フッター -->
