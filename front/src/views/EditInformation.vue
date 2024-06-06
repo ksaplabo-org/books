@@ -222,7 +222,7 @@ export default {
     async mounted() {
         try {
             /*サインイン確認*/
-            if (UserUtil.isSignIn()) {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
                 /* 画面更新*/
                 this.updateView();
             } else {

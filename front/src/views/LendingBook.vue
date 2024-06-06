@@ -82,7 +82,7 @@ export default {
     async mounted() {
         const self = this;
         try {
-            if (UserUtil.isSignIn()) {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
                 this.msg = '';
 
                 self.userName = UserUtil.currentUserInfo().userName;

@@ -246,6 +246,16 @@ export default {
       isLoading: false,
     };
   },
+  async mounted() {
+    try {
+      /*サインイン確認*/
+      if (!(UserUtil.isSignIn() && UserUtil.isAdmin())) {
+        this.$router.push({ name: 'signin', params: { flashMsg: 'サインインしてください' }});
+      }
+    }catch (e){
+        this.errMsg = e.message;
+    }
+  },
   methods: {
     // 書籍検索
     searchBooks: function () {
