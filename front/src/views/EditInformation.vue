@@ -228,7 +228,7 @@ export default {
             } else {
                 this.$router.push({ name: 'signin', params: { flashMsg: 'サインインしてください' }});
             };
-        }catch (e){
+        } catch (e) {
             this.errMsg = e.message;
         }
     },
@@ -240,148 +240,154 @@ export default {
             /*お知らせ情報検索処理*/
             this.getAllInfomation();
         },
-        getAllInfomation: function() {
+        getAllInfomation: async function() {
             this.isLoading = true;
             this.items = []; 
-
-            // お知らせ情報取得処理
-            AjaxUtil.getInformation()
-                .then((response) => {
-                    this.items = JSON.parse(response.data.Items);
-                })
-                .catch((e) => {
-                    this.msg = '';
-                    this.errMsg = 'お知らせ取得処理に失敗しました';
-                    console.log(e);
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                }
-            );
+            
+            try {
+                // お知らせ情報取得処理
+                const response = await AjaxUtil.getInformation();
+                this.items = JSON.parse(response.data.Items);
+            } catch (e) {
+                this.msg = '';
+                this.errMsg = 'お知らせ取得処理に失敗しました';
+                console.log(e);
+            } finally {
+                this.isLoading = false;
+            }
         },
-        addInformation: function() {
+        addInformation: async function() {
             this.msg = '';
             this.errMsg = '';
-
-            //入力チェック
-            if (!this.informationTitle){
-                this.errMsg_Modal = 'お知らせを入力してください';
-                return;
-            }
-            if (this.informationTitle.length > 100){
-                this.errMsg_Modal = 'お知らせは100桁以下で入力してください';
-                return;
-            }
-            if (!this.informationContent){
-                this.errMsg_Modal = '詳細を入力してください';
-                return;
-            }
-            if (this.informationContent.length > 100){
-                this.errMsg_Modal = '詳細は100桁以下で入力してください';
-                return;
-            }
-
-            const model = {
-                title: this.informationTitle,
-                content: this.informationContent
-            }
-
             this.isLoading = true;
             
-            //新規登録処理
-            AjaxUtil.postInformation(model)
-                .then(() => {
-                    this.updateView();
-                    this.msg = 'お知らせ情報の登録に成功しました';
-                })
-                .catch((e) => {
-                    this.errMsg = 'お知らせ情報の登録に失敗しました';
-                    console.log(e);
-                })
-                .finally(() => {
-                    //モーダルを閉じる
-                    document.getElementById('addmodalCloseButton').click( function(){
-                        document.getElementById('addmodal').modal('hide');
-                    });
-                    this.isLoading = false;
+            try {
+                //入力チェック
+                if (!this.informationTitle){
+                    this.errMsg_Modal = 'お知らせを入力してください';
+                    return;
                 }
-            );
-            
+                if (this.informationTitle.length > 100){
+                    this.errMsg_Modal = 'お知らせは100桁以下で入力してください';
+                    return;
+                }
+                if (!this.informationContent){
+                    this.errMsg_Modal = '詳細を入力してください';
+                    return;
+                }
+                if (this.informationContent.length > 100){
+                    this.errMsg_Modal = '詳細は100桁以下で入力してください';
+                    return;
+                }
+
+                const model = {
+                    title: this.informationTitle,
+                    content: this.informationContent
+                }
+                
+                //新規登録処理
+                await AjaxUtil.postInformation(model);
+
+                //モーダルを閉じる
+                document.getElementById('addmodalCloseButton').click( function(){
+                    document.getElementById('addmodal').modal('hide');
+                });
+
+                //画面を更新する
+                this.updateView();
+                this.msg = 'お知らせ情報の登録に成功しました';
+            } catch (e) {
+                //モーダルを閉じる
+                document.getElementById('addmodalCloseButton').click( function(){
+                    document.getElementById('addmodal').modal('hide');
+                });
+                this.errMsg = 'お知らせ情報の登録に失敗しました';
+                console.log(e);
+            } finally {
+                this.isLoading = false;
+            }
         },
-        updateInformation : function() {            
+        updateInformation : async function() {
             this.msg = '';
             this.errMsg = '';
-
-            //入力チェック
-            if (!this.informationTitle){
-                this.errMsg_Modal = 'お知らせを入力してください';
-                return;
-            }
-            if (this.informationTitle.length > 100){
-                this.errMsg_Modal = 'お知らせは100桁以下で入力してください';
-                return;
-            }
-
-            if (!this.informationContent){
-                this.errMsg_Modal = '詳細を入力してください';
-                return;
-            }
-            if (this.informationContent.length > 100){
-                this.errMsg_Modal = '詳細は100桁以下で入力してください';
-                return;
-            }
-
-            const model = {
-                no: this.informationNumber,
-                date: this.informationDate,
-                title: this.informationTitle,
-                content: this.informationContent
-            }
-
             this.isLoading = true;
 
-            //更新処理
-            AjaxUtil.putInformation(model)
-                .then(() => {
-                    this.updateView();
+            try {
+                //入力チェック
+                if (!this.informationTitle){
+                    this.errMsg_Modal = 'お知らせを入力してください';
+                    return;
+                }
+                if (this.informationTitle.length > 100){
+                    this.errMsg_Modal = 'お知らせは100桁以下で入力してください';
+                    return;
+                }
+
+                if (!this.informationContent){
+                    this.errMsg_Modal = '詳細を入力してください';
+                    return;
+                }
+                if (this.informationContent.length > 100){
+                    this.errMsg_Modal = '詳細は100桁以下で入力してください';
+                    return;
+                }
+
+                const model = {
+                    no: this.informationNumber,
+                    date: this.informationDate,
+                    title: this.informationTitle,
+                    content: this.informationContent
+                }
+                
+                //更新処理
+                await AjaxUtil.putInformation(model);
+
+                //モーダルを閉じる
+                document.getElementById('updatemodalCloseButton').click( function(){
+                    document.getElementById('updatemodal').modal('hide');
+                });
+
+                //画面を更新する
+                this.updateView();
                     this.msg = 'お知らせ情報の更新に成功しました';
-                })
-                .catch((e) => {
-                    this.errMsg = 'お知らせ情報の更新に失敗しました';
-                    console.log(e);
-                })
-                .finally(() => {
-                    //モーダルを閉じる
-                    document.getElementById('updatemodalCloseButton').click( function(){
-                        document.getElementById('updatemodal').modal('hide');
-                    });
-                    this.isLoading = false;
-                }
-            );
+            } catch (e) {
+                //モーダルを閉じる
+                document.getElementById('updatemodalCloseButton').click( function(){
+                    document.getElementById('updatemodal').modal('hide');
+                });
+                this.errMsg = 'お知らせ情報の更新に失敗しました';
+                console.log(e);
+            } finally {
+                this.isLoading = false;
+            }
         },
-        deleteInformation : function() {
-            this.isLoading = true;
+        deleteInformation : async function() {
             this.msg = '';
             this.errMsg = '';
+            this.isLoading = true;
 
-            //削除処理
-            AjaxUtil.deleteInformation(this.informationNumber,this.informationDate)
-                .then(() => {
-                    this.updateView();
-                    this.msg = 'お知らせ情報の削除に成功しました';
-                })
-                .catch((e) => {
-                    this.errMsg = 'お知らせ情報の削除に失敗しました';
-                    console.log(e);
-                })
-                .finally(() => {
-                    //モーダルを閉じる
-                    document.getElementById('deletemodalCloseButton').click( function(){
-                        document.getElementById('deletemodal').modal('hide');
-                    });
-                    this.isLoading = false;
-                }
-            );
+            try {
+                //削除処理
+                await AjaxUtil.deleteInformation(this.informationNumber,this.informationDate);
+
+                //モーダルを閉じる
+                document.getElementById('deletemodalCloseButton').click( function(){
+                    document.getElementById('deletemodal').modal('hide');
+                });
+
+                //画面を更新する
+                this.updateView();
+                this.msg = 'お知らせ情報の削除に成功しました';
+            } catch (e) {
+                //モーダルを閉じる
+                document.getElementById('deletemodalCloseButton').click( function(){
+                    document.getElementById('deletemodal').modal('hide');
+                });
+                this.errMsg = 'お知らせ情報の削除に失敗しました';
+                console.log(e);
+            } finally {
+                this.isLoading = false;
+            }
         }
     }
 }
