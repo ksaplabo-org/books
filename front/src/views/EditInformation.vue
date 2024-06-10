@@ -270,7 +270,7 @@ export default {
 
     async mounted() {
         try {
-            if (UserUtil.isSignIn()) {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
                 // 画面更新
                 this.updateView();
             } else {
