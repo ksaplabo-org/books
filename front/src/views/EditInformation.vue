@@ -300,7 +300,7 @@ export default {
                 this.msg = 'お知らせ情報の登録に成功しました';
 
             } catch (e) {
-                this.updateView();
+                this.closeModal();
                 this.msg = '';
                 this.errMsg = 'お知らせ情報の登録に失敗しました';
                 console.log(e)
@@ -341,7 +341,7 @@ export default {
                 this.updateView();
                 this.msg = 'お知らせ情報の更新に成功しました';
             } catch (e) {
-                this.updateView();
+                this.closeModal();
                 this.msg = '';
                 this.errMsg = 'お知らせ情報の更新に失敗しました';
                 console.log(e)
@@ -363,7 +363,7 @@ export default {
                 this.updateView();
                 this.msg = 'お知らせ情報の削除に成功しました';
             } catch (e) {
-                this.updateView();
+                this.closeModal();
                 this.msg = '';
                 this.errMsg = 'お知らせ情報の削除に失敗しました';
                 console.log(e)
@@ -410,7 +410,7 @@ export default {
             })
             .catch((e) => {
                 this.msg = '';
-                this.errMsg = '検索処理に失敗しました';
+                this.errMsg = 'お知らせ取得処理に失敗しました';
                 console.log(e);
             })
             .finally(() => {
