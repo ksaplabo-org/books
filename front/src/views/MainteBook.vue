@@ -246,6 +246,19 @@ export default {
       isLoading: false,
     };
   },
+  async mounted() {
+        // サインイン確認
+        try {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
+                this.msg = this.flashMsg;
+                this.errMsg = this.flashErrMsg;
+            } else {
+                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
+            };
+        } catch(e) {
+            this.errMsg = e.message;
+        }
+    },
   methods: {
     // 書籍検索
     searchBooks: function () {

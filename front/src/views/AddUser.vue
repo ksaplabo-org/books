@@ -156,7 +156,7 @@ export default {
     async mounted() {
         // サインイン確認
         try {
-            if (UserUtil.isSignIn()) {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
                 this.msg = this.flashMsg;
                 this.errMsg = this.flashErrMsg;
             } else {

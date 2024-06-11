@@ -180,7 +180,7 @@
                                 <div class="col-3">
                                     <label for="title" class="form-label">お知らせ</label>
                                 </div>
-                                <div class="col-9" v-show="clickedRow.title">
+                                <div class="col-9 text-break" v-show="clickedRow.title">
                                     {{clickedRow.title}}
                                 </div>
                             </div>
@@ -189,7 +189,7 @@
                                 <div class="col-3">
                                     <label for="content" class="form-label">詳細</label>
                                 </div>
-                                <div class="col-9" v-show="clickedRow.text">
+                                <div class="col-9 text-break" v-show="clickedRow.text">
                                     {{clickedRow.text}}
                                 </div>
                             </div>
@@ -254,7 +254,7 @@ export default {
     },
     async mounted() {// サインインチェック
         try {
-            if (UserUtil.isSignIn()) {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
                 this.msg = '';
                 this.errMsg = this.flashErrMsg;
                 this.updateView();
