@@ -17,6 +17,41 @@ export function getInformation() {
     return axios.get(url);
 }
 
+//お知らせ新規登録
+export function postInformation(InformationModel) {
+    const url = '/api/information';
+   
+    return axios.post(url , {
+        "title": InformationModel.title,
+        "content": InformationModel.content  
+    })
+}
+
+//お知らせ更新
+export function putInformation(InformationModel) {
+    const url = '/api/information';
+
+    return axios.put(url , {
+        "no": InformationModel.no,
+        "date": InformationModel.date,
+        "title": InformationModel.title,
+        "content": InformationModel.content
+    })
+}
+
+//お知らせ削除
+export function deleteInformation(InformationModel) {
+    const url = '/api/information';
+
+    return axios.request({
+        method: 'delete',
+        url: url,
+        data: {
+        "no": InformationModel.no,
+        "date": InformationModel.date
+    }})
+}
+
 export function searchBooks(keyword) {
     // search url : google books api.
     const url = 'https://www.googleapis.com/books/v1/volumes?q=' + keyword.replace(' ','+');
