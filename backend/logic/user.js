@@ -111,11 +111,11 @@ module.exports.create = async function (db, userId, userName, password, gender, 
          */
         return await UserModel.create(
             {
-                user_Id: userId,
+                user_id: userId,
                 user_name: userName,
                 password: password,
                 gender: gender,
-                auth:auth
+                auth: auth
             }
         );
         /**★問題11[ユーザー追加] End*/
