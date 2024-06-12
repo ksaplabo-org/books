@@ -390,7 +390,6 @@ export default {
                     this.modalErrMsg = '';
                 })
                 .catch((e) => {
-                    this.updateView();
                     this.msg = '';
                     this.errMsg = 'お知らせ情報の登録に失敗しました';
                     this.content = '';
@@ -445,7 +444,6 @@ export default {
                     this.modalErrMsg = '';
                 })
                 .catch((e) => {
-                    this.updateView();
                     this.msg = '';
                     this.errMsg = 'お知らせ情報の更新に失敗しました';
                     this.modalErrMsg = '';
@@ -474,7 +472,6 @@ export default {
                     this.errMsg = '';
                 })
                 .catch((e) => {
-                    this.updateView();
                     this.msg = '';
                     this.errMsg = 'お知らせ情報の削除に失敗しました';
                     console.log(e);
