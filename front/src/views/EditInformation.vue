@@ -157,11 +157,11 @@
                             </div>
                             <div class="title container d-flex p-0 mt-2">
                                 <p class="col-3 p-0" name="title">お知らせ</p>
-                                <p id="title" class="col-9">{{ clickedRow.title }}</p>
+                                <p id="title" class="col-9 text-break">{{ clickedRow.title }}</p>
                             </div>
                             <div class="content container d-flex p-0 mt-2">
                                 <p class="col-3 p-0" name="content">詳細</p>
-                                <p id="content" class="col-9">{{ clickedRow.content }}</p>
+                                <p id="content" class="col-9 text-break">{{ clickedRow.content }}</p>
                             </div>
                         </div>
                         <div class="modal-footer">
