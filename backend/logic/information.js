@@ -40,8 +40,6 @@ module.exports.getAll = async function(db) {
 /**
  * お知らせ情報新規登録
  * @param {*} db
- * @param {*} no
- * @param {*} date
  * @param {*} title
  * @param {*} content
  * @returns Promise(成功:resolve/失敗:reject)
@@ -51,16 +49,21 @@ module.exports.create = async function (db, title, content) {
 
     //日付の取得
     const dt = new Date();
-    const y = dt.getFullYear();
-    const m = ("00" + (dt.getMonth()+1)).slice(-2);
-    const d = ("00" + (dt.getDate())).slice(-2);
+    const year = dt.getFullYear();
+    /** 
+    * getMonthで月を取得すると1月が０とカウントされるのでMonthに＋１する
+    * "00"+取得した月or日としてslice(-2)で右から2文字を抜き出すことで、取得した月と日が１桁でも０が前に付き2桁となる
+    */
+    const month = ("00" + (dt.getMonth()+1)).slice(-2);
+    const day = ("00" + (dt.getDate())).slice(-2);
+    //取得した時間がグリニッジ標準時となっているため+9することで日本時間との時差を合わせる
     dt.setHours(dt.getHours()+9);
-    const date = y + "-" + m + "-" +d;
+    const date = year + "-" + month + "-" + day;
     const today = new Date(date);
     
     //IDの自動採番処理
     let id = await InformationModel.max("no", { where: { date: today } });
-    id = id +1;
+    id = id + 1;
 
     //お知らせ新規登録
     try { 
@@ -98,7 +101,8 @@ module.exports.update = async function (db, no, date, title, content) {
             },
             {
                 where: {
-                    [Op.and]: { where: sequelize.where(sequelize.fn('DATE_FORMAT', sequelize.col('date'), '%Y/%m/%d'), date),
+                    [Op.and]: { 
+                        where: sequelize.where(sequelize.fn('DATE_FORMAT', sequelize.col('date'), '%Y/%m/%d'), date),
                         no: no
                     }
                 }    
@@ -114,8 +118,6 @@ module.exports.update = async function (db, no, date, title, content) {
  * @param {*} db
  * @param {*} no
  * @param {*} date
- * @param {*} title
- * @param {*} content
  * @returns Promise(成功:resolve/失敗:reject)
  */
 module.exports.remove = async function (db, no, date) {
