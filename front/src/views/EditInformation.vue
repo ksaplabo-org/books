@@ -227,7 +227,7 @@
                                           </div>
                                       </div>
                                       <div class="col">
-                                          <div class="mt-3" v-show="clickedRow">
+                                          <div class="mt-3 text-break" v-show="clickedRow">
                                             {{ clickedRow.title }}
                                           </div>
                                       </div>
@@ -239,7 +239,7 @@
                                           </div>
                                       </div>
                                       <div class="col">
-                                          <div class="mt-3" v-show="clickedRow">
+                                          <div class="mt-3 text-break" v-show="clickedRow">
                                             {{ clickedRow.text }}
                                           </div>
                                       </div>
@@ -309,7 +309,7 @@ export default {
     async mounted() {
         try {
             // サインイン確認
-            if (UserUtil.isSignIn()) {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
                 // 画面更新
                 this.updateView();
                 // メッセージ設定
