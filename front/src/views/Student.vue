@@ -99,8 +99,8 @@ export default {
             AjaxUtil.getAllStudent()
                 .then((response) => {
                     console.log(response);
-                    for (const student of response.data) {         //プロキシ統合を使う場合
-                    // for (const student of response.data.body) {    //プロキシ統合を使わない場合
+                    for (const student of response.data.Items) {         //プロキシ統合を使う場合
+                    // for (const student of response.data.body.Items) {    //プロキシ統合を使わない場合
                         this.items.push({
                             "id": student.id,
                             "name": student.last_name + " " + student.first_name
