@@ -181,6 +181,9 @@
             <i class="fas fa-angle-up"></i>
         </a>
 
+        <!-- ローディングマスク -->
+        <loading v-if="isLoading === true"/>
+
     </div>
 </template>
 
@@ -249,7 +252,7 @@ export default {
                     this.items = JSON.parse(response.data.Items);
                 })
                 .catch((e) => {
-                    this.errMsg = '検索処理に失敗しました';
+                    this.modalErrMsg = '検索処理に失敗しました';
                     console.log(e);
                 })
                 .finally(() => {
@@ -258,8 +261,6 @@ export default {
         },
         // 新規お知らせ登録
         addInformation: async function () {
-            this.isLoading = true;
-
             if (!this.title) {
                 this.errMsg = "お知らせを入力してください";
                 return;
@@ -285,27 +286,27 @@ export default {
                 content: this.content
             }
 
+            this.isLoading = true;
+
             // 登録
             await AjaxUtil.postInformation(model)
                 .then(() => {
                     this.updateView();
                     this.msg = 'お知らせ情報の登録に成功しました';
-                    this.title = '';
-                    this.content = '';
                 })
                 .catch((e) => {
                     this.modalErrMsg = 'お知らせ情報の登録に失敗しました';
                     console.log(e);
                 })
                 .finally(() => {
+                    this.title = '';
+                    this.content = '';
                     $('#newInfoModal').modal('hide');
                     this.isLoading = false;
                 })
         },
         // お知らせ更新
         updateInformation: async function () {
-            this.isLoading = true;
-
             if (!this.clickedRow.title) {
                 this.errMsg = "お知らせを入力してください";
                 return;
@@ -332,6 +333,8 @@ export default {
                 title: this.clickedRow.title,
                 content: this.clickedRow.content
             }
+
+            this.isLoading = true;
 
             // 更新
             await AjaxUtil.putInformation(model)
