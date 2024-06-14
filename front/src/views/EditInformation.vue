@@ -224,7 +224,7 @@ export default {
     },
     async mounted() {
         try {
-            if (UserUtil.isSignIn()) {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
                 this.msg = this.flashMsg;
                 this.errMsg = this.flashErrMsg;
                 // 画面更新
