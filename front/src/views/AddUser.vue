@@ -254,8 +254,8 @@ export default {
                  * エラーがある場合は以下のエラーメッセージを表示する。
                  * エラーメッセージ：「パスワードは8桁以上16桁以下で入力してください」
                  */
-                 if(this.userId.length < 8 || this.userId.length > 16){
-                    this.errMsg = "ユーザーIDは8桁以上16桁以下で入力してください";
+                 if(this.password.length < 8 || this.password.length > 16){
+                    this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
                     return;
                 }
 
