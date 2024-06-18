@@ -67,12 +67,12 @@
                                     <div class="text col-3">お知らせ</div>
                                     <textarea class="form-control col-9" v-model="clickedRow.title"></textarea>
                                 </div>
-                                <p></p>
+                                <br>
                                 <div class="form-group row pr-3 pb-1">
                                     <div class="text col-3">詳細</div>
                                 <textarea class="form-control col-9"  v-model="clickedRow.content"></textarea>
                                 </div>
-                                <p></p>
+                                <br>
                             </font>
                         </div>
                         <div class="modal-footer">
@@ -102,22 +102,22 @@
                                     <div class="text col-3">ID</div>
                                     <div>{{clickedRow.no}}</div>
                                 </div>
-                                <p></p>
+                                <br>
                                 <div class="row pr-3 pb-1">
                                     <div class="text col-3">掲載日</div>
                                     <div>{{clickedRow.date}}</div>
                                 </div>
-                                <p></p>
+                                <br>
                                 <div class="row pr-3 pb-1">
                                     <div class="text col-3">お知らせ</div>
                                     <textarea class="form-control col-9" v-model="clickedRow.title"></textarea>
                                 </div>
-                                <p></p>
+                                <br>
                                 <div class="row pr-3 pb-1">
                                     <div class="text col-3">詳細</div>
                                     <textarea class="form-control col-9" v-model="clickedRow.content"></textarea>
                                 </div>
-                                <p></p>
+                                <br>
                             </font>
                         </div>
                         <div class="modal-footer">
@@ -147,22 +147,22 @@
                                     <div class="text col-3">ID</div>
                                     <div class ="col-9">{{clickedRow.no}}</div>
                                 </div>
-                                <p></p>
+                                <br>
                                 <div class="row pr-3 pb-1">
                                     <div class="text col-3">掲載日</div>
                                     <div class ="col-9">{{clickedRow.date}}</div>
                                 </div>
-                                <p></p>
+                                <br>
                                 <div class="row pr-3 pb-1">
                                     <div class="text col-3">お知らせ</div>
                                     <div class= "text-break col-9">{{clickedRow.title}}</div>
                                 </div>
-                                <p></p>
+                                <br>
                                 <div class="row pr-3 pb-1">
                                     <div class="text col-3">詳細</div>
                                     <div class= "text-break col-9">{{clickedRow.content}}</div>
                                 </div>
-                                <p></p>
+                                <br>
                             </font>
                         </div>
                         <div class="modal-footer">
