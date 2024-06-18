@@ -51,8 +51,8 @@ module.exports.create = async function (db, title, content) {
     const dt = new Date();
     const year = dt.getFullYear();
     /** 
-    * getMonthで月を取得すると1月が０とカウントされるのでMonthに＋１する
-    * "00"+取得した月or日としてslice(-2)で右から2文字を抜き出すことで、取得した月と日が１桁でも０が前に付き2桁となる
+    * getMonthで月を取得すると1月が0とカウントされるのでMonthに+1する
+    * "00"+取得した月or日としてslice(-2)で右から2文字を抜き出すことで、取得した月と日が1桁でも0が前に付き2桁となる
     */
     const month = ("00" + (dt.getMonth()+1)).slice(-2);
     const day = ("00" + (dt.getDate())).slice(-2);
@@ -128,8 +128,7 @@ module.exports.remove = async function (db, no, date) {
         return await InformationModel.destroy(
             {
                 where: {
-                    [Op.and]: 
-                    { 
+                    [Op.and]: { 
                         where: sequelize.where(sequelize.fn('DATE_FORMAT', sequelize.col('date'), '%Y/%m/%d'), date),
                         no: no
                     }

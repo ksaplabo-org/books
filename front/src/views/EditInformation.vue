@@ -25,7 +25,7 @@
                         <form @submit.stop.prevent="menu">
                             <div class="card-header d-flex justify-content-between">
                                 <div class="font-weight-bold d-flex align-items-center">お知らせ一覧</div>
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#addinformationimagemodal">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#addInformationImageModal">
                                     新規登録
                                 </button>
                             </div>
@@ -34,11 +34,11 @@
                                     <!--ボタンセル定義-->
                                     <template #cell(controls)="data">
                                         <b-button variant="outline-primary" v-on:click="clickedRow = {no: data.item.no, date: data.item.date, title: data.item.title, content: data.item.content};"
-                                            data-toggle="modal" data-target="#updateinformationimagemodal">
+                                            data-toggle="modal" data-target="#updateInformationImageModal">
                                              編集
                                         </b-button>
                                         <b-button variant="outline-danger" v-on:click="clickedRow = {no: data.item.no, date: data.item.date, title: data.item.title, content: data.item.content};"
-                                            data-toggle="modal" data-target="#deleteinformationimagemodal">
+                                            data-toggle="modal" data-target="#deleteInformationImageModal">
                                              削除
                                         </b-button>
                                     </template>
@@ -51,7 +51,7 @@
             </div>
 
             <!-- お知らせ新規登録モーダルの設定です -->
-            <div class="modal fade" id="addinformationimagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
+            <div class="modal fade" id="addInformationImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
             <form @submit.stop.prevent="postInformation" method="post">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -63,15 +63,14 @@
                                 <!--エラーメッセージ-->
                                 <p class="text-danger" v-show="modalerrMsg">{{ modalerrMsg }}</p>
                                 <!--お知らせ新規登録項目-->
-                                <div class="form-group d-flex justify-content-between">
-                                    <div class="text">お知らせ</div>
-                                    <!--style="width:339px"は設計書のレイアウト通りに開始位置を揃えるため横幅を調整-->
-                                    <textarea class="form-control" style="width:339px" v-model="clickedRow.title"></textarea>
+                                <div class="form-group row pr-3 pb-1">
+                                    <div class="text col-3">お知らせ</div>
+                                    <textarea class="form-control col-9" v-model="clickedRow.title"></textarea>
                                 </div>
                                 <p></p>
-                                <div class="form-group d-flex justify-content-between">
-                                    <div class="text">詳細</div>
-                                <textarea class="form-control" style="width:339px" v-model="clickedRow.content"></textarea>
+                                <div class="form-group row pr-3 pb-1">
+                                    <div class="text col-3">詳細</div>
+                                <textarea class="form-control col-9"  v-model="clickedRow.content"></textarea>
                                 </div>
                                 <p></p>
                             </font>
@@ -87,7 +86,7 @@
             <!-- /modal -->
 
             <!-- お知らせ編集モーダルの設定です -->
-            <div class="modal fade" id="updateinformationimagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
+            <div class="modal fade" id="updateInformationImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
             <form @submit.stop.prevent="putInformation" method="put">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -99,24 +98,24 @@
                                 <!--エラーメッセージ-->
                                 <p class="text-danger" v-show="modalerrMsg">{{ modalerrMsg }}</p>
                                 <!--お知らせ更新項目-->
-                                <div class="d-flex justify-content-between">
-                                    <div class="text">ID</div>
-                                    <div style="width:339px">{{clickedRow.no}}</div>
+                                <div class="row pr-3 pb-1">
+                                    <div class="text col-3">ID</div>
+                                    <div>{{clickedRow.no}}</div>
                                 </div>
                                 <p></p>
-                                <div class="d-flex justify-content-between">
-                                    <div class="text">掲載日</div>
-                                    <div style="width:339px">{{clickedRow.date}}</div>
+                                <div class="row pr-3 pb-1">
+                                    <div class="text col-3">掲載日</div>
+                                    <div>{{clickedRow.date}}</div>
                                 </div>
                                 <p></p>
-                                <div class="d-flex justify-content-between">
-                                    <div class="text">お知らせ</div>
-                                    <textarea class="form-control" style="width:339px" v-model="clickedRow.title"></textarea>
+                                <div class="row pr-3 pb-1">
+                                    <div class="text col-3">お知らせ</div>
+                                    <textarea class="form-control col-9" v-model="clickedRow.title"></textarea>
                                 </div>
                                 <p></p>
-                                <div class="d-flex justify-content-between">
-                                    <div class="text">詳細</div>
-                                    <textarea class="form-control" style="width:339px" v-model="clickedRow.content"></textarea>
+                                <div class="row pr-3 pb-1">
+                                    <div class="text col-3">詳細</div>
+                                    <textarea class="form-control col-9" v-model="clickedRow.content"></textarea>
                                 </div>
                                 <p></p>
                             </font>
@@ -132,7 +131,7 @@
             <!-- /modal -->
 
             <!-- お知らせ削除モーダルの設定です -->
-            <div class="modal fade" id="deleteinformationimagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
+            <div class="modal fade" id="deleteInformationImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
             <form @submit.stop.prevent="deleteInformation" method="delete">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -144,24 +143,24 @@
                                 <!--エラーメッセージ-->
                                 <p class="text-danger" v-show="modalerrMsg">{{ modalerrMsg }}</p>
                                 <!--お知らせ削除項目-->
-                                <div class="d-flex justify-content-between">
-                                    <div class="text">ID</div>
-                                    <div style="width:339px">{{clickedRow.no}}</div>
+                                <div class="row pr-3 pb-1">
+                                    <div class="text col-3">ID</div>
+                                    <div class ="col-9">{{clickedRow.no}}</div>
                                 </div>
                                 <p></p>
-                                <div class="d-flex justify-content-between">
-                                    <div class="text">掲載日</div>
-                                    <div style="width:339px">{{clickedRow.date}}</div>
+                                <div class="row pr-3 pb-1">
+                                    <div class="text col-3">掲載日</div>
+                                    <div class ="col-9">{{clickedRow.date}}</div>
                                 </div>
                                 <p></p>
-                                <div class="d-flex justify-content-between">
-                                    <div class="text">お知らせ</div>
-                                    <div class= "text-break" style="width:339px">{{clickedRow.title}}</div>
+                                <div class="row pr-3 pb-1">
+                                    <div class="text col-3">お知らせ</div>
+                                    <div class= "text-break col-9">{{clickedRow.title}}</div>
                                 </div>
                                 <p></p>
-                                <div class="d-flex justify-content-between">
-                                    <div class="text">詳細</div>
-                                    <div class= "text-break" style="width:339px">{{clickedRow.content}}</div>
+                                <div class="row pr-3 pb-1">
+                                    <div class="text col-3">詳細</div>
+                                    <div class= "text-break col-9">{{clickedRow.content}}</div>
                                 </div>
                                 <p></p>
                             </font>
@@ -220,25 +219,7 @@ export default {
     async mounted() {
         try {
             // サインイン確認
-            if (UserUtil.isSignIn()) {
-
-                // 画面更新
-                await this.updateView();
-
-                // メッセージ設定
-                this.msg = this.flashMsg;
-                this.errMsg = this.flashErrMsg;
-            } else {
-                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
-            };
-        } catch(e) {
-            this.errMsg = e.message;
-        }
-    },
-    async mounted() {
-        try {
-            // 権限の確認
-            if (UserUtil.isAdmin()) {
+            if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
 
                 // 画面更新
                 await this.updateView();
@@ -303,23 +284,23 @@ export default {
                 }
  
                 // 引数格納
-                const addinformationmodel = {
+                const addInformationModel = {
                     title: this.clickedRow.title,
                     content: this.clickedRow.content
                 }
  
                 // お知らせ情報登録
-                await AjaxUtil.postInformation(addinformationmodel);
+                await AjaxUtil.postInformation(addInformationModel);
 
                 // 一覧画面に遷移する
                 this.updateView();
                 this.msg = "お知らせ情報の登録に成功しました";
-                $('#addinformationimagemodal').modal('hide');
+                $('#addInformationImageModal').modal('hide');
             } catch (e) {
                 this.msg = '';
                 this.errMsg = "お知らせ情報の登録に失敗しました";
                 console.log(e)
-                $('#addinformationimagemodal').modal('hide');
+                $('#addInformationImageModal').modal('hide');
             } finally {
                 this.isLoading = false;
             }
@@ -348,7 +329,7 @@ export default {
                 }
  
                 // 引数格納
-                const updateinformationmodel = {
+                const updateInformationModel = {
                     no: this.clickedRow.no,
                     date: this.clickedRow.date,
                     title: this.clickedRow.title,
@@ -356,17 +337,17 @@ export default {
                 }
  
                 // お知らせ情報更新
-                await AjaxUtil.putInformation(updateinformationmodel);
+                await AjaxUtil.putInformation(updateInformationModel);
 
                 // お知らせ管理画面に遷移する
                 this.updateView();
                 this.msg = "お知らせ情報の更新に成功しました";
-                $('#updateinformationimagemodal').modal('hide');
+                $('#updateInformationImageModal').modal('hide');
             } catch (e) {
                 this.msg = '';
                 this.errMsg = "お知らせ情報の更新に失敗しました";
                 console.log(e)
-                $('#updateinformationimagemodal').modal('hide');
+                $('#updateInformationImageModal').modal('hide');
             } finally {
                 this.isLoading = false;
             }
@@ -377,23 +358,23 @@ export default {
             try {
 
                 // 引数格納
-                const deleteinformationmodel = {
+                const deleteInformationModel = {
                     no: this.clickedRow.no,
                     date: this.clickedRow.date,
                 }
 
                 // お知らせ情報削除
-                await AjaxUtil.deleteInformation(deleteinformationmodel);
+                await AjaxUtil.deleteInformation(deleteInformationModel);
 
                 // 一覧画面に遷移する
                 this.updateView();
                 this.msg = "お知らせ情報の削除に成功しました";
-                $('#deleteinformationimagemodal').modal('hide');
+                $('#deleteInformationImageModal').modal('hide');
             } catch (e) {
                 this.msg = '';
                 this.errMsg = "お知らせ情報の削除に失敗しました";
                 console.log(e)
-                $('#deleteinformationimagemodal').modal('hide');
+                $('#deleteInformationImageModal').modal('hide');
             } finally {
                 this.isLoading = false;
             }
