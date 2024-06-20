@@ -223,7 +223,7 @@ export default {
     },
     async mounted() {
         try {
-        if (UserUtil.isSignIn()) {
+        if (UserUtil.isSignIn() && UserUtil.isAdmin()) {
             console.log('ok');
             // 画面更新
             this.updateView();
