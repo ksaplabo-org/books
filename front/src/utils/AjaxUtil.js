@@ -75,7 +75,7 @@ export function postUser(userModel) {
 
 export function putUser(userModel) {
 /**
- * ★問題2[ユーザー追加] Start★
+ * ★問題2[ユーザー管理] Start★
  * 編集処理を呼び出せるように処理を記載する。
  * ※ユーザー登録処理(postUser)を参照
  * 
@@ -89,7 +89,7 @@ export function putUser(userModel) {
 
 
 
-/**★問題2 End★*/
+/**★問題2[ユーザー管理] End★*/
 }
 
 export function deleteUser(userId) {

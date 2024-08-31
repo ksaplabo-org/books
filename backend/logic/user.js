@@ -108,7 +108,7 @@ const UserRepository = require("../db/user");
             {
             }
         );
-        /**★問題11[ユーザー一覧] End*/
+        /**★問題11[ユーザー追加] End*/
     } catch (e) {
         throw e;
     }
@@ -142,7 +142,7 @@ const UserRepository = require("../db/user");
                  */
                  
                  
-                /**★問題4 End★ */
+                /**★問題4[ユーザー管理] End★ */
             }
         );
     } catch (e) {

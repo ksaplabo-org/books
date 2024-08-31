@@ -218,7 +218,7 @@ app.post("/api/users", function(req, res) {
  */
 app.put("/api/users", function(req, res) {
 /**
- * ★問題3 Start★
+ * ★問題3[ユーザー管理] Start★
  * 更新処理を呼び出せるように処理を記載する。
  * ※ユーザー情報追加API(app.post("/api/users", function(req, res))を参照
  * 
@@ -230,7 +230,7 @@ app.put("/api/users", function(req, res) {
 
 
 
-/**★問題3 End★*/
+/**★問題3[ユーザー管理] End★*/
 });
 
 /**
