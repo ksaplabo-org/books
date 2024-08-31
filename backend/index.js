@@ -136,20 +136,21 @@ app.delete("/api/book/:title", function(req, res) {
 /**
  * ユーザー情報一覧取得API
  */
-app.get("/api/users", function(req, res) {
-    // ユーザー取得する
-    UserLogic.getAll(db)
-        .then((users) => {
-            // 正常レスポンス
-            res.send({
-                Items: JSON.stringify(users)
-            });
-        })
-        .catch(()  => {
-            // 異常レスポンス
-            console.log("failed to get all user");
-            res.status(500).send("server error occur")
+app.get("/api/users", async function(req, res) {
+    const word = req.query.searchWord;
+    const auth = req.query.auth;
+    try {
+        let result;
+        if (!word && !auth) result = await UserLogic.getAll(db);
+        if (word && !auth) result = await UserLogic.findByIncludeItem(db, word);
+        if (!word && auth) result = await UserLogic.findByAuth(db, auth);
+        res.send({
+            Items: JSON.stringify(result)
         });
+    } catch(e) {
+        console.log(`failed to get all user. ${e}`);
+        res.status(500).send("server error occur");
+    }
 });
 
 /**

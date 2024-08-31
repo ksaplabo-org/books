@@ -49,6 +49,16 @@ export function getAllUser() {
     return axios.get(url);
 }
 
+export function getUser(searchWord=undefined, auth=undefined) {
+    const url = '/api/users';
+    const params = {
+        searchWord: searchWord,
+        auth: auth
+    };
+    
+    return axios.get(url, {params: params});
+}
+
 export function getUserFindByIncludeIdOrName(searchWord) {
     const url = '/api/users/search/' + searchWord;
     return axios.get(url);

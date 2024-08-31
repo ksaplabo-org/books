@@ -1,4 +1,5 @@
 const UserRepository = require("../db/user");
+
 /**
  * ユーザー情報一覧を取得
  * @param {*} db 
@@ -39,6 +40,65 @@ const UserRepository = require("../db/user");
                         user_id: {[Op.like]: '%' + word + '%'},
                         user_name: {[Op.like]: '%' + word + '%'}
                     }
+                },
+                order: [
+                    ["user_id", "ASC"]
+                ]
+            }
+        );
+    } catch (e) {
+        throw e;
+    }
+}
+
+/**
+ * ユーザー情報の部分一致検索(ユーザーID、ユーザー名、住所、電話番号)
+ * 
+ * @param {*} db 
+ * @param {*} word 
+ * @returns 
+ */
+module.exports.findByIncludeItem = async function (db, word) {
+    const UserModel = UserRepository.getUserModel(db);
+    const Sequelize = require('sequelize');
+    const Op = Sequelize.Op;
+
+    try {
+        return await UserModel.findAll(
+            {
+                where: {
+                    [Op.or]: {
+                        user_id: {[Op.like]: '%' + word + '%'},
+                        user_name: {[Op.like]: '%' + word + '%'},
+                        address: {[Op.like]: '%' + word + '%'},
+                        tel_no: {[Op.like]: '%' + word + '%'}
+                    }
+                },
+                order: [
+                    ["user_id", "ASC"]
+                ]
+            }
+        );
+    } catch (e) {
+        throw e;
+    }
+}
+
+/**
+ * 権限を検索条件として、ユーザー情報を検索する
+ * 
+ * @param {*} db 
+ * @param {*} auth 
+ * @returns 
+ */
+module.exports.findByAuth = async function(db, auth) {
+    const UserModel = UserRepository.getUserModel(db);
+
+    try {
+        return await UserModel.findAll(
+            {
+                where: {
+                    auth: auth
                 },
                 order: [
                     ["user_id", "ASC"]
