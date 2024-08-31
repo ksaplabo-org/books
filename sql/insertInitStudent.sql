@@ -1,11 +1,8 @@
 use intern;
 
 delete from student;
-insert into student values ('10000001','テスト01', '学生');
-insert into student values ('10000002','テスト02', '学生');
-insert into student values ('10000003','テスト03', '学生');
-insert into student values ('10000004','テスト04', '学生');
-insert into student values ('10000005','テスト05', '学生');
-insert into student values ('10000006','テスト06', '学生');
-insert into student values ('10000007','テスト07', '学生');
-insert into student values ('10000008','テスト08', '学生');
+insert into student values ('10000001','山田', '太郎');
+insert into student values ('10000002','鈴木', '次郎');
+insert into student values ('10000003','中村', '三太');
+insert into student values ('10000004','渡辺', '花子');
+insert into student values ('10000005','小林', '栄子');
