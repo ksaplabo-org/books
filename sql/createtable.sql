@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS user
     user_name varchar(100) NOT NULL,
     password char(16) NOT NULL,
     gender char(1) NOT NULL,
-    auth char(1) NOT NULL
+    auth char(1) NOT NULL,
+    address varchar(150),
+    tel_no varchar(21)
 )
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;

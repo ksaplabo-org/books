@@ -29,6 +29,16 @@ module.exports.getUserModel = (db) => {
                     field: "auth",
                     type: Sequelize.STRING(1),
                     allowNull: false
+                },
+                address: {
+                    field: "address",
+                    type: Sequelize.STRING(150),
+                    allowNull: true
+                },
+                tel_no: {
+                    field: "tel_no",
+                    type: Sequelize.STRING(21),
+                    allowNull: true
                 }
             },
             {
