@@ -202,7 +202,7 @@ app.post("/api/users", function(req, res) {
     const user = req.body;
 
     // ユーザー情報を登録する
-    UserLogic.create(db, user.userId, user.userName, user.password , user.gender , user.auth)
+    UserLogic.create(db, user.userId, user.userName, user.password , user.gender , user.auth, user.address, user.telNo)
         .then(() => {
             // 正常レスポンス
             res.send({});
@@ -222,7 +222,7 @@ app.put("/api/users", function(req, res) {
     const user = req.body;
 
     // ユーザー情報を登録する
-    UserLogic.update(db, user.userId, user.userName, user.password , user.gender, user.auth)
+    UserLogic.update(db, user.userId, user.userName, user.password , user.gender, user.auth, user.address, user.telNo)
         .then(() => {
             // 正常レスポンス
             res.send({});

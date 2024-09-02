@@ -134,9 +134,11 @@ module.exports.findByAuth = async function(db, auth) {
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
+ * @param {*} address
+ * @param {*} telNo
  * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports.create = async function (db, userId, userName, password, gender, auth) {
+ module.exports.create = async function (db, userId, userName, password, gender, auth, address, telNo) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.create(
@@ -145,7 +147,9 @@ module.exports.findByAuth = async function(db, auth) {
                 user_name: userName,
                 password: password,
                 gender: gender,
-                auth: auth
+                auth: auth,
+                address: address,
+                tel_no: telNo
             }
         );
     } catch (e) {
@@ -161,9 +165,11 @@ module.exports.findByAuth = async function(db, auth) {
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
+ * @param {*} address
+ * @param {*} telNo
  * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports.update = async function (db, userId, userName, password, gender, auth) {
+ module.exports.update = async function (db, userId, userName, password, gender, auth, address, telNo) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.update(
@@ -171,7 +177,9 @@ module.exports.findByAuth = async function(db, auth) {
                 user_name: userName,
                 password: password,
                 gender: gender,
-                auth: auth
+                auth: auth,
+                address: address,
+                tel_no: telNo
             },
             {
                 where: {

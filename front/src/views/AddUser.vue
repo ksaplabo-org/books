@@ -73,6 +73,21 @@
                                         <label class="custom-control-label" for="adminRadio">社員</label>
                                     </div>
                                 </div>
+
+                                <!-- 住所 -->
+                                <div class="form-group">
+                                    <label>住所</label>
+                                    <input type="text" id="address" class="form-control" placeholder="150桁以下で入力してください"
+                                        v-model="address" autocomplete="off">
+                                </div>
+
+                                <!-- 電話番号 -->
+                                <div class="form-group">
+                                    <label>電話番号</label>
+                                    <input type="text" id="telNo" class="form-control" placeholder="3桁-4桁-4桁で入力してください"
+                                        v-model="telNo" autocomplete="off">
+                                </div>
+
                                 <!-- 新規登録ボタン -->
                                 <div class="row justify-content-md-center">
                                     <div class="col-lg-4">
@@ -121,6 +136,8 @@ export default {
             userId: '',
             userName: '',
             password: '',
+            address: '',
+            telNo: '',
             gender: UserConst.Gender.woman,
             auth: UserConst.Auth.general,
             // 各ラジオボタン設定値
@@ -191,6 +208,19 @@ export default {
                     this.errMsg = "権限を選択してください";
                     return;
                 }
+
+                // 住所の入力チェック
+                if (this.address && this.address.length > 150) {
+                    this.errMsg = "住所は150桁以下で入力してください";
+                    return;
+                }
+
+                // 電話番号の入力チェック(サンプルとして「3桁-4桁-4桁」で実装)
+                if (this.telNo && !/^\d{3}-\d{4}-\d{4}$/.test(this.telNo)) {
+                    this.errMsg = "電話番号は3桁-4桁-4桁の形式で入力してください";
+                    return;
+                }
+
                 // ユーザーID重複チェック
                 const response = await AjaxUtil.getUserFindById(this.userId);
                 const userInfo = JSON.parse(response.data.Items);
@@ -205,7 +235,9 @@ export default {
                     userName: this.userName,
                     password: this.password,
                     gender: this.gender,
-                    auth: this.auth
+                    auth: this.auth,
+                    address: this.address,
+                    telNo: this.telNo
                 }
 
                 // 登録

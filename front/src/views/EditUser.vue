@@ -79,6 +79,20 @@
                                     </div>
                                 </div>
 
+                                <!-- 住所 -->
+                                <div class="form-group">
+                                    <label>住所</label>
+                                    <input type="text" id="address" class="form-control" placeholder="150桁以下で入力してください"
+                                        v-model="address" autocomplete="off">
+                                </div>
+
+                                <!-- 電話番号 -->
+                                <div class="form-group">
+                                    <label>電話番号</label>
+                                    <input type="text" id="telNo" class="form-control" placeholder="3桁-4桁-4桁で入力してください"
+                                        v-model="telNo" autocomplete="off">
+                                </div>
+
                                 <!-- 更新・削除ボタン -->
                                 <div class="row">
                                     <div class="col">
@@ -155,6 +169,8 @@ export default {
             password: '',
             gender: '',
             auth: '',
+            address: '',
+            telNo: '',
             // 各ラジオボタン設定値
             man: UserConst.Gender.man,
             woman: UserConst.Gender.woman,
@@ -218,6 +234,8 @@ export default {
                     this.password = userInfo.password;
                     this.gender = userInfo.gender;
                     this.auth = userInfo.auth;
+                    this.address = userInfo.address;
+                    this.telNo = userInfo.tel_no;
                 })
                 .catch((e) => {
                     this.msg = '';
@@ -260,6 +278,16 @@ export default {
                 this.errMsg = "権限を選択してください";
                 return;
             }
+            // 住所の入力チェック
+            if (this.address && this.address.length > 150) {
+                this.errMsg = "住所は150桁以下で入力してください";
+                return;
+            }
+            // 電話番号の入力チェック(サンプルとして「3桁-4桁-4桁」で実装)
+            if (this.telNo && !/^\d{3}-\d{4}-\d{4}$/.test(this.telNo)) {
+                this.errMsg = "電話番号は3桁-4桁-4桁の形式で入力してください";
+                return;
+            }
 
             // 引数格納
             const model = {
@@ -267,7 +295,9 @@ export default {
                 userName: this.userName,
                 password: this.password,
                 gender: this.gender,
-                auth: this.auth
+                auth: this.auth,
+                address: this.address,
+                telNo: this.telNo
             };
 
             this.isLoading = true;

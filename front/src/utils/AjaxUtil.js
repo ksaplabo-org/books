@@ -79,7 +79,9 @@ export function postUser(userModel) {
         "userName": userModel.userName,
         "password": userModel.password,
         "gender": userModel.gender,
-        "auth": userModel.auth
+        "auth": userModel.auth,
+        "address": userModel.address,
+        "telNo": userModel.telNo
     })
 }
 
@@ -91,7 +93,9 @@ export function putUser(userModel) {
         "userName": userModel.userName,
         "password": userModel.password,
         "gender": userModel.gender,
-        "auth": userModel.auth
+        "auth": userModel.auth,
+        "address": userModel.address,
+        "telNo": userModel.telNo
     })
 }
 
