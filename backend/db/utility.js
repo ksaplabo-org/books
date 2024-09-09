@@ -7,7 +7,8 @@ const Sequelize = require("sequelize");
 module.exports.connect = function () {
   return new Sequelize("intern", "intern", "intern", {
     dialect: "mysql",
-    host: "localhost",
+    host: "db",
+    port: 3306,
     pool: {
       max: 5,
       min: 1,
