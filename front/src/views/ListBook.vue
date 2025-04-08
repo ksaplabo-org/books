@@ -150,6 +150,9 @@ export default {
     },
 
     methods: {
+        /**
+         * 画面更新
+         */
         updateView: async function() {
             // 画面更新
             const self = this;

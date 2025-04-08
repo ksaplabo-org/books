@@ -83,7 +83,9 @@ export default {
         }
     },
     methods: {
-        // 画面更新
+        /**
+         * 画面更新
+         */
         updateView: function() {
             this.msg = "";
             this.errMsg = "";
@@ -91,7 +93,9 @@ export default {
             // 学生を検索する
             this.getAllStudent();
         },
-        // 学生を取得する
+        /**
+         * 学生検索
+         */
         getAllStudent: async function() {
             this.isLoading = true;
 

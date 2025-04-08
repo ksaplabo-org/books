@@ -112,7 +112,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import * as UserUtil from '@/utils/UserUtil';
 import * as AjaxUtil from '@/utils/AjaxUtil';
 // 共通
@@ -157,7 +156,9 @@ export default {
     },
 
     methods: {
-        // 書籍検索
+        /**
+         * 書籍検索
+         */
         searchBooks : function () {
 
             this.isLoading = true;
@@ -187,7 +188,13 @@ export default {
                 }).then(() => {
                     this.isLoading = false;
                 });
-        } ,
+        },
+
+        /**
+         * レンタル処理
+         * @param isbn 
+         * @param book_id 
+         */
         rental: function(isbn, book_id) {
 
             if (this.registId === undefined){
@@ -295,7 +302,14 @@ export default {
                     };
                 });
             });
-        } ,
+        },
+
+        /**
+         * 返却処理
+         * 
+         * @param isbn 
+         * @param book_id 
+         */
         returnBook: function(isbn, book_id) {
 
             if (this.registId === undefined){
@@ -359,6 +373,10 @@ export default {
                 };
             });
         },
+
+        /**
+         * 画面更新
+         */
         updateView: function() {
             // 画面更新
             const self = this;

@@ -181,7 +181,9 @@ export default {
         }
     },
     methods: {
-        // 画面更新
+        /**
+         * 画面更新
+         */
         updateView: async function() {
             this.isLoading = true;
 
@@ -228,7 +230,10 @@ export default {
 
             this.isLoading = false;
         },
-        // ユーザー更新
+
+        /**
+         * ユーザー更新
+         */
         userUpdate: async function() {
 
             // 入力チェック
@@ -283,7 +288,10 @@ export default {
 
             this.isLoading = false;
         },
-        // ユーザー削除
+
+        /**
+         * ユーザー削除
+         */
         userDelete: async function() {
             this.isLoading = true;
 

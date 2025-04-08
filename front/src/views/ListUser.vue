@@ -131,7 +131,9 @@ export default {
         }
     },
     methods: {
-        // 画面更新
+        /**
+         * 画面更新
+         */
         updateView: function() {
             this.msg = '';
             this.errMsg = '';
@@ -139,7 +141,10 @@ export default {
             // ユーザー情報検索処理
             this.getUsers();
         },
-        // ユーザー検索処理
+
+        /**
+         * ユーザー検索処理
+         */
         getUsers: async function() {
             this.isLoading = true;
 
@@ -163,7 +168,12 @@ export default {
 
             this.isLoading = false;
         },
-        // 編集ボタン押下時
+
+        /**
+         * 編集ボタン押下時
+         * 
+         * @param data 
+         */
         onClickEditButton: function(data) {
             // 編集画面へ遷移する
             this.$router.push({ name: 'editUser', query: { userId: data.user_id }});

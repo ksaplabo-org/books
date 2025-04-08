@@ -221,7 +221,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import * as UserUtil from "@/utils/UserUtil";
 import * as AjaxUtil from "@/utils/AjaxUtil";
 // 共通
@@ -247,8 +246,10 @@ export default {
     };
   },
   methods: {
-    // 書籍検索
-    searchBooks: async function () {
+    /**
+     * 書籍検索
+     */
+    searchBooks: async function() {
       this.isLoading = true;
 
       this.msg = "";
@@ -312,6 +313,15 @@ export default {
 
       this.isLoading = false;
     },
+
+    /**
+     * 書籍追加
+     * 
+     * @param title 
+     * @param isbn 
+     * @param description 
+     * @param imgUrl 
+     */
     addBook: async function(title, isbn, description, imgUrl) {
       // サインインチェック
       if (UserUtil.isSignIn()) {
@@ -346,6 +356,12 @@ export default {
 
       this.isLoading = false;
     },
+
+    /**
+     * 書籍削除
+     * 
+     * @param title 
+     */
     deleteBook: async function(title) {
       // サインインチェック
       if (UserUtil.isSignIn()) {

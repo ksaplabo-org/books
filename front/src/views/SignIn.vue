@@ -56,6 +56,9 @@ export default {
     };
   },
   methods: {
+    /**
+     * サインイン処理
+     */
     async signIn() {
       try {
         this.msg = '';

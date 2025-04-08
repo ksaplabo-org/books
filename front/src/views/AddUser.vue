@@ -145,7 +145,9 @@ export default {
         }
     },
     methods: {
-        // ユーザー作成
+        /**
+         * ユーザー作成
+         */
         userCreate: async function() {
             this.isLoading = true
 

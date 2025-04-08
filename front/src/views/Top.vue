@@ -114,7 +114,9 @@ export default {
     }
   },
   methods: {
-    // 画面更新
+    /**
+     * 画面更新
+     */
     updateView: async function() {
       this.msg = '';
       this.errMsg = '';
@@ -122,7 +124,10 @@ export default {
       // お知らせ取得
       this.getInformation();
     },
-    // お知らせ取得処理
+
+    /**
+     * お知らせ検索
+     */
     getInformation: async function() {
       this.isLoading = true;
 

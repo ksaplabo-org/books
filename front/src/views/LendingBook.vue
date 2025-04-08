@@ -97,7 +97,9 @@ export default {
         }
     },
     methods: {
-        // 画面更新
+        /**
+         * 画面更新
+         */
         updateView: function() {
             // サインイン: 一般
             if (!UserUtil.isAdmin()) {
@@ -109,7 +111,9 @@ export default {
             }
         },
         
-        // 貸出状況検索処理
+        /**
+         * 貸出状況検索処理
+         */
         searchLendingBooks : async function() {
 
             this.isLoading = true;
