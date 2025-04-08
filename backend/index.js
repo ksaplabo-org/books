@@ -33,7 +33,7 @@ app.post("/api/signIn", async function(req, res) {
         res.send(result);
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to verify");
+        console.log("failed to verify.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -49,7 +49,7 @@ app.get("/api/information", async function(req, res) {
         });
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to get information");
+        console.log("failed to get information.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -67,7 +67,7 @@ app.get("/api/book", async function(req, res) {
         });
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to get book");
+        console.log("failed to get book.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -86,7 +86,7 @@ app.post("/api/book", async function(req, res) {
         res.send({result: "success"});
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to add book");
+        console.log("failed to add book.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -106,7 +106,7 @@ app.put("/api/book/:operation", async function(req, res) {
         res.send({result: "success"});
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to update book status"+error);
+        console.log("failed to update book status.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -123,7 +123,7 @@ app.delete("/api/book/:title", async function(req, res) {
         res.send({result: "success"});
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to remove book");
+        console.log("failed to remove book.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -142,7 +142,7 @@ app.get("/api/users", async function(req, res) {
         });
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to get all user");
+        console.log("failed to get all user.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -162,7 +162,7 @@ app.get("/api/users/:id", async function(req, res) {
         });
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to get user");
+        console.log("failed to get user.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -182,7 +182,7 @@ app.get("/api/users/:id", async function(req, res) {
         });
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to get user");
+        console.log("failed to get user.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -202,7 +202,7 @@ app.post("/api/users", async function(req, res) {
         res.send({});
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to add user");
+        console.log("failed to add user.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -222,7 +222,7 @@ app.put("/api/users", async function(req, res) {
         res.send({});
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to update user");
+        console.log("failed to update user.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -239,7 +239,7 @@ app.delete("/api/users/:id", async function(req, res) {
        res.send({result: "success"});
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to remove user");
+        console.log("failed to remove user.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -259,7 +259,7 @@ app.delete("/api/users/:id", async function(req, res) {
         res.send({result: "success"});
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to add lending");
+        console.log("failed to add lending.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -279,7 +279,7 @@ app.delete("/api/users/:id", async function(req, res) {
         res.send({result: "success"});
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to remove lending");
+        console.log("failed to remove lending.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -298,7 +298,7 @@ app.delete("/api/users/:id", async function(req, res) {
         });
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to get lending books");
+        console.log("failed to get lending books.", e);
         console.log(error);
         res.status(500).send("server error occur");
     }
@@ -318,7 +318,7 @@ app.delete("/api/users/:id", async function(req, res) {
         });
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to get searchBook");
+        console.log("failed to get searchBook.", e);
         res.status(500).send("server error occur")
     }
 });
@@ -338,7 +338,7 @@ app.delete("/api/users/:id", async function(req, res) {
         res.send(result);
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to already lending book");
+        console.log("failed to already lending book.", e);
         res.status(500).send("server error occur");
     }
 });
@@ -353,7 +353,7 @@ app.get("/api/students", function(req, res) {
         });
     } catch(e) {
         // 異常レスポンス
-        console.log("failed to get student");
+        console.log("failed to get student.", e);
         res.status(500).send("server error occur");
     }
 });
