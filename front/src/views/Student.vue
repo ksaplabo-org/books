@@ -92,27 +92,26 @@ export default {
             this.getAllStudent();
         },
         // 学生を取得する
-        getAllStudent: function() {
+        getAllStudent: async function() {
             this.isLoading = true;
-            this.items = [];
 
-            AjaxUtil.getAllStudent()
-                .then((response) => {
-                    for (const student of JSON.parse(response.data.Items)) {
-                        this.items.push({
-                            "id": student.id,
-                            "name": student.last_name + " " + student.first_name
-                        });
-                    }
-                })
-                .catch((e) => {
-                    this.msg = "";
-                    this.errMsg = "学生検索に失敗しました";
-                    console.log(e);
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                })
+            // 一覧を初期化する
+            this.items = [];
+            try {
+                const response = AjaxUtil.getAllStudent();
+                for (const student of JSON.parse(response.data.Items)) {
+                    this.items.push({
+                        "id": student.id,
+                        "name": student.last_name + " " + student.first_name
+                    });
+                }
+            } catch(e) {
+                this.msg = "";
+                this.errMsg = "学生検索に失敗しました";
+                console.log(e);
+            }
+
+            this.isLoading = false;
         }
     }
 }

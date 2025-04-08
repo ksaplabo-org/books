@@ -182,7 +182,7 @@ export default {
     },
     methods: {
         // 画面更新
-        updateView: function() {
+        updateView: async function() {
             this.isLoading = true;
 
             this.msg = '';
@@ -210,26 +210,26 @@ export default {
                 ol.removeChild(li);
             }
 
-            // ユーザー情報を各項目にセット
-            AjaxUtil.getUserFindById(this.userId)
-                .then((response) => {
-                    const userInfo = JSON.parse(response.data.Items)
-                    this.userName = userInfo.user_name;
-                    this.password = userInfo.password;
-                    this.gender = userInfo.gender;
-                    this.auth = userInfo.auth;
-                })
-                .catch((e) => {
-                    this.msg = '';
-                    this.errMsg = 'ユーザー取得に失敗しました';
-                    console.log(e);
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                })
+            try {
+                // ユーザーIDからユーザー情報を取得
+                const response = await AjaxUtil.getUserFindById(this.userId);
+                const userInfo = JSON.parse(response.data.Items);
+
+                // ユーザー情報を各項目にセット
+                this.userName = userInfo.user_name;
+                this.password = userInfo.password;
+                this.gender = userInfo.gender;
+                this.auth = userInfo.auth;
+            } catch(e) {
+                this.msg = '';
+                this.errMsg = 'ユーザー取得に失敗しました';
+                console.log(e);
+            }
+
+            this.isLoading = false;
         },
         // ユーザー更新
-        userUpdate: function() {
+        userUpdate: async function() {
 
             // 入力チェック
             if (!this.userName) {
@@ -272,43 +272,41 @@ export default {
 
             this.isLoading = true;
 
-            // 更新
-            AjaxUtil.putUser(model)
-                .then(() => {
-                    this.msg = 'ユーザー更新に成功しました'
-                })
-                .catch((e) => {
-                    this.msg = '';
-                    this.errMsg = 'ユーザー更新に失敗しました';
-                    console.log(e);
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                })
+            try {
+                await AjaxUtil.putUser(model);
+                this.msg = 'ユーザー更新に成功しました'
+            } catch(e) {
+                this.msg = '';
+                this.errMsg = 'ユーザー更新に失敗しました';
+                console.log(e);
+            }
+
+            this.isLoading = false;
         },
         // ユーザー削除
-        userDelete: function() {
+        userDelete: async function() {
             this.isLoading = true;
 
-            // 削除
-            AjaxUtil.deleteUser(this.userId)
-                .then(() => {
-                    // サインインユーザーが削除された場合
-                    if (this.userId == UserUtil.currentUserInfo().userid) {
-                        // サインアウト
-                        UserUtil.signOut();
-                        this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください'}});
-                    } else {
-                        // 一覧画面に遷移する
-                        this.$router.push({ name: 'listUser', params: {flashMsg: '削除に成功しました'}});
-                    }
-                }).catch((e) => {
-                    this.msg = '';
-                    this.errMsg = 'ユーザー削除に失敗しました';
-                    console.log(e);
-                }).finally(() => {
-                    this.isLoading = false;
-                });
+            try {
+                // 削除
+                await AjaxUtil.deleteUser(this.userId);
+
+                // サインインユーザーが削除された場合
+                if (this.userId == UserUtil.currentUserInfo().userid) {
+                    // サインアウト
+                    UserUtil.signOut();
+                    this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください'}});
+                } else {
+                    // 一覧画面に遷移する
+                    this.$router.push({ name: 'listUser', params: {flashMsg: '削除に成功しました'}});
+                }
+            } catch(e) {
+                this.msg = '';
+                this.errMsg = 'ユーザー削除に失敗しました';
+                console.log(e);
+            }
+
+            this.isLoading = false;
         }
     }
 }

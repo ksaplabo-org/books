@@ -3,32 +3,39 @@ import axios from 'axios';
 import UserConst from './const/UserConst';
 
 /**
+ * SessionStrageに保持するサインユーザー情報 のキー
+ */
+const SIGNIN_KEY = "loginUser";
+
+/**
  * サインイン
  *
  * @param {*} userId ユーザーID
  * @param {*} password パスワード
  * @returns 
  */
-export function signIn(userId, password) {
+export async function signIn(userId, password) {
   const url = '/api/signIn';
 
-  return axios.post(url, {
+  const response = await axios.post(url, {
       userId: userId, 
       password: password
-    })
-    .then(response => {
-      if (response.data.result && response.data.user !== null) {
-        console.log("login");
-        sessionStorage.setItem("loginUser", JSON.stringify(response.data.user));
-      }
     });
+
+  if (response.data.result && response.data.user !== null) {
+    // SessionStrageに、サインインユーザー情報を保持する
+    sessionStorage.setItem(SIGNIN_KEY, JSON.stringify(response.data.user));
+
+    console.log("signin success.");
+  }
 }
 
 /**
  * サインアウト
  */
 export function signOut() {
-  sessionStorage.removeItem("loginUser");
+  // SessionStrageから、サインインユーザー情報を削除する
+  sessionStorage.removeItem(SIGNIN_KEY);
 }
 
 /**
@@ -37,12 +44,11 @@ export function signOut() {
  * @returns サインインユーザー情報
  */
 export function currentUserInfo() {
-  let loginUser = sessionStorage.getItem("loginUser");
-  if (loginUser === null) {
-    return null;
-  } else {
-    return JSON.parse(loginUser);
-  }
+  // SessionStrageから、サインインユーザー情報を取得する
+  const signinUser = sessionStorage.getItem(SIGNIN_KEY);
+
+  // 
+  return signinUser === null ? null : JSON.parse(signinUser);
 }
 
 /**
@@ -60,8 +66,5 @@ export function isSignIn() {
  */
 export function isAdmin() {
   const userInfo = currentUserInfo();
-  if (userInfo === null) {
-    return false;
-  }
-  return userInfo.auth === UserConst.Auth.admin;
+  return userInfo !== null && userInfo.auth === UserConst.Auth.admin;
 }

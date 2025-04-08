@@ -150,23 +150,23 @@ export default {
     },
 
     methods: {
-        updateView: function() {
+        updateView: async function() {
             // 画面更新
             const self = this;
             this.isLoading = true;
 
-            AjaxUtil.getAllSapBooks()
-                .then((response) => {
-                    this.items = JSON.parse(response.data.Items);
-                }).catch((error) => {
-                    this.msg = '';
-                    this.errMsg = '検索に失敗しました';
-                    console.log(error);
-                }).then(() => {
-                    this.isLoading = false;
-                });
+            try {
+                const response = await AjaxUtil.getAllSapBooks();
+                this.items = JSON.parse(response.data.Items);
+            } catch(e) {
+                this.msg = '';
+                this.errMsg = '検索に失敗しました';
+                console.log(e);
+            }
+
+            this.isLoading = false;
         },
-        searchBooks : function () {
+        searchBooks : async function () {
             this.isLoading = true;
 
             this.msg = '';
@@ -184,18 +184,16 @@ export default {
             const self = this;
             this.isLoading = true;
 
-            AjaxUtil.getAllSearchBooks(this.searchWord)
-                .then((response) => {
-                    this.items = JSON.parse(response.data.Items);
+            try {
+                const response = await AjaxUtil.getAllSearchBooks(this.searchWord);
+                this.items = JSON.parse(response.data.Items);
+            } catch(e) {
+                this.msg = '';
+                this.errMsg = '書籍検索に失敗しました 管理者にお問い合わせください';
+                console.log(e);
+            }
 
-                }).catch((error) => {
-                    this.msg = '';
-                    this.errMsg = '書籍検索に失敗しました 管理者にお問い合わせください';
-                    console.log(error);
-
-                }).then(() => {
-                    this.isLoading = false;
-                });
+            this.isLoading = false;
         }
     }
 }

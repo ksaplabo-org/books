@@ -110,7 +110,7 @@ export default {
         },
         
         // 貸出状況検索処理
-        searchLendingBooks : function() {
+        searchLendingBooks : async function() {
 
             this.isLoading = true;
 
@@ -126,19 +126,20 @@ export default {
             }
 
             // APIで検索
-            AjaxUtil.searchLendingBooks(this.searchWord)
-            .then((response) => {
+            try {
+                const response = await AjaxUtil.searchLendingBooks(this.searchWord);
                 this.items = JSON.parse(response.data.Items);
+
                 if (this.items.length == 0) {
                     this.msg = "該当データがありませんでした。";
                 }
-                this.isLoading = false;
-            }).catch((error) => {
+            } catch(e) {
                 this.msg = '';
                 this.errMsg = '検索に失敗しました';
-                console.log(error);
-                this.isLoading = false;
-            });
+                console.log(e);
+            }
+
+            this.isLoading = false;
         }
     }
 }

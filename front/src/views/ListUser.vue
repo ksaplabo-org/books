@@ -140,38 +140,28 @@ export default {
             this.getUsers();
         },
         // ユーザー検索処理
-        getUsers: function() {
+        getUsers: async function() {
             this.isLoading = true;
-            
-            // 検索文字が入力されている場合
-            if (this.searchWord) {
-                // 部分一致検索
-                AjaxUtil.getUserFindByIncludeIdOrName(this.searchWord)
-                    .then((response) => {
-                        this.items = JSON.parse(response.data.Items);
-                    }).catch((e) => {
-                        this.msg = '';
-                        this.errMsg = 'ユーザー検索に失敗しました';
-                        console.log(e);
-                    }).finally(() => {
-                        this.isLoading = false;
-                    });
-            // 検索文字が未入力の場合
-            } else {
-                // 全件検索
-                AjaxUtil.getAllUser()
-                    .then((response) => {
-                        this.items = JSON.parse(response.data.Items);
-                    })
-                    .catch((e) => {
-                        this.msg = '';
-                        this.errMsg = 'ユーザー検索に失敗しました';
-                        console.log(e);
-                    })
-                    .finally(() => {
-                        this.isLoading = false;
-                    })
+
+            try {
+                // 検索文字が入力されている場合
+                if (this.searchWord) {
+                    // 部分一致検索
+                    const response = await AjaxUtil.getUserFindByIncludeIdOrName(this.searchWord);
+                    this.items = JSON.parse(response.data.Items);
+                // 検索文字が未入力の場合
+                } else {
+                    // 全件検索
+                    const response = await AjaxUtil.getAllUser();
+                    this.items = JSON.parse(response.data.Items);
+                }
+            } catch(e) {
+                this.msg = '';
+                this.errMsg = 'ユーザー検索に失敗しました';
+                console.log(e);
             }
+
+            this.isLoading = false;
         },
         // 編集ボタン押下時
         onClickEditButton: function(data) {

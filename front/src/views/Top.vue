@@ -123,22 +123,22 @@ export default {
       this.getInformation();
     },
     // お知らせ取得処理
-    getInformation: function() {
+    getInformation: async function() {
       this.isLoading = true;
-      this.items = [];
 
-      AjaxUtil.getInformation()
-        .then((response) => {
-          this.items = JSON.parse(response.data.Items);
-        })
-        .catch((e) => {
-          this.msg = '';
-          this.errMsg = '検索処理に失敗しました';
-          console.log(e);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      // 一覧を初期化
+      this.items = [];
+      try {
+        // お知らせを取得し、一覧に設定する
+        const response = await AjaxUtil.getInformation();
+        this.items = JSON.parse(response.data.Items);
+      } catch(e) {
+        this.msg = "";
+        this.errMsg = "検索処理に失敗しました。"
+        console.log(e);
+      }
+
+      this.isLoading = false;
     }
   }
 };

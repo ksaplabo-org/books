@@ -248,13 +248,14 @@ export default {
   },
   methods: {
     // 書籍検索
-    searchBooks: function () {
+    searchBooks: async function () {
       this.isLoading = true;
 
       this.msg = "";
       this.errMsg = "";
       this.items = [];
 
+      // 検索値の必須チェック
       if (!this.searchWord || this.searchWord === "") {
         this.msg = "";
         this.errMsg = "検索条件を入力してください";
@@ -262,94 +263,66 @@ export default {
         return;
       }
 
-      // APIで検索
-      AjaxUtil.searchBooks(this.searchWord)
-        .then((response) => {
-          let searchResultBooks = response.data.items;
+      try {
+        // 書籍一覧の取得
+        const books = (await AjaxUtil.searchBooks(this.searchWord)).data.items;
+        // マスタ管理している書籍一覧の取得
+        const masterBooks = JSON.parse((await AjaxUtil.getAllSapBooks()).data.Items);
 
-          // 要素詰め替え
-          searchResultBooks.forEach((result) => {
+        // 要素詰め替え
+        for (const book of books) {
+          
+          book.isbn_10 = "";
+          book.isbn_13 = "";
+          
+          if (book.volumeInfo != null) {
             // タイトル
-            try {
-              result.title = result.volumeInfo.title;
-            } catch {
-              result.title = "";
-            }
-
-            // ISBN番号(10)取得
-            result.isbn_10 = "";
-            try {
-              result.volumeInfo.industryIdentifiers.forEach((identifier) => {
-                if (identifier.type === "ISBN_10")
-                  result.isbn_10 = identifier.identifier;
-              });
-            } catch {
-              //
-            }
-
-            // ISBN番号取得
-            result.isbn_13 = "";
-            try {
-              result.volumeInfo.industryIdentifiers.forEach((identifier) => {
-                if (identifier.type === "ISBN_13")
-                  result.isbn_13 = identifier.identifier;
-              });
-            } catch {
-              //
-            }
+            book.title = book.volumeInfo.title;
 
             // 内容
-            try {
-              result.description = result.volumeInfo.description;
-            } catch {
-              result.description = "";
+            book.description = book.volumeInfo.description;
+
+            if (book.volumeInfo.industryIdentifiers != null) {
+              book.volumeInfo.industryIdentifiers.forEach((identifier) => {
+                // ISBN番号(10)取得
+                if (identifier.type === "ISBN_10")
+                  book.isbn_10 = identifier.identifier;
+
+                  // ISBN番号(13)取得
+                if (identifier.type === "ISBN_13")
+                  book.isbn_13 = identifier.identifier;
+              });
             }
+
+            // マスタ登録済みか
+            book.isMaster = masterBooks.some(masterBook => (book.isbn_10 != "" && book.isbn_10 === masterBook.isbn) || (book.isbn_13 != "" && book.isbn_13 === masterBook.isbn));
 
             // サムネイル画像URL
-            try {
-              const image = new Image();
-              image.src = result.volumeInfo.imageLinks.thumbnail;
-              result.imgUrl = image.src;
-            } catch {
-              result.imgUrl = "";
-            }
-          });
+            if (book.volumeInfo.imageLinks != null)
+              book.imgUrl = book.volumeInfo.imageLinks.thumbnail;
 
-          // マスタ登録済みか
-          AjaxUtil.getAllSapBooks()
-            .then((response) => {
-              let masterBooks = JSON.parse(response.data.Items);
+            this.items = books;
+          }
+        }
+      } catch(e) {
+        this.msg = "";
+        this.errMsg = "検索に失敗しました";
+        console.log(e);
+      }
 
-              searchResultBooks.forEach((result) => {
-                result.isMaster = masterBooks.some((masterBook) => {
-                  return (
-                    (result.isbn_10 != "" &&
-                      result.isbn_10 === masterBook.isbn) ||
-                    (result.isbn_13 != "" && result.isbn_13 === masterBook.isbn)
-                  );
-                });
-              });
-
-              // データセット
-              this.items = searchResultBooks;
-              this.isLoading = false;
-            })
-            .catch((error) => {
-              this.msg = "";
-              this.errMsg = "書籍取得に失敗しました";
-              console.log(error);
-              this.isLoading = false;
-            });
-        })
-        .catch((error) => {
-          this.msg = "";
-          this.errMsg = "検索に失敗しました";
-          console.log(error);
-          this.isLoading = false;
-        });
+      this.isLoading = false;
     },
-    addBook: function (title, isbn, description, imgUrl) {
-      //パラメータ補正
+    addBook: async function(title, isbn, description, imgUrl) {
+      // サインインチェック
+      if (UserUtil.isSignIn()) {
+        this.$router.push({
+          name: "signin",
+          params: { flashMsg: "サインインしてください" },
+        });
+        return;
+      }
+
+      // パラメータ補正
       // 説明を最大文字数内に補正する
       const descriptionMaxLength = 1024;
       description = description.substr(0, descriptionMaxLength);
@@ -362,45 +335,40 @@ export default {
       };
       this.isLoading = true;
 
+      try {
+        await AjaxUtil.addBook(addBookModel);
+        await this.searchBooks();
+      } catch(e) {
+        this.msg = "";
+        this.errMsg = "登録処理に失敗しました";
+        console.log(error);
+      }
+
+      this.isLoading = false;
+    },
+    deleteBook: async function(title) {
+      // サインインチェック
       if (UserUtil.isSignIn()) {
-        AjaxUtil.addBook(addBookModel)
-          .then((response) => {
-            this.searchBooks();
-          })
-          .catch((error) => {
-            this.msg = "";
-            this.errMsg = "登録処理に失敗しました";
-            console.log(error);
-            this.isLoading = false;
-          });
-      } else {
         this.$router.push({
           name: "signin",
           params: { flashMsg: "サインインしてください" },
         });
+        return;
       }
-    },
-    deleteBook: function (title) {
+
       this.isLoading = true;
 
-      if (UserUtil.isSignIn()) {
-        AjaxUtil.deleteBook(title)
-          .then((response) => {
-            this.searchBooks();
-          })
-          .catch((error) => {
-            this.msg = "";
-            this.errMsg = "削除処理に失敗しました";
-            console.log(error);
-            this.isLoading = false;
-          });
-      } else {
-        this.$router.push({
-          name: "signin",
-          params: { flashMsg: "サインインしてください" },
-        });
+      try {
+        await AjaxUtil.deleteBook(title);
+        await this.searchBooks();
+      } catch(e) {
+        this.msg = "";
+        this.errMsg = "削除処理に失敗しました";
+        console.log(error);
       }
-    },
+
+      this.isLoading = false;
+    }
   },
 };
 </script>
