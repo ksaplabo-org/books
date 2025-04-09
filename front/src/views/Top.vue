@@ -105,7 +105,7 @@ export default {
       if (UserUtil.isSignIn()) {
         console.log('ok');
         // 画面更新
-        this.updateView();
+        await this.updateView();
       } else {
         this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
       };
@@ -122,7 +122,7 @@ export default {
       this.errMsg = '';
 
       // お知らせ取得
-      this.getInformation();
+      await this.getInformation();
     },
 
     /**

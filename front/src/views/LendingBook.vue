@@ -88,7 +88,7 @@ export default {
                 self.userName = UserUtil.currentUserInfo().userName;
 
                 // 画面更新
-                this.updateView();
+                await this.updateView();
             } else {
                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
@@ -100,14 +100,14 @@ export default {
         /**
          * 画面更新
          */
-        updateView: function() {
+        updateView: async function() {
             // サインイン: 一般
             if (!UserUtil.isAdmin()) {
                 // 検索エリアを非表示
                 document.getElementById("searchArea").hidden = true;
                 // 貸出状況検索処理呼び出し
                 this.searchWord = UserUtil.currentUserInfo().userid;
-                this.searchLendingBooks();
+                await this.searchLendingBooks();
             }
         },
         

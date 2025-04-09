@@ -70,7 +70,7 @@ export default {
             // サインイン確認
             if (UserUtil.isSignIn()) {
                 // 画面更新
-                this.updateView();
+                await this.updateView();
 
                 // メッセージ設定
                 this.msg = this.flashMsg;
@@ -86,12 +86,12 @@ export default {
         /**
          * 画面更新
          */
-        updateView: function() {
+        updateView: async function() {
             this.msg = "";
             this.errMsg = "";
 
             // 学生を検索する
-            this.getAllStudent();
+            await this.getAllStudent();
         },
         /**
          * 学生検索
@@ -102,7 +102,7 @@ export default {
             // 一覧を初期化する
             this.items = [];
             try {
-                const response = AjaxUtil.getAllStudent();
+                const response = await AjaxUtil.getAllStudent();
                 for (const student of JSON.parse(response.data.Items)) {
                     this.items.push({
                         "id": student.id,

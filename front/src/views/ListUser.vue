@@ -118,7 +118,7 @@ export default {
             // サインイン確認
             if (UserUtil.isSignIn()) {
                 // 画面更新
-                this.updateView();
+                await this.updateView();
 
                 // メッセージ設定
                 this.msg = this.flashMsg;
@@ -134,12 +134,12 @@ export default {
         /**
          * 画面更新
          */
-        updateView: function() {
+        updateView: async function() {
             this.msg = '';
             this.errMsg = '';
 
             // ユーザー情報検索処理
-            this.getUsers();
+            await this.getUsers();
         },
 
         /**

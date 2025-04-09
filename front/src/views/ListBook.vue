@@ -140,7 +140,7 @@ export default {
             if (UserUtil.isSignIn()) {
                 this.msg = '';
                 // 画面更新
-                this.updateView();
+                await this.updateView();
             } else {
                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
