@@ -71,9 +71,10 @@
       <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- ローディングマスク -->
+    <loading v-if="isLoading === true"/>
   </div>
 </template>
-
 
 <script>
 import * as UserUtil from '@/utils/UserUtil';
@@ -82,16 +83,18 @@ import * as AjaxUtil from '@/utils/AjaxUtil';
 import NaviMenu from '../components/NaviMenu.vue';
 import Menu from '../components/Menu.vue';
 import Footer from '../components/Footer.vue';
+import Loading from '../components/Loading.vue';
 
 export default {
   name: 'Top',
   props: ['flashMsg'],
-  components: { NaviMenu, Menu, Footer },
+  components: { NaviMenu, Menu, Footer, Loading },
   data() {
     return {
       msg: this.flashMsg,
       errMsg: '',
       clickedRow: {},
+      isLoading: false,
       fields: [
         {key: 'date', label: '掲載日'},
         {key: 'title', label: 'お知らせ'},

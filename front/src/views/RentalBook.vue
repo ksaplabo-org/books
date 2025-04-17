@@ -136,12 +136,11 @@ export default {
         };
     },
     async mounted() {
-        const self = this;
         try {
             if (UserUtil.isSignIn()) {
                 this.msg = '';
 
-                self.userName = UserUtil.currentUserInfo().userName;
+                this.userName = UserUtil.currentUserInfo().userName;
 
                 // 画面更新
                 this.updateView();
@@ -151,7 +150,7 @@ export default {
             };
             
         } catch(e) {
-            self.errMsg = e.message;
+            this.errMsg = e.message;
         }
     },
 
@@ -378,14 +377,11 @@ export default {
          * 画面更新
          */
         updateView: function() {
-            // 画面更新
-            const self = this;
-
             this.isLoading = true;
 
             AjaxUtil.getAllSapBooks()
                 .then((response) => {
-                    self.items = JSON.parse(response.data.Items);
+                    this.items = JSON.parse(response.data.Items);
 
                 }).catch((error) => {
                     this.msg = '';

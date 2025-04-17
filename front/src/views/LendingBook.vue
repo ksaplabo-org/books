@@ -80,12 +80,11 @@ export default {
         };
     },
     async mounted() {
-        const self = this;
         try {
             if (UserUtil.isSignIn()) {
                 this.msg = '';
 
-                self.userName = UserUtil.currentUserInfo().userName;
+                this.userName = UserUtil.currentUserInfo().userName;
 
                 // 画面更新
                 await this.updateView();
@@ -93,7 +92,7 @@ export default {
                this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
         } catch(e) {
-            self.errMsg = e.message;
+            this.errMsg = e.message;
         }
     },
     methods: {

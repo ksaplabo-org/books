@@ -42,7 +42,6 @@ export default {
         }
     },
     async mounted() {
-        const self = this;
         try {
             if (UserUtil.isSignIn()) {
                 this.msg = '';
@@ -50,7 +49,7 @@ export default {
                 this.$router.push({ name: 'signin', params: {flashMsg: 'サインインしてください' }});
             };
         } catch(e) {
-            self.errMsg = e.message;
+            this.errMsg = e.message;
         }
     }
 };

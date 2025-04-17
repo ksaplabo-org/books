@@ -131,11 +131,10 @@ export default {
             items: [], 
             userName: '',
             clickedRow: {},
-            isLoading: true
+            isLoading: false
         };
     },
     async mounted() {
-        const self = this;
         try {
             if (UserUtil.isSignIn()) {
                 this.msg = '';
@@ -155,7 +154,6 @@ export default {
          */
         updateView: async function() {
             // 画面更新
-            const self = this;
             this.isLoading = true;
 
             try {
@@ -184,7 +182,6 @@ export default {
             }
 
             // 画面更新
-            const self = this;
             this.isLoading = true;
 
             try {
