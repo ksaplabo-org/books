@@ -43,6 +43,12 @@
                                     <input type="password" id="inputPassword" class="form-control" placeholder="8桁以上16桁以下で入力してください"
                                         v-model="password">
                                 </div>
+                                <!-- パスワード(再入力) -->
+                                <div class="form-group">
+                                    <label>パスワード(再入力)</label>
+                                    <input type="password" id="inputReenterPassword" class="form-control" placeholder="8桁以上16桁以下で入力してください"
+                                        v-model="reenterPassword">
+                                </div>
                                 <!-- 性別 -->
                                 <div class="form-group">
                                     <label>性別</label>
@@ -79,13 +85,6 @@
                                     <label>住所</label>
                                     <input type="text" id="address" class="form-control" placeholder="150桁以下で入力してください"
                                         v-model="address" autocomplete="off">
-                                </div>
-
-                                <!-- 電話番号 -->
-                                <div class="form-group">
-                                    <label>電話番号</label>
-                                    <input type="text" id="telNo" class="form-control" placeholder="3桁-4桁-4桁で入力してください"
-                                        v-model="telNo" autocomplete="off">
                                 </div>
 
                                 <!-- 新規登録ボタン -->
@@ -136,8 +135,8 @@ export default {
             userId: '',
             userName: '',
             password: '',
+            reenterPassword: '',
             address: '',
-            telNo: '',
             gender: UserConst.Gender.woman,
             auth: UserConst.Auth.general,
             // 各ラジオボタン設定値
@@ -198,6 +197,10 @@ export default {
                 }
                 if (!this.password.match("^[0-9A-Za-z]*$")) {
                     this.errMsg = "パスワードは半角英数で入力してください";
+                    return;
+                }
+                if (this.password !== this.reenterPassword) {
+                    this.errMsg = "パスワードとパスワード(再入力)が一致しません。";
                     return;
                 }
                 if (!this.gender) {

@@ -38,7 +38,7 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div v-if="searchMode === 'modeUser'">
-                                                <input type="text" id="searchWord" class="form-control border-secondary" v-model="searchWord" placeholder="ID/名前/住所/電話番号のいずれかを入力してください" required>
+                                                <input type="text" id="searchWord" class="form-control border-secondary" v-model="searchWord" placeholder="ID/名前/住所のいずれかを入力してください" required>
                                             </div>
 
                                             <div v-if="searchMode === 'modeAuth'">
@@ -115,7 +115,6 @@ export default {
                 {key: 'user_id', label: 'ユーザーID'},
                 {key: 'user_name', label: 'ユーザー名'},
                 {key: 'address', label: '住所'},
-                {key: 'tel_no', label: '電話番号'},
                 {key: 'controls', label: ''}
             ],
             items: [],
@@ -161,7 +160,7 @@ export default {
             try {
                 const searchWord = this.searchMode === 'modeUser' ? this.searchWord : undefined;
                 const auth = this.searchMode === 'modeAuth' ? this.auth : undefined;
-debugger;
+
                 const result = await AjaxUtil.getUser(searchWord, auth);
                 this.items = JSON.parse(result.data.Items);
             } catch (e) {

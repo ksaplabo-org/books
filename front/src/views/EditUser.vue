@@ -44,7 +44,13 @@
                                 <div class="form-group">
                                     <label>パスワード</label>
                                     <input type="password" id="inputPassword" class="form-control" placeholder="8桁以上16桁以下で入力してください。"
-                                        v-model="password">
+                                        v-model="password" @blur="onBlurPassword">
+                                </div>
+                                <!-- パスワード(再入力) -->
+                                <div class="form-group">
+                                    <label>パスワード(再入力)</label>
+                                    <input type="password" id="inputReenterPassword" class="form-control" placeholder="8桁以上16桁以下で入力してください"
+                                        v-model="reenterPassword" v-bind:disabled="beforePassword === password">
                                 </div>
 
                                 <!-- 性別 -->
@@ -167,6 +173,7 @@ export default {
             userId: '',
             userName: '',
             password: '',
+            reenterPassword: '',
             gender: '',
             auth: '',
             address: '',
@@ -176,7 +183,9 @@ export default {
             woman: UserConst.Gender.woman,
             unknown: UserConst.Gender.unknown,
             general: UserConst.Auth.general,
-            admin: UserConst.Auth.admin
+            admin: UserConst.Auth.admin,
+            // 変更前のパスワードを保持
+            beforePassword: ''
         };
     },
     async mounted() {
@@ -236,6 +245,7 @@ export default {
                     this.auth = userInfo.auth;
                     this.address = userInfo.address;
                     this.telNo = userInfo.tel_no;
+                    this.beforePassword = userInfo.password;
                 })
                 .catch((e) => {
                     this.msg = '';
@@ -248,6 +258,8 @@ export default {
         },
         // ユーザー更新
         userUpdate: function() {
+            this.msg = '';
+            this.errMsg = '';
 
             // 入力チェック
             if (!this.userName) {
@@ -269,6 +281,13 @@ export default {
             if (!this.password.match("^[0-9A-Za-z]{8,16}$")) {
                 this.errMsg = "パスワードは半角英数で入力してください";
                 return;
+            }
+            // パスワードが変更されている場合のみ、再入力パスワードとの一致チェックを行う
+            if (this.beforePassword !== this.password) {
+                if (this.password !== this.reenterPassword) {
+                    this.errMsg = "パスワードとパスワード(再入力)が一致しません。";
+                    return;
+                }
             }
             if (!this.gender) {
                 this.errMsg = "性別を選択してください";
@@ -314,7 +333,28 @@ export default {
                 })
                 .finally(() => {
                     this.isLoading = false;
+                });
+
+            AjaxUtil.getUserFindById(this.userId)
+                .then((response) => {
+                    const userInfo = JSON.parse(response.data.Items)
+                    this.userName = userInfo.user_name;
+                    this.password = userInfo.password;
+                    this.gender = userInfo.gender;
+                    this.auth = userInfo.auth;
+                    this.address = userInfo.address;
+                    this.telNo = userInfo.tel_no;
+                    this.beforePassword = userInfo.password;
+                    this.onBlurPassword();
                 })
+                .catch((e) => {
+                    this.msg = '';
+                    this.errMsg = 'ユーザー取得に失敗しました';
+                    console.log(e);
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
         },
         // ユーザー削除
         userDelete: function() {
@@ -339,6 +379,16 @@ export default {
                 }).finally(() => {
                     this.isLoading = false;
                 });
+        },
+        /**
+         * パスワードフォーカスアウト時
+         */
+         onBlurPassword: function() {
+            // パスワードに変更がない場合
+            if (this.beforePassword === this.password) {
+                // パスワード(再入力)欄を初期化
+                this.reenterPassword = '';
+            }
         }
     }
 }
