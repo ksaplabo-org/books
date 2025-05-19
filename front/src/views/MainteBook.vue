@@ -33,22 +33,16 @@
                     required
                   />
                 </div>
-                <button class="btn-primary btn-sm" v-on:click="searchBooks()">
-                  検索
-                </button>
+                <button class="btn-primary btn-sm" v-on:click="searchBooks()">検索</button>
               </div>
             </div>
           </div>
 
-          <hr>
+          <hr />
 
           <!-- Result Area -->
           <div class="row">
-            <div
-              class="col-lg-6 mb-4"
-              v-for="(row, key, index) in items"
-              :key="index"
-            >
+            <div class="col-lg-6 mb-4" v-for="(row, key, index) in items" :key="index">
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <div class="m-0 font-weight-bold text-primary text-secondary">
@@ -61,21 +55,13 @@
                       <div class="row text-left ml-2 mb-3">
                         <img
                           style="height: 7rem; width: 7rem"
-                          v-if="
-                            row.imgUrl === undefinded ||
-                            row.imgUrl === null ||
-                            row.imgUrl === ''
-                          "
+                          v-if="row.imgUrl === undefinded || row.imgUrl === null || row.imgUrl === ''"
                           src="../../public/image/no-image.png"
                         />
                         <a
                           href="#"
                           onclick="return false;"
-                          v-if="
-                            row.imgUrl !== undefinded &&
-                            row.imgUrl !== null &&
-                            row.imgUrl !== ''
-                          "
+                          v-if="row.imgUrl !== undefinded && row.imgUrl !== null && row.imgUrl !== ''"
                         >
                           <img
                             style="height: 10rem; width: 7rem"
@@ -98,31 +84,18 @@
                     <div class="col-sm-8 ml-2 mb-2 text-left">
                       <div class="table-responsive">
                         <table
-                          class="
-                            table
-                            table-sm
-                            table-striped
-                            table-height-sm
-                            table-condensed
-                          "
+                          class="table table-sm table-striped table-height-sm table-condensed"
                           style="font-size: 10pt"
                         >
                           <tbody>
                             <tr>
                               <td>在庫</td>
-                              <td>
-                                {{
-                                  row.isMaster ? "本棚にあります" : "未入庫"
-                                }}&nbsp;
-                              </td>
+                              <td>{{ row.isMaster ? "本棚にあります" : "未入庫" }}&nbsp;</td>
                             </tr>
                             <tr>
                               <td>操作</td>
                               <td>
-                                <a
-                                  href="#"
-                                  v-if="row.isMaster === true"
-                                  v-on:click="deleteBook(row.title)"
+                                <a href="#" v-if="row.isMaster === true" v-on:click="deleteBook(row.title)"
                                   >&nbsp;
                                   <i class="fas fa-fw fa-file-export"></i>
                                   <span>マスタ削除</span>
@@ -130,14 +103,7 @@
                                 <a
                                   href="#"
                                   v-else
-                                  v-on:click="
-                                    addBook(
-                                      row.title,
-                                      row.isbn_13,
-                                      row.description,
-                                      row.imgUrl
-                                    )
-                                  "
+                                  v-on:click="addBook(row.title, row.isbn_13, row.description, row.imgUrl)"
                                   >&nbsp;
                                   <i class="fas fa-fw fa-file-export"></i>
                                   <span>登録</span>
@@ -170,12 +136,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <div
-                class="
-                  modal-title
-                  m-0
-                  font-weight-bold
-                  text-primary text-secondary
-                "
+                class="modal-title m-0 font-weight-bold text-primary text-secondary"
                 id="myModalLabel"
                 v-show="clickedRow"
               >
@@ -183,11 +144,7 @@
               </div>
             </div>
             <div class="modal-body">
-              <img
-                v-bind:src="clickedRow.imgUrl"
-                id="imagepreview"
-                class="img-responsive"
-              />
+              <img v-bind:src="clickedRow.imgUrl" id="imagepreview" class="img-responsive" />
               <div class="mt-4 mb-2">概要</div>
               <div class="multiline-text" v-show="clickedRow">
                 {{ clickedRow.description }}
@@ -202,7 +159,8 @@
                   clickedRow.imgUrl = '';
                   clickedRow.description = '';
                 "
-              >閉じる
+              >
+                閉じる
               </button>
             </div>
           </div>
@@ -249,7 +207,7 @@ export default {
     /**
      * 書籍検索
      */
-    searchBooks: async function() {
+    searchBooks: async function () {
       this.isLoading = true;
 
       this.msg = "";
@@ -272,10 +230,9 @@ export default {
 
         // 要素詰め替え
         for (const book of books) {
-          
           book.isbn_10 = "";
           book.isbn_13 = "";
-          
+
           if (book.volumeInfo != null) {
             // タイトル
             book.title = book.volumeInfo.title;
@@ -286,26 +243,27 @@ export default {
             if (book.volumeInfo.industryIdentifiers != null) {
               book.volumeInfo.industryIdentifiers.forEach((identifier) => {
                 // ISBN番号(10)取得
-                if (identifier.type === "ISBN_10")
-                  book.isbn_10 = identifier.identifier;
+                if (identifier.type === "ISBN_10") book.isbn_10 = identifier.identifier;
 
-                  // ISBN番号(13)取得
-                if (identifier.type === "ISBN_13")
-                  book.isbn_13 = identifier.identifier;
+                // ISBN番号(13)取得
+                if (identifier.type === "ISBN_13") book.isbn_13 = identifier.identifier;
               });
             }
 
             // マスタ登録済みか
-            book.isMaster = masterBooks.some(masterBook => (book.isbn_10 != "" && book.isbn_10 === masterBook.isbn) || (book.isbn_13 != "" && book.isbn_13 === masterBook.isbn));
+            book.isMaster = masterBooks.some(
+              (masterBook) =>
+                (book.isbn_10 != "" && book.isbn_10 === masterBook.isbn) ||
+                (book.isbn_13 != "" && book.isbn_13 === masterBook.isbn)
+            );
 
             // サムネイル画像URL
-            if (book.volumeInfo.imageLinks != null)
-              book.imgUrl = book.volumeInfo.imageLinks.thumbnail;
+            if (book.volumeInfo.imageLinks != null) book.imgUrl = book.volumeInfo.imageLinks.thumbnail;
 
             this.items = books;
           }
         }
-      } catch(e) {
+      } catch (e) {
         this.msg = "";
         this.errMsg = "検索に失敗しました";
         console.log(e);
@@ -316,13 +274,13 @@ export default {
 
     /**
      * 書籍追加
-     * 
-     * @param title 
-     * @param isbn 
-     * @param description 
-     * @param imgUrl 
+     *
+     * @param title
+     * @param isbn
+     * @param description
+     * @param imgUrl
      */
-    addBook: async function(title, isbn, description, imgUrl) {
+    addBook: async function (title, isbn, description, imgUrl) {
       // サインインチェック
       if (UserUtil.isSignIn()) {
         this.$router.push({
@@ -348,7 +306,7 @@ export default {
       try {
         await AjaxUtil.addBook(addBookModel);
         await this.searchBooks();
-      } catch(e) {
+      } catch (e) {
         this.msg = "";
         this.errMsg = "登録処理に失敗しました";
         console.log(error);
@@ -359,10 +317,10 @@ export default {
 
     /**
      * 書籍削除
-     * 
-     * @param title 
+     *
+     * @param title
      */
-    deleteBook: async function(title) {
+    deleteBook: async function (title) {
       // サインインチェック
       if (UserUtil.isSignIn()) {
         this.$router.push({
@@ -377,14 +335,14 @@ export default {
       try {
         await AjaxUtil.deleteBook(title);
         await this.searchBooks();
-      } catch(e) {
+      } catch (e) {
         this.msg = "";
         this.errMsg = "削除処理に失敗しました";
         console.log(error);
       }
 
       this.isLoading = false;
-    }
+    },
   },
 };
 </script>

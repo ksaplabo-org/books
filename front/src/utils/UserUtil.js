@@ -1,6 +1,6 @@
 // Ajax通信ライブラリ
-import axios from 'axios';
-import UserConst from './const/UserConst';
+import axios from "axios";
+import UserConst from "./const/UserConst";
 
 /**
  * SessionStrageに保持するサインユーザー情報 のキー
@@ -12,15 +12,15 @@ const SIGNIN_KEY = "loginUser";
  *
  * @param {*} userId ユーザーID
  * @param {*} password パスワード
- * @returns 
+ * @returns
  */
 export async function signIn(userId, password) {
-  const url = '/api/signIn';
+  const url = "/api/signIn";
 
   const response = await axios.post(url, {
-      userId: userId, 
-      password: password
-    });
+    userId: userId,
+    password: password,
+  });
 
   if (response.data.result && response.data.user !== null) {
     // SessionStrageに、サインインユーザー情報を保持する
@@ -47,13 +47,13 @@ export function currentUserInfo() {
   // SessionStrageから、サインインユーザー情報を取得する
   const signinUser = sessionStorage.getItem(SIGNIN_KEY);
 
-  // 
+  //
   return signinUser === null ? null : JSON.parse(signinUser);
 }
 
 /**
  * サインイン判定
- * 
+ *
  * @returns サインイン有無
  */
 export function isSignIn() {
