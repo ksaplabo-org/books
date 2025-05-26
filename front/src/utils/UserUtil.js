@@ -1,9 +1,8 @@
-// Ajax通信ライブラリ
-import axios from "axios";
+import * as AjaxUtil from "@/utils/AjaxUtil";
 import UserConst from "./const/UserConst";
 
 /**
- * SessionStrageに保持するサインユーザー情報 のキー
+ * SessionStorageに保持するサインユーザー情報 のキー
  */
 const SIGNIN_KEY = "loginUser";
 
@@ -15,15 +14,10 @@ const SIGNIN_KEY = "loginUser";
  * @returns
  */
 export async function signIn(userId, password) {
-  const url = "/api/signIn";
-
-  const response = await axios.post(url, {
-    userId: userId,
-    password: password,
-  });
+  const response = await AjaxUtil.signin(userId, password);
 
   if (response.data.result && response.data.user !== null) {
-    // SessionStrageに、サインインユーザー情報を保持する
+    // SessionStorageに、サインインユーザー情報を保持する
     sessionStorage.setItem(SIGNIN_KEY, JSON.stringify(response.data.user));
 
     console.log("signin success.");
@@ -34,7 +28,7 @@ export async function signIn(userId, password) {
  * サインアウト
  */
 export function signOut() {
-  // SessionStrageから、サインインユーザー情報を削除する
+  // SessionStorageから、サインインユーザー情報を削除する
   sessionStorage.removeItem(SIGNIN_KEY);
 }
 
@@ -44,7 +38,7 @@ export function signOut() {
  * @returns サインインユーザー情報
  */
 export function currentUserInfo() {
-  // SessionStrageから、サインインユーザー情報を取得する
+  // SessionStorageから、サインインユーザー情報を取得する
   const signinUser = sessionStorage.getItem(SIGNIN_KEY);
 
   //

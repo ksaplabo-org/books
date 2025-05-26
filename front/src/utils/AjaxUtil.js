@@ -1,6 +1,16 @@
 // Ajax通信ライブラリ
 import axios from "axios";
 
+export function signin(userId, password) {
+  const url = "/api/signIn";
+
+  return axios.post(url, {
+    userId: userId,
+    password: password,
+  });
+}
+
+
 export function getAllSapBooks() {
   const url = "/api/book";
 
