@@ -155,7 +155,7 @@ export default {
       items: [],
       userName: "",
       clickedRow: {},
-      isLoading: true,
+      isLoading: false,
     };
   },
   async mounted() {

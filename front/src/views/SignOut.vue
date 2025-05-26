@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       msg: this.flashMsg,
-      isLoading: true,
+      isLoading: false,
     };
   },
   async mounted() {
