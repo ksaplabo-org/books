@@ -1,18 +1,18 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+import BookList from "./views/BookList.vue";
+import BookManager from "./views/BookManager.vue";
+import RentalBook from "./views/RentalBook.vue";
+import RentalList from "./views/RentalList.vue";
 import SignIn from "./views/SignIn.vue";
 import SignOut from "./views/SignOut.vue";
 import Sorry from "./views/Sorry.vue";
-import Top from "./views/Top.vue";
-import RentalBook from "./views/RentalBook.vue";
-import MainteBook from "./views/MainteBook.vue";
-import ListBook from "./views/ListBook.vue";
-import ListUser from "./views/ListUser.vue";
-import LendingBook from "./views/LendingBook.vue";
-import AddUser from "./views/AddUser.vue";
-import EditUser from "./views/EditUser.vue";
 import Student from "./views/Student.vue";
+import Top from "./views/Top.vue";
+import UserList from "./views/UserList.vue";
+import UserAdd from "./views/UserAdd.vue";
+import UserManager from "./views/UserManager.vue";
 
 Vue.use(Router);
 
@@ -21,14 +21,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/pages/signin.html",
-      name: "signin",
+      path: "/pages/sign-in.html",
+      name: "signIn",
       props: true,
       component: SignIn,
     },
     {
-      path: "/pages/signout.html",
-      name: "signout",
+      path: "/pages/sign-out.html",
+      name: "signOut",
       component: SignOut,
     },
     {
@@ -37,40 +37,40 @@ export default new Router({
       component: Top,
     },
     {
-      path: "/pages/book/rental.html",
-      name: "rentalbook",
-      component: RentalBook,
-    },
-    {
-      path: "/pages/book/mainte.html",
-      name: "maintebook",
-      component: MainteBook,
-    },
-    {
       path: "/pages/book/list.html",
-      name: "listbook",
-      component: ListBook,
+      name: "bookList",
+      component: BookList,
+    },
+    {
+      path: "/pages/book/management.html",
+      name: "bookManager",
+      component: BookManager,
     },
     {
       path: "/pages/user/list.html",
-      name: "listUser",
+      name: "userList",
       props: true,
-      component: ListUser,
-    },
-    {
-      path: "/pages/book/lending.html",
-      name: "lendingBook",
-      component: LendingBook,
+      component: UserList,
     },
     {
       path: "/pages/user/add.html",
-      name: "addUser",
-      component: AddUser,
+      name: "userAdd",
+      component: UserAdd,
     },
     {
-      path: "/pages/user/edit.html",
-      name: "editUser",
-      component: EditUser,
+      path: "/pages/user/management.html",
+      name: "userManager",
+      component: UserManager,
+    },
+    {
+      path: "/pages/book/rental.html",
+      name: "rentalBook",
+      component: RentalBook,
+    },
+    {
+      path: "/pages/book/rental/list.html",
+      name: "rentalList",
+      component: RentalList,
     },
     {
       path: "/pages/student.html",

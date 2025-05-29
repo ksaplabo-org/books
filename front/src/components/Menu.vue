@@ -30,13 +30,13 @@ export default {
      */
     return {
       menuList: [
-        { title: "書籍一覧", name: "listbook", icon: "fas fa-fw fa-book-medical", onlyAdmin: false },
-        { title: "書籍管理", name: "maintebook", icon: "fas fa-fw fa-book-medical", onlyAdmin: true },
-        { title: "ユーザー一覧", name: "listUser", icon: "fas fa-fw fa-user", onlyAdmin: true },
-        { title: "ユーザー追加", name: "addUser", icon: "fas fa-fw fa-user", onlyAdmin: true },
-        { title: "ユーザー管理", name: "editUser", icon: "fas fa-fw fa-user", onlyAdmin: false },
-        { title: "レンタル", name: "rentalbook", icon: "fas fa-fw fa-book", onlyAdmin: true },
-        { title: "レンタル一覧", name: "lendingBook", icon: "fas fa-fw fa-book", onlyAdmin: false },
+        { title: "書籍一覧", name: "bookList", icon: "fas fa-fw fa-book-medical", onlyAdmin: false },
+        { title: "書籍管理", name: "bookManager", icon: "fas fa-fw fa-book-medical", onlyAdmin: true },
+        { title: "ユーザー一覧", name: "userList", icon: "fas fa-fw fa-user", onlyAdmin: true },
+        { title: "ユーザー追加", name: "userAdd", icon: "fas fa-fw fa-user", onlyAdmin: true },
+        { title: "ユーザー管理", name: "userManager", icon: "fas fa-fw fa-user", onlyAdmin: false },
+        { title: "レンタル", name: "rentalBook", icon: "fas fa-fw fa-book", onlyAdmin: true },
+        { title: "レンタル一覧", name: "rentalList", icon: "fas fa-fw fa-book", onlyAdmin: false },
         //{ title: '学生用', name: 'student', icon: 'fas fa-fw fa-user', onlyAdmin: false }
       ].filter((e) => (!UserUtil.isAdmin() ? !e.onlyAdmin : true)),
     };
