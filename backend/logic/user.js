@@ -70,8 +70,7 @@ module.exports.findByIncludeItem = async function (db, word) {
                     [Op.or]: {
                         user_id: {[Op.like]: '%' + word + '%'},
                         user_name: {[Op.like]: '%' + word + '%'},
-                        address: {[Op.like]: '%' + word + '%'},
-                        tel_no: {[Op.like]: '%' + word + '%'}
+                        address: {[Op.like]: '%' + word + '%'}
                     }
                 },
                 order: [
@@ -135,10 +134,9 @@ module.exports.findByAuth = async function(db, auth) {
  * @param {*} gender
  * @param {*} auth
  * @param {*} address
- * @param {*} telNo
  * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports.create = async function (db, userId, userName, password, gender, auth, address, telNo) {
+ module.exports.create = async function (db, userId, userName, password, gender, auth, address) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.create(
@@ -148,8 +146,7 @@ module.exports.findByAuth = async function(db, auth) {
                 password: password,
                 gender: gender,
                 auth: auth,
-                address: address,
-                tel_no: telNo
+                address: address
             }
         );
     } catch (e) {
@@ -166,10 +163,9 @@ module.exports.findByAuth = async function(db, auth) {
  * @param {*} gender
  * @param {*} auth
  * @param {*} address
- * @param {*} telNo
  * @returns Promise(成功:resolve/失敗:reject)
  */
- module.exports.update = async function (db, userId, userName, password, gender, auth, address, telNo) {
+ module.exports.update = async function (db, userId, userName, password, gender, auth, address) {
     const UserModel = UserRepository.getUserModel(db);
     try {
         return await UserModel.update(
@@ -178,8 +174,7 @@ module.exports.findByAuth = async function(db, auth) {
                 password: password,
                 gender: gender,
                 auth: auth,
-                address: address,
-                tel_no: telNo
+                address: address
             },
             {
                 where: {

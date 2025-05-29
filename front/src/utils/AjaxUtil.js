@@ -80,8 +80,7 @@ export function postUser(userModel) {
         "password": userModel.password,
         "gender": userModel.gender,
         "auth": userModel.auth,
-        "address": userModel.address,
-        "telNo": userModel.telNo
+        "address": userModel.address
     })
 }
 
@@ -94,8 +93,7 @@ export function putUser(userModel) {
         "password": userModel.password,
         "gender": userModel.gender,
         "auth": userModel.auth,
-        "address": userModel.address,
-        "telNo": userModel.telNo
+        "address": userModel.address
     })
 }
 

@@ -218,12 +218,6 @@ export default {
                     return;
                 }
 
-                // 電話番号の入力チェック(サンプルとして「3桁-4桁-4桁」で実装)
-                if (this.telNo && !/^\d{3}-\d{4}-\d{4}$/.test(this.telNo)) {
-                    this.errMsg = "電話番号は3桁-4桁-4桁の形式で入力してください";
-                    return;
-                }
-
                 // ユーザーID重複チェック
                 const response = await AjaxUtil.getUserFindById(this.userId);
                 const userInfo = JSON.parse(response.data.Items);
@@ -239,8 +233,7 @@ export default {
                     password: this.password,
                     gender: this.gender,
                     auth: this.auth,
-                    address: this.address,
-                    telNo: this.telNo
+                    address: this.address
                 }
 
                 // 登録

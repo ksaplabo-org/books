@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS user
     password char(16) NOT NULL,
     gender char(1) NOT NULL,
     auth char(1) NOT NULL,
-    address varchar(150),
-    tel_no varchar(21)
+    address varchar(150)
 )
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
@@ -86,9 +85,9 @@ INSERT INTO information values (now(), 2, '新書籍入荷', '新しい書籍が
 INSERT INTO information values (now(), 3, '不審者報告', '最近館内で怪しい人物の目撃情報が多発しています。');
 
 DELETE FROM user;
-INSERT INTO user values ('user0002', 'ユーザー0002', 'intern02', '1','2', '北海道札幌市中央区北x条騎北x-x-x', '000-0000-0001');
-INSERT INTO user values ('intern01', '一般', 'intern01', '1','1', '北海道札幌市中央区北x条西x-x-x', '000-0000-0002');
-INSERT INTO user values ('intern03', '管理者', 'intern03', '2','2', '北海道札幌市中央区北x条南x-x-x', '000-0000-0003');
+INSERT INTO user values ('user0002', 'ユーザー0002', 'intern02', '1','2', '北海道札幌市中央区北x条騎北x-x-x');
+INSERT INTO user values ('intern01', '一般', 'intern01', '1','1', '北海道札幌市中央区北x条西x-x-x');
+INSERT INTO user values ('intern03', '管理者', 'intern03', '2','2', '北海道札幌市中央区北x条南x-x-x');
 
 DELETE FROM lending;
 INSERT INTO lending values ('intern01','4774190845','1','2022/09/03','intern01','2022/09/17');

@@ -34,11 +34,6 @@ module.exports.getUserModel = (db) => {
                     field: "address",
                     type: Sequelize.STRING(150),
                     allowNull: true
-                },
-                tel_no: {
-                    field: "tel_no",
-                    type: Sequelize.STRING(21),
-                    allowNull: true
                 }
             },
             {
