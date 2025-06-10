@@ -127,9 +127,9 @@
                   </div>
                 </div>
                 <!-- 新規登録ボタン -->
-                <div class="row justify-content-md-center">
-                  <div class="col-lg-4">
-                    <input class="btn btn-primary btn-block" type="submit" value="新規登録" />
+                <div class="form-group">
+                  <div class="d-flex justify-content-md-center">
+                    <input class="btn btn-primary btn-block w-50" type="submit" value="新規登録" />
                   </div>
                 </div>
               </div>

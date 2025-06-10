@@ -134,11 +134,11 @@
                 </div>
 
                 <!-- 更新・削除ボタン -->
-                <div class="row">
-                  <div class="col">
+                <div class="form-group d-flex justify-content-center">
+                  <div class="p-2 w-50">
                     <input class="btn btn-primary btn-block" type="submit" value="情報更新" />
                   </div>
-                  <div class="col">
+                  <div class="p-2 w-50">
                     <b-button class="btn-danger btn-block" data-toggle="modal" data-target="#deleteConfirmModal"
                       >ユーザー削除</b-button
                     >
@@ -296,6 +296,10 @@ export default {
      * ユーザー更新
      */
     userUpdate: async function () {
+      // メッセージ初期化
+      this.msg = "";
+      this.errMsg = "";
+
       // 入力チェック
       if (!this.userName) {
         this.errMsg = "ユーザー名を入力してください";
@@ -353,6 +357,10 @@ export default {
      * ユーザー削除
      */
     userDelete: async function () {
+      // メッセージ初期化
+      this.msg = "";
+      this.errMsg = "";
+
       this.isLoading = true;
 
       try {
