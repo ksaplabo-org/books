@@ -1,4 +1,4 @@
-// Bussiness Logic define
+// Business Logic define
 const AuthLogic = require("./logic/auth");
 const BookLogic = require("./logic/book");
 const UserLogic = require("./logic/user");
@@ -73,6 +73,25 @@ app.get("/api/book", async function (req, res) {
 });
 
 /**
+ * 書籍名のあいまい検索結果取得API
+ */
+app.get("/api/book/search/:searchWord", async function (req, res) {
+  try {
+    // 書籍情報を取得する
+    const books = await BookLogic.getAllSearchBooks(db, req.params.searchWord);
+
+    // 正常レスポンス
+    res.send({
+      Items: JSON.stringify(books),
+    });
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to get searchBook.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
  * 書籍情報追加API
  */
 app.post("/api/book", async function (req, res) {
@@ -129,36 +148,18 @@ app.delete("/api/book/:title", async function (req, res) {
 });
 
 /**
- * ユーザー情報一覧取得API
+ * ユーザー情報取得API
  */
-app.get("/api/users", async function (req, res) {
+app.get("/api/users/:userId", async function (req, res) {
+  // パスパラメータから検索条件を取得
+  const userId = req.params.userId;
+
   try {
-    // ユーザー取得する
-    const users = await UserLogic.getAll(db);
+    const users = await UserLogic.findById(db, userId);
 
     // 正常レスポンス
     res.send({
       Items: JSON.stringify(users),
-    });
-  } catch (e) {
-    // 異常レスポンス
-    console.log("failed to get all user.", e);
-    res.status(500).send("server error occur");
-  }
-});
-
-/**
- * ユーザー情報取得API
- *   ユーザーIDで検索
- */
-app.get("/api/users/:id", async function (req, res) {
-  try {
-    // ユーザー情報を取得する
-    const user = await UserLogic.findById(db, req.params.id);
-
-    // 正常レスポンス
-    res.send({
-      Items: JSON.stringify(user),
     });
   } catch (e) {
     // 異常レスポンス
@@ -168,13 +169,22 @@ app.get("/api/users/:id", async function (req, res) {
 });
 
 /**
- * ユーザー情報取得API
- *   ユーザーID、ユーザー名の部分一致検索
+ * ユーザー情報検索API
  */
-app.get("/api/users/search/:word", async function (req, res) {
+app.get("/api/users", async function (req, res) {
+  // クエリパラメータから検索条件を取得
+  const userId = req.query.userId;
+  const userName = req.query.userName;
+
   try {
-    // ユーザー情報を取得する
-    const users = await UserLogic.findByIncludeIdOrName(db, req.params.word);
+    let users;
+    if (userId != null || userName != null) {
+      // あいまい検索
+      users = await UserLogic.findByIdOrNameLike(db, userId, userName);
+    } else {
+      // 全件検索
+      users = await UserLogic.findAll(db);
+    }
 
     // 正常レスポンス
     res.send({
@@ -313,25 +323,6 @@ app.get("/api/lending/:userId", async function (req, res) {
 });
 
 /**
- * 書籍名のあいまい検索結果取得API
- */
-app.get("/api/book/search/:searchWord", async function (req, res) {
-  try {
-    // 書籍情報を取得する
-    const books = await BookLogic.getAllSearchBooks(db, req.params.searchWord);
-
-    // 正常レスポンス
-    res.send({
-      Items: JSON.stringify(books),
-    });
-  } catch (e) {
-    // 異常レスポンス
-    console.log("failed to get searchBook.", e);
-    res.status(500).send("server error occur");
-  }
-});
-
-/**
  * 貸し出し状況確認API
  */
 app.post("/api/lending/already", async function (req, res) {
@@ -351,9 +342,9 @@ app.post("/api/lending/already", async function (req, res) {
   }
 });
 
-app.get("/api/students", function (req, res) {
+app.get("/api/students", async function (req, res) {
   try {
-    const students = StudentLogic.getAll(db);
+    const students = await StudentLogic.getAll(db);
 
     // 正常レスポンス
     res.send({

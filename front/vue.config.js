@@ -48,10 +48,10 @@ module.exports = {
       filename: "pages/user/list.html",
       title: "ユーザー一覧",
     },
-    userAdd: {
+    userCreate: {
       entry: "src/main.js",
       template: "public/pages/index.html",
-      filename: "pages/user/add.html",
+      filename: "pages/user/create.html",
       title: "ユーザー追加",
     },
     userManager: {

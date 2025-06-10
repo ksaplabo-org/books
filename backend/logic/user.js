@@ -1,13 +1,24 @@
-const UserRepository = require("../db/user");
 /**
- * ユーザー情報一覧を取得
- * @param {*} db
- * @returns ユーザー情報(Promise)
+ * sequelizeのモジュールimport
  */
-module.exports.getAll = async function (db) {
-  const UserModel = UserRepository.getUserModel(db);
+const sequelize = require("sequelize");
+const op = sequelize.Op;
+
+/**
+ * ユーザー情報の定義を取得
+ */
+const userRepository = require("../db/user");
+
+/**
+ * ユーザー情報を全件検索
+ *
+ * @param {*} db
+ * @returns ユーザー情報
+ */
+module.exports.findAll = async function (db) {
   try {
-    return await UserModel.findAll({
+    const userModel = userRepository.getUserModel(db);
+    return await userModel.findAll({
       order: [["user_id", "ASC"]],
     });
   } catch (e) {
@@ -16,23 +27,49 @@ module.exports.getAll = async function (db) {
 };
 
 /**
- * ユーザー情報取得
- *   部分一致検索(ユーザーID、ユーザー名)
+ * ユーザー情報を取得
+ *
+ * [検索条件]
+ * ユーザーIDの完全一致
+ *
  * @param {*} db
- * @param {*} word
- * @returns ユーザー情報（Promise）
+ * @param {*} userId
+ * @returns ユーザー情報
  */
-module.exports.findByIncludeIdOrName = async function (db, word) {
-  const UserModel = UserRepository.getUserModel(db);
-  const Sequelize = require("sequelize");
-  const Op = Sequelize.Op;
+module.exports.findById = async function (db, userId) {
+  // ユーザー情報の定義を取得
+  const userModel = userRepository.getUserModel(db);
 
   try {
-    return await UserModel.findAll({
+    return await userModel.findByPk(userId);
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * ユーザー情報を検索
+ *
+ * [検索条件]
+ * ユーザーIDの部分一致
+ * OR
+ * ユーザー名の部分一致
+ *
+ * @param {*} db
+ * @param {*} userId
+ * @param {*} userName
+ * @returns ユーザー情報
+ */
+module.exports.findByIdOrNameLike = async function (db, userId, userName) {
+  // ユーザー情報の定義を取得
+  const userModel = userRepository.getUserModel(db);
+
+  try {
+    return await userModel.findAll({
       where: {
-        [Op.or]: {
-          user_id: { [Op.like]: "%" + word + "%" },
-          user_name: { [Op.like]: "%" + word + "%" },
+        [op.or]: {
+          user_id: { [op.like]: "%" + userId + "%" },
+          user_name: { [op.like]: "%" + userName + "%" },
         },
       },
       order: [["user_id", "ASC"]],
@@ -43,35 +80,22 @@ module.exports.findByIncludeIdOrName = async function (db, word) {
 };
 
 /**
- * ユーザー情報取得
- *   完全一致検索(ユーザーID)
- * @param {*} db
- * @param {*} userId
- * @returns ユーザー情報(Promise)
- */
-module.exports.findById = async function (db, userId) {
-  const UserModel = UserRepository.getUserModel(db);
-  try {
-    return await UserModel.findByPk(userId);
-  } catch (e) {
-    throw e;
-  }
-};
-
-/**
- * ユーザー情報登録
+ * ユーザー情報を追加
+ *
  * @param {*} db
  * @param {*} userId
  * @param {*} userName
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
- * @returns Promise(成功:resolve/失敗:reject)
+ * @returns
  */
 module.exports.create = async function (db, userId, userName, password, gender, auth) {
-  const UserModel = UserRepository.getUserModel(db);
+  // ユーザー情報の定義を取得
+  const userModel = userRepository.getUserModel(db);
+
   try {
-    return await UserModel.create({
+    return await userModel.create({
       user_id: userId,
       user_name: userName,
       password: password,
@@ -84,19 +108,22 @@ module.exports.create = async function (db, userId, userName, password, gender, 
 };
 
 /**
- * ユーザー情報更新
+ * ユーザー情報を更新
+ *
  * @param {*} db
  * @param {*} userId
  * @param {*} userName
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
- * @returns Promise(成功:resolve/失敗:reject)
+ * @returns
  */
 module.exports.update = async function (db, userId, userName, password, gender, auth) {
-  const UserModel = UserRepository.getUserModel(db);
+  // ユーザー情報の定義を取得
+  const userModel = userRepository.getUserModel(db);
+
   try {
-    return await UserModel.update(
+    return await userModel.update(
       {
         user_name: userName,
         password: password,
@@ -115,15 +142,17 @@ module.exports.update = async function (db, userId, userName, password, gender, 
 };
 
 /**
- * ユーザー情報削除
+ * ユーザー情報を削除
  * @param {*} db
  * @param {*} userId
- * @returns Promise(成功:resolve/失敗:reject)
+ * @returns
  */
 module.exports.remove = async function (db, userId) {
-  const UserModel = UserRepository.getUserModel(db);
+  // ユーザー情報の定義を取得
+  const userModel = userRepository.getUserModel(db);
+
   try {
-    return await UserModel.destroy({
+    return await userModel.destroy({
       where: {
         user_id: userId,
       },

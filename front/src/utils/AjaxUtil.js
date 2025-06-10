@@ -10,7 +10,6 @@ export function signin(userId, password) {
   });
 }
 
-
 export function getAllSapBooks() {
   const url = "/api/book";
 
@@ -48,21 +47,19 @@ export function deleteBook(title) {
   return axios.delete(url);
 }
 
-export function getAllUser() {
-  const url = "/api/users";
-
-  return axios.get(url);
-}
-
-export function getUserFindByIncludeIdOrName(searchWord) {
-  const url = "/api/users/search/" + searchWord;
-  return axios.get(url);
-}
-
-export function getUserFindById(userId) {
+export async function getUserById(userId) {
   const url = "/api/users/" + userId;
 
-  return axios.get(url);
+  return await axios.get(url);
+}
+
+export async function getUser(userId, userName) {
+  const url = "/api/users";
+  const params = {
+    userId: userId,
+    userName: userName,
+  };
+  return await axios.get(url, { params: params });
 }
 
 export function postUser(userModel) {

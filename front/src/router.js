@@ -11,7 +11,7 @@ import Sorry from "./views/Sorry.vue";
 import Student from "./views/Student.vue";
 import Top from "./views/Top.vue";
 import UserList from "./views/UserList.vue";
-import UserAdd from "./views/UserAdd.vue";
+import UserCreate from "./views/UserCreate.vue";
 import UserManager from "./views/UserManager.vue";
 
 Vue.use(Router);
@@ -53,9 +53,9 @@ export default new Router({
       component: UserList,
     },
     {
-      path: "/pages/user/add.html",
-      name: "userAdd",
-      component: UserAdd,
+      path: "/pages/user/create.html",
+      name: "userCreate",
+      component: UserCreate,
     },
     {
       path: "/pages/user/management.html",

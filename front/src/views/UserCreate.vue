@@ -1,5 +1,5 @@
 <template>
-  <div class="adduser">
+  <div class="userCreate">
     <NaviMenu />
 
     <div id="wrapper">
@@ -162,7 +162,7 @@ import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 export default {
-  name: "AddUser",
+  name: "UserCreate",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -191,7 +191,7 @@ export default {
         this.msg = this.flashMsg;
         this.errMsg = this.flashErrMsg;
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
       this.errMsg = e.message;
@@ -247,7 +247,7 @@ export default {
           return;
         }
         // ユーザーID重複チェック
-        const response = await AjaxUtil.getUserFindById(this.userId);
+        const response = await AjaxUtil.getUserById(this.userId);
         const userInfo = JSON.parse(response.data.Items);
         if (userInfo) {
           this.errMsg = "入力されたユーザーは既に登録されています";
@@ -267,7 +267,7 @@ export default {
         await AjaxUtil.postUser(model);
 
         // 一覧画面に遷移する
-        this.$router.push({ name: "listUser", params: { flashMsg: "登録に成功しました" } });
+        this.$router.push({ name: "userList", params: { flashMsg: "登録に成功しました" } });
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー登録に失敗しました";

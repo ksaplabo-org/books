@@ -127,7 +127,7 @@ export default {
         this.msg = this.flashMsg;
         this.errMsg = this.flashErrMsg;
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
       this.errMsg = e.message;
@@ -152,17 +152,8 @@ export default {
       this.isLoading = true;
 
       try {
-        // 検索文字が入力されている場合
-        if (this.searchWord) {
-          // 部分一致検索
-          const response = await AjaxUtil.getUserFindByIncludeIdOrName(this.searchWord);
-          this.items = JSON.parse(response.data.Items);
-          // 検索文字が未入力の場合
-        } else {
-          // 全件検索
-          const response = await AjaxUtil.getAllUser();
-          this.items = JSON.parse(response.data.Items);
-        }
+        const response = await AjaxUtil.getUser(this.searchWord, this.searchWord);
+        this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー検索に失敗しました";
@@ -179,7 +170,7 @@ export default {
      */
     onClickEditButton: function (data) {
       // 編集画面へ遷移する
-      this.$router.push({ name: "editUser", query: { userId: data.user_id } });
+      this.$router.push({ name: "userManager", query: { userId: data.user_id } });
     },
   },
 };

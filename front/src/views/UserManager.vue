@@ -13,7 +13,7 @@
               <router-link tag="a" :to="{ name: 'top' }">トップページ</router-link>
             </li>
             <li class="breadcrumb-item" id="breadcrumb-u-list">
-              <router-link tag="a" :to="{ name: 'listUser' }">ユーザー一覧</router-link>
+              <router-link tag="a" :to="{ name: 'userList' }">ユーザー一覧</router-link>
             </li>
             <li class="breadcrumb-item active">ユーザー管理</li>
           </ol>
@@ -235,7 +235,7 @@ export default {
         this.msg = this.flashMsg;
         this.errMsg = this.flashErrMsg;
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
       this.errMsg = e.message;
@@ -275,7 +275,7 @@ export default {
 
       try {
         // ユーザーIDからユーザー情報を取得
-        const response = await AjaxUtil.getUserFindById(this.userId);
+        const response = await AjaxUtil.getUserById(this.userId);
         const userInfo = JSON.parse(response.data.Items);
 
         // ユーザー情報を各項目にセット
@@ -363,10 +363,10 @@ export default {
         if (this.userId == UserUtil.currentUserInfo().userid) {
           // サインアウト
           UserUtil.signOut();
-          this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+          this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
         } else {
           // 一覧画面に遷移する
-          this.$router.push({ name: "listUser", params: { flashMsg: "削除に成功しました" } });
+          this.$router.push({ name: "userList", params: { flashMsg: "削除に成功しました" } });
         }
       } catch (e) {
         this.msg = "";

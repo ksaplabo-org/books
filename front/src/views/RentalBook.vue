@@ -227,7 +227,7 @@ export default {
       };
 
       // ユーザーID存在チェック → 貸出チェック → 貸出登録
-      AjaxUtil.getUserFindById(this.registId)
+      AjaxUtil.getUserById(this.registId)
         .then((response) => {
           const result = response.data;
           if (result === "") {
