@@ -1,6 +1,8 @@
-# 環境構築の初回のみ実行
 USE intern;
 
+#------------------------------------------
+# ユーザーTBL 作成
+#------------------------------------------
 DROP TABLE IF EXISTS user;
 CREATE TABLE IF NOT EXISTS user
 (
@@ -8,11 +10,15 @@ CREATE TABLE IF NOT EXISTS user
     user_name varchar(100) NOT NULL,
     password char(16) NOT NULL,
     gender char(1) NOT NULL,
-    auth char(1) NOT NULL
+    auth char(1) NOT NULL,
+    address varchar(150)
 )
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
 
+#------------------------------------------
+# 書籍TBL 作成
+#------------------------------------------
 DROP TABLE IF EXISTS book;
 CREATE TABLE IF NOT EXISTS book
 (
@@ -26,6 +32,9 @@ CREATE TABLE IF NOT EXISTS book
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
 
+#------------------------------------------
+# レンタルTBL 作成
+#------------------------------------------
 DROP TABLE IF EXISTS lending;
 CREATE TABLE IF NOT EXISTS lending
 (
@@ -40,6 +49,9 @@ CREATE TABLE IF NOT EXISTS lending
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
 
+#------------------------------------------
+# お知らせTBL 作成
+#------------------------------------------
 DROP TABLE IF EXISTS information;
 CREATE TABLE IF NOT EXISTS information
 (
@@ -52,6 +64,9 @@ CREATE TABLE IF NOT EXISTS information
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
 
+#------------------------------------------
+# 学生TBL 作成
+#------------------------------------------
 DROP TABLE IF EXISTS student;
 CREATE TABLE IF NOT EXISTS student
 (
@@ -63,6 +78,9 @@ CREATE TABLE IF NOT EXISTS student
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci;
 
+#------------------------------------------
+# 書籍TBL 初期データ登録
+#------------------------------------------
 delete from book;
 insert into book values ('9784774176734','1','Amazon Web Services 実践入門','柔軟な開発を可能にするインフラ構築・運用の勘所。ブラウザでの設定もコマンド操作も丁寧に解説。','https://books.google.com/books/content?id=6LayjgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api');
 insert into book values ('9784839964566','1','Amazon WebServicesを使ったサーバレスアプリケーション開発ガイド','null','https://books.google.com/books/content?id=NzjItAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api');
@@ -78,19 +96,31 @@ insert into book values ('9784822253851','1','Azureテクノロジ入門 2019','
 insert into book values ('9783662474181','1','SAP on the Cloud','This book offers a comprehensive guide to implementing SAP and HANA on private, public and hybrid clouds. Cloud computing has transformed the way organizations run their IT infrastructures: the shift from legacy monolithic mainframes and UNIX platforms to cloud based infrastructures offering ubiquitous access to critical information, elastic provisioning and drastic cost savings has made cloud an essential part of every organization’s business strategy. Cloud based services have evolved from simple file sharing, email and messaging utilities in the past, to the current situation, where their improved technical capabilities and SLAs make running mission-critical applications such as SAP possible. However, IT professionals must take due care when deploying SAP in a public, private or hybrid cloud environment. As a foundation for core business operations','https://books.google.com/books/content?id=VsVOCgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api');
 insert into book values ('9784822257903','1','Google Cloud Platform　エンタープライズ設計ガイド','Googleが提供するクラウドサービス AWSとの違いを軸に徹底解説','https://books.google.com/books/content?id=kfcqtwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api');
 
+#------------------------------------------
+# お知らせTBL 初期データ登録
+#------------------------------------------
 DELETE FROM information;
 INSERT INTO information values (now(), 1, 'BookStation 開設', '新しくブックステーションが開設されました。皆さんぜひご利用ください。');
 INSERT INTO information values (now(), 2, '新書籍入荷', '新しい書籍が入荷しました。');
 INSERT INTO information values (now(), 3, '不審者報告', '最近館内で怪しい人物の目撃情報が多発しています。');
 
+#------------------------------------------
+# ユーザーTBL 初期データ登録
+#------------------------------------------
 DELETE FROM user;
-INSERT INTO user values ('user0002', 'ユーザー0002', 'intern02', '1','2');
-INSERT INTO user values ('intern01', '一般', 'intern01', '1','1');
-INSERT INTO user values ('intern03', '管理者', 'intern03', '2','2');
+INSERT INTO user values ('user0002', 'ユーザー0002', 'intern02', '1','2', '北海道札幌市中央区北1条北1-1-1');
+INSERT INTO user values ('intern01', '一般', 'intern01', '1','1', '北海道札幌市中央区北2条西2-2-2');
+INSERT INTO user values ('intern03', '管理者', 'intern03', '2','2', '北海道札幌市中央区北3条南3-3-3');
 
+#------------------------------------------
+# レンタルTBL 初期データ登録
+#------------------------------------------
 DELETE FROM lending;
 INSERT INTO lending values ('intern01','4774190845','1','2022/09/03','intern01','2022/09/17');
 
+#------------------------------------------
+# 学生TBL 初期データ登録
+#------------------------------------------
 DELETE FROM student;
 INSERT INTO student values ('10000001', '山田', '太郎');
 INSERT INTO student values ('10000002', '鈴木', '次郎');
