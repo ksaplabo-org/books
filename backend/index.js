@@ -21,7 +21,7 @@ app.use(cors());
 /**
  * サインインAPI
  */
-app.post("/api/signIn", async function (req, res) {
+app.post("/api/sign-in", async function (req, res) {
   // リクエスト取得
   const user = req.body;
 

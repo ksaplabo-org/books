@@ -4,7 +4,7 @@ import UserConst from "./const/UserConst";
 /**
  * SessionStorageに保持するサインユーザー情報 のキー
  */
-const SIGNIN_KEY = "loginUser";
+const SIGN_IN_KEY = "signInUser";
 
 /**
  * サインイン
@@ -14,11 +14,11 @@ const SIGNIN_KEY = "loginUser";
  * @returns
  */
 export async function signIn(userId, password) {
-  const response = await AjaxUtil.signin(userId, password);
+  const response = await AjaxUtil.signIn(userId, password);
 
   if (response.data.result && response.data.user !== null) {
     // SessionStorageに、サインインユーザー情報を保持する
-    sessionStorage.setItem(SIGNIN_KEY, JSON.stringify(response.data.user));
+    sessionStorage.setItem(SIGN_IN_KEY, JSON.stringify(response.data.user));
 
     console.log("signin success.");
   }
@@ -29,7 +29,7 @@ export async function signIn(userId, password) {
  */
 export function signOut() {
   // SessionStorageから、サインインユーザー情報を削除する
-  sessionStorage.removeItem(SIGNIN_KEY);
+  sessionStorage.removeItem(SIGN_IN_KEY);
 }
 
 /**
@@ -39,10 +39,8 @@ export function signOut() {
  */
 export function currentUserInfo() {
   // SessionStorageから、サインインユーザー情報を取得する
-  const signinUser = sessionStorage.getItem(SIGNIN_KEY);
-
-  //
-  return signinUser === null ? null : JSON.parse(signinUser);
+  const signInUser = sessionStorage.getItem(SIGN_IN_KEY);
+  return signInUser === null ? null : JSON.parse(signInUser);
 }
 
 /**

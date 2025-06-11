@@ -42,7 +42,7 @@ export default new Router({
       component: BookList,
     },
     {
-      path: "/pages/book/management.html",
+      path: "/pages/book/manager.html",
       name: "bookManager",
       component: BookManager,
     },
@@ -58,7 +58,7 @@ export default new Router({
       component: UserCreate,
     },
     {
-      path: "/pages/user/management.html",
+      path: "/pages/user/manager.html",
       name: "userManager",
       component: UserManager,
     },

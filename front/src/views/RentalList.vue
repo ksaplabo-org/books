@@ -110,7 +110,7 @@ export default {
         // 検索エリアを非表示
         document.getElementById("searchArea").hidden = true;
         // 貸出状況検索処理呼び出し
-        this.searchWord = UserUtil.currentUserInfo().userid;
+        this.searchWord = UserUtil.currentUserInfo().userId;
         await this.searchLendingBooks();
       }
     },

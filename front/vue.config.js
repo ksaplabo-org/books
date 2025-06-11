@@ -39,7 +39,7 @@ module.exports = {
     bookManager: {
       entry: "src/main.js",
       template: "public/pages/index.html",
-      filename: "pages/book/management.html",
+      filename: "pages/book/manager.html",
       title: "書籍管理",
     },
     userList: {
@@ -57,10 +57,10 @@ module.exports = {
     userManager: {
       entry: "src/main.js",
       template: "public/pages/index.html",
-      filename: "pages/user/management.html",
+      filename: "pages/user/manager.html",
       title: "ユーザー管理",
     },
-    rentalbook: {
+    rentalBook: {
       entry: "src/main.js",
       template: "public/pages/index.html",
       filename: "pages/book/rental.html",

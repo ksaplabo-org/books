@@ -19,28 +19,8 @@
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
           <!-- ユーザーID検索 -->
-          <div class="continer" style="font-size: 10pt">
+          <div style="font-size: 10pt">
             <div class="form-group m-2">
-              <!-- 追加課題用 ST -->
-              <!--
-                            <div class="px-2">検索方法</div>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="border border-secondary rounded bg-white">
-                                        <div class="custom-control custom-radio custom-control-inline m-2">
-                                            <input type="radio" id="serchModeIdName" name="serchModeRadio" class="custom-control-input" value="modeUser" v-model="serchMode" checked>
-                                            <label class="custom-control-label" for="serchModeIdName">ID/名前</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline m-2">
-                                            <input type="radio" id="serchModeAuth" name="serchModeRadio" class="custom-control-input" value="modeAuth" v-model="serchMode">
-                                            <label class="custom-control-label" for="serchModeAuth">権限</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            -->
-              <!-- 追加課題用 ED -->
-
               <div class="px-2 mt-2">ユーザーID/ユーザー名を検索</div>
               <div class="row">
                 <div class="col-lg-3">
@@ -110,9 +90,6 @@ export default {
         { key: "controls", label: "" },
       ],
       items: [],
-      // 追加課題用 ST
-      //serchMode: 'modeUser',
-      // 追加課題用 ED
       searchWord: "",
     };
   },

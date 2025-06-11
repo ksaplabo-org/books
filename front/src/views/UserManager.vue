@@ -255,10 +255,10 @@ export default {
       const query = this.$route.query;
 
       // 編集対象のユーザーIDを設定する
-      this.userId = query.userId ? query.userId : UserUtil.currentUserInfo().userid;
+      this.userId = query.userId ? query.userId : UserUtil.currentUserInfo().userId;
 
       // サインインユーザーが更新対象の場合
-      if (this.userId == UserUtil.currentUserInfo().userid) {
+      if (this.userId == UserUtil.currentUserInfo().userId) {
         // 権限の編集不可設定
         for (let radio of document.getElementsByName("authRadio")) {
           radio.disabled = true;
@@ -368,7 +368,7 @@ export default {
         await AjaxUtil.deleteUser(this.userId);
 
         // サインインユーザーが削除された場合
-        if (this.userId == UserUtil.currentUserInfo().userid) {
+        if (this.userId == UserUtil.currentUserInfo().userId) {
           // サインアウト
           UserUtil.signOut();
           this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });

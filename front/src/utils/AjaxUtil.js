@@ -1,38 +1,38 @@
 // Ajax通信ライブラリ
 import axios from "axios";
 
-export function signin(userId, password) {
-  const url = "/api/signIn";
+export async function signIn(userId, password) {
+  const url = "/api/sign-in";
 
-  return axios.post(url, {
+  return await axios.post(url, {
     userId: userId,
     password: password,
   });
 }
 
-export function getAllSapBooks() {
+export async function getAllSapBooks() {
   const url = "/api/book";
 
-  return axios.get(url, {
+  return await axios.get(url, {
     params: {},
   });
 }
 
-export function getInformation() {
+export async function getInformation() {
   const url = "/api/information";
-  return axios.get(url);
+  return await axios.get(url);
 }
 
-export function searchBooks(keyword) {
+export async function searchBooks(keyword) {
   // search url : google books api.
   const url = "https://www.googleapis.com/books/v1/volumes?q=" + keyword.replace(" ", "+");
-  return axios.get(url);
+  return await axios.get(url);
 }
 
-export function addBook(addBookModel) {
+export async function addBook(addBookModel) {
   const url = "/api/book";
 
-  return axios.post(url, {
+  return await axios.post(url, {
     isbn: addBookModel.isbn,
     book_id: addBookModel.book_id,
     title: addBookModel.title,
@@ -41,10 +41,10 @@ export function addBook(addBookModel) {
   });
 }
 
-export function deleteBook(title) {
+export async function deleteBook(title) {
   const url = "/api/book/" + title;
 
-  return axios.delete(url);
+  return await axios.delete(url);
 }
 
 export async function getUserById(userId) {
@@ -62,10 +62,10 @@ export async function getUser(userId, userName) {
   return await axios.get(url, { params: params });
 }
 
-export function postUser(userModel) {
+export async function postUser(userModel) {
   const url = "/api/users";
 
-  return axios.post(url, {
+  return await axios.post(url, {
     userId: userModel.userId,
     userName: userModel.userName,
     password: userModel.password,
@@ -74,10 +74,10 @@ export function postUser(userModel) {
   });
 }
 
-export function putUser(userModel) {
+export async function putUser(userModel) {
   const url = "/api/users";
 
-  return axios.put(url, {
+  return await axios.put(url, {
     userId: userModel.userId,
     userName: userModel.userName,
     password: userModel.password,
@@ -86,16 +86,16 @@ export function putUser(userModel) {
   });
 }
 
-export function deleteUser(userId) {
+export async function deleteUser(userId) {
   const url = "/api/users/" + userId;
 
-  return axios.delete(url);
+  return await axios.delete(url);
 }
 
-export function postLending(lendModel) {
+export async function postLending(lendModel) {
   const url = "/api/lending";
 
-  return axios.post(url, {
+  return await axios.post(url, {
     isbn: lendModel.isbn,
     book_id: lendModel.book_id,
     lending_user_id: lendModel.lending_user_id,
@@ -105,9 +105,9 @@ export function postLending(lendModel) {
   });
 }
 
-export function deleteLending(lendModel) {
+export async function deleteLending(lendModel) {
   const url = "/api/lending";
-  return axios.request({
+  return await axios.request({
     method: "delete",
     url: url,
     data: {
@@ -118,27 +118,27 @@ export function deleteLending(lendModel) {
   });
 }
 
-export function searchLendingBooks(userId) {
+export async function searchLendingBooks(userId) {
   const url = "/api/lending/" + userId;
 
-  return axios.get(url);
+  return await axios.get(url);
 }
 
-export function getAllSearchBooks(searchWord) {
+export async function getAllSearchBooks(searchWord) {
   const url = "/api/book/search/" + searchWord;
-  return axios.get(url);
+  return await axios.get(url);
 }
 
-export function alreadyLending(alreadyModel) {
+export async function alreadyLending(alreadyModel) {
   const url = "/api/lending/already";
-  return axios.post(url, {
+  return await axios.post(url, {
     isbn: alreadyModel.isbn,
     lending_user_id: alreadyModel.lending_user_id,
   });
 }
 
-export function getAllStudent() {
+export async function getAllStudent() {
   const url = "/api/students";
 
-  return axios.get(url);
+  return await axios.get(url);
 }

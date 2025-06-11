@@ -299,7 +299,7 @@ export default {
                   lending_user_id: this.registId,
                   rental_date: year + "/" + month + "/" + day,
                   return_plan_date: returnYear + "/" + returnMonth + "/" + returnDay,
-                  managed_user_id: UserUtil.currentUserInfo().userid,
+                  managed_user_id: UserUtil.currentUserInfo().userId,
                 };
 
                 // 貸出登録実行
