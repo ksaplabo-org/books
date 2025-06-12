@@ -59,6 +59,17 @@
                     v-model="password"
                   />
                 </div>
+                <!-- パスワード(再入力) -->
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="inputReenterPassword"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください"
+                    v-model="reenterPassword"
+                  />
+                </div>
                 <!-- 性別 -->
                 <div class="form-group">
                   <label>性別</label>
@@ -126,6 +137,18 @@
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
                 </div>
+                <!-- 住所 -->
+                <div class="form-group">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="address"
+                    class="form-control"
+                    placeholder="150桁以下で入力してください"
+                    v-model="address"
+                    autocomplete="off"
+                  />
+                </div>
                 <!-- 新規登録ボタン -->
                 <div class="form-group">
                   <div class="d-flex justify-content-md-center">
@@ -174,6 +197,8 @@ export default {
       userId: "",
       userName: "",
       password: "",
+      reenterPassword: "",
+      address: "",
       gender: UserConst.Gender.woman,
       auth: UserConst.Auth.general,
       // 各ラジオボタン設定値
@@ -238,6 +263,10 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        if (this.password !== this.reenterPassword) {
+          this.errMsg = "パスワードとパスワード(再入力)が一致しません。";
+          return;
+        }
         if (!this.gender) {
           this.errMsg = "性別を選択してください";
           return;
@@ -246,6 +275,12 @@ export default {
           this.errMsg = "権限を選択してください";
           return;
         }
+        // 住所の入力チェック
+        if (this.address && this.address.length > 150) {
+          this.errMsg = "住所は150桁以下で入力してください";
+          return;
+        }
+
         // ユーザーID重複チェック
         const response = await AjaxUtil.getUserById(this.userId);
         const userInfo = JSON.parse(response.data.Items);
@@ -261,6 +296,7 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         // 登録

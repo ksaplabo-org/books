@@ -63,6 +63,18 @@
                     v-model="password"
                   />
                 </div>
+                <!-- パスワード(再入力) -->
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="inputReenterPassword"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください"
+                    v-model="reenterPassword"
+                    v-bind:disabled="beforePassword === password"
+                  />
+                </div>
 
                 <!-- 性別 -->
                 <div class="form-group">
@@ -131,6 +143,19 @@
                     />
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
+                </div>
+
+                <!-- 住所 -->
+                <div class="form-group">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="address"
+                    class="form-control"
+                    placeholder="150桁以下で入力してください"
+                    v-model="address"
+                    autocomplete="off"
+                  />
                 </div>
 
                 <!-- 更新・削除ボタン -->
@@ -216,6 +241,10 @@ export default {
       password: "",
       gender: "",
       auth: "",
+      reenterPassword: "",
+      address: "",
+      // 変更前のパスワードを保持
+      beforePassword: "",
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -283,6 +312,8 @@ export default {
         this.password = userInfo.password;
         this.gender = userInfo.gender;
         this.auth = userInfo.auth;
+        this.address = userInfo.address;
+        this.beforePassword = userInfo.password;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー取得に失敗しました";
@@ -321,12 +352,24 @@ export default {
         this.errMsg = "パスワードは半角英数で入力してください";
         return;
       }
+      // パスワードが変更されている場合のみ、再入力パスワードとの一致チェックを行う
+      if (this.beforePassword !== this.password) {
+        if (this.password !== this.reenterPassword) {
+          this.errMsg = "パスワードとパスワード(再入力)が一致しません。";
+          return;
+        }
+      }
       if (!this.gender) {
         this.errMsg = "性別を選択してください";
         return;
       }
       if (!this.auth) {
         this.errMsg = "権限を選択してください";
+        return;
+      }
+      // 住所の入力チェック
+      if (this.address && this.address.length > 150) {
+        this.errMsg = "住所は150桁以下で入力してください";
         return;
       }
 
@@ -337,6 +380,7 @@ export default {
         password: this.password,
         gender: this.gender,
         auth: this.auth,
+        address: this.address,
       };
 
       this.isLoading = true;
@@ -344,6 +388,9 @@ export default {
       try {
         await AjaxUtil.putUser(model);
         this.msg = "ユーザー更新に成功しました";
+
+        // 更新後のパスワードに上書き
+        this.beforePassword = this.password;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー更新に失敗しました";

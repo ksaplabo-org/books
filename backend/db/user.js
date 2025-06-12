@@ -30,6 +30,11 @@ module.exports.getUserModel = (db) => {
         type: Sequelize.STRING(1),
         allowNull: false,
       },
+      address: {
+        field: "address",
+        type: Sequelize.STRING(150),
+        allowNull: true,
+      },
     },
     {
       createdAt: false, //デフォルト項目を生成しないように

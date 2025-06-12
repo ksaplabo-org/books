@@ -175,12 +175,17 @@ app.get("/api/users", async function (req, res) {
   // クエリパラメータから検索条件を取得
   const userId = req.query.userId;
   const userName = req.query.userName;
+  const address = req.query.address;
+  const auth = req.query.auth;
 
   try {
     let users;
-    if (userId != null || userName != null) {
+    if (auth != null) {
+      // 権限検索
+      users = await UserLogic.findByAuth(db, auth);
+    } else if (userId != null || userName != null || address != null) {
       // あいまい検索
-      users = await UserLogic.findByIdOrNameLike(db, userId, userName);
+      users = await UserLogic.findByIdOrNameOrAddressLike(db, userId, userName, address);
     } else {
       // 全件検索
       users = await UserLogic.findAll(db);
@@ -206,7 +211,7 @@ app.post("/api/users", async function (req, res) {
 
   try {
     // ユーザー情報を登録する
-    await UserLogic.create(db, user.userId, user.userName, user.password, user.gender, user.auth);
+    await UserLogic.create(db, user.userId, user.userName, user.password, user.gender, user.auth, user.address);
 
     // 正常レスポンス
     res.send({});
@@ -226,7 +231,7 @@ app.put("/api/users", async function (req, res) {
 
   try {
     // ユーザー情報を登録する
-    await UserLogic.update(db, user.userId, user.userName, user.password, user.gender, user.auth);
+    await UserLogic.update(db, user.userId, user.userName, user.password, user.gender, user.auth, user.address);
 
     // 正常レスポンス
     res.send({});

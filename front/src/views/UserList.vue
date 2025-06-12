@@ -18,22 +18,81 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <!-- ユーザーID検索 -->
-          <div style="font-size: 10pt">
-            <div class="form-group m-2">
-              <div class="px-2 mt-2">ユーザーID/ユーザー名を検索</div>
-              <div class="row">
-                <div class="col-lg-3">
+          <div class="continer" style="font-size: 10pt">
+            <div class="card">
+              <div class="card-header">
+                <div class="px-2 mt-2">検索方法を選択</div>
+                <div class="custom-control custom-radio custom-control-inline m-2">
                   <input
-                    type="text"
-                    id="searchWord"
-                    class="form-control border-secondary"
-                    v-model="searchWord"
-                    placeholder="入力してください"
-                    required
+                    type="radio"
+                    id="searchModeIdName"
+                    name="searchModeRadio"
+                    class="custom-control-input"
+                    value="modeUser"
+                    v-model="searchMode"
+                    checked
                   />
+                  <label class="custom-control-label" for="searchModeIdName">ID/名前/住所で検索</label>
                 </div>
-                <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
+                <div class="custom-control custom-radio custom-control-inline m-2">
+                  <input
+                    type="radio"
+                    id="searchModeAuth"
+                    name="searchModeRadio"
+                    class="custom-control-input"
+                    value="modeAuth"
+                    v-model="searchMode"
+                  />
+                  <label class="custom-control-label" for="searchModeAuth">権限で検索</label>
+                </div>
+              </div>
+
+              <div class="form-group m-2">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div v-if="searchMode === 'modeUser'">
+                        <input
+                          type="text"
+                          id="searchWord"
+                          class="form-control border-secondary"
+                          v-model="searchWord"
+                          placeholder="ID/名前/住所のいずれかを入力してください"
+                          required
+                        />
+                      </div>
+
+                      <div v-if="searchMode === 'modeAuth'">
+                        <div class="form-control border-white">
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                              type="radio"
+                              id="generalRadio"
+                              name="authRadio"
+                              class="custom-control-input"
+                              v-model="auth"
+                              v-bind:value="general"
+                              checked
+                            />
+                            <label class="custom-control-label" for="generalRadio">一般</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                              type="radio"
+                              id="adminRadio"
+                              name="authRadio"
+                              class="custom-control-input"
+                              v-model="auth"
+                              v-bind:value="admin"
+                            />
+                            <label class="custom-control-label" for="adminRadio">社員</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -69,6 +128,7 @@
 <script>
 import * as UserUtil from "@/utils/UserUtil";
 import * as AjaxUtil from "@/utils/AjaxUtil";
+import UserConst from "@/utils/const/UserConst";
 // 共通
 import NaviMenu from "../components/NaviMenu.vue";
 import "../utils/sb-admin";
@@ -87,10 +147,15 @@ export default {
       fields: [
         { key: "user_id", label: "ユーザーID" },
         { key: "user_name", label: "ユーザー名" },
+        { key: "address", label: "住所" },
         { key: "controls", label: "" },
       ],
       items: [],
+      searchMode: "modeUser",
       searchWord: "",
+      auth: UserConst.Auth.general,
+      general: UserConst.Auth.general,
+      admin: UserConst.Auth.admin,
     };
   },
   async mounted() {
@@ -129,7 +194,14 @@ export default {
       this.isLoading = true;
 
       try {
-        const response = await AjaxUtil.getUser(this.searchWord, this.searchWord);
+        let response;
+        if (this.searchMode === "modeUser") {
+          // ユーザーID/ユーザー名/住所のあいまい検索
+          response = await AjaxUtil.getUser(this.searchWord, this.searchWord, this.searchWord);
+        } else {
+          // 権限の検索
+          response = await AjaxUtil.getUserByAuth(this.auth);
+        }
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";

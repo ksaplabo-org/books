@@ -53,11 +53,20 @@ export async function getUserById(userId) {
   return await axios.get(url);
 }
 
-export async function getUser(userId, userName) {
+export async function getUser(userId, userName, address, auth) {
   const url = "/api/users";
   const params = {
     userId: userId,
     userName: userName,
+    address: address,
+  };
+  return await axios.get(url, { params: params });
+}
+
+export async function getUserByAuth(auth) {
+  const url = "/api/users";
+  const params = {
+    auth: auth,
   };
   return await axios.get(url, { params: params });
 }
@@ -71,6 +80,7 @@ export async function postUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
 }
 
@@ -83,6 +93,7 @@ export async function putUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
 }
 
