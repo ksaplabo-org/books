@@ -138,9 +138,6 @@ export default {
      * 画面更新
      */
     updateView: async function () {
-      this.msg = "";
-      this.errMsg = "";
-
       // ユーザー情報検索処理
       await this.getUsers();
     },
@@ -150,6 +147,9 @@ export default {
      */
     getUsers: async function () {
       this.isLoading = true;
+
+      this.msg = "";
+      this.errMsg = "";
 
       try {
         const response = await AjaxUtil.getUser(this.searchWord, this.searchWord);

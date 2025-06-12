@@ -180,10 +180,10 @@ app.get("/api/users", async function (req, res) {
 
   try {
     let users;
-    if (auth != null) {
+    if (auth) {
       // 権限検索
       users = await UserLogic.findByAuth(db, auth);
-    } else if (userId != null || userName != null || address != null) {
+    } else if (userId || userName || address) {
       // あいまい検索
       users = await UserLogic.findByIdOrNameOrAddressLike(db, userId, userName, address);
     } else {

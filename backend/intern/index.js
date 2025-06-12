@@ -172,7 +172,7 @@ app.get("/api/users", async function (req, res) {
 
   try {
     let users;
-    if (userId != null || userName != null) {
+    if (userId || userName) {
       // あいまい検索
       users = await UserLogic.findByIdOrNameLike(db, userId, userName);
     } else {
