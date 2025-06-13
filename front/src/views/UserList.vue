@@ -18,21 +18,21 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <div class="continer" style="font-size: 10pt">
+          <div style="font-size: 10pt">
             <div class="card">
               <div class="card-header">
                 <div class="px-2 mt-2">検索方法を選択</div>
                 <div class="custom-control custom-radio custom-control-inline m-2">
                   <input
                     type="radio"
-                    id="searchModeIdName"
+                    id="searchModeLike"
                     name="searchModeRadio"
                     class="custom-control-input"
-                    value="modeUser"
+                    value="modeLike"
                     v-model="searchMode"
                     checked
                   />
-                  <label class="custom-control-label" for="searchModeIdName">ID/名前/住所で検索</label>
+                  <label class="custom-control-label" for="searchModeLike">ID/名前/住所で検索</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline m-2">
                   <input
@@ -51,7 +51,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-lg-6">
-                      <div v-if="searchMode === 'modeUser'">
+                      <div v-if="searchMode === 'modeLike'">
                         <input
                           type="text"
                           id="searchWord"
@@ -151,7 +151,7 @@ export default {
         { key: "controls", label: "" },
       ],
       items: [],
-      searchMode: "modeUser",
+      searchMode: "modeLike",
       searchWord: "",
       auth: UserConst.Auth.general,
       general: UserConst.Auth.general,
@@ -195,7 +195,7 @@ export default {
 
       try {
         let response;
-        if (this.searchMode === "modeUser") {
+        if (this.searchMode === "modeLike") {
           // ユーザーID/ユーザー名/住所のあいまい検索
           const searchParams = {
             userId: this.searchWord,
