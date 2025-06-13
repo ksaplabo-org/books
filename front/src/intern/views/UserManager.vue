@@ -306,6 +306,8 @@ export default {
       this.msg = "";
       this.errMsg = "";
 
+      this.isLoading = true;
+
       // 入力チェック
       if (!this.userName) {
         this.errMsg = "ユーザー名を入力してください";
@@ -344,8 +346,6 @@ export default {
         gender: this.gender,
         auth: this.auth,
       };
-
-      this.isLoading = true;
 
       try {
         await AjaxUtil.putUser(model);

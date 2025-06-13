@@ -53,11 +53,11 @@ export async function getUserById(userId) {
   return await axios.get(url);
 }
 
-export async function getUser(userId, userName) {
+export async function getUser(searchParams) {
   const url = "/api/users";
   const params = {
-    userId: userId,
-    userName: userName,
+    userId: searchParams.userId,
+    userName: searchParams.userName,
   };
   return await axios.get(url, { params: params });
 }

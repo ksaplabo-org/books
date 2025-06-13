@@ -197,7 +197,12 @@ export default {
         let response;
         if (this.searchMode === "modeUser") {
           // ユーザーID/ユーザー名/住所のあいまい検索
-          response = await AjaxUtil.getUser(this.searchWord, this.searchWord, this.searchWord);
+          const searchParams = {
+            userId: this.searchWord,
+            userName: this.searchWord,
+            address: this.searchWord,
+          };
+          response = await AjaxUtil.getUser(searchParams);
         } else {
           // 権限の検索
           response = await AjaxUtil.getUserByAuth(this.auth);

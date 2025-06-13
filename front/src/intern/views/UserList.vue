@@ -152,7 +152,11 @@ export default {
       this.errMsg = "";
 
       try {
-        const response = await AjaxUtil.getUser(this.searchWord, this.searchWord);
+        const searchParams = {
+            userId: this.searchWord,
+            userName: this.searchWord,
+          };
+        const response = await AjaxUtil.getUser(searchParams);
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
