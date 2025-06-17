@@ -4,16 +4,15 @@ module.exports.getInformationModel = function (db) {
   return db.define(
     "information",
     {
-      date: {
-        field: "date",
-        type: DATE,
-        primaryKey: true,
-        allowNull: false,
-      },
       no: {
         field: "no",
         type: TINYINT,
         primaryKey: true,
+        allowNull: false,
+      },
+      date: {
+        field: "date",
+        type: DATE,
         allowNull: false,
       },
       title: {

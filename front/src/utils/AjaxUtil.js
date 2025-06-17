@@ -23,6 +23,29 @@ export async function getInformation() {
   return await axios.get(url);
 }
 
+export async function postInformation(informationModel) {
+  const url = "/api/information";
+  return await axios.post(url, {
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
+export async function putInformation(informationModel) {
+  const url = "/api/information";
+  return await axios.put(url, {
+    no: informationModel.no,
+    date: informationModel.date,
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
+export async function deleteInformation(no) {
+  const url = `/api/information/${no}`;
+  return await axios.delete(url);
+}
+
 export async function searchBooks(keyword) {
   // search url : google books api.
   const url = "https://www.googleapis.com/books/v1/volumes?q=" + keyword.replace(" ", "+");

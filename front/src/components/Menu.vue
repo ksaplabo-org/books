@@ -37,7 +37,8 @@ export default {
         { title: "ユーザー管理", name: "userManager", icon: "fas fa-fw fa-user", onlyAdmin: false },
         { title: "レンタル", name: "rentalBook", icon: "fas fa-fw fa-book", onlyAdmin: true },
         { title: "レンタル一覧", name: "rentalList", icon: "fas fa-fw fa-book", onlyAdmin: false },
-        //{ title: '学生用', name: 'student', icon: 'fas fa-fw fa-user', onlyAdmin: false }
+        { title: "お知らせ管理", name: "informationManager", icon: "fas fa-fw fa-info-circle", onlyAdmin: true },
+        { title: '学生用', name: 'student', icon: 'fas fa-fw fa-user', onlyAdmin: false }
       ].filter((e) => (!UserUtil.isAdmin() ? !e.onlyAdmin : true)),
     };
   },

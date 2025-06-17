@@ -55,6 +55,51 @@ app.get("/api/information", async function (req, res) {
 });
 
 /**
+ * お知らせ新規登録API
+ */
+app.post("/api/information", async function (req, res) {
+  const info = req.body;
+
+  try {
+    await InformationLogic.create(db, info.title, info.content);
+    res.send();
+  } catch (e) {
+    console.log("failed to add information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ更新API
+ */
+app.put("/api/information", async function (req, res) {
+  const info = req.body;
+
+  try {
+    await InformationLogic.update(db, info.no, info.date, info.title, info.content);
+    res.send();
+  } catch (e) {
+    console.log("failed to update information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ削除API
+ */
+app.delete("/api/information/:no", async function (req, res) {
+  const no = req.params.no;
+
+  try {
+    await InformationLogic.remove(db, no);
+    res.send();
+  } catch (e) {
+    console.log("failed to remove information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
  * 書籍情報取得API
  */
 app.get("/api/book", async function (req, res) {
