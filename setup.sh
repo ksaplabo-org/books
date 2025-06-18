@@ -2,8 +2,6 @@
 
 # 各フォルダのパスを取得
 DIR=$(cd $(dirname $0); pwd)
-FRONT_DIR=$DIR/'front'/'src'
-BACKEND_DIR=$DIR/'backend'
 
 # 作成ブランチ名
 BRANCH_NAME='intern'
@@ -38,43 +36,29 @@ echo ' ローカルブランチを作成'
 echo " ブランチ名： [ $BRANCH_NAME ]"
 echo '=========================================================='
 # TODO: 警告が出力される。(動作には影響なし。)
-git checkout -B "$BRANCH_NAME" 'remotes/origin/master'
+git checkout -B "$BRANCH_NAME" 'remotes/origin/refactor/all'
 
 echo
 echo '=========================================================='
 echo ' ファイル変換'
 echo '=========================================================='
-function convert() {
-    fromFile=$1
+for fromFile in $(find "$DIR/$FROM_DIR" -type f);
+do
     toFile=${fromFile/"$FROM_DIR/"}
     
     echo "$fromFile -> $toFile"
     cp "$fromFile" "$toFile"
 
     git add "$toFile"
-}
-# backend
-for fromFile in $(find "$BACKEND_DIR/$FROM_DIR" -type f);
-do
-    convert $fromFile
-done
-# front
-for fromFile in $(find "$FRONT_DIR/$FROM_DIR" -type f);
-do
-    convert $fromFile
 done
 echo 'completed...'
 
 echo
 echo '=========================================================='
 echo ' 変換元のフォルダを削除'
-echo " 削除フォルダ: ["
-echo "    $BACKEND_DIR/$FROM_DIR"
-echo "    $FRONT_DIR/$FROM_DIR"
-echo " ]"
+echo " 削除フォルダ: [ $DIR/$FROM_DIR ]"
 echo '=========================================================='
-git rm -r "$BACKEND_DIR/$FROM_DIR"
-git rm -r "$FRONT_DIR/$FROM_DIR"
+git rm -r "$DIR/$FROM_DIR"
 
 echo
 echo '=========================================================='
@@ -82,7 +66,6 @@ echo ' コミットファイルの一覧'
 echo '=========================================================='
 git status -s -uno
 
-# コミット
 echo
 echo '=========================================================='
 echo ' git commit'
