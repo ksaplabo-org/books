@@ -248,7 +248,7 @@ export default {
         const response = await AjaxUtil.getInformation();
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
-        this.errMsg = "お知らせ検索処理に失敗しました";
+        this.errMsg = "検索処理に失敗しました";
       }
     },
 
@@ -273,12 +273,12 @@ export default {
      */
     checkInformation: function () {
       if (!this.title) {
-        this.errMsgModal = "お知らせを入力してください";
+        this.errMsgModal = "タイトルを入力してください";
         return false;
       }
 
       if (this.title.length > 100) {
-        this.errMsgModal = "お知らせは100桁以下で入力してください";
+        this.errMsgModal = "タイトルは100桁以下で入力してください";
         return false;
       }
 
@@ -309,6 +309,9 @@ export default {
 
       this.isLoading = true;
 
+      // モーダルを閉じる
+      $("#modal").modal("hide");
+
       try {
         // 新規登録処理
         await AjaxUtil.postInformation({ title: this.title, content: this.content });
@@ -316,14 +319,11 @@ export default {
         // 一覧を再検索
         await this.getInformation();
 
-        this.msg = "お知らせ情報の登録に成功しました";
+        this.msg = "登録に成功しました";
       } catch (e) {
-        this.errMsg = "お知らせ情報の登録に失敗しました";
+        this.errMsg = "登録に失敗しました";
         console.log(e);
       }
-
-      // モーダルを閉じる
-      $("#modal").modal("hide");
 
       this.isLoading = false;
     },
@@ -344,11 +344,13 @@ export default {
 
       this.isLoading = true;
 
+      // モーダルを閉じる
+      $("#modal").modal("hide");
+
       try {
         // 更新処理
         await AjaxUtil.putInformation({
           no: this.no,
-          date: this.date,
           title: this.title,
           content: this.content,
         });
@@ -356,14 +358,11 @@ export default {
         // 一覧を再検索
         await this.getInformation();
 
-        this.msg = "お知らせ情報の更新に成功しました";
+        this.msg = "更新に成功しました";
       } catch (e) {
-        this.errMsg = "お知らせ情報の更新に失敗しました";
+        this.errMsg = "更新に失敗しました";
         console.log(e);
       }
-
-      // モーダルを閉じる
-      $("#modal").modal("hide");
 
       this.isLoading = false;
     },
@@ -378,6 +377,9 @@ export default {
 
       this.isLoading = true;
 
+      // モーダルを閉じる
+      $("#modal").modal("hide");
+
       try {
         // 削除処理
         await AjaxUtil.deleteInformation(this.no);
@@ -385,14 +387,11 @@ export default {
         // 一覧を再検索
         await this.getInformation();
 
-        this.msg = "お知らせ情報の削除に成功しました";
+        this.msg = "削除に成功しました";
       } catch (e) {
-        this.errMsg = "お知らせ情報の削除に失敗しました";
+        this.errMsg = "削除に失敗しました";
         console.log(e);
       }
-
-      // モーダルを閉じる
-      $("#modal").modal("hide");
 
       this.isLoading = false;
     },

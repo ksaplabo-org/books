@@ -35,7 +35,6 @@ export async function putInformation(informationModel) {
   const url = "/api/information";
   return await axios.put(url, {
     no: informationModel.no,
-    date: informationModel.date,
     title: informationModel.title,
     content: informationModel.content,
   });

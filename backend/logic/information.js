@@ -63,7 +63,6 @@ module.exports.update = async function (db, no, title, content) {
   try {
     await informationModel.update(
       {
-        date: sequelize.fn("now"),
         title: title,
         content: content,
       },

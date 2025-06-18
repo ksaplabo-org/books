@@ -55,8 +55,8 @@ COLLATE utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS information;
 CREATE TABLE IF NOT EXISTS information
 (
-    no TINYINT NOT NULL,
-    date DATETIME NOT NULL,
+    no SMALLINT NOT NULL,
+    date DATE NOT NULL,
     title varchar(100) NOT NULL,
     content varchar(100) NOT NULL,
     PRIMARY KEY(no)

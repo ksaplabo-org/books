@@ -1,4 +1,4 @@
-const { STRING, DATE, TINYINT } = require("sequelize");
+const { STRING, DATE, SMALLINT } = require("sequelize");
 
 module.exports.getInformationModel = function (db) {
   return db.define(
@@ -6,7 +6,7 @@ module.exports.getInformationModel = function (db) {
     {
       no: {
         field: "no",
-        type: TINYINT,
+        type: SMALLINT,
         primaryKey: true,
         allowNull: false,
       },

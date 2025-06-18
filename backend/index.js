@@ -76,7 +76,7 @@ app.put("/api/information", async function (req, res) {
   const info = req.body;
 
   try {
-    await InformationLogic.update(db, info.no, info.date, info.title, info.content);
+    await InformationLogic.update(db, info.no, info.title, info.content);
     res.send();
   } catch (e) {
     console.log("failed to update information.", e);
