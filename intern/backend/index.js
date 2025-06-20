@@ -55,51 +55,6 @@ app.get("/api/information", async function (req, res) {
 });
 
 /**
- * お知らせ新規登録API
- */
-app.post("/api/information", async function (req, res) {
-  const info = req.body;
-
-  try {
-    await InformationLogic.create(db, info.title, info.content);
-    res.send();
-  } catch (e) {
-    console.log("failed to add information.", e);
-    res.status(500).send("server error occur");
-  }
-});
-
-/**
- * お知らせ更新API
- */
-app.put("/api/information", async function (req, res) {
-  const info = req.body;
-
-  try {
-    await InformationLogic.update(db, info.no, info.title, info.content);
-    res.send();
-  } catch (e) {
-    console.log("failed to update information.", e);
-    res.status(500).send("server error occur");
-  }
-});
-
-/**
- * お知らせ削除API
- */
-app.delete("/api/information/:no", async function (req, res) {
-  const no = req.params.no;
-
-  try {
-    await InformationLogic.remove(db, no);
-    res.send();
-  } catch (e) {
-    console.log("failed to remove information.", e);
-    res.status(500).send("server error occur");
-  }
-});
-
-/**
  * 書籍情報取得API
  */
 app.get("/api/book", async function (req, res) {
@@ -159,20 +114,14 @@ app.post("/api/book", async function (req, res) {
  * 書籍情報更新API
  */
 app.put("/api/book/:operation", async function (req, res) {
-  const requestBody = req.body;
-
-  // 書籍更新する
-  const isUpdateRental = req.params.operation === "rental";
-  try {
-    await BookLogic.updateState(db, requestBody.title, requestBody.userName, isUpdateRental);
-
-    // 正常レスポンス
-    res.send({ result: "success" });
-  } catch (e) {
-    // 異常レスポンス
-    console.log("failed to update book status.", e);
-    res.status(500).send("server error occur");
-  }
+  /**
+   * ★問題3[ユーザー管理] Start★
+   * 更新処理を呼び出せるように処理を記載する。
+   * ※ユーザー情報追加API(app.post("/api/users", function(req, res))を参照
+   *
+   * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
+   */
+  /**★問題3[ユーザー管理] End★*/
 });
 
 /**
@@ -220,17 +169,12 @@ app.get("/api/users", async function (req, res) {
   // クエリパラメータから検索条件を取得
   const userId = req.query.userId;
   const userName = req.query.userName;
-  const address = req.query.address;
-  const auth = req.query.auth;
 
   try {
     let users;
-    if (auth) {
-      // 権限検索
-      users = await UserLogic.findByAuth(db, auth);
-    } else if (userId || userName || address) {
+    if (userId || userName) {
       // あいまい検索
-      users = await UserLogic.findByIdOrNameOrAddressLike(db, userId, userName, address);
+      users = await UserLogic.findByIdOrNameLike(db, userId, userName);
     } else {
       // 全件検索
       users = await UserLogic.findAll(db);
@@ -256,7 +200,7 @@ app.post("/api/users", async function (req, res) {
 
   try {
     // ユーザー情報を登録する
-    await UserLogic.create(db, user.userId, user.userName, user.password, user.gender, user.auth, user.address);
+    await UserLogic.create(db, user.userId, user.userName, user.password, user.gender, user.auth);
 
     // 正常レスポンス
     res.send({});
@@ -276,7 +220,7 @@ app.put("/api/users", async function (req, res) {
 
   try {
     // ユーザー情報を登録する
-    await UserLogic.update(db, user.userId, user.userName, user.password, user.gender, user.auth, user.address);
+    await UserLogic.update(db, user.userId, user.userName, user.password, user.gender, user.auth);
 
     // 正常レスポンス
     res.send({});

@@ -1,23 +1,23 @@
 <template>
   <div class="singout">
     <h1>サインアウト</h1>
-    <loading v-if="isLoading === true"/>
+    <loading v-if="isLoading === true" />
     <p>Please wait......</p>
   </div>
 </template>
 
 <script>
-import * as UserUtil from '@/utils/UserUtil';
-import Loading from '../components/Loading.vue';
+import * as UserUtil from "@/utils/UserUtil";
+import Loading from "../components/Loading.vue";
 
 export default {
-  name: 'SignOut',
-  props: ['flashMsg'],
+  name: "SignOut",
+  props: ["flashMsg"],
   components: { Loading },
   data() {
     return {
       msg: this.flashMsg,
-      isLoading: true
+      isLoading: false,
     };
   },
   async mounted() {
@@ -27,11 +27,11 @@ export default {
       await UserUtil.signOut();
 
       this.isLoading = false;
-      this.$router.push({ name: 'signin', params: {flashMsg: 'サインアウトしました' }});
-    } catch(e) {
+      this.$router.push({ name: "signin", params: { flashMsg: "サインアウトしました" } });
+    } catch (e) {
       this.isLoading = false;
       this.msg = e.message;
-      this.$router.push({ name: 'signin', params: {flashErrMsg: 'サインアウト中にエラーが発生しました' }});
+      this.$router.push({ name: "signin", params: { flashErrMsg: "サインアウト中にエラーが発生しました" } });
     }
   },
 };

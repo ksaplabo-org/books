@@ -1,34 +1,98 @@
-const InformationRepository = require("../db/information");
 const sequelize = require("sequelize");
 
-/**
- * お知らせ一覧を取得する
- * @param {*} db 
- * @returns お知らせ情報（Promise）
- */
-module.exports.getAll = async function(db) {
-    const InformationModel = InformationRepository.getInformationModel(db);
+const informationRepository = require("../db/information");
 
-    try {
-        return await InformationModel.findAll(
-            {
-                attributes: [
-                    [
-                        sequelize.fn(
-                            'date_format',
-                            sequelize.col('date'),
-                            '%Y/%m/%d'
-                        ),
-                        'date'
-                    ],
-                    'no',
-                    'title',
-                    'content'
-                ]
-            }
-        );
-    } catch (e) {
-        console.log(e);
-        throw e;
-    }
-}
+/**
+ * お知らせを全件検索
+ *
+ * @param {*} db
+ * @returns
+ */
+module.exports.getAll = async function (db) {
+  const informationModel = informationRepository.getInformationModel(db);
+
+  try {
+    return await informationModel.findAll({
+      attributes: [[sequelize.fn("date_format", sequelize.col("date"), "%Y/%m/%d"), "date"], "no", "title", "content"],
+      order: [
+        ["date", "DESC"],
+        ["no", "DESC"],
+      ],
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * お知らせ新規登録
+ *
+ * @param {*} db
+ * @param {*} title
+ * @param {*} content
+ */
+module.exports.create = async function (db, title, content) {
+  const informationModel = informationRepository.getInformationModel(db);
+
+  // noの最大値をインクリメントした値を取得
+  const no = (await informationModel.max("no")) + 1;
+
+  try {
+    await informationModel.create({
+      no: no,
+      date: sequelize.fn("now"),
+      title: title,
+      content: content,
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * お知らせ更新
+ *
+ * @param {*} db
+ * @param {*} no
+ * @param {*} title
+ * @param {*} content
+ */
+module.exports.update = async function (db, no, title, content) {
+  const informationModel = informationRepository.getInformationModel(db);
+
+  try {
+    await informationModel.update(
+      {
+        title: title,
+        content: content,
+      },
+      {
+        where: {
+          no: no,
+        },
+      }
+    );
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * お知らせ削除
+ *
+ * @param {*} db
+ * @param {*} no
+ */
+module.exports.remove = async function (db, no) {
+  const informationModel = informationRepository.getInformationModel(db);
+
+  try {
+    await informationModel.destroy({
+      where: {
+        no: no,
+      },
+    });
+  } catch (e) {
+    throw e;
+  }
+};

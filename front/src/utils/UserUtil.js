@@ -1,34 +1,35 @@
-// Ajax通信ライブラリ
-import axios from 'axios';
-import UserConst from './const/UserConst';
+import * as AjaxUtil from "@/utils/AjaxUtil";
+import UserConst from "./const/UserConst";
+
+/**
+ * SessionStorageに保持するサインユーザー情報 のキー
+ */
+const SIGN_IN_KEY = "signInUser";
 
 /**
  * サインイン
  *
  * @param {*} userId ユーザーID
  * @param {*} password パスワード
- * @returns 
+ * @returns
  */
-export function signIn(userId, password) {
-  const url = '/api/signIn';
+export async function signIn(userId, password) {
+  const response = await AjaxUtil.signIn(userId, password);
 
-  return axios.post(url, {
-      userId: userId, 
-      password: password
-    })
-    .then(response => {
-      if (response.data.result && response.data.user !== null) {
-        console.log("login");
-        sessionStorage.setItem("loginUser", JSON.stringify(response.data.user));
-      }
-    });
+  if (response.data.result && response.data.user !== null) {
+    // SessionStorageに、サインインユーザー情報を保持する
+    sessionStorage.setItem(SIGN_IN_KEY, JSON.stringify(response.data.user));
+
+    console.log("signin success.");
+  }
 }
 
 /**
  * サインアウト
  */
 export function signOut() {
-  sessionStorage.removeItem("loginUser");
+  // SessionStorageから、サインインユーザー情報を削除する
+  sessionStorage.removeItem(SIGN_IN_KEY);
 }
 
 /**
@@ -37,17 +38,14 @@ export function signOut() {
  * @returns サインインユーザー情報
  */
 export function currentUserInfo() {
-  let loginUser = sessionStorage.getItem("loginUser");
-  if (loginUser === null) {
-    return null;
-  } else {
-    return JSON.parse(loginUser);
-  }
+  // SessionStorageから、サインインユーザー情報を取得する
+  const signInUser = sessionStorage.getItem(SIGN_IN_KEY);
+  return signInUser === null ? null : JSON.parse(signInUser);
 }
 
 /**
  * サインイン判定
- * 
+ *
  * @returns サインイン有無
  */
 export function isSignIn() {
@@ -60,8 +58,5 @@ export function isSignIn() {
  */
 export function isAdmin() {
   const userInfo = currentUserInfo();
-  if (userInfo === null) {
-    return false;
-  }
-  return userInfo.auth === UserConst.Auth.admin;
+  return userInfo !== null && userInfo.auth === UserConst.Auth.admin;
 }

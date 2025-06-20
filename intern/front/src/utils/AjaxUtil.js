@@ -23,28 +23,6 @@ export async function getInformation() {
   return await axios.get(url);
 }
 
-export async function postInformation(informationModel) {
-  const url = "/api/information";
-  return await axios.post(url, {
-    title: informationModel.title,
-    content: informationModel.content,
-  });
-}
-
-export async function putInformation(informationModel) {
-  const url = "/api/information";
-  return await axios.put(url, {
-    no: informationModel.no,
-    title: informationModel.title,
-    content: informationModel.content,
-  });
-}
-
-export async function deleteInformation(no) {
-  const url = `/api/information/${no}`;
-  return await axios.delete(url);
-}
-
 export async function searchBooks(keyword) {
   // search url : google books api.
   const url = "https://www.googleapis.com/books/v1/volumes?q=" + keyword.replace(" ", "+");
@@ -80,15 +58,6 @@ export async function getUser(searchParams) {
   const params = {
     userId: searchParams.userId,
     userName: searchParams.userName,
-    address: searchParams.address,
-  };
-  return await axios.get(url, { params: params });
-}
-
-export async function getUserByAuth(auth) {
-  const url = "/api/users";
-  const params = {
-    auth: auth,
   };
   return await axios.get(url, { params: params });
 }
@@ -102,21 +71,21 @@ export async function postUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
-    address: userModel.address,
   });
 }
 
 export async function putUser(userModel) {
-  const url = "/api/users";
-
-  return await axios.put(url, {
-    userId: userModel.userId,
-    userName: userModel.userName,
-    password: userModel.password,
-    gender: userModel.gender,
-    auth: userModel.auth,
-    address: userModel.address,
-  });
+  /**
+   * ★問題2[ユーザー管理] Start★
+   * 編集処理を呼び出せるように処理を記載する。
+   * ※ユーザー登録処理(postUser)を参照
+   *
+   * get:取得
+   * post:登録
+   * put:更新
+   * delete:削除
+   */
+  /**★問題2[ユーザー管理] End★*/
 }
 
 export async function deleteUser(userId) {
