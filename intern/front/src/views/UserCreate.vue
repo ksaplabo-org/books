@@ -30,7 +30,7 @@
                 -->
                 <!-- ユーザーID -->
                 <div class="form-group">
-                  <label>ユーザーID</label>
+                  <label></label>
                   <input
                     type="text"
                     id="userId"

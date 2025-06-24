@@ -43,7 +43,7 @@
                     required
                   />
                 </div>
-                <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
+                <button class="btn-primary btn-sm" v-on:click="function () {}">検索</button>
               </div>
               <!-- ★ 問題1 END ★ -->
             </div>
@@ -108,7 +108,6 @@ export default {
        */
       fields: [
         { key: "user_id", label: "ユーザーID" },
-        { key: "user_name", label: "ユーザー名" },
         { key: "controls", label: "" },
       ],
       /*★問題2 End★*/
@@ -153,9 +152,9 @@ export default {
 
       try {
         const searchParams = {
-            userId: this.searchWord,
-            userName: this.searchWord,
-          };
+          userId: this.searchWord,
+          userName: this.searchWord,
+        };
         const response = await AjaxUtil.getUser(searchParams);
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
