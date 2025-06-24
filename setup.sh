@@ -36,7 +36,8 @@ echo ' ローカルブランチを作成'
 echo " ブランチ名： [ $BRANCH_NAME ]"
 echo '=========================================================='
 # TODO: 警告が出力される。(動作には影響なし。)
-git checkout -B "$BRANCH_NAME" 'remotes/origin/master'
+git branch -D "$BRANCH_NAME"
+git checkout --orphan "$BRANCH_NAME" 'remotes/origin/master'
 
 echo
 echo '=========================================================='
