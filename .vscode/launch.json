@@ -5,6 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "launch front",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8080/public/pages/sign-in.html",
+      "webRoot": "${workspaceFolder}/front",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/src/*"
+      },
+      "sourceMaps": true,
+      "resolveSourceMapLocations": ["!**/node_modules/**"]
+    },
+    {
       "name": "attach backend",
       "type": "node",
       "request": "attach",
