@@ -27,7 +27,12 @@
               <button
                 type="button"
                 class="btn btn-primary"
-                @click="((reg = regType.create), beforeCreateModal({}))"
+                @click="
+                  () => {
+                    reg = regType.create;
+                    beforeCreateModal({});
+                  }
+                "
                 data-toggle="modal"
                 data-target="#modal"
               >
@@ -35,24 +40,38 @@
               </button>
             </div>
             <!-- お知らせ一覧テーブル -->
-            <form @submit.stop.prevent="editInformation">
-              <div class="card-body">
-                <b-table striped responsive hover :items="items" :fields="fields">
+            <div class="card-body">
+              <div class="table-responsive">
+                <b-table :items="items" :fields="fields">
                   <!-- ボタンセル定義 -->
-                  <template #cell(controls)="data">
+                  <template #cell(update)="data">
                     <!-- 編集ボタン -->
                     <b-button
+                      class="minWidth"
                       variant="outline-primary"
-                      @click="((reg = regType.update), beforeCreateModal(data.item))"
+                      @click="
+                        () => {
+                          reg = regType.update;
+                          beforeCreateModal(data.item);
+                        }
+                      "
                       data-toggle="modal"
                       data-target="#modal"
                     >
                       編集
                     </b-button>
+                  </template>
+                  <template #cell(delete)="data">
                     <!-- 削除ボタン -->
                     <b-button
+                      class="minWidth"
                       variant="outline-danger"
-                      @click="((reg = regType.delete), beforeCreateModal(data.item))"
+                      @click="
+                        () => {
+                          reg = regType.delete;
+                          beforeCreateModal(data.item);
+                        }
+                      "
                       data-toggle="modal"
                       data-target="#modal"
                     >
@@ -61,7 +80,7 @@
                   </template>
                 </b-table>
               </div>
-            </form>
+            </div>
           </div>
         </div>
         <Footer />
@@ -83,48 +102,66 @@
             </div>
             <div class="modal-body">
               <p class="text-danger" v-show="errMsgModal">{{ errMsgModal }}</p>
-              <div v-if="reg !== regType.create">
-                <div class="row pb-3">
-                  <div class="col-3 col-form-label">ID</div>
-                  <div id="id" class="col-9 col-form-label">{{ no }}</div>
-                </div>
-                <div class="row pb-3">
-                  <div class="col-3 col-form-label">掲載日</div>
-                  <div id="date" class="col-9 col-form-label">{{ date }}</div>
-                </div>
-              </div>
-              <div class="row pb-3">
-                <div class="col-3 col-form-label">タイトル</div>
-                <div class="col-9">
-                  <textarea
-                    id="title"
+
+              <!-- 番号 -->
+              <b-row v-if="reg !== regType.create" class="mt-2">
+                <b-col sm="3">
+                  <label for="textarea-default">番号</label>
+                </b-col>
+                <b-col sm="9">
+                  <label for="textarea-default">{{ no }}</label>
+                </b-col>
+              </b-row>
+
+              <!-- 掲載日 -->
+              <b-row v-if="reg !== regType.create" class="mt-2">
+                <b-col sm="3">
+                  <label for="textarea-default">掲載日</label>
+                </b-col>
+                <b-col sm="9">
+                  <label for="textarea-default">{{ date }}</label>
+                </b-col>
+              </b-row>
+
+              <!-- タイトル -->
+              <b-row class="mt-2">
+                <b-col sm="3">
+                  <label for="textarea-default">タイトル</label>
+                </b-col>
+                <b-col sm="9">
+                  <label v-if="reg === regType.delete" for="textarea-default">{{ title }}</label>
+                  <b-form-textarea
+                    v-if="reg !== regType.delete"
                     v-model="title"
                     autocomplete="off"
-                    style="resize: none"
-                    v-bind="
-                      reg === regType.delete
-                        ? { class: 'form-control-plaintext', disabled: true } // 削除の場合は編集無効
-                        : { class: 'form-control' } // 新規登録、編集の場合は編集有効
-                    "
-                  ></textarea>
-                </div>
-              </div>
-              <div class="row pb-3">
-                <div class="col-3 col-form-label">詳細</div>
-                <div class="col-9">
-                  <textarea
-                    id="content"
+                    size="sm"
+                    max-rows="5"
+                    no-resize
+                    :style="{ overflow: 'hidden' }"
+                  >
+                  </b-form-textarea>
+                </b-col>
+              </b-row>
+
+              <!-- 詳細 -->
+              <b-row class="mt-2">
+                <b-col sm="3">
+                  <label for="textarea-default">詳細</label>
+                </b-col>
+                <b-col sm="9">
+                  <label v-if="reg === regType.delete" for="textarea-default">{{ content }}</label>
+                  <b-form-textarea
+                    v-if="reg !== regType.delete"
                     v-model="content"
                     autocomplete="off"
-                    style="resize: none"
-                    v-bind="
-                      reg === regType.delete
-                        ? { class: 'form-control-plaintext', disabled: true } // 削除の場合は編集無効
-                        : { class: 'form-control' } // 新規登録、編集の場合は編集有効
-                    "
-                  ></textarea>
-                </div>
-              </div>
+                    size="sm"
+                    max-rows="5"
+                    no-resize
+                    :style="{ overflow: 'hidden' }"
+                  >
+                  </b-form-textarea>
+                </b-col>
+              </b-row>
             </div>
             <div class="modal-footer">
               <button
@@ -172,6 +209,12 @@
   </div>
 </template>
 
+<style>
+.minWidth {
+  min-width: 60px;
+}
+</style>
+
 <script>
 import * as UserUtil from "@/utils/UserUtil";
 import * as AjaxUtil from "@/utils/AjaxUtil";
@@ -193,10 +236,11 @@ export default {
       errMsgModal: "",
       isLoading: false,
       fields: [
-        { key: "no", label: "ID" },
+        { key: "no", label: "番号", class: "minWidth" },
         { key: "date", label: "掲載日" },
         { key: "title", label: "タイトル" },
-        { key: "controls", label: "" },
+        { key: "update", label: "", class: "text-center" },
+        { key: "delete", label: "", class: "text-center" },
       ],
       items: [],
 

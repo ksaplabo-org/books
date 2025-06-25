@@ -114,14 +114,20 @@ app.post("/api/book", async function (req, res) {
  * 書籍情報更新API
  */
 app.put("/api/book/:operation", async function (req, res) {
-  /**
-   * ★問題3[ユーザー管理] Start★
-   * 更新処理を呼び出せるように処理を記載する。
-   * ※ユーザー情報追加API(app.post("/api/users", function(req, res))を参照
-   *
-   * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
-   */
-  /**★問題3[ユーザー管理] End★*/
+  const requestBody = req.body;
+
+  // 書籍更新する
+  const isUpdateRental = req.params.operation === "rental";
+  try {
+    await BookLogic.updateState(db, requestBody.title, requestBody.userName, isUpdateRental);
+
+    // 正常レスポンス
+    res.send({ result: "success" });
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to update book status.", e);
+    res.status(500).send("server error occur");
+  }
 });
 
 /**
@@ -215,20 +221,14 @@ app.post("/api/users", async function (req, res) {
  * ユーザー情報更新API
  */
 app.put("/api/users", async function (req, res) {
-  // リクエスト取得
-  const user = req.body;
-
-  try {
-    // ユーザー情報を登録する
-    await UserLogic.update(db, user.userId, user.userName, user.password, user.gender, user.auth);
-
-    // 正常レスポンス
-    res.send({});
-  } catch (e) {
-    // 異常レスポンス
-    console.log("failed to update user.", e);
-    res.status(500).send("server error occur");
-  }
+  /**
+   * ★問題3[ユーザー管理] Start★
+   * 更新処理を呼び出せるように処理を記載する。
+   * ※ユーザー情報追加API(app.post("/api/users", function(req, res))を参照
+   *
+   * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
+   */
+  /**★問題3[ユーザー管理] End★*/
 });
 
 /**

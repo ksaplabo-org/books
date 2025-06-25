@@ -91,6 +91,7 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
       where: {
         [op.or]: {
           user_id: { [op.like]: "%" + userId + "%" },
+          auth: "1"
         },
       },
       /**★問題4[ユーザー一覧] End*/
@@ -122,11 +123,6 @@ module.exports.create = async function (db, userId, userName, password, gender, 
      * 登録処理が正常に実行できるようにする。
      */
     return await userModel.create({
-      user_id: userId,
-      user_name: userName,
-      password: password,
-      gender: gender,
-      auth: auth,
     });
     /**★問題11[ユーザー追加] End*/
   } catch (e) {
