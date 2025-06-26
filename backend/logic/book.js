@@ -22,19 +22,23 @@ module.exports.getAll = async function (db) {
  * 書籍を追加する
  *
  * @param {*} db
- * @param {*} book
+ * @param {*} isbn
+ * @param {*} bookId
+ * @param {*} title
+ * @param {*} description
+ * @param {*} imgUrl
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
-module.exports.add = async function (db, book) {
+module.exports.add = async function (db, isbn, bookId, title, description, imgUrl) {
   const BookModel = BookRepository.getBookModel(db, book);
 
   try {
     return await BookModel.create({
-      isbn: book.isbn,
-      book_id: book.book_id,
-      title: book.title,
-      description: book.description,
-      img_url: book.img_url,
+      isbn: isbn,
+      book_id: bookId,
+      title: title,
+      description: description,
+      img_url: imgUrl,
     });
   } catch (error) {
     console.log(error);
