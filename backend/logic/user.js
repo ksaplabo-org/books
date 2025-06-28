@@ -193,7 +193,7 @@ module.exports.update = async function (db, userId, userName, password, gender, 
         password: password,
         gender: gender,
         auth: auth,
-        address,
+        address: address,
       },
       {
         where: {
