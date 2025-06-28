@@ -168,7 +168,7 @@ export default {
         // 画面更新
         this.updateView();
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
       this.errMsg = e.message;
@@ -316,7 +316,7 @@ export default {
                     this.isLoading = false;
                   });
               } else {
-                this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+                this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
               }
             });
         });
@@ -385,7 +385,7 @@ export default {
                 this.isLoading = false;
               });
           } else {
-            this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+            this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
           }
         });
     },

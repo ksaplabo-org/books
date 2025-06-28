@@ -284,7 +284,7 @@ export default {
       // サインインチェック
       if (UserUtil.isSignIn()) {
         this.$router.push({
-          name: "signin",
+          name: "signIn",
           params: { flashMsg: "サインインしてください" },
         });
         return;
@@ -324,7 +324,7 @@ export default {
       // サインインチェック
       if (UserUtil.isSignIn()) {
         this.$router.push({
-          name: "signin",
+          name: "signIn",
           params: { flashMsg: "サインインしてください" },
         });
         return;

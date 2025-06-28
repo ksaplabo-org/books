@@ -27,11 +27,11 @@ export default {
       await UserUtil.signOut();
 
       this.isLoading = false;
-      this.$router.push({ name: "signin", params: { flashMsg: "サインアウトしました" } });
+      this.$router.push({ name: "signIn", params: { flashMsg: "サインアウトしました" } });
     } catch (e) {
       this.isLoading = false;
       this.msg = e.message;
-      this.$router.push({ name: "signin", params: { flashErrMsg: "サインアウト中にエラーが発生しました" } });
+      this.$router.push({ name: "signIn", params: { flashErrMsg: "サインアウト中にエラーが発生しました" } });
     }
   },
 };

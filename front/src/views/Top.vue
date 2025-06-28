@@ -135,10 +135,10 @@ export default {
         // 画面更新
         await this.updateView();
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
-      this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+      this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
     }
   },
   methods: {

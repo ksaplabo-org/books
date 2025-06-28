@@ -28,7 +28,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
             <div class="dropdown-divider"></div>
-            <router-link tag="a" class="dropdown-item" :to="{ name: 'signout' }">
+            <router-link tag="a" class="dropdown-item" :to="{ name: 'signOut' }">
               <span>サインアウト</span>
             </router-link>
             <div class="dropdown-divider"></div>
