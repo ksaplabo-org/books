@@ -3,9 +3,10 @@ const moment = require("moment");
 const BookRepository = require("../db/book");
 
 /**
- * 書籍情報を取得する
+ * 書籍情報を全件検索
+ *
  * @param {*} db
- * @returns 全書籍情報（Promise）
+ * @returns {Promise<Object[]>}
  */
 module.exports.getAll = async function (db) {
   const BookModel = BookRepository.getBookModel(db);
@@ -18,7 +19,35 @@ module.exports.getAll = async function (db) {
 };
 
 /**
- * 書籍を追加する
+ * 書籍情報を検索
+ *
+ * [検索条件]
+ * 書籍名の部分一致
+ *
+ * @param {*} db
+ * @param {*} searchWord
+ * @returns {Promise<Object[]>}
+ */
+module.exports.getAllSearchBooks = async function (db, searchWord) {
+  const BookModel = BookRepository.getBookModel(db);
+  const Sequelize = require("sequelize");
+  const Op = Sequelize.Op;
+
+  try {
+    return await BookModel.findAll({
+      where: {
+        title: {
+          [Op.like]: "%" + searchWord + "%",
+        },
+      },
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * 書籍情報を新規登録
  *
  * @param {*} db
  * @param {*} isbn
@@ -26,7 +55,7 @@ module.exports.getAll = async function (db) {
  * @param {*} title
  * @param {*} description
  * @param {*} imgUrl
- * @returns Promise（成功時 resolve/失敗時 reject）
+ * @returns {Promise<void>}
  */
 module.exports.add = async function (db, isbn, bookId, title, description, imgUrl) {
   const BookModel = BookRepository.getBookModel(db, book);
@@ -45,12 +74,12 @@ module.exports.add = async function (db, isbn, bookId, title, description, imgUr
 };
 
 /**
- * 書籍の状態を更新する
+ * 書籍の状態を更新
  *
  * @param {*} db
  * @param {*} title
  * @param {*} isUpdateRental
- * @returns Promise（成功時 resolve/失敗時 reject）
+ * @returns {Promise<void>}
  */
 module.exports.updateState = async function (db, title, userName, isUpdateRental) {
   const BookModel = BookRepository.getBookModel(db);
@@ -81,40 +110,17 @@ module.exports.updateState = async function (db, title, userName, isUpdateRental
 };
 
 /**
- * 書籍情報を削除する
+ * 書籍情報を削除
+ *
  * @param {*} db
  * @param {*} title
- * @returns Promise（成功時 resolve/失敗時 reject）
+ * @returns {Promise<void>}
  */
 module.exports.remove = async function (db, title) {
   const BookModel = BookRepository.getBookModel(db);
 
   try {
     return await BookModel.destroy({ where: { title: title } });
-  } catch (e) {
-    throw e;
-  }
-};
-
-/**
- * 書籍名のあいまい検索結果を取得する
- * @param {*} db
- * @param {*} searchWord
- * @returns 全書籍情報（Promise）
- */
-module.exports.getAllSearchBooks = async function (db, searchWord) {
-  const BookModel = BookRepository.getBookModel(db);
-  const Sequelize = require("sequelize");
-  const Op = Sequelize.Op;
-
-  try {
-    return await BookModel.findAll({
-      where: {
-        title: {
-          [Op.like]: "%" + searchWord + "%",
-        },
-      },
-    });
   } catch (e) {
     throw e;
   }

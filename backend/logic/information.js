@@ -3,10 +3,10 @@ const sequelize = require("sequelize");
 const informationRepository = require("../db/information");
 
 /**
- * お知らせを全件検索
+ * お知らせ情報を全件検索
  *
  * @param {*} db
- * @returns
+ * @returns {Promise<Object[]>}
  */
 module.exports.getAll = async function (db) {
   const informationModel = informationRepository.getInformationModel(db);
@@ -25,11 +25,12 @@ module.exports.getAll = async function (db) {
 };
 
 /**
- * お知らせ新規登録
+ * お知らせ情報を新規登録
  *
  * @param {*} db
  * @param {*} title
  * @param {*} content
+ * @returns {Promise<void>}
  */
 module.exports.create = async function (db, title, content) {
   const informationModel = informationRepository.getInformationModel(db);
@@ -50,12 +51,13 @@ module.exports.create = async function (db, title, content) {
 };
 
 /**
- * お知らせ更新
+ * お知らせ情報を更新
  *
  * @param {*} db
  * @param {*} no
  * @param {*} title
  * @param {*} content
+ * @returns {Promise<void>}
  */
 module.exports.update = async function (db, no, title, content) {
   const informationModel = informationRepository.getInformationModel(db);
@@ -78,10 +80,11 @@ module.exports.update = async function (db, no, title, content) {
 };
 
 /**
- * お知らせ削除
+ * お知らせ情報を削除
  *
  * @param {*} db
  * @param {*} no
+ * @returns {Promise<void>}
  */
 module.exports.remove = async function (db, no) {
   const informationModel = informationRepository.getInformationModel(db);
