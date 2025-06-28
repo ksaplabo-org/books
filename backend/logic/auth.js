@@ -27,7 +27,7 @@ module.exports.verify = async function (db, userId, password) {
       result: result,
       user: resultUser,
     };
-  } catch (error) {
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };

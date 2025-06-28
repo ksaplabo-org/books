@@ -309,7 +309,7 @@ export default {
       } catch (e) {
         this.msg = "";
         this.errMsg = "登録処理に失敗しました";
-        console.log(error);
+        console.log(e);
       }
 
       this.isLoading = false;
@@ -338,7 +338,7 @@ export default {
       } catch (e) {
         this.msg = "";
         this.errMsg = "削除処理に失敗しました";
-        console.log(error);
+        console.log(e);
       }
 
       this.isLoading = false;

@@ -10,8 +10,7 @@ module.exports.getAll = async function (db) {
 
   try {
     return await StudentModel.findAll();
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };

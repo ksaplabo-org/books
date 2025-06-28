@@ -24,9 +24,8 @@ module.exports.create = async function (db, isbn, bookId, lendingUserId, rentalD
       managed_user_id: managedUserId,
       return_plan_date: returnPlanDate,
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
 
@@ -49,9 +48,8 @@ module.exports.delete = async function (db, isbn, bookId, lendingUserId) {
         book_id: bookId,
       },
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
 
@@ -94,9 +92,8 @@ module.exports.getLendingUser = async function (db, userId) {
         },
       ],
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
 
@@ -118,8 +115,7 @@ module.exports.selectAlreadyUser = async function (db, isbn, lendingUserId) {
         isbn: isbn,
       },
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };

@@ -12,9 +12,8 @@ module.exports.getAll = async function (db) {
 
   try {
     return await BookModel.findAll();
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
 
@@ -40,9 +39,8 @@ module.exports.add = async function (db, isbn, bookId, title, description, imgUr
       description: description,
       img_url: imgUrl,
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
 
@@ -77,9 +75,8 @@ module.exports.updateState = async function (db, title, userName, isUpdateRental
     const filter = { where: { title: title } };
 
     return await BookModel.update(updateParams, filter);
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
 
@@ -94,9 +91,8 @@ module.exports.remove = async function (db, title) {
 
   try {
     return await BookModel.destroy({ where: { title: title } });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
 
@@ -119,8 +115,7 @@ module.exports.getAllSearchBooks = async function (db, searchWord) {
         },
       },
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
