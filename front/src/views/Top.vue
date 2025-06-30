@@ -111,7 +111,6 @@ import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  name: "Top",
   props: ["flashMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {

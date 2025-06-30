@@ -59,7 +59,6 @@ import * as UserUtil from "@/utils/UserUtil";
 import Loading from "../components/Loading.vue";
 
 export default {
-  name: "SignIn",
   props: ["flashMsg", "flashErrMsg"],
   components: { Loading },
   data() {

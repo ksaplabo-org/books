@@ -11,7 +11,6 @@ import * as UserUtil from "@/utils/UserUtil";
 import Loading from "../components/Loading.vue";
 
 export default {
-  name: "SignOut",
   props: ["flashMsg"],
   components: { Loading },
   data() {
