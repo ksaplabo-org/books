@@ -74,7 +74,7 @@ module.exports.add = async function (db, isbn, bookId, title, description, imgUr
 };
 
 /**
- * 書籍の状態を更新
+ * 書籍情報を更新
  *
  * @param {*} db
  * @param {*} title
@@ -85,7 +85,6 @@ module.exports.updateState = async function (db, title, userName, isUpdateRental
   const BookModel = BookRepository.getBookModel(db);
 
   try {
-    // set update parameter
     const updateParams = {
       rentalStatus: null,
       rentalDate: null,
@@ -100,10 +99,7 @@ module.exports.updateState = async function (db, title, userName, isUpdateRental
       updateParams.rentalUser = userName;
     }
 
-    // set filter parametero
-    const filter = { where: { title: title } };
-
-    return await BookModel.update(updateParams, filter);
+    return await BookModel.update(updateParams, { where: { title: title } });
   } catch (e) {
     throw e;
   }
