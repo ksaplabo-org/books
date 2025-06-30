@@ -86,7 +86,7 @@
         <Footer />
       </div>
 
-      <!-- モーダルの設定です -->
+      <!-- モーダル -->
       <div
         class="modal fade"
         id="imagemodal"

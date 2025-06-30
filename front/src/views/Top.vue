@@ -49,7 +49,7 @@
         <Footer />
       </div>
 
-      <!-- モーダルの設定です -->
+      <!-- モーダル -->
       <div
         class="modal fade"
         id="imagemodal"
@@ -131,7 +131,6 @@ export default {
   async mounted() {
     try {
       if (UserUtil.isSignIn()) {
-        console.log("ok");
         // 画面更新
         await this.updateView();
       } else {
