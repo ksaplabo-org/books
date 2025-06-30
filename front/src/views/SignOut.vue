@@ -1,5 +1,5 @@
 <template>
-  <div class="singout">
+  <div>
     <h1>サインアウト</h1>
     <loading v-if="isLoading === true" />
     <p>Please wait......</p>

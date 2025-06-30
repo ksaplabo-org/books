@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">

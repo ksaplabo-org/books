@@ -1,5 +1,5 @@
 <template>
-  <div class="student">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">

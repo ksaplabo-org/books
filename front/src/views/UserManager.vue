@@ -1,5 +1,5 @@
 <template>
-  <div class="edituser">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">

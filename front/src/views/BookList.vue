@@ -1,5 +1,5 @@
 <template>
-  <div class="listbook">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">

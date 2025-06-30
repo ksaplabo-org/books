@@ -1,5 +1,5 @@
 <template>
-  <div class="rentalbook">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
