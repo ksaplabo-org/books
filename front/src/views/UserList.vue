@@ -100,16 +100,14 @@
           <br />
 
           <!-- ユーザー一覧 -->
-          <form @submit.stop.prevent="updateView">
-            <b-table striped responsive hover :items="items" :fields="fields">
-              <!-- ボタンセル定義 -->
-              <template #cell(controls)="data">
-                <b-button-group>
-                  <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)"> 編集 </b-button>
-                </b-button-group>
-              </template>
-            </b-table>
-          </form>
+          <b-table striped responsive hover :items="items" :fields="fields">
+            <!-- ボタンセル定義 -->
+            <template #cell(controls)="data">
+              <b-button-group>
+                <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)"> 編集 </b-button>
+              </b-button-group>
+            </template>
+          </b-table>
         </div>
       </div>
       <Footer />
