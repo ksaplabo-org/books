@@ -14,13 +14,13 @@ const SIGN_IN_KEY = "signInUser";
  * @returns
  */
 export async function signIn(userId, password) {
-  const response = await AjaxUtil.signIn(userId, password);
+  try {
+    const response = await AjaxUtil.signIn(userId, password);
 
-  if (response.data.result && response.data.user !== null) {
     // SessionStorageに、サインインユーザー情報を保持する
-    sessionStorage.setItem(SIGN_IN_KEY, JSON.stringify(response.data.user));
-
-    console.log("signin success.");
+    sessionStorage.setItem(SIGN_IN_KEY, JSON.stringify(response.data));
+  } catch (e) {
+    throw e;
   }
 }
 
