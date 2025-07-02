@@ -52,6 +52,8 @@ do
 
     git add "$toFile"
 done
+git rm -f "$DIR/front/src/views/InformationManager.vue"
+git rm -f "$DIR/setup.sh"
 echo 'completed...'
 
 echo
@@ -59,7 +61,7 @@ echo '=========================================================='
 echo ' 変換元のフォルダを削除'
 echo " 削除フォルダ: [ $DIR/$FROM_DIR ]"
 echo '=========================================================='
-git rm -r "$DIR/$FROM_DIR"
+git rm -rf "$DIR/$FROM_DIR"
 
 echo
 echo '=========================================================='
@@ -71,7 +73,7 @@ echo
 echo '=========================================================='
 echo ' git commit'
 echo '=========================================================='
-git commit -m "intern用セットアップ"
+git commit -m "initial commit"
 
 echo
 echo '=========================================================='
