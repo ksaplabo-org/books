@@ -1,5 +1,4 @@
 // Business Logic define
-const AuthLogic = require("./logic/auth");
 const BookLogic = require("./logic/book");
 const UserLogic = require("./logic/user");
 const LendingLogic = require("./logic/lending");
@@ -25,16 +24,27 @@ app.post("/api/sign-in", async function (req, res) {
   // リクエストボディ取得
   const reqBody = req.body;
 
+  let resBody = null;
+  let status = 200;
   try {
-    const result = await AuthLogic.verify(db, reqBody.userId, reqBody.password);
-
-    // 正常レスポンス
-    res.send(result);
+    const user = await UserLogic.findById(db, reqBody.userId);
+    if (user == null || user.password !== reqBody.password) {
+      // 認証失敗として401エラーを設定
+      status = 401;
+    } else {
+      // 認証成功としてレスポンスボディを設定
+      resBody = {
+        userId: user.user_id,
+        userName: user.user_name,
+        auth: user.auth,
+      };
+    }
   } catch (e) {
     // 異常レスポンス
     console.log("failed to verify user.", e);
-    res.status(500).send("server error occur");
+    status = 500;
   }
+  res.status(status).send(resBody);
 });
 
 /**

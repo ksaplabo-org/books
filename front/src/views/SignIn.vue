@@ -75,24 +75,22 @@ export default {
      * サインイン処理
      */
     async signIn() {
+      this.msg = "";
+      this.errMsg = "";
+
+      this.isLoading = true;
+
       try {
-        this.msg = "";
-        this.errMsg = "";
-
-        this.isLoading = true;
-
         await UserUtil.signIn(this.userId, this.password);
-
-        if (UserUtil.isSignIn()) {
-          this.isLoading = false;
-          this.$router.push({ name: "top" });
-        } else {
-          this.isLoading = false;
-          this.errMsg = "サインインに失敗しました。";
-        }
+        this.$router.push({ name: "top" });
       } catch (e) {
+        if (e.response.status === 401) {
+          this.errMsg = "サインインに失敗しました";
+        } else {
+          this.errMsg = e.message;
+        }
+      } finally {
         this.isLoading = false;
-        this.errMsg = e.message;
       }
     },
   },
