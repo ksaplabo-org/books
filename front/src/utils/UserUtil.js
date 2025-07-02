@@ -2,7 +2,7 @@ import * as AjaxUtil from "@/utils/AjaxUtil";
 import UserConst from "./const/UserConst";
 
 /**
- * SessionStorageに保持するサインユーザー情報 のキー
+ * SessionStorageに保持するサインインユーザー情報 のキー
  */
 const SIGN_IN_KEY = "signInUser";
 

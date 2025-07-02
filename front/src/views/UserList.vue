@@ -1,5 +1,5 @@
 <template>
-  <div class="listuser">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -18,80 +18,78 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <div style="font-size: 10pt">
-            <div class="card">
-              <div class="card-header">
-                <div class="px-2 mt-2">検索方法を選択</div>
-                <div class="custom-control custom-radio custom-control-inline m-2">
-                  <input
-                    type="radio"
-                    id="searchModeLike"
-                    name="searchModeRadio"
-                    class="custom-control-input"
-                    value="modeLike"
-                    v-model="searchMode"
-                    checked
-                  />
-                  <label class="custom-control-label" for="searchModeLike">ID/名前/住所で検索</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline m-2">
-                  <input
-                    type="radio"
-                    id="searchModeAuth"
-                    name="searchModeRadio"
-                    class="custom-control-input"
-                    value="modeAuth"
-                    v-model="searchMode"
-                  />
-                  <label class="custom-control-label" for="searchModeAuth">権限で検索</label>
-                </div>
+          <div class="card">
+            <div class="card-header small">
+              <div class="px-2 mt-2">検索方法を選択</div>
+              <div class="custom-control custom-radio custom-control-inline m-2">
+                <input
+                  type="radio"
+                  id="searchModeLike"
+                  name="searchModeRadio"
+                  class="custom-control-input"
+                  value="modeLike"
+                  v-model="searchMode"
+                  checked
+                />
+                <label class="custom-control-label" for="searchModeLike">ID/名前/住所で検索</label>
               </div>
+              <div class="custom-control custom-radio custom-control-inline m-2">
+                <input
+                  type="radio"
+                  id="searchModeAuth"
+                  name="searchModeRadio"
+                  class="custom-control-input"
+                  value="modeAuth"
+                  v-model="searchMode"
+                />
+                <label class="custom-control-label" for="searchModeAuth">権限で検索</label>
+              </div>
+            </div>
 
-              <div class="form-group m-2">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div v-if="searchMode === 'modeLike'">
-                        <input
-                          type="text"
-                          id="searchWord"
-                          class="form-control border-secondary"
-                          v-model="searchWord"
-                          placeholder="ID/名前/住所のいずれかを入力してください"
-                          required
-                        />
-                      </div>
+            <div class="form-group m-2">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div v-if="searchMode === 'modeLike'">
+                      <input
+                        type="text"
+                        id="searchWord"
+                        class="form-control border-secondary"
+                        v-model="searchWord"
+                        placeholder="ID/名前/住所のいずれかを入力してください"
+                        required
+                      />
+                    </div>
 
-                      <div v-if="searchMode === 'modeAuth'">
-                        <div class="form-control border-white">
-                          <div class="custom-control custom-radio custom-control-inline">
-                            <input
-                              type="radio"
-                              id="generalRadio"
-                              name="authRadio"
-                              class="custom-control-input"
-                              v-model="auth"
-                              v-bind:value="general"
-                              checked
-                            />
-                            <label class="custom-control-label" for="generalRadio">一般</label>
-                          </div>
-                          <div class="custom-control custom-radio custom-control-inline">
-                            <input
-                              type="radio"
-                              id="adminRadio"
-                              name="authRadio"
-                              class="custom-control-input"
-                              v-model="auth"
-                              v-bind:value="admin"
-                            />
-                            <label class="custom-control-label" for="adminRadio">社員</label>
-                          </div>
+                    <div v-if="searchMode === 'modeAuth'">
+                      <div class="form-control border-white">
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input
+                            type="radio"
+                            id="generalRadio"
+                            name="authRadio"
+                            class="custom-control-input"
+                            v-model="auth"
+                            v-bind:value="general"
+                            checked
+                          />
+                          <label class="custom-control-label" for="generalRadio">一般</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input
+                            type="radio"
+                            id="adminRadio"
+                            name="authRadio"
+                            class="custom-control-input"
+                            v-model="auth"
+                            v-bind:value="admin"
+                          />
+                          <label class="custom-control-label" for="adminRadio">社員</label>
                         </div>
                       </div>
                     </div>
-                    <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
                   </div>
+                  <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
                 </div>
               </div>
             </div>
@@ -100,16 +98,14 @@
           <br />
 
           <!-- ユーザー一覧 -->
-          <form @submit.stop.prevent="updateView">
-            <b-table striped responsive hover :items="items" :fields="fields">
-              <!-- ボタンセル定義 -->
-              <template #cell(controls)="data">
-                <b-button-group>
-                  <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)"> 編集 </b-button>
-                </b-button-group>
-              </template>
-            </b-table>
-          </form>
+          <b-table striped responsive hover :items="items" :fields="fields">
+            <!-- ボタンセル定義 -->
+            <template #cell(controls)="data">
+              <b-button-group>
+                <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)"> 編集 </b-button>
+              </b-button-group>
+            </template>
+          </b-table>
         </div>
       </div>
       <Footer />
@@ -136,7 +132,6 @@ import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 export default {
-  name: "ListUser",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {

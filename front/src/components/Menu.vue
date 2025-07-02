@@ -47,7 +47,7 @@ export default {
       if (UserUtil.isSignIn()) {
         this.msg = "";
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
       this.errMsg = e.message;

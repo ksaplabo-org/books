@@ -1,5 +1,5 @@
 <template>
-  <div class="informationManager">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -226,7 +226,6 @@ import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  name: "InformationManager",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {

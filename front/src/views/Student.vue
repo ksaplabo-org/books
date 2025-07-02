@@ -1,5 +1,5 @@
 <template>
-  <div class="student">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -47,7 +47,6 @@ import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 export default {
-  name: "Student",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -74,7 +73,7 @@ export default {
         this.msg = this.flashMsg;
         this.errMsg = this.flashErrMsg;
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
       this.errMsg = e.message;

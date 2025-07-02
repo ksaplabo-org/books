@@ -1,5 +1,5 @@
 <template>
-  <div class="edituser">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -227,7 +227,6 @@ import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 export default {
-  name: "EditUser",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -333,59 +332,59 @@ export default {
 
       this.isLoading = true;
 
-      // 入力チェック
-      if (!this.userName) {
-        this.errMsg = "ユーザー名を入力してください";
-        return;
-      }
-      if (this.userName.length > 100) {
-        this.errMsg = "ユーザー名は100桁以下で入力してください";
-        return;
-      }
-      if (!this.password) {
-        this.errMsg = "パスワードを入力してください";
-        return;
-      }
-      if (this.password.length < 8 || this.password.length > 16) {
-        this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
-        return;
-      }
-      if (!this.password.match("^[0-9A-Za-z]{8,16}$")) {
-        this.errMsg = "パスワードは半角英数で入力してください";
-        return;
-      }
-      // パスワードが変更されている場合のみ、再入力パスワードとの一致チェックを行う
-      if (this.beforePassword !== this.password) {
-        if (this.password !== this.reenterPassword) {
-          this.errMsg = "パスワードとパスワード(再入力)が一致しません。";
+      try {
+        // 入力チェック
+        if (!this.userName) {
+          this.errMsg = "ユーザー名を入力してください";
           return;
         }
-      }
-      if (!this.gender) {
-        this.errMsg = "性別を選択してください";
-        return;
-      }
-      if (!this.auth) {
-        this.errMsg = "権限を選択してください";
-        return;
-      }
-      // 住所の入力チェック
-      if (this.address && this.address.length > 150) {
-        this.errMsg = "住所は150桁以下で入力してください";
-        return;
-      }
+        if (this.userName.length > 100) {
+          this.errMsg = "ユーザー名は100桁以下で入力してください";
+          return;
+        }
+        if (!this.password) {
+          this.errMsg = "パスワードを入力してください";
+          return;
+        }
+        if (this.password.length < 8 || this.password.length > 16) {
+          this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
+          return;
+        }
+        if (!this.password.match("^[0-9A-Za-z]{8,16}$")) {
+          this.errMsg = "パスワードは半角英数で入力してください";
+          return;
+        }
+        // パスワードが変更されている場合のみ、再入力パスワードとの一致チェックを行う
+        if (this.beforePassword !== this.password) {
+          if (this.password !== this.reenterPassword) {
+            this.errMsg = "パスワードとパスワード(再入力)が一致しません。";
+            return;
+          }
+        }
+        if (!this.gender) {
+          this.errMsg = "性別を選択してください";
+          return;
+        }
+        if (!this.auth) {
+          this.errMsg = "権限を選択してください";
+          return;
+        }
+        // 住所の入力チェック
+        if (this.address && this.address.length > 150) {
+          this.errMsg = "住所は150桁以下で入力してください";
+          return;
+        }
 
-      // 引数格納
-      const model = {
-        userId: this.userId,
-        userName: this.userName,
-        password: this.password,
-        gender: this.gender,
-        auth: this.auth,
-        address: this.address,
-      };
+        // 引数格納
+        const model = {
+          userId: this.userId,
+          userName: this.userName,
+          password: this.password,
+          gender: this.gender,
+          auth: this.auth,
+          address: this.address,
+        };
 
-      try {
         await AjaxUtil.putUser(model);
         this.msg = "ユーザー更新に成功しました";
 
@@ -395,9 +394,9 @@ export default {
         this.msg = "";
         this.errMsg = "ユーザー更新に失敗しました";
         console.log(e);
+      } finally {
+        this.isLoading = false;
       }
-
-      this.isLoading = false;
     },
 
     /**

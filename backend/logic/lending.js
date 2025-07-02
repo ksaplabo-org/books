@@ -3,63 +3,15 @@ const moment = require("moment");
 const LendingRepository = require("../db/lending");
 const BookRepository = require("../db/book");
 
+// TODO: 別のリポジトリにアクセスするべきではないので、index.jsで書籍情報を検索 -> それをもとに貸出状況の検索 とすべき
 /**
- * 書籍の貸し出し状況を登録する
+ * ユーザーIDに紐づく貸出中の書籍情報を検索
+ * [検索条件]
+ * xxx
  *
- * @param {*} db
- * @param {*} isbn
- * @param {*} bookId
- * @param {*} lendingUserId 入力されたユーザID
- * @returns Promise（成功時 resolve/失敗時 reject）
- */
-module.exports.create = async function (db, isbn, bookId, lendingUserId, rentalDate, returnPlanDate, managedUserId) {
-  const LendingModel = LendingRepository.getLendingModel(db);
-
-  try {
-    return await LendingModel.create({
-      lending_user_id: lendingUserId,
-      isbn: isbn,
-      book_id: bookId,
-      rental_date: rentalDate,
-      managed_user_id: managedUserId,
-      return_plan_date: returnPlanDate,
-    });
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-/**
- * 書籍の貸し出し状況を削除する
- *
- * @param {*} db
- * @param {*} isbn
- * @param {*} bookId
- * @param {*} lendingUserId 入力されたユーザID
- * @returns Promise（成功時 resolve/失敗時 reject）
- */
-module.exports.delete = async function (db, isbn, bookId, lendingUserId) {
-  const LendingModel = LendingRepository.getLendingModel(db);
-  try {
-    return await LendingModel.destroy({
-      where: {
-        lending_user_id: lendingUserId,
-        isbn: isbn,
-        book_id: bookId,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-/**
- * ユーザーIDに紐づく貸出中の書籍情報を取得する
  * @param {*} db
  * @param {*} userId
- * @returns ユーザーIDに紐づく貸出中の書籍情報（Promise）
+ * @returns {Promise<Object[]>}
  */
 module.exports.getLendingUser = async function (db, userId) {
   const LendingModel = LendingRepository.getLendingModel(db);
@@ -94,19 +46,18 @@ module.exports.getLendingUser = async function (db, userId) {
         },
       ],
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };
 
 /**
- * 貸出/返却時の書籍の貸し出し状況を確認する
+ * 貸出/返却時の書籍の貸し出し状況を検索
  *
  * @param {*} db
  * @param {*} isbn
- * @param {*} lendingUserId 入力されたユーザID
- * @returns Promise（成功時 resolve/失敗時 reject）
+ * @param {*} lendingUserId
+ * @returns {Promise<Object[]>}
  */
 module.exports.selectAlreadyUser = async function (db, isbn, lendingUserId) {
   const LendingModel = LendingRepository.getLendingModel(db);
@@ -118,8 +69,57 @@ module.exports.selectAlreadyUser = async function (db, isbn, lendingUserId) {
         isbn: isbn,
       },
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * 書籍の貸し出し状況を新規登録
+ *
+ * @param {*} db
+ * @param {*} isbn
+ * @param {*} bookId
+ * @param {*} lendingUserId
+ * @returns {Promise<void>}
+ */
+module.exports.create = async function (db, isbn, bookId, lendingUserId, rentalDate, returnPlanDate, managedUserId) {
+  const LendingModel = LendingRepository.getLendingModel(db);
+
+  try {
+    return await LendingModel.create({
+      lending_user_id: lendingUserId,
+      isbn: isbn,
+      book_id: bookId,
+      rental_date: rentalDate,
+      managed_user_id: managedUserId,
+      return_plan_date: returnPlanDate,
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * 書籍の貸し出し状況を削除
+ *
+ * @param {*} db
+ * @param {*} isbn
+ * @param {*} bookId
+ * @param {*} lendingUserId
+ * @returns Promise（成功時 resolve/失敗時 reject）
+ */
+module.exports.delete = async function (db, isbn, bookId, lendingUserId) {
+  const LendingModel = LendingRepository.getLendingModel(db);
+  try {
+    return await LendingModel.destroy({
+      where: {
+        lending_user_id: lendingUserId,
+        isbn: isbn,
+        book_id: bookId,
+      },
+    });
+  } catch (e) {
+    throw e;
   }
 };

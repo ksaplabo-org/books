@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -49,7 +49,7 @@
         <Footer />
       </div>
 
-      <!-- モーダルの設定です -->
+      <!-- モーダル -->
       <div
         class="modal fade"
         id="imagemodal"
@@ -111,7 +111,6 @@ import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  name: "Top",
   props: ["flashMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -131,14 +130,13 @@ export default {
   async mounted() {
     try {
       if (UserUtil.isSignIn()) {
-        console.log("ok");
         // 画面更新
         await this.updateView();
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
-      this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+      this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
     }
   },
   methods: {

@@ -1,11 +1,14 @@
 const UserRepository = require("../db/user");
 
+// TODO: ユーザー情報のみを返却して、index.jsではユーザー情報がなければ403エラーを返却するようにする
+//       この関数(ファイルごと)いらない気がする。
 /**
- * ユーザー情報検証
+ * ユーザー情報を検証
+ * 
  * @param {*} db
  * @param {*} userId
  * @param {*} password
- * @returns 検証結果＋ユーザー情報(Promise)
+ * @returns {Promise<Object>}
  */
 module.exports.verify = async function (db, userId, password) {
   const userModel = UserRepository.getUserModel(db);
@@ -27,7 +30,7 @@ module.exports.verify = async function (db, userId, password) {
       result: result,
       user: resultUser,
     };
-  } catch (error) {
-    throw error;
+  } catch (e) {
+    throw e;
   }
 };

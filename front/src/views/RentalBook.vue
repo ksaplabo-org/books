@@ -1,5 +1,5 @@
 <template>
-  <div class="rentalbook">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -145,7 +145,6 @@ import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  name: "RentalBook",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -168,7 +167,7 @@ export default {
         // 画面更新
         this.updateView();
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
       this.errMsg = e.message;
@@ -316,7 +315,7 @@ export default {
                     this.isLoading = false;
                   });
               } else {
-                this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+                this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
               }
             });
         });
@@ -385,7 +384,7 @@ export default {
                 this.isLoading = false;
               });
           } else {
-            this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+            this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
           }
         });
     },

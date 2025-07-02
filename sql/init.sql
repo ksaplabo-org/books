@@ -122,8 +122,8 @@ INSERT INTO lending values ("intern01","4774190845","1","2022/09/03","intern01",
 # 学生TBL 初期データ登録
 #------------------------------------------
 DELETE FROM student;
-INSERT INTO student values ("10000001", "山田", "太郎");
-INSERT INTO student values ("10000002", "鈴木", "次郎");
-INSERT INTO student values ("10000003", "中村", "三太");
-INSERT INTO student values ("10000004", "渡辺", "花子");
-INSERT INTO student values ("10000005", "小林", "栄子");
+INSERT INTO student values ("10000001", "太郎", "山田");
+INSERT INTO student values ("10000002", "次郎", "鈴木");
+INSERT INTO student values ("10000003", "三太", "中村");
+INSERT INTO student values ("10000004", "花子", "渡辺");
+INSERT INTO student values ("10000005", "栄子", "小林");

@@ -1,5 +1,5 @@
 <template>
-  <div class="maintebook">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -123,7 +123,7 @@
         <Footer />
       </div>
 
-      <!-- モーダルの設定です -->
+      <!-- モーダル -->
       <div
         class="modal fade"
         id="imagemodal"
@@ -189,7 +189,6 @@ import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  name: "MainteBook",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -284,7 +283,7 @@ export default {
       // サインインチェック
       if (UserUtil.isSignIn()) {
         this.$router.push({
-          name: "signin",
+          name: "signIn",
           params: { flashMsg: "サインインしてください" },
         });
         return;
@@ -309,7 +308,7 @@ export default {
       } catch (e) {
         this.msg = "";
         this.errMsg = "登録処理に失敗しました";
-        console.log(error);
+        console.log(e);
       }
 
       this.isLoading = false;
@@ -324,7 +323,7 @@ export default {
       // サインインチェック
       if (UserUtil.isSignIn()) {
         this.$router.push({
-          name: "signin",
+          name: "signIn",
           params: { flashMsg: "サインインしてください" },
         });
         return;
@@ -338,7 +337,7 @@ export default {
       } catch (e) {
         this.msg = "";
         this.errMsg = "削除処理に失敗しました";
-        console.log(error);
+        console.log(e);
       }
 
       this.isLoading = false;

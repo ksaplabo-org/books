@@ -1,5 +1,5 @@
 <template>
-  <div class="listbook">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -86,7 +86,7 @@
         <Footer />
       </div>
 
-      <!-- モーダルの設定です -->
+      <!-- モーダル -->
       <div
         class="modal fade"
         id="imagemodal"
@@ -154,7 +154,6 @@ import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  name: "ListUser",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -174,7 +173,7 @@ export default {
         // 画面更新
         await this.updateView();
       } else {
-        this.$router.push({ name: "signin", params: { flashMsg: "サインインしてください" } });
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
       this.errMsg = e.message;
