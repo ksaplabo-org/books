@@ -334,7 +334,7 @@ export default {
 
       try {
         // 入力チェック
-        if (!this.userName) {
+        if (this.userName == null || this.userName === "") {
           this.errMsg = "ユーザー名を入力してください";
           return;
         }
@@ -342,7 +342,7 @@ export default {
           this.errMsg = "ユーザー名は100桁以下で入力してください";
           return;
         }
-        if (!this.password) {
+        if (this.password == null || this.password === "") {
           this.errMsg = "パスワードを入力してください";
           return;
         }
@@ -361,16 +361,16 @@ export default {
             return;
           }
         }
-        if (!this.gender) {
+        if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
-        if (!this.auth) {
+        if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
           return;
         }
         // 住所の入力チェック
-        if (this.address && this.address.length > 150) {
+        if (this.address != null && this.address !== "" && this.address.length > 150) {
           this.errMsg = "住所は150桁以下で入力してください";
           return;
         }
