@@ -86,7 +86,6 @@ module.exports = {
     },
   },
   devServer: {
-    https: true,
     port: 8080,
     proxy: {
       "/api": {
@@ -94,5 +93,8 @@ module.exports = {
         changeOrigin: true,
       },
     },
+  },
+  configureWebpack: {
+    devtool: "source-map",
   },
 };

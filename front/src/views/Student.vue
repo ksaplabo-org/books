@@ -18,10 +18,7 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <!-- ユーザー一覧 -->
-          <form @submit.stop.prevent="updateView">
-            <b-table striped responsive hover :items="items" :fields="fields" />
-          </form>
+          <b-table striped responsive hover :items="items" :fields="fields" />
         </div>
       </div>
 
