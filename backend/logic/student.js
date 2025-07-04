@@ -1,4 +1,4 @@
-const StudentRepository = require("../db/student");
+const studentRepository = require("../db/student");
 
 /**
  * 学生情報を全件検索
@@ -7,10 +7,10 @@ const StudentRepository = require("../db/student");
  * @returns {Promise<Object[]>}
  */
 module.exports.getAll = async function (db) {
-  const StudentModel = StudentRepository.getStudentModel(db);
+  const studentModel = studentRepository.getStudentModel(db);
 
   try {
-    return await StudentModel.findAll();
+    return await studentModel.findAll();
   } catch (e) {
     throw e;
   }
