@@ -1,5 +1,5 @@
 <template>
-  <div class="userCreate">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -30,7 +30,7 @@
                 -->
                 <!-- ユーザーID -->
                 <div class="form-group">
-                  <label></label>
+                  <label>ユーザーID</label>
                   <input
                     type="text"
                     id="userId"
@@ -49,7 +49,6 @@
                     (minlength,Patternは不要)
                 -->
                 <!-- ユーザー名 -->
-
                 <!--★問題2 End★-->
 
                 <!-- パスワード -->
@@ -63,15 +62,14 @@
                     v-model="password"
                   />
                 </div>
+                <!--
+                    ★問題3 Start★
+                        各ラジオボタンに対応する文言を設定する。
+                -->
                 <!-- 性別 -->
                 <div class="form-group">
                   <label>性別</label>
                   <br />
-
-                  <!--
-                    ★問題3 Start★
-                        各ラジオボタンに対応する文言を設定する。
-                    -->
                   <div class="custom-control custom-radio custom-control-inline">
                     <input
                       type="radio"
@@ -106,7 +104,6 @@
                     />
                     <label class="custom-control-label" for="unknownRadio"></label>
                   </div>
-                  <!--★問題3 End★-->
                 </div>
                 <!-- 権限 -->
                 <div class="form-group">
@@ -122,7 +119,7 @@
                       v-bind:value="general"
                       checked
                     />
-                    <label class="custom-control-label" for="generalRadio">一般</label>
+                    <label class="custom-control-label" for="generalRadio"></label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
                     <input
@@ -133,8 +130,9 @@
                       v-model="auth"
                       v-bind:value="admin"
                     />
-                    <label class="custom-control-label" for="adminRadio">社員</label>
+                    <label class="custom-control-label" for="adminRadio"></label>
                   </div>
+                  <!--★問題3 End★-->
                 </div>
                 <!-- 新規登録ボタン -->
                 <div class="form-group">
@@ -172,7 +170,6 @@ import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 export default {
-  name: "UserCreate",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -233,11 +230,11 @@ export default {
          */
 
         /*★問題5 End★*/
+
         if (!this.userId.match("^[0-9A-Za-z]*$")) {
           this.errMsg = "ユーザーIDは半角英数で入力してください";
           return;
         }
-
         /**
          * ★問題6 Start★
          * ユーザー名必須入力チェックを行う。
@@ -280,11 +277,11 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
-        if (!this.gender) {
+        if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
-        if (!this.auth) {
+        if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
           return;
         }

@@ -1,5 +1,5 @@
 <template>
-  <div class="listuser">
+  <div>
     <NaviMenu />
 
     <div id="wrapper">
@@ -18,10 +18,8 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <!-- ユーザーID検索 -->
-          <div style="font-size: 10pt">
-            <div class="form-group m-2">
-              <!--
+          <div class="form-group m-2">
+            <!--
                 ★ 問題1 Start★
                   検索欄上部の文言を設計書通りに変更する。
                   検索ボタンをクリックした際に検索処理を呼び出すようにする。
@@ -30,38 +28,34 @@
                           タグで囲んだ部分をグループ化することができる。
                   function() {}：何もしてない処理。
 
-              -->
-              <div class="px-2 mt-2"></div>
-              <div class="row">
-                <div class="col-lg-3">
-                  <input
-                    type="text"
-                    id="searchWord"
-                    class="form-control border-secondary"
-                    v-model="searchWord"
-                    placeholder="入力してください"
-                    required
-                  />
-                </div>
-                <button class="btn-primary btn-sm" v-on:click="function () {}">検索</button>
+            -->
+            <div class="row">
+              <div class="col-lg-6">
+                <input
+                  type="text"
+                  id="searchWord"
+                  class="form-control border-secondary"
+                  v-model="searchWord"
+                  placeholder="入力してください"
+                  required
+                />
               </div>
-              <!-- ★ 問題1 END ★ -->
+              <button class="btn-primary btn-sm" v-on:click="function () {}">検索</button>
             </div>
+            <!-- ★ 問題1 END ★ -->
           </div>
 
           <br />
 
           <!-- ユーザー一覧 -->
-          <form @submit.stop.prevent="updateView">
-            <b-table striped responsive hover :items="items" :fields="fields">
-              <!-- ボタンセル定義 -->
-              <template #cell(controls)="data">
-                <b-button-group>
-                  <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)"> 編集 </b-button>
-                </b-button-group>
-              </template>
-            </b-table>
-          </form>
+          <b-table striped responsive hover :items="items" :fields="fields">
+            <!-- ボタンセル定義 -->
+            <template #cell(controls)="data">
+              <b-button-group>
+                <b-button variant="outline-primary" v-on:click="onClickEditButton(data.item)"> 編集 </b-button>
+              </b-button-group>
+            </template>
+          </b-table>
         </div>
       </div>
       <Footer />
@@ -87,7 +81,6 @@ import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 export default {
-  name: "ListUser",
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {

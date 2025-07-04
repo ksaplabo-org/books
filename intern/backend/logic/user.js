@@ -13,7 +13,7 @@ const userRepository = require("../db/user");
  * ユーザー情報を全件検索
  *
  * @param {*} db
- * @returns ユーザー情報
+ * @returns {Promise<Object[]>}
  */
 module.exports.findAll = async function (db) {
   try {
@@ -40,7 +40,7 @@ module.exports.findAll = async function (db) {
  *
  * @param {*} db
  * @param {*} userId
- * @returns ユーザー情報
+ * @returns {Promise<Object>}
  */
 module.exports.findById = async function (db, userId) {
   // ユーザー情報の定義を取得
@@ -64,7 +64,7 @@ module.exports.findById = async function (db, userId) {
  * @param {*} db
  * @param {*} userId
  * @param {*} userName
- * @returns ユーザー情報
+ * @returns {Promise<Object[]>}
  */
 module.exports.findByIdOrNameLike = async function (db, userId, userName) {
   // ユーザー情報の定義を取得
@@ -91,7 +91,7 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
       where: {
         [op.or]: {
           user_id: { [op.like]: "%" + userId + "%" },
-          auth: "1"
+          auth: "1",
         },
       },
       /**★問題4[ユーザー一覧] End*/
@@ -111,7 +111,7 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
- * @returns
+ * @returns {Promise<void>}
  */
 module.exports.create = async function (db, userId, userName, password, gender, auth) {
   // ユーザー情報の定義を取得
@@ -139,7 +139,7 @@ module.exports.create = async function (db, userId, userName, password, gender, 
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
- * @returns
+ * @returns {Promise<void>}
  */
 module.exports.update = async function (db, userId, userName, password, gender, auth) {
   // ユーザー情報の定義を取得
@@ -169,9 +169,10 @@ module.exports.update = async function (db, userId, userName, password, gender, 
 
 /**
  * ユーザー情報を削除
+ *
  * @param {*} db
  * @param {*} userId
- * @returns
+ * @returns {Promise<void>}
  */
 module.exports.remove = async function (db, userId) {
   // ユーザー情報の定義を取得

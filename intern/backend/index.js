@@ -1,5 +1,4 @@
 // Business Logic define
-const AuthLogic = require("./logic/auth");
 const BookLogic = require("./logic/book");
 const UserLogic = require("./logic/user");
 const LendingLogic = require("./logic/lending");
@@ -22,20 +21,30 @@ app.use(cors());
  * サインインAPI
  */
 app.post("/api/sign-in", async function (req, res) {
-  // リクエスト取得
-  const user = req.body;
+  // リクエストボディ取得
+  const reqBody = req.body;
 
+  let resBody = null;
+  let status = 200;
   try {
-    // 検証
-    const result = await AuthLogic.verify(db, user.userId, user.password);
-
-    // 正常レスポンス
-    res.send(result);
+    const user = await UserLogic.findById(db, reqBody.userId);
+    if (user == null || user.password !== reqBody.password) {
+      // 認証失敗として401エラーを設定
+      status = 401;
+    } else {
+      // 認証成功としてレスポンスボディを設定
+      resBody = {
+        userId: user.user_id,
+        userName: user.user_name,
+        auth: user.auth,
+      };
+    }
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to verify.", e);
-    res.status(500).send("server error occur");
+    console.log("failed to verify user.", e);
+    status = 500;
   }
+  res.status(status).send(resBody);
 });
 
 /**
@@ -44,6 +53,8 @@ app.post("/api/sign-in", async function (req, res) {
 app.get("/api/information", async function (req, res) {
   try {
     const info = await InformationLogic.getAll(db);
+
+    // 正常レスポンス
     res.send({
       Items: JSON.stringify(info),
     });
@@ -77,7 +88,6 @@ app.get("/api/book", async function (req, res) {
  */
 app.get("/api/book/search/:searchWord", async function (req, res) {
   try {
-    // 書籍情報を取得する
     const books = await BookLogic.getAllSearchBooks(db, req.params.searchWord);
 
     // 正常レスポンス
@@ -95,14 +105,14 @@ app.get("/api/book/search/:searchWord", async function (req, res) {
  * 書籍情報追加API
  */
 app.post("/api/book", async function (req, res) {
-  // リクエスト取得
-  const book = req.body;
+  // リクエストボディを取得
+  const reqBody = req.body;
 
   try {
-    await BookLogic.add(db, book);
+    await BookLogic.add(db, reqBody.isbn, reqBody.book_id, reqBody.title, reqBody.description, reqBody.img_url);
 
     // 正常レスポンス
-    res.send({ result: "success" });
+    res.send();
   } catch (e) {
     // 異常レスポンス
     console.log("failed to add book.", e);
@@ -114,15 +124,15 @@ app.post("/api/book", async function (req, res) {
  * 書籍情報更新API
  */
 app.put("/api/book/:operation", async function (req, res) {
-  const requestBody = req.body;
+  // リクエストボディを取得
+  const reqBody = req.body;
 
-  // 書籍更新する
   const isUpdateRental = req.params.operation === "rental";
   try {
-    await BookLogic.updateState(db, requestBody.title, requestBody.userName, isUpdateRental);
+    await BookLogic.updateState(db, reqBody.title, reqBody.userName, isUpdateRental);
 
     // 正常レスポンス
-    res.send({ result: "success" });
+    res.send();
   } catch (e) {
     // 異常レスポンス
     console.log("failed to update book status.", e);
@@ -135,11 +145,10 @@ app.put("/api/book/:operation", async function (req, res) {
  */
 app.delete("/api/book/:title", async function (req, res) {
   try {
-    // 書籍削除する
     await BookLogic.remove(db, req.params.title);
 
     // 正常レスポンス
-    res.send({ result: "success" });
+    res.send();
   } catch (e) {
     // 異常レスポンス
     console.log("failed to remove book.", e);
@@ -151,11 +160,8 @@ app.delete("/api/book/:title", async function (req, res) {
  * ユーザー情報取得API
  */
 app.get("/api/users/:userId", async function (req, res) {
-  // パスパラメータから検索条件を取得
-  const userId = req.params.userId;
-
   try {
-    const users = await UserLogic.findById(db, userId);
+    const users = await UserLogic.findById(db, req.params.userId);
 
     // 正常レスポンス
     res.send({
@@ -173,12 +179,13 @@ app.get("/api/users/:userId", async function (req, res) {
  */
 app.get("/api/users", async function (req, res) {
   // クエリパラメータから検索条件を取得
-  const userId = req.query.userId;
-  const userName = req.query.userName;
+  const query = req.query;
+  const userId = query.userId;
+  const userName = query.userName;
 
   try {
     let users;
-    if (userId || userName) {
+    if ((userId != null && userId !== "") || (userName != null && userName !== "")) {
       // あいまい検索
       users = await UserLogic.findByIdOrNameLike(db, userId, userName);
     } else {
@@ -201,15 +208,14 @@ app.get("/api/users", async function (req, res) {
  * ユーザー情報追加API
  */
 app.post("/api/users", async function (req, res) {
-  // リクエスト取得
-  const user = req.body;
+  // リクエストボディを取得
+  const reqBody = req.body;
 
   try {
-    // ユーザー情報を登録する
-    await UserLogic.create(db, user.userId, user.userName, user.password, user.gender, user.auth);
+    await UserLogic.create(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender, reqBody.auth);
 
     // 正常レスポンス
-    res.send({});
+    res.send();
   } catch (e) {
     // 異常レスポンス
     console.log("failed to add user.", e);
@@ -236,11 +242,10 @@ app.put("/api/users", async function (req, res) {
  */
 app.delete("/api/users/:id", async function (req, res) {
   try {
-    // ユーザー削除する
     await UserLogic.remove(db, req.params.id);
 
     // 正常レスポンス
-    res.send({ result: "success" });
+    res.send();
   } catch (e) {
     // 異常レスポンス
     console.log("failed to remove user.", e);
@@ -252,23 +257,22 @@ app.delete("/api/users/:id", async function (req, res) {
  * 貸し出し状況登録API
  */
 app.post("/api/lending", async function (req, res) {
-  // リクエスト取得
-  const lending = req.body;
+  // リクエストボディを取得
+  const reqBody = req.body;
 
   try {
-    // 貸し出し状況登録
     await LendingLogic.create(
       db,
-      lending.isbn,
-      lending.book_id,
-      lending.lending_user_id,
-      lending.rental_date,
-      lending.return_plan_date,
-      lending.managed_user_id
+      reqBody.isbn,
+      reqBody.book_id,
+      reqBody.lending_user_id,
+      reqBody.rental_date,
+      reqBody.return_plan_date,
+      reqBody.managed_user_id
     );
 
     // 正常レスポンス
-    res.send({ result: "success" });
+    res.send();
   } catch (e) {
     // 異常レスポンス
     console.log("failed to add lending.", e);
@@ -280,15 +284,14 @@ app.post("/api/lending", async function (req, res) {
  * 貸し出し状況削除API
  */
 app.delete("/api/lending", async function (req, res) {
-  // リクエスト取得
-  const lending = req.body;
+  // リクエストボディを取得
+  const reqBody = req.body;
 
   try {
-    // 貸し出し状況削除
-    await LendingLogic.delete(db, lending.isbn, lending.book_id, lending.lending_user_id);
+    await LendingLogic.delete(db, reqBody.isbn, reqBody.book_id, reqBody.lending_user_id);
 
     // 正常レスポンス
-    res.send({ result: "success" });
+    res.send();
   } catch (e) {
     // 異常レスポンス
     console.log("failed to remove lending.", e);
@@ -301,7 +304,6 @@ app.delete("/api/lending", async function (req, res) {
  */
 app.get("/api/lending/:userId", async function (req, res) {
   try {
-    // 書籍情報を取得する
     const lendingBooks = await LendingLogic.getLendingUser(db, req.params.userId);
 
     // 正常レスポンス
@@ -311,7 +313,6 @@ app.get("/api/lending/:userId", async function (req, res) {
   } catch (e) {
     // 異常レスポンス
     console.log("failed to get lending books.", e);
-    console.log(error);
     res.status(500).send("server error occur");
   }
 });
@@ -320,12 +321,11 @@ app.get("/api/lending/:userId", async function (req, res) {
  * 貸し出し状況確認API
  */
 app.post("/api/lending/already", async function (req, res) {
-  // リクエスト取得
-  const lending = req.body;
+  // リクエストボディを取得
+  const reqBody = req.body;
 
   try {
-    // 貸し出し状況確認
-    const result = await LendingLogic.selectAlreadyUser(db, lending.isbn, lending.lending_user_id);
+    const result = await LendingLogic.selectAlreadyUser(db, reqBody.isbn, reqBody.lending_user_id);
 
     // 正常レスポンス
     res.send(result);
@@ -336,6 +336,9 @@ app.post("/api/lending/already", async function (req, res) {
   }
 });
 
+/**
+ * 学生情報検索API
+ */
 app.get("/api/students", async function (req, res) {
   try {
     const students = await StudentLogic.getAll(db);
