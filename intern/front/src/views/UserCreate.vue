@@ -26,11 +26,11 @@
               <div class="col-6">
                 <!--
                     ★問題1 Start★
-                    ユーザーID入力欄左側の文言を設計書通りに設定する。
+                    ユーザーID入力欄上部の文言を設計書通りに設定する。
                 -->
                 <!-- ユーザーID -->
                 <div class="form-group">
-                  <label>ユーザーID</label>
+                  <label></label>
                   <input
                     type="text"
                     id="userId"
