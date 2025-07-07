@@ -1,1 +1,1 @@
-const studentRepository = require("../db/student");
+const StudentRepository = require("../db/student");

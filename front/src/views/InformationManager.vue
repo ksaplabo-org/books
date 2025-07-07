@@ -137,7 +137,7 @@
                     size="sm"
                     max-rows="5"
                     no-resize
-                    :style="{ overflow: 'hidden' }"
+                    class="overflow-hidden"
                   >
                   </b-form-textarea>
                 </b-col>
@@ -157,7 +157,7 @@
                     size="sm"
                     max-rows="5"
                     no-resize
-                    :style="{ overflow: 'hidden' }"
+                    class="overflow-hidden"
                   >
                   </b-form-textarea>
                 </b-col>
