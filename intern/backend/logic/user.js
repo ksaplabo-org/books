@@ -85,7 +85,7 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
       where: {
         [Op.or]: {
           user_id: { [Op.like]: "%" + userId + "%" },
-          auth: "1",
+          auth: "3",
         },
       },
       /**★問題4[ユーザー一覧] End*/
