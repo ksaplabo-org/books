@@ -1,13 +1,7 @@
-/**
- * sequelizeのモジュールimport
- */
 const sequelize = require("sequelize");
-const op = sequelize.Op;
+const Op = sequelize.Op;
 
-/**
- * ユーザー情報の定義を取得
- */
-const userRepository = require("../db/user");
+const UserRepository = require("../db/user");
 
 /**
  * ユーザー情報を全件検索
@@ -17,7 +11,7 @@ const userRepository = require("../db/user");
  */
 module.exports.findAll = async function (db) {
   try {
-    const userModel = userRepository.getUserModel(db);
+    const userModel = UserRepository.getUserModel(db);
     return await userModel.findAll({
       order: [["user_id", "ASC"]],
     });
@@ -38,7 +32,7 @@ module.exports.findAll = async function (db) {
  */
 module.exports.findById = async function (db, userId) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.findByPk(userId);
@@ -62,14 +56,14 @@ module.exports.findById = async function (db, userId) {
  */
 module.exports.findByIdOrNameLike = async function (db, userId, userName) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.findAll({
       where: {
-        [op.or]: {
-          user_id: { [op.like]: "%" + userId + "%" },
-          user_name: { [op.like]: "%" + userName + "%" },
+        [Op.or]: {
+          user_id: { [Op.like]: "%" + userId + "%" },
+          user_name: { [Op.like]: "%" + userName + "%" },
         },
       },
       order: [["user_id", "ASC"]],
@@ -97,15 +91,15 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
  */
 module.exports.findByIdOrNameOrAddressLike = async function (db, userId, userName, address) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.findAll({
       where: {
-        [op.or]: {
-          user_id: { [op.like]: "%" + userId + "%" },
-          user_name: { [op.like]: "%" + userName + "%" },
-          address: { [op.like]: "%" + address + "%" },
+        [Op.or]: {
+          user_id: { [Op.like]: "%" + userId + "%" },
+          user_name: { [Op.like]: "%" + userName + "%" },
+          address: { [Op.like]: "%" + address + "%" },
         },
       },
       order: [["user_id", "ASC"]],
@@ -126,7 +120,7 @@ module.exports.findByIdOrNameOrAddressLike = async function (db, userId, userNam
  * @returns {Promise<Object[]>}
  */
 module.exports.findByAuth = async function (db, auth) {
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.findAll({
@@ -154,7 +148,7 @@ module.exports.findByAuth = async function (db, auth) {
  */
 module.exports.create = async function (db, userId, userName, password, gender, auth, address) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.create({
@@ -184,7 +178,7 @@ module.exports.create = async function (db, userId, userName, password, gender, 
  */
 module.exports.update = async function (db, userId, userName, password, gender, auth, address) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.update(
@@ -215,7 +209,7 @@ module.exports.update = async function (db, userId, userName, password, gender, 
  */
 module.exports.remove = async function (db, userId) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.destroy({

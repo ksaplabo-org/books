@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const sequelize = require("sequelize");
 
 module.exports.getStudentModel = (db) => {
   return db.define(
@@ -6,18 +6,18 @@ module.exports.getStudentModel = (db) => {
     {
       id: {
         field: "id",
-        type: Sequelize.STRING(8),
+        type: sequelize.STRING(8),
         primaryKey: true,
         allowNull: false,
       },
       first_name: {
         field: "first_name",
-        type: Sequelize.STRING(20),
+        type: sequelize.STRING(20),
         allowNull: false,
       },
       last_name: {
         field: "last_name",
-        type: Sequelize.STRING(20),
+        type: sequelize.STRING(20),
         allowNull: false,
       },
     },

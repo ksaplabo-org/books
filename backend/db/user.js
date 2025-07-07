@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const sequelize = require("sequelize");
 
 module.exports.getUserModel = (db) => {
   return db.define(
@@ -6,33 +6,33 @@ module.exports.getUserModel = (db) => {
     {
       user_id: {
         field: "user_id",
-        type: Sequelize.STRING(16),
+        type: sequelize.STRING(16),
         primaryKey: true,
         allowNull: false,
       },
       user_name: {
         field: "user_name",
-        type: Sequelize.STRING(100),
+        type: sequelize.STRING(100),
         allowNull: false,
       },
       password: {
         field: "password",
-        type: Sequelize.STRING(16),
+        type: sequelize.STRING(16),
         allowNull: false,
       },
       gender: {
         field: "gender",
-        type: Sequelize.STRING(1),
+        type: sequelize.STRING(1),
         allowNull: false,
       },
       auth: {
         field: "auth",
-        type: Sequelize.STRING(1),
+        type: sequelize.STRING(1),
         allowNull: false,
       },
       address: {
         field: "address",
-        type: Sequelize.STRING(150),
+        type: sequelize.STRING(150),
         allowNull: true,
       },
     },

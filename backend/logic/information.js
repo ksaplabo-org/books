@@ -1,6 +1,6 @@
 const sequelize = require("sequelize");
 
-const informationRepository = require("../db/information");
+const InformationRepository = require("../db/information");
 
 /**
  * お知らせ情報を全件検索
@@ -9,7 +9,7 @@ const informationRepository = require("../db/information");
  * @returns {Promise<Object[]>}
  */
 module.exports.getAll = async function (db) {
-  const informationModel = informationRepository.getInformationModel(db);
+  const informationModel = InformationRepository.getInformationModel(db);
 
   try {
     return await informationModel.findAll({
@@ -33,7 +33,7 @@ module.exports.getAll = async function (db) {
  * @returns {Promise<void>}
  */
 module.exports.create = async function (db, title, content) {
-  const informationModel = informationRepository.getInformationModel(db);
+  const informationModel = InformationRepository.getInformationModel(db);
 
   // noの最大値をインクリメントした値を取得
   const no = (await informationModel.max("no")) + 1;
@@ -60,7 +60,7 @@ module.exports.create = async function (db, title, content) {
  * @returns {Promise<void>}
  */
 module.exports.update = async function (db, no, title, content) {
-  const informationModel = informationRepository.getInformationModel(db);
+  const informationModel = InformationRepository.getInformationModel(db);
 
   try {
     await informationModel.update(
@@ -87,7 +87,7 @@ module.exports.update = async function (db, no, title, content) {
  * @returns {Promise<void>}
  */
 module.exports.remove = async function (db, no) {
-  const informationModel = informationRepository.getInformationModel(db);
+  const informationModel = InformationRepository.getInformationModel(db);
 
   try {
     await informationModel.destroy({

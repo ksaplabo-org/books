@@ -1,4 +1,4 @@
-const { STRING, DATE } = require("sequelize");
+const { STRING } = require("sequelize");
 
 module.exports.getBookModel = function (db) {
   var BookModel = db.define(

@@ -1,5 +1,5 @@
-// moment import
-const moment = require("moment");
+const sequelize = require("sequelize");
+
 const LendingRepository = require("../db/lending");
 const BookRepository = require("../db/book");
 
@@ -14,23 +14,13 @@ const BookRepository = require("../db/book");
  * @returns {Promise<Object[]>}
  */
 module.exports.getLendingUser = async function (db, userId) {
-  const LendingModel = LendingRepository.getLendingModel(db);
-  const BookModel = BookRepository.getBookModel(db);
+  const lendingModel = LendingRepository.getLendingModel(db);
+  const bookModel = BookRepository.getBookModel(db);
 
-  const Model = {};
-  Model.Book = BookModel;
-  Model.Lending = LendingModel;
-
-  Object.keys(Model).forEach((key) => {
-    const model = Model[key];
-    if (model.associate) {
-      model.associate(Model);
-    }
-  });
+  lendingModel.associate(bookModel);
 
   try {
-    const sequelize = require("sequelize");
-    return await LendingModel.findAll({
+    return await lendingModel.findAll({
       attributes: [
         [sequelize.fn("DATE_FORMAT", sequelize.col("rental_date"), "%Y/%m/%d"), "rental_date"],
         [sequelize.fn("DATE_FORMAT", sequelize.col("return_plan_date"), "%Y/%m/%d"), "return_plan_date"],
@@ -41,7 +31,7 @@ module.exports.getLendingUser = async function (db, userId) {
       raw: true,
       include: [
         {
-          model: BookModel,
+          model: bookModel,
           required: true,
         },
       ],
@@ -60,10 +50,10 @@ module.exports.getLendingUser = async function (db, userId) {
  * @returns {Promise<Object[]>}
  */
 module.exports.selectAlreadyUser = async function (db, isbn, lendingUserId) {
-  const LendingModel = LendingRepository.getLendingModel(db);
+  const lendingModel = LendingRepository.getLendingModel(db);
 
   try {
-    return await LendingModel.findAll({
+    return await lendingModel.findAll({
       where: {
         lending_user_id: lendingUserId,
         isbn: isbn,
@@ -84,10 +74,10 @@ module.exports.selectAlreadyUser = async function (db, isbn, lendingUserId) {
  * @returns {Promise<void>}
  */
 module.exports.create = async function (db, isbn, bookId, lendingUserId, rentalDate, returnPlanDate, managedUserId) {
-  const LendingModel = LendingRepository.getLendingModel(db);
+  const lendingModel = LendingRepository.getLendingModel(db);
 
   try {
-    return await LendingModel.create({
+    return await lendingModel.create({
       lending_user_id: lendingUserId,
       isbn: isbn,
       book_id: bookId,
@@ -110,9 +100,9 @@ module.exports.create = async function (db, isbn, bookId, lendingUserId, rentalD
  * @returns Promise（成功時 resolve/失敗時 reject）
  */
 module.exports.delete = async function (db, isbn, bookId, lendingUserId) {
-  const LendingModel = LendingRepository.getLendingModel(db);
+  const lendingModel = LendingRepository.getLendingModel(db);
   try {
-    return await LendingModel.destroy({
+    return await lendingModel.destroy({
       where: {
         lending_user_id: lendingUserId,
         isbn: isbn,

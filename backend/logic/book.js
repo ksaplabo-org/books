@@ -1,5 +1,7 @@
-// moment import
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 const moment = require("moment");
+
 const BookRepository = require("../db/book");
 
 /**
@@ -9,10 +11,10 @@ const BookRepository = require("../db/book");
  * @returns {Promise<Object[]>}
  */
 module.exports.getAll = async function (db) {
-  const BookModel = BookRepository.getBookModel(db);
+  const bookModel = BookRepository.getBookModel(db);
 
   try {
-    return await BookModel.findAll();
+    return await bookModel.findAll();
   } catch (e) {
     throw e;
   }
@@ -29,12 +31,10 @@ module.exports.getAll = async function (db) {
  * @returns {Promise<Object[]>}
  */
 module.exports.getAllSearchBooks = async function (db, searchWord) {
-  const BookModel = BookRepository.getBookModel(db);
-  const Sequelize = require("sequelize");
-  const Op = Sequelize.Op;
+  const bookModel = BookRepository.getBookModel(db);
 
   try {
-    return await BookModel.findAll({
+    return await bookModel.findAll({
       where: {
         title: {
           [Op.like]: "%" + searchWord + "%",
@@ -58,10 +58,10 @@ module.exports.getAllSearchBooks = async function (db, searchWord) {
  * @returns {Promise<void>}
  */
 module.exports.add = async function (db, isbn, bookId, title, description, imgUrl) {
-  const BookModel = BookRepository.getBookModel(db, book);
+  const bookModel = BookRepository.getBookModel(db, book);
 
   try {
-    return await BookModel.create({
+    return await bookModel.create({
       isbn: isbn,
       book_id: bookId,
       title: title,
@@ -82,7 +82,7 @@ module.exports.add = async function (db, isbn, bookId, title, description, imgUr
  * @returns {Promise<void>}
  */
 module.exports.updateState = async function (db, title, userName, isUpdateRental) {
-  const BookModel = BookRepository.getBookModel(db);
+  const bookModel = BookRepository.getBookModel(db);
 
   try {
     const updateParams = {
@@ -99,7 +99,7 @@ module.exports.updateState = async function (db, title, userName, isUpdateRental
       updateParams.rentalUser = userName;
     }
 
-    return await BookModel.update(updateParams, { where: { title: title } });
+    return await bookModel.update(updateParams, { where: { title: title } });
   } catch (e) {
     throw e;
   }
@@ -113,10 +113,10 @@ module.exports.updateState = async function (db, title, userName, isUpdateRental
  * @returns {Promise<void>}
  */
 module.exports.remove = async function (db, title) {
-  const BookModel = BookRepository.getBookModel(db);
+  const bookModel = BookRepository.getBookModel(db);
 
   try {
-    return await BookModel.destroy({ where: { title: title } });
+    return await bookModel.destroy({ where: { title: title } });
   } catch (e) {
     throw e;
   }
