@@ -1,13 +1,7 @@
-/**
- * sequelizeのモジュールimport
- */
 const sequelize = require("sequelize");
-const op = sequelize.Op;
+const Op = sequelize.Op;
 
-/**
- * ユーザー情報の定義を取得
- */
-const userRepository = require("../db/user");
+const UserRepository = require("../db/user");
 
 /**
  * ユーザー情報を全件検索
@@ -17,7 +11,7 @@ const userRepository = require("../db/user");
  */
 module.exports.findAll = async function (db) {
   try {
-    const userModel = userRepository.getUserModel(db);
+    const userModel = UserRepository.getUserModel(db);
     return await userModel.findAll({
       /**
        * ★問題3[ユーザー一覧] Start
@@ -44,7 +38,7 @@ module.exports.findAll = async function (db) {
  */
 module.exports.findById = async function (db, userId) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.findByPk(userId);
@@ -68,7 +62,7 @@ module.exports.findById = async function (db, userId) {
  */
 module.exports.findByIdOrNameLike = async function (db, userId, userName) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.findAll({
@@ -89,8 +83,8 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
        * データ抽出結果が設計書の要望通りに出力されているかどうか確認する。
        */
       where: {
-        [op.or]: {
-          user_id: { [op.like]: "%" + userId + "%" },
+        [Op.or]: {
+          user_id: { [Op.like]: "%" + userId + "%" },
           auth: "1",
         },
       },
@@ -115,7 +109,7 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
  */
 module.exports.create = async function (db, userId, userName, password, gender, auth) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     /**
@@ -143,7 +137,7 @@ module.exports.create = async function (db, userId, userName, password, gender, 
  */
 module.exports.update = async function (db, userId, userName, password, gender, auth) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.update(
@@ -176,7 +170,7 @@ module.exports.update = async function (db, userId, userName, password, gender, 
  */
 module.exports.remove = async function (db, userId) {
   // ユーザー情報の定義を取得
-  const userModel = userRepository.getUserModel(db);
+  const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.destroy({
