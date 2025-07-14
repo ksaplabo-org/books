@@ -29,6 +29,7 @@
                   function() {}：何もしてない処理。
 
             -->
+                  <div class="form-group m-2">ユーザーID/ユーザーを検索</div>
             <div class="row">
               <div class="col-lg-6">
                 <input
@@ -40,7 +41,7 @@
                   required
                 />
               </div>
-              <button class="btn-primary btn-sm" v-on:click="function () {}">検索</button>
+              <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
             </div>
             <!-- ★ 問題1 END ★ -->
           </div>
@@ -101,6 +102,7 @@ export default {
        */
       fields: [
         { key: "user_id", label: "ユーザーID" },
+        
         { key: "controls", label: "" },
       ],
       /*★問題2 End★*/
