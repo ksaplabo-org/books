@@ -31,6 +31,7 @@
             -->
             <div class="row">
               <div class="col-lg-6">
+                <div>ユーザーID/ユーザー名を検索</div>
                 <input
                   type="text"
                   id="searchWord"
@@ -40,7 +41,7 @@
                   required
                 />
               </div>
-              <button class="btn-primary btn-sm" v-on:click="function () {}">検索</button>
+              <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
             </div>
             <!-- ★ 問題1 END ★ -->
           </div>
