@@ -29,9 +29,10 @@
                   function() {}：何もしてない処理。
 
             -->
+            
+            <label>ユーザID/ユーザ名を検索</label>
             <div class="row">
               <div class="col-lg-6">
-                <h6>ユーザID/ユーザ名を検索</h6>
                 <input
                   type="text"
                   id="searchWord"
@@ -102,6 +103,7 @@ export default {
        */
       fields: [
         { key: "user_id", label: "ユーザーID" },
+        { key: "user_name", label: "ユーザー名" },
         { key: "controls", label: "" },
       ],
       /*★問題2 End★*/
