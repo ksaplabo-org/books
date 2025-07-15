@@ -102,6 +102,7 @@ export default {
        */
       fields: [
         { key: "user_id", label: "ユーザーID" },
+        { key: "user_name", label: "ユーザー名" },
         { key: "controls", label: "" },
       ],
       /*★問題2 End★*/

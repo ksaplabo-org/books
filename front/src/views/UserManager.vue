@@ -42,6 +42,7 @@
                     placeholder="1桁以上16桁以下で入力してください。"
                     v-model="userId"
                     autocomplete="off"
+                    disabled="true"
                   />
                 </div>
                 <!--★問題1 End★-->
