@@ -85,6 +85,15 @@ export async function putUser(userModel) {
    * put:更新
    * delete:削除
    */
+  const url = "/api/users";
+  return await axios.put(url, {
+    userId: userModel.userId,
+    userName: userModel.userName,
+    password: userModel.password,
+    gender: userModel.gender,
+    auth: userModel.auth,
+  });
+
   /**★問題2[ユーザー管理] End★*/
 }
 
