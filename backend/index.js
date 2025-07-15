@@ -234,6 +234,17 @@ app.put("/api/users", async function (req, res) {
    *
    * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
    */
+  const reqBody = req.body;
+
+  try{
+    await UserLogic.update(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender, reqBody.auth);
+
+    res.send();
+
+  } catch (e) {
+    console.log("failed to put user.", e);
+    res.status(500).send("server error occur");
+  }
   /**★問題3[ユーザー管理] End★*/
 });
 
