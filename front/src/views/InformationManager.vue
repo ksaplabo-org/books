@@ -7,7 +7,7 @@
 
       <div id="content-wrapper" class="menu bg-light">
         <div class="container-fluid">
-             <!-- パンくずリスト-->
+            <!-- パンくずリスト-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <router-link tag="a" :to="{ name: 'top' }">トップページ</router-link>
@@ -20,7 +20,7 @@
 
           <br />
 
-          <!-- お知らせ一覧 -->
+          <!-- お知らせ欄 -->
           <div class="card shadow mb-4">
             <form @submit.stop.prevent="menu">
                 <div class="card-header py-3">
@@ -120,11 +120,11 @@ import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  props: ["flashMsg", "flashErrMsg"],
+  props: ["flashMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
     return {
-      msg: "",
+      msg: this.flashMsg,
       errMsg: "",
       clickedRow: {},
       isLoading: false,
@@ -132,6 +132,7 @@ export default {
         { key: "no", label: "番号" },
         { key: "date", label: "掲載日" },
         { key: "title", label: "タイトル" },
+        { key: "controls", label: "" },
       ],
       items: [],
     };
