@@ -29,7 +29,7 @@
                   function() {}：何もしてない処理。
 
             -->
-            <label>ユーザーID/ユーザー名を検索</label>
+            <div class="px-2">ユーザーID/ユーザー名を検索</div>
             <div class="row">
               <div class="col-lg-6">
                 <input
