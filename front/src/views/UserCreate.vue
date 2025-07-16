@@ -247,7 +247,10 @@ export default {
           return;
         }
         /*★問題5 End★*/
-
+        if (!this.userId.match("^[0-9A-Za-z]*$")) {
+          this.errMsg = "ユーザーIDは半角英数で入力してください";
+          return;
+        }
         /**
          * ★問題6 Start★
          * ユーザー名必須入力チェックを行う。
@@ -317,7 +320,7 @@ export default {
          * ※どこかが違います。
          */
         // ユーザーID重複チェック
-        const response = await AjaxUtil.getUserById(this.userID);
+        const response = await AjaxUtil.getUserById(this.userId);
         const userInfo = JSON.parse(response.data.Items);
         if (userInfo) {
           this.errMsg = "入力されたユーザーは既に登録されています";
