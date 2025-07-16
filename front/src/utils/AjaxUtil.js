@@ -153,3 +153,23 @@ export async function getAllStudent() {
 
   return await axios.get(url);
 }
+
+export async function postInformation(){
+  const url = "/api/information";
+
+  return await axios.post(url, {
+    userId: userModel.userId,
+    userName: userModel.userName,
+    password: userModel.password,
+    gender: userModel.gender,
+    auth: userModel.auth,
+  });
+}
+
+export async function putInformation(){
+
+}
+
+export async function deleteInforamation(){
+
+}
