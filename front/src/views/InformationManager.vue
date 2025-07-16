@@ -5,29 +5,27 @@
     <div id="wrapper">
       <Menu />
 
-      <div id="content-wrapper" class="menu bg-light">
+      <div id="content-wrapper" class="bg-light">
         <div class="container-fluid">
+          <!-- パンくずリスト -->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <router-link tag="a" :to="{ name: 'top' }">トップページ</router-link>
+            </li>
+            <li class="breadcrumb-item active">お知らせ管理</li>
+          </ol>
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
-
-          <!-- 図書館情報欄 -->
-          <div class="d-flex align-items-stretch">
-            <!-- 図書館イメージ -->
-            <div>
-              <img src="/public/image/library.png" class="img-fluid" />
-            </div>
-            <div>
-              <img src="/public/image/title.png" class="img-fluid" />
-            </div>
-          </div>
-
-          <br />
 
           <!-- お知らせ欄 -->
           <div class="card shadow mb-4">
             <form @submit.stop.prevent="menu">
-              
               <div class="card-body">
+                <div class="d-flex align-items-stretch">
+                  <b>お知らせ一覧</b>
+                  <input class="btn btn-primary btn-sm" type="submit" value="新規登録" />
+                </div>
+
                 <b-table striped responsive hover :items="items" :fields="fields">
                   <!-- ボタンセル定義 -->
                   <template #cell(controls)="data">
@@ -38,7 +36,16 @@
                         data-toggle="modal"
                         data-target="#imagemodal"
                       >
-                        詳細
+                        編集
+                      </b-button>
+                      &emsp;
+                      <b-button
+                        variant="outline-danger"
+                        v-on:click="clickedRow = { title: data.item.title, text: data.item.content }"
+                        data-toggle="modal"
+                        data-target="#imagemodal"
+                      >
+                        削除
                       </b-button>
                     </b-button-group>
                   </template>
@@ -47,9 +54,8 @@
             </form>
           </div>
         </div>
-        <Footer />
       </div>
-
+      <Footer />
       <!-- モーダル -->
       <div
         class="modal fade"
@@ -91,8 +97,7 @@
       </div>
       <!-- /modal -->
     </div>
-
-    <!-- スクロールトップボタン -->
+    <!-- スクロールトップボタン-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
@@ -110,8 +115,8 @@ import NaviMenu from "../components/NaviMenu.vue";
 import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
-
 export default {
+  name: "InformationManager",
   props: ["flashMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
@@ -121,6 +126,7 @@ export default {
       clickedRow: {},
       isLoading: false,
       fields: [
+        { key: "no", label: "番号" },
         { key: "date", label: "掲載日" },
         { key: "title", label: "お知らせ" },
         { key: "controls", label: "" },
@@ -129,14 +135,17 @@ export default {
     };
   },
   async mounted() {
+    // サインイン確認
     try {
       if (UserUtil.isSignIn()) {
-        // 画面更新
+        this.msg = this.flashMsg;
+        this.errMsg = this.flashErrMsg;
         await this.updateView();
       } else {
         this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
+      this.errMsg = e.message;
       this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
     }
   },
