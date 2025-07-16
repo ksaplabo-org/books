@@ -75,8 +75,8 @@ export default new Router({
     },
     {
       path: "/pages/information/manager.html",
-      name: "information",
-      component: information,
+      name: "informationManager",
+      component: InformationManager,
     },
     {
       path: "/pages/student.html",

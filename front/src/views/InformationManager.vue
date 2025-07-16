@@ -8,121 +8,52 @@
       <div id="content-wrapper" class="bg-light">
         <div class="container-fluid">
           <!-- パンくずリスト -->
-          <ol class="breadcrumb">
+          <ol class="breadcrumb" id="breadcrumb">
             <li class="breadcrumb-item">
               <router-link tag="a" :to="{ name: 'top' }">トップページ</router-link>
             </li>
-            <li class="breadcrumb-item active">書籍管理</li>
+            <li class="breadcrumb-item active">お知らせ管理</li>
           </ol>
 
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <!-- 登録する書籍名入力欄 -->
-          <div class="continer" style="font-size: 10pt">
-            <div class="form-group m-2">
-              <div class="px-2">書籍名を検索</div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <input
-                    type="text"
-                    id="searchWord"
-                    class="form-control"
-                    v-model="searchWord"
-                    placeholder="入力してください"
-                    required
-                  />
-                </div>
-                <button class="btn-primary btn-sm" v-on:click="searchBooks()">検索</button>
+          <div class="card shadow mb-4">
+            <form @submit.stop.prevent="menu">
+              <div class="card-body">
+                <h6>お知らせ一覧</h6>
+                <b-table striped responsive hover :items="items" :fields="fields">
+                  <!-- ボタンセル定義 -->
+                  <template #cell(controls)="data">
+                    <button-group>
+                      <b-button
+                        variant="outline-primary"
+                        v-on:click="clickedRow = { title: data.item.title, text: data.item.content }"
+                        data-toggle="modal"
+                        data-target="#imagemodal"
+                      >
+                      編集
+                      </b-button>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b-button>
+                        variant="outline-primary"
+                        v-on:click="clickedRow = { title: data.item.title, text: data.item.content }"
+                        data-toggle="modal"
+                        data-target="#imagemodal"
+                      >
+                      削除
+                      </b-button>
+                    </button-group>
+                  </template>
+                </b-table>
               </div>
-            </div>
+            </form>
           </div>
 
-          <hr />
-
-          <!-- Result Area -->
-          <div class="row">
-            <div class="col-lg-6 mb-4" v-for="(row, key, index) in items" :key="index">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <div class="m-0 font-weight-bold text-primary text-secondary">
-                    {{ row.title }}
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-2 mb-2 mr-1" style="min-width: 8rem">
-                      <div class="row text-left ml-2 mb-3">
-                        <img
-                          style="height: 7rem; width: 7rem"
-                          v-if="row.imgUrl === undefinded || row.imgUrl === null || row.imgUrl === ''"
-                          src="../../public/image/no-image.png"
-                        />
-                        <a
-                          href="#"
-                          onclick="return false;"
-                          v-if="row.imgUrl !== undefinded && row.imgUrl !== null && row.imgUrl !== ''"
-                        >
-                          <img
-                            style="height: 10rem; width: 7rem"
-                            v-bind:src="row.imgUrl"
-                            alt=""
-                            v-on:click="
-                              clickedRow = {
-                                title: row.title,
-                                imgUrl: row.imgUrl,
-                                description: row.description,
-                              }
-                            "
-                            data-toggle="modal"
-                            data-target="#imagemodal"
-                          />
-                        </a>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-8 ml-2 mb-2 text-left">
-                      <div class="table-responsive">
-                        <table
-                          class="table table-sm table-striped table-height-sm table-condensed"
-                          style="font-size: 10pt"
-                        >
-                          <tbody>
-                            <tr>
-                              <td>在庫</td>
-                              <td>{{ row.isMaster ? "本棚にあります" : "未入庫" }}&nbsp;</td>
-                            </tr>
-                            <tr>
-                              <td>操作</td>
-                              <td>
-                                <a href="#" v-if="row.isMaster === true" v-on:click="deleteBook(row.title)"
-                                  >&nbsp;
-                                  <i class="fas fa-fw fa-file-export"></i>
-                                  <span>マスタ削除</span>
-                                </a>
-                                <a
-                                  href="#"
-                                  v-else
-                                  v-on:click="addBook(row.title, row.isbn_13, row.description, row.imgUrl)"
-                                  >&nbsp;
-                                  <i class="fas fa-fw fa-file-export"></i>
-                                  <span>登録</span>
-                                </a>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <br />
         </div>
         <Footer />
       </div>
-
       <!-- モーダル -->
       <div
         class="modal fade"
@@ -144,11 +75,7 @@
               </div>
             </div>
             <div class="modal-body">
-              <img v-bind:src="clickedRow.imgUrl" id="imagepreview" class="img-responsive" />
-              <div class="mt-4 mb-2">概要</div>
-              <div class="multiline-text" v-show="clickedRow">
-                {{ clickedRow.description }}
-              </div>
+              <div class="multiline-text" v-show="clickedRow">{{ clickedRow.text }}</div>
             </div>
             <div class="modal-footer">
               <button
@@ -156,11 +83,11 @@
                 class="btn btn-default"
                 data-dismiss="modal"
                 v-on:click="
-                  clickedRow.imgUrl = '';
-                  clickedRow.description = '';
+                  clickedRow.title = '';
+                  clickedRow.content = '';
                 "
               >
-                閉じる
+                キャンセル
               </button>
             </div>
           </div>
@@ -169,11 +96,12 @@
       <!-- /modal -->
     </div>
 
-    <!-- スクロールトップボタン -->
+     <!-- スクロールトップボタン -->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- ローディングマスク -->
     <loading v-if="isLoading === true" />
   </div>
 </template>
@@ -183,160 +111,67 @@ import * as UserUtil from "@/utils/UserUtil";
 import * as AjaxUtil from "@/utils/AjaxUtil";
 // 共通
 import NaviMenu from "../components/NaviMenu.vue";
-import "../utils/sb-admin";
 import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  props: ["flashMsg", "flashErrMsg"],
+  props: ["flashMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
     return {
-      msg: "",
+      msg: this.flashMsg,
       errMsg: "",
-      items: [],
-      userName: "",
       clickedRow: {},
-      searchWord: "",
       isLoading: false,
+      fields: [
+        { key: "no", label: "番号" },
+        { key: "date", label: "掲載日" },
+        { key: "title", label: "タイトル" },
+        { key: "controls", label: "" },
+      ],
+      items: [],
     };
+  },
+  async mounted() {
+    try {
+      if (UserUtil.isSignIn()) {
+        // 画面更新
+        await this.updateView();
+      } else {
+        this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
+      }
+    } catch (e) {
+      this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
+    }
   },
   methods: {
     /**
-     * 書籍検索
+     * 画面更新
      */
-    searchBooks: async function () {
-      this.isLoading = true;
-
+    updateView: async function () {
       this.msg = "";
       this.errMsg = "";
+
+      // お知らせ取得
+      await this.getInformation();
+    },
+
+    /**
+     * お知らせ検索
+     */
+    getInformation: async function () {
+      this.isLoading = true;
+
+      // 一覧を初期化
       this.items = [];
-
-      // 検索値の必須チェック
-      if (!this.searchWord || this.searchWord === "") {
-        this.msg = "";
-        this.errMsg = "検索条件を入力してください";
-        this.isLoading = false;
-        return;
-      }
-
       try {
-        // 書籍一覧の取得
-        const books = (await AjaxUtil.searchBooks(this.searchWord)).data.items;
-        // マスタ管理している書籍一覧の取得
-        const masterBooks = JSON.parse((await AjaxUtil.getAllSapBooks()).data.Items);
-
-        // 要素詰め替え
-        for (const book of books) {
-          book.isbn_10 = "";
-          book.isbn_13 = "";
-
-          if (book.volumeInfo != null) {
-            // タイトル
-            book.title = book.volumeInfo.title;
-
-            // 内容
-            book.description = book.volumeInfo.description;
-
-            if (book.volumeInfo.industryIdentifiers != null) {
-              book.volumeInfo.industryIdentifiers.forEach((identifier) => {
-                // ISBN番号(10)取得
-                if (identifier.type === "ISBN_10") book.isbn_10 = identifier.identifier;
-
-                // ISBN番号(13)取得
-                if (identifier.type === "ISBN_13") book.isbn_13 = identifier.identifier;
-              });
-            }
-
-            // マスタ登録済みか
-            book.isMaster = masterBooks.some(
-              (masterBook) =>
-                (book.isbn_10 != "" && book.isbn_10 === masterBook.isbn) ||
-                (book.isbn_13 != "" && book.isbn_13 === masterBook.isbn)
-            );
-
-            // サムネイル画像URL
-            if (book.volumeInfo.imageLinks != null) book.imgUrl = book.volumeInfo.imageLinks.thumbnail;
-
-            this.items = books;
-          }
-        }
+        // お知らせを取得し、一覧に設定する
+        const response = await AjaxUtil.getInformation();
+        this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索に失敗しました";
-        console.log(e);
-      }
-
-      this.isLoading = false;
-    },
-
-    /**
-     * 書籍追加
-     *
-     * @param title
-     * @param isbn
-     * @param description
-     * @param imgUrl
-     */
-    addBook: async function (title, isbn, description, imgUrl) {
-      // サインインチェック
-      if (UserUtil.isSignIn()) {
-        this.$router.push({
-          name: "signIn",
-          params: { flashMsg: "サインインしてください" },
-        });
-        return;
-      }
-
-      // パラメータ補正
-      // 説明を最大文字数内に補正する
-      const descriptionMaxLength = 1024;
-      description = description.substr(0, descriptionMaxLength);
-      const addBookModel = {
-        isbn: isbn,
-        title: title,
-        book_id: "1",
-        description: description,
-        img_url: imgUrl,
-      };
-      this.isLoading = true;
-
-      try {
-        await AjaxUtil.addBook(addBookModel);
-        await this.searchBooks();
-      } catch (e) {
-        this.msg = "";
-        this.errMsg = "登録処理に失敗しました";
-        console.log(e);
-      }
-
-      this.isLoading = false;
-    },
-
-    /**
-     * 書籍削除
-     *
-     * @param title
-     */
-    deleteBook: async function (title) {
-      // サインインチェック
-      if (UserUtil.isSignIn()) {
-        this.$router.push({
-          name: "signIn",
-          params: { flashMsg: "サインインしてください" },
-        });
-        return;
-      }
-
-      this.isLoading = true;
-
-      try {
-        await AjaxUtil.deleteBook(title);
-        await this.searchBooks();
-      } catch (e) {
-        this.msg = "";
-        this.errMsg = "削除処理に失敗しました";
+        this.errMsg = "検索処理に失敗しました。";
         console.log(e);
       }
 
