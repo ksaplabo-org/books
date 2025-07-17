@@ -329,7 +329,7 @@ export default {
         // ユーザーID重複チェック
         const response = await AjaxUtil.getUserById(this.userName);
         const userInfo = JSON.parse(response.data.Items);
-        if (response & userInfo) {
+        if (response || userInfo) {
           this.errMsg = "入力されたユーザーは既に登録されています";
           return;
         }

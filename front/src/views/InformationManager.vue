@@ -35,7 +35,7 @@
                       編集
                       </b-button>
                       &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b-button>
+                      <b-button
                         variant="outline-primary"
                         v-on:click="clickedRow = { title: data.item.title, text: data.item.content }"
                         data-toggle="modal"
