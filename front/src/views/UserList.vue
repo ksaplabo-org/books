@@ -29,7 +29,7 @@
                   function() {}：何もしてない処理。
 
             -->
-            ユーザーID/ユーザー名を検索
+            <div class="px-2" style="font-size: 10pt">ユーザーID/ユーザー名を検索</div>
             <div class="row">
               <div class="col-lg-6">
                 <input
@@ -102,7 +102,7 @@ export default {
        */
       fields: [
         { key: "user_id", label: "ユーザーID" },
-        { key:"user_name",label:"ユーザ名"},
+        { key: "user_name", label: "ユーザ名" },
         { key: "controls", label: "" },
       ],
       /*★問題2 End★*/
