@@ -24,20 +24,7 @@
               <!-- お知らせ一覧タイトル -->
               <div class="font-weight-bold">お知らせ一覧</div>
               <!-- 新規登録ボタン -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                @click="
-                  () => {
-                    reg = regType.create;
-                    beforeCreateModal({});
-                  }
-                "
-                data-toggle="modal"
-                data-target="#modal"
-              >
-                新規登録
-              </button>
+              <button type="button" class="btn btn-primary" @click="() => { reg = regType.create; beforeCreateModal({});}"data-toggle="modal" data-target="#modal">新規登録</button>
             </div>
             <!-- お知らせ一覧テーブル -->
             <div class="card-body">
@@ -46,37 +33,11 @@
                   <!-- ボタンセル定義 -->
                   <template #cell(update)="data">
                     <!-- 編集ボタン -->
-                    <b-button
-                      class="minWidth"
-                      variant="outline-primary"
-                      @click="
-                        () => {
-                          reg = regType.update;
-                          beforeCreateModal(data.item);
-                        }
-                      "
-                      data-toggle="modal"
-                      data-target="#modal"
-                    >
-                      編集
-                    </b-button>
+                    <b-button class="minWidth"  variant="outline-primary" @click="() => { reg = regType.update; beforeCreateModal(data.item); }"  data-toggle="modal" data-target="#modal">編集</b-button>
                   </template>
                   <template #cell(delete)="data">
                     <!-- 削除ボタン -->
-                    <b-button
-                      class="minWidth"
-                      variant="outline-danger"
-                      @click="
-                        () => {
-                          reg = regType.delete;
-                          beforeCreateModal(data.item);
-                        }
-                      "
-                      data-toggle="modal"
-                      data-target="#modal"
-                    >
-                      削除
-                    </b-button>
+                    <b-button class="minWidth"  variant="outline-danger"  @click="() => { reg = regType.delete; beforeCreateModal(data.item);}" data-toggle="modal" data-target="#modal">削除</b-button>
                   </template>
                 </b-table>
               </div>
@@ -295,149 +256,7 @@ export default {
       }
     },
 
-    /**
-     * モーダル作成前処理
-     *
-     * @param information お知らせ情報
-     */
-    beforeCreateModal: function (information) {
-      // モーダルメッセージの初期化
-      this.errMsgModal = "";
-
-      // モーダルの各項目に値を設定
-      this.no = information.no;
-      this.date = information.date;
-      this.title = information.title;
-      this.content = information.content;
-    },
-
-    /**
-     * お知らせ入力値をチェック
-     */
-    checkInformation: function () {
-      if (!this.title) {
-        this.errMsgModal = "タイトルを入力してください";
-        return false;
-      }
-
-      if (this.title.length > 100) {
-        this.errMsgModal = "タイトルは100桁以下で入力してください";
-        return false;
-      }
-
-      if (!this.content) {
-        this.errMsgModal = "詳細を入力してください";
-        return false;
-      }
-
-      if (this.content.length > 100) {
-        this.errMsgModal = "詳細は100桁以下で入力してください";
-        return false;
-      }
-      return true;
-    },
-
-    /**
-     * お知らせ追加
-     */
-    addInformation: async function () {
-      // メッセージの初期化
-      this.msg = "";
-      this.errMsg = "";
-
-      // 入力チェック
-      if (!this.checkInformation()) {
-        return;
-      }
-
-      this.isLoading = true;
-
-      // モーダルを閉じる
-      $("#modal").modal("hide");
-
-      try {
-        // 新規登録処理
-        await AjaxUtil.postInformation({ title: this.title, content: this.content });
-
-        // 一覧を再検索
-        await this.getInformation();
-
-        this.msg = "登録に成功しました";
-      } catch (e) {
-        this.errMsg = "登録に失敗しました";
-        console.log(e);
-      }
-
-      this.isLoading = false;
-    },
-
-    /**
-     * お知らせ更新
-     */
-    updateInformation: async function () {
-      // メッセージの初期化
-      this.msg = "";
-      this.errMsg = "";
-
-      // 入力チェック
-      if (!this.checkInformation()) {
-        this.isLoading = false;
-        return;
-      }
-
-      this.isLoading = true;
-
-      // モーダルを閉じる
-      $("#modal").modal("hide");
-
-      try {
-        // 更新処理
-        await AjaxUtil.putInformation({
-          no: this.no,
-          title: this.title,
-          content: this.content,
-        });
-
-        // 一覧を再検索
-        await this.getInformation();
-
-        this.msg = "更新に成功しました";
-      } catch (e) {
-        this.errMsg = "更新に失敗しました";
-        console.log(e);
-      }
-
-      this.isLoading = false;
-    },
-
-    /**
-     * お知らせ削除
-     */
-    deleteInformation: async function () {
-      // メッセージの初期化
-      this.msg = "";
-      this.errMsg = "";
-
-      this.isLoading = true;
-
-      // モーダルを閉じる
-      $("#modal").modal("hide");
-
-      try {
-        // 削除処理
-        await AjaxUtil.deleteInformation(this.no);
-
-        // 一覧を再検索
-        await this.getInformation();
-
-        this.msg = "削除に成功しました";
-      } catch (e) {
-        this.errMsg = "削除に失敗しました";
-        console.log(e);
-      }
-
-      this.isLoading = false;
-    },
+    
   },
 };
 </script>
