@@ -119,11 +119,11 @@ module.exports.create = async function (db, userId, userName, password, gender, 
      * 登録処理が正常に実行できるようにする。
      */
     return await userModel.create({
-        user_id: userId,
-        user_name: userName,
-        password: password,
-        gender: gender,
-        auth: auth,
+      user_id: userId,
+      user_name: userName,
+      password: password,
+      gender: gender,
+      auth: auth,
     });
     /**★問題11[ユーザー追加] End*/
   } catch (e) {
@@ -161,8 +161,8 @@ module.exports.update = async function (db, userId, userName, password, gender, 
          * ※現在は全てのデータを更新するように設定されています。
          */
         where: {
-        user_id: userId,
-      },
+          user_id: userId,
+        },
         /**★問題4[ユーザー管理] End★ */
       }
     );

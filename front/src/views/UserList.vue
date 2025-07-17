@@ -18,8 +18,9 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <div class="form-group m-2">
-            <!--
+          <div class="continer" style="font-size: 10pt">
+            <div class="form-group m-2">
+              <!--
                 ★ 問題1 Start★
                   検索欄上部の文言を設計書通りに変更する。
                   検索ボタンをクリックした際に検索処理を呼び出すようにする。
@@ -29,19 +30,20 @@
                   function() {}：何もしてない処理。
 
             -->
-            <div class="px-2">ユーザーID/ユーザー名を検索</div>
-            <div class="row">
-              <div class="col-lg-6">
-                <input
-                  type="text"
-                  id="searchWord"
-                  class="form-control border-secondary"
-                  v-model="searchWord"
-                  placeholder="入力してください"
-                  required
-                />
+              <div class="px-2">ユーザーID/ユーザー名を検索</div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input
+                    type="text"
+                    id="searchWord"
+                    class="form-control border-secondary"
+                    v-model="searchWord"
+                    placeholder="入力してください"
+                    required
+                  />
+                </div>
+                <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
               </div>
-              <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
             </div>
             <!-- ★ 問題1 END ★ -->
           </div>
@@ -106,7 +108,7 @@ export default {
       fields: [
         { key: "user_id", label: "ユーザーID" },
         { key: "user_name", label: "ユーザー名" },
-        { key: "controls", label: "" }
+        { key: "controls", label: "" },
       ],
       /*★問題2 End★*/
       items: [],
