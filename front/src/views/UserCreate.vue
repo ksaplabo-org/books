@@ -55,7 +55,7 @@
                     autocomplete="off"
                   />
                 </div>
-                 <!--  ユーザーID表示箇所を参考にして作成する。
+                <!--  ユーザーID表示箇所を参考にして作成する。
                     (minlength,Patternは不要) -->
                 <!-- ユーザー名 -->
                 <!--★問題2 End★-->
@@ -228,7 +228,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザーIDを入力してください」
          */
-         if (this.userId === "") {
+        if (this.userId === "") {
           this.errMsg = "ユーザーIDを入力してください";
           return;
         }
