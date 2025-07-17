@@ -160,8 +160,8 @@ module.exports.update = async function (db, userId, userName, password, gender, 
          * ※現在は全てのデータを更新するように設定されています。
          */
         where: {
-        user_id: userId,
-      },
+          user_id: userId,
+        },
         /**★問題4[ユーザー管理] End★ */
       }
     );

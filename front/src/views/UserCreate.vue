@@ -49,7 +49,7 @@
                     (minlength,Patternは不要)
                 -->
                 <!-- ユーザー名 -->
-                 <div class="form-group">
+                <div class="form-group">
                   <label>ユーザー名</label>
                   <input
                     type="text"
