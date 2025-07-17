@@ -235,7 +235,7 @@ app.put("/api/users", async function (req, res) {
    * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
    */
 
-   // リクエストボディを取得
+  // リクエストボディを取得
   const reqBody = req.body;
 
   try {
@@ -245,7 +245,7 @@ app.put("/api/users", async function (req, res) {
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to add user.", e);
+    console.log("failed to update user.", e);
     res.status(500).send("server error occur");
   }
   /**★問題3[ユーザー管理] End★*/
