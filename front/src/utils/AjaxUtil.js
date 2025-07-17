@@ -95,7 +95,6 @@ export async function putUser(userModel) {
     auth: userModel.auth,
   });
   /**★問題2[ユーザー管理] End★*/
-
 }
 
 export async function deleteUser(userId) {
