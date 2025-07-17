@@ -230,7 +230,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザーIDを入力してください」
          */
-        if (this.userId == null || this.userId == '') {
+        if (this.userId == null || this.userId == "") {
           this.errMsg = "ユーザーIDを入力してください";
           return;
         }
@@ -260,7 +260,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザー名を入力してください」
          */
-        if (this.userName == null || this.userName == '') {
+        if (this.userName == null || this.userName == "") {
           this.errMsg = "ユーザー名を入力してください";
           return;
         }
@@ -287,7 +287,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「パスワードを入力してください」
          */
-        if (this.password == null || this.password == '') {
+        if (this.password == null || this.password == "") {
           this.errMsg = "パスワードを入力してください";
           return;
         }
@@ -327,9 +327,9 @@ export default {
          * ※どこかが違います。
          */
         // ユーザーID重複チェック
-        const response = await AjaxUtil.getUserById(this.userName);
+        const response = await AjaxUtil.getUserById(this.userId);
         const userInfo = JSON.parse(response.data.Items);
-        if (response || userInfo) {
+        if (userInfo) {
           this.errMsg = "入力されたユーザーは既に登録されています";
           return;
         }
