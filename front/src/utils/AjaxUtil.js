@@ -1,5 +1,6 @@
 // Ajax通信ライブラリ
 import axios from "axios";
+import { noConflict } from "jquery";
 
 export async function signIn(userId, password) {
   const url = "/api/sign-in";
@@ -91,7 +92,7 @@ export async function putUser(userModel) {
     userName: userModel.userName,
     password: userModel.password,
     gender: userModel.gender,
-    auth: userModel.auth
+    auth: userModel.auth,
   });
   /**★問題2[ユーザー管理] End★*/
 }
@@ -144,6 +145,35 @@ export async function alreadyLending(alreadyModel) {
   return await axios.post(url, {
     isbn: alreadyModel.isbn,
     lending_user_id: alreadyModel.lending_user_id,
+  });
+}
+
+//お知らせ登録処理
+export async function postInformation(informationModel) {
+  const url = "/api/information";
+
+  return await axios.post(url, {
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
+// お知らせ更新処理
+export async function putInformation(informationModel) {
+  const url = "/api/information";
+  return await axios.put(url, {
+    no: informationModel.no,
+    date: informationModel.date,
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
+// お知らせ削除処理
+export async function deleteInformation(informationNo) {
+  const url = "/api/information";
+  return await axios.put(url, {
+    no: informationNo,
   });
 }
 
