@@ -85,7 +85,8 @@ export async function putUser(userModel) {
    * put:更新
    * delete:削除
    */
-  const url = "/api/users/" ;
+  const url = "/api/users";
+
   return await axios.put(url, {
     userId: userModel.userId,
     userName: userModel.userName,

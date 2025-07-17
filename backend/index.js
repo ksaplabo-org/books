@@ -245,7 +245,7 @@ app.put("/api/users", async function (req, res) {
     console.log("failed to update user.", e);
     res.status(500).send("server error occur");
   }
-      
+
   /**★問題3[ユーザー管理] End★*/
 });
 

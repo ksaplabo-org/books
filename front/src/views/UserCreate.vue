@@ -21,7 +21,7 @@
           <br />
 
           <form @submit.stop.prevent="userCreate" method="post">
-            <div class="row" >
+            <div class="row">
               <div class="col" />
               <div class="col-6">
                 <!--
@@ -230,7 +230,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザーIDを入力してください」
          */
-        
+
         if (this.userId == null || this.userId === "") {
           this.errMsg = "ユーザーIDを入力してください";
           return;

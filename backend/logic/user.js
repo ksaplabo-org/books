@@ -86,8 +86,8 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
         [Op.or]: {
           user_id: { [Op.like]: "%" + userId + "%" },
           user_name: { [Op.like]: "%" + userName + "%" },
+          auth: "3",
         },
-        order: [["user_id", "ASC"]], // ユーザーIDで昇順
       },
       /**★問題4[ユーザー一覧] End*/
       /**★問題5[ユーザー一覧] End*/
@@ -122,7 +122,7 @@ module.exports.create = async function (db, userId, userName, password, gender, 
       user_name: userName,
       password: password,
       gender: gender,
-      auth: auth
+      auth: auth,
     });
     /**★問題11[ユーザー追加] End*/
   } catch (e) {
@@ -162,7 +162,6 @@ module.exports.update = async function (db, userId, userName, password, gender, 
         where: {
           user_id: userId,
         },
-        
         /**★問題4[ユーザー管理] End★ */
       }
     );
