@@ -49,7 +49,7 @@
                     (minlength,Patternは不要)
                 -->
                 <!-- ユーザー名 -->
-                 <div class="form-group">
+                <div class="form-group">
                   <label>ユーザー名</label>
                   <input
                     type="text"
@@ -230,8 +230,8 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザーIDを入力してください」
          */
-        if(this.userId ==""){
-          this.errMsg = "ユーザーIDを入力してください"
+        if (this.userId == "") {
+          this.errMsg = "ユーザーIDを入力してください";
           return;
         }
 
@@ -243,8 +243,8 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
          */
-        if(this.userId.length > 16){
-          this.errMsg = "ユーザーIDは16桁以下で入力してください"
+        if (this.userId.length > 16) {
+          this.errMsg = "ユーザーIDは16桁以下で入力してください";
           return;
         }
 
@@ -260,8 +260,8 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザー名を入力してください」
          */
-        if(this.userName ==""){
-          this.errMsg = "ユーザー名を入力してください"
+        if (this.userName == "") {
+          this.errMsg = "ユーザー名を入力してください";
           return;
         }
 
@@ -274,8 +274,8 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザー名は100桁以下で入力してください」
          */
-        if(this.userName.length > 100){
-          this.errMsg = "ユーザー名は100桁以下で入力してください"
+        if (this.userName.length > 100) {
+          this.errMsg = "ユーザー名は100桁以下で入力してください";
           return;
         }
 
@@ -287,8 +287,8 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「パスワードを入力してください」
          */
-        if(this.password ==""){
-          this.errMsg = "パスワードを入力してください"
+        if (this.password == "") {
+          this.errMsg = "パスワードを入力してください";
           return;
         }
 
@@ -301,8 +301,8 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「パスワードは8桁以上16桁以下で入力してください」
          */
-        if(this.password.length < 8 || this.password.length > 16){
-          this.errMsg = "パスワードは8桁以上16桁以下で入力してください"
+        if (this.password.length < 8 || this.password.length > 16) {
+          this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
           return;
         }
 

@@ -236,11 +236,10 @@ app.put("/api/users", async function (req, res) {
    */
   const reqBody = req.body;
 
-  try{
+  try {
     await UserLogic.update(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender, reqBody.auth);
 
     res.send();
-
   } catch (e) {
     console.log("failed to put user.", e);
     res.status(500).send("server error occur");
