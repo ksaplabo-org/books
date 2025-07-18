@@ -63,6 +63,7 @@ export async function getUser(searchParams) {
   return await axios.get(url, { params: params });
 }
 
+//ユーザー登録処理
 export async function postUser(userModel) {
   const url = "/api/users";
 
@@ -75,6 +76,7 @@ export async function postUser(userModel) {
   });
 }
 
+//ユーザー更新処理
 export async function putUser(userModel) {
   /**
    * ★問題2[ユーザー管理] Start★
@@ -97,6 +99,7 @@ export async function putUser(userModel) {
   /**★問題2[ユーザー管理] End★*/
 }
 
+//ユーザー削除処理
 export async function deleteUser(userId) {
   const url = "/api/users/" + userId;
 
@@ -170,10 +173,10 @@ export async function putInformation(informationModel) {
 }
 
 // お知らせ削除処理
-export async function deleteInformation(informationNo) {
+export async function deleteInformation(num) {
   const url = "/api/information";
-  return await axios.put(url, {
-    no: informationNo,
+  return await axios.delete(url, {
+    data: {no: num},
   });
 }
 

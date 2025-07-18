@@ -100,6 +100,22 @@ app.put("/api/information", async function (req, res) {
 });
 
 /**
+ * お知らせ削除API
+ */
+app.delete("/api/information", async function (req, res) {
+  const reqBody = req.body;
+  try {
+     await InformationLogic.remove(db, reqBody.no);
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to get information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
  * 書籍情報取得API
  */
 app.get("/api/book", async function (req, res) {
