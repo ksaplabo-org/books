@@ -21,12 +21,14 @@ export async function getAllSapBooks() {
 
 export async function getInformation() {
   const url = "/api/information";
+
   return await axios.get(url);
 }
 
 export async function searchBooks(keyword) {
   // search url : google books api.
   const url = "https://www.googleapis.com/books/v1/volumes?q=" + keyword.replace(" ", "+");
+
   return await axios.get(url);
 }
 
@@ -60,6 +62,7 @@ export async function getUser(searchParams) {
     userId: searchParams.userId,
     userName: searchParams.userName,
   };
+
   return await axios.get(url, { params: params });
 }
 
@@ -89,6 +92,7 @@ export async function putUser(userModel) {
    * delete:削除
    */
   const url = "/api/users";
+
   return await axios.put(url, {
     userId: userModel.userId,
     userName: userModel.userName,
@@ -121,6 +125,7 @@ export async function postLending(lendModel) {
 
 export async function deleteLending(lendModel) {
   const url = "/api/lending";
+
   return await axios.request({
     method: "delete",
     url: url,
@@ -140,11 +145,13 @@ export async function searchLendingBooks(userId) {
 
 export async function getAllSearchBooks(searchWord) {
   const url = "/api/book/search/" + searchWord;
+
   return await axios.get(url);
 }
 
 export async function alreadyLending(alreadyModel) {
   const url = "/api/lending/already";
+
   return await axios.post(url, {
     isbn: alreadyModel.isbn,
     lending_user_id: alreadyModel.lending_user_id,
@@ -164,6 +171,7 @@ export async function postInformation(informationModel) {
 // お知らせ更新処理
 export async function putInformation(informationModel) {
   const url = "/api/information";
+
   return await axios.put(url, {
     no: informationModel.no,
     date: informationModel.date,
@@ -175,8 +183,9 @@ export async function putInformation(informationModel) {
 // お知らせ削除処理
 export async function deleteInformation(num) {
   const url = "/api/information";
+
   return await axios.delete(url, {
-    data: {no: num},
+    data: { no: num },
   });
 }
 
