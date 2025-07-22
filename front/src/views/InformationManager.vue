@@ -28,6 +28,7 @@
                     variant="btn btn-primary"
                     data-toggle="modal"
                     data-target="#insertConfirmModal"
+                    v-on:click="resetFunction(),resetMessage()"
                   >
                     新規登録
                   </b-button>
@@ -48,7 +49,7 @@
                             date: data.item.date,
                             title: data.item.title,
                             content: data.item.content,
-                          }
+                          },resetMessage()
                         "
                         data-toggle="modal"
                         data-target="#updateConfirmModal"
@@ -157,7 +158,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body" style="padding-bottom: 0;">
+          <div class="modal-body" style="padding-bottom: 0">
             <p class="text-danger" v-show="updateErrorMsg">{{ updateErrorMsg }}</p>
             <table cellpadding="5">
               <tr>
@@ -305,6 +306,8 @@ export default {
     return {
       msg: "",
       errMsg: "",
+      inputErrorMsg: "",
+      updateErrorMsg: "",
       clickedRow: {},
       isLoading: false,
       fields: [
@@ -521,6 +524,15 @@ export default {
         console.log(e);
       }
       this.isLoading = false;
+    },
+
+    resetMessage: async function () {
+      this.inputErrorMsg = "";
+      this.updateErrorMsg = "";
+    },
+    resetFunction: async function () {
+      this.title = "";
+      this.content = "";
     },
   },
 };
