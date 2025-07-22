@@ -153,3 +153,28 @@ export async function getAllStudent() {
 
   return await axios.get(url);
 }
+
+export async function postInformation(informationModel) {
+  const url = "/api/information";
+
+  return await axios.post(url, {
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
+export async function deleteInformation(no) {
+  const url = "/api/information/" + no;
+
+  return await axios.delete(url);
+}
+
+export async function putInformation(informationModel) {
+  const url = "/api/information";
+
+  return await axios.put(url, {
+    no: informationModel.no,
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}

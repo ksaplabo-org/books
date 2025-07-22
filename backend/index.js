@@ -379,7 +379,40 @@ app.post("/api/information", async function (req, res) {
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to add user.", e);
+    console.log("failed to add information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ情報削除API
+ */
+app.delete("/api/information/:no", async function (req, res) {
+  try {
+    await InformationLogic.remove(db, req.params.no);
+
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to remove information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ情報更新API
+ */
+app.put("/api/information", async function (req, res) {
+  const reqBody = req.body;
+  try {
+    await InformationLogic.update(db, reqBody.no, reqBody.title, reqBody.content);
+
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to update user.", e);
     res.status(500).send("server error occur");
   }
 });
