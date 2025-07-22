@@ -373,7 +373,7 @@ app.post("/api/information", async function (req, res) {
   const reqBody = req.body;
 
   try {
-    await InformationLogic.create(db, reqBody.no, reqBody.date, reqBody.title, reqBody.content);
+    await InformationLogic.create(db, reqBody.title, reqBody.content);
 
     // 正常レスポンス
     res.send();
@@ -390,11 +390,11 @@ app.post("/api/information", async function (req, res) {
 app.put("/api/information", async function (req, res) {
   const reqBody = req.body;
   try {
-    await UserLogic.update(db, reqBody.no, reqBody.date, reqBody.title, reqBody.content);
+    await InformationLogic.update(db, reqBody.no, reqBody.title, reqBody.content);
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to update user.", e);
+    console.log("failed to update information.", e);
     res.status(500).send("server error occur");
   }
   /**★問題3[ユーザー管理] End★*/
@@ -405,13 +405,14 @@ app.put("/api/information", async function (req, res) {
  */
 app.delete("/api/information/:no", async function (req, res) {
   try {
-    await UserLogic.remove(db, req.params.id);
+    await InformationLogic.remove(db, req.params.no);
 
     // 正常レスポンス
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to remove user.", e);
+    console.log("failed to remove information.", e);
     res.status(500).send("server error occur");
   }
 });
+

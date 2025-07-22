@@ -15,14 +15,25 @@
             <li class="breadcrumb-item active">お知らせ管理</li>
           </ol>
 
+          <p class="text-primary" v-show="msg">{{ msg }}</p>
+          <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
+          <!-- お知らせ一覧 -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
               <div class="d-flex justify-content-between">
                 <div class="font-weight-bold text-primary text-secondary" style="align-content: center">
                   お知らせ一覧
                 </div>
-
-                <input class="btn btn-primary" type="submit" value="新規登録" />
+                <!-- 新規登録ボタン -->
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#createInfoModal"
+                  v-on:click="deleteText()"
+                >
+                  新規登録
+                </button>
               </div>
             </div>
 
@@ -30,27 +41,40 @@
               <div class="card-body">
                 <b-table responsive hover :items="items" :fields="fields">
                   <!-- ボタンセル定義 -->
-
+                  <!-- 編集・削除ボタン -->
                   <template #cell(controls)="data">
-                    <div class="d-flex justify-content-between">
-                      <div class="d-flex justify-content-md-end">
-                        <b-button-group>
-                          <b-button
-                            variant="outline-primary"
-                            v-on:click="clickedRow = { title: data.item.title, text: data.item.content }"
-                            data-toggle="modal"
-                            data-target="#imagemodal"
-                          >
-                            編集
-                          </b-button>
-                        </b-button-group>
-                      </div>
+                    <div class="d-flex justify-content-end">
                       <b-button-group>
                         <b-button
-                          variant="outline-danger"
-                          v-on:click="clickedRow = { title: data.item.title, text: data.item.content }"
+                          variant="outline-primary"
+                          v-on:click="
+                            clickedRow = {
+                              no: data.item.no,
+                              date: data.item.date,
+                              title: data.item.title,
+                              content: data.item.content,
+                            };
+                            deleteMsg();
+                          "
                           data-toggle="modal"
-                          data-target="#deleteConfirmModal"
+                          data-target="#updateInfoModal"
+                        >
+                          編集
+                        </b-button>
+                      </b-button-group>
+                      <b-button-group style="margin-left: 20px">
+                        <b-button
+                          variant="outline-danger"
+                          v-on:click="
+                            clickedRow = {
+                              no: data.item.no,
+                              date: data.item.date,
+                              title: data.item.title,
+                              content: data.item.content,
+                            }
+                          "
+                          data-toggle="modal"
+                          data-target="#deleteInfoConfirmModal"
                         >
                           削除
                         </b-button>
@@ -63,16 +87,14 @@
           </div>
 
           <br />
-
-          <!-- ユーザー一覧 -->
         </div>
       </div>
       <Footer />
     </div>
-
+    <!-- お知らせ登録モーダル -->
     <div
       class="modal fade"
-      id="deleteConfirmModal"
+      id="createInfoModal"
       tabindex="-1"
       role="dialog"
       aria-labelledby="myModalLabel"
@@ -81,20 +103,165 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel">以下のお知らせを削除してよろしいですか？</h5>
+            <div class="modal-title m-0 font-weight-bold text-primary text-secondary" id="myModalLabel">
+              以下の内容でお知らせを登録してよろしいですか？
+            </div>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <!-- <div class="modal-body">
-            <p>削除してよろしいですか？</p>
-          </div> -->
-          <div class="row">
-            <label class="col-3">番号</label>
-            <input type="text" name="userName" id="userName" v-model="uname" class="col-3 form-control" />
+          <div class="modal-body">
+            <p class="text-danger" v-show="fErrMsg">{{ fErrMsg }}</p>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">タイトル</div>
+              <div class="form-group">
+                <textarea
+                  rows="2"
+                  cols="100"
+                  id="title"
+                  class="form-control"
+                  v-model="title"
+                  autocomplete="off"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">詳細</div>
+              <div class="form-group">
+                <textarea
+                  rows="2"
+                  cols="100"
+                  id="content"
+                  class="form-control"
+                  v-model="content"
+                  autocomplete="off"
+                ></textarea>
+              </div>
+            </div>
           </div>
+
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="userDelete()">削除</button>
+            <button type="button" class="btn btn-primary" v-on:click="addInformation()">登録</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- お知らせ更新モーダル -->
+    <div
+      class="modal fade"
+      id="updateInfoModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title font-weight-bold text-primary text-secondary" id="myModalLabel">
+              以下の内容でお知らせを更新してよろしいですか？
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="line-height: 2.5">
+            <p class="text-danger" v-show="fErrMsg">{{ fErrMsg }}</p>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">番号</div>
+              <div class="text" v-show="clickedRow">{{ clickedRow.no }}</div>
+            </div>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">掲載日</div>
+              <div class="text" v-show="clickedRow">{{ clickedRow.date }}</div>
+            </div>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">タイトル</div>
+              <div class="form-group" style="margin-top: 10px">
+                <textarea
+                  rows="2"
+                  cols="100"
+                  id="title"
+                  class="form-control"
+                  v-show="clickedRow"
+                  v-model="clickedRow.title"
+                  autocomplete="off"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">詳細</div>
+              <div class="form-group" style="margin-top: 10px">
+                <textarea
+                  rows="2"
+                  cols="100"
+                  id="content"
+                  class="form-control"
+                  v-show="clickedRow"
+                  v-model="clickedRow.content"
+                  autocomplete="off"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" v-on:click="updateInformation()">更新</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- お知らせ削除モーダル -->
+    <div
+      class="modal fade"
+      id="deleteInfoConfirmModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title m-0 font-weight-bold text-primary text-secondary" id="myModalLabel">
+              以下のお知らせを削除してよろしいですか？
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="line-height: 2.5">
+            <div class="d-flex flex-row">
+              <div class="col-3">番号</div>
+              <div class="text" v-show="clickedRow">{{ clickedRow.no }}</div>
+            </div>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">掲載日</div>
+              <div class="text" v-show="clickedRow">{{ clickedRow.date }}</div>
+            </div>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">タイトル</div>
+              <div class="text" v-show="clickedRow">{{ clickedRow.title }}</div>
+            </div>
+
+            <div class="d-flex flex-row">
+              <div class="col-3">詳細</div>
+              <div class="text" v-show="clickedRow">{{ clickedRow.content }}</div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" v-on:click="deleteInformation()">削除</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
           </div>
         </div>
@@ -120,34 +287,22 @@ import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
-  props: ["flashMsg"],
+  props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
     return {
       msg: this.flashMsg,
+      fErrMsg: this.flashErrMsg,
       errMsg: "",
       clickedRow: {},
       isLoading: false,
+      title: "",
+      content: "",
       fields: [
         { key: "no", label: "番号" },
         { key: "date", label: "掲載日" },
-        { key: "title", label: "お知らせ" },
+        { key: "title", label: "タイトル" },
         { key: "controls", label: "" },
-      ],
-      items: [],
-    };
-  },
-  data_info() {
-    return {
-      msg: this.flashMsg,
-      errMsg: "",
-      clickedRow: {},
-      isLoading: false,
-      fields: [
-        { key: "no", label: "番号" },
-        { key: "date", label: "掲載日" },
-        { key: "title", label: "お知らせ" },
-        { key: "detail", label: "詳細" },
       ],
       items: [],
     };
@@ -157,11 +312,13 @@ export default {
       if (UserUtil.isSignIn()) {
         // 画面更新
         await this.updateView();
+        this.msg = this.flashMsg;
+        this.errMsg = this.flashErrMsg;
       } else {
         this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
     } catch (e) {
-      this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
+      this.errMsg = e.message;
     }
   },
   methods: {
@@ -171,8 +328,9 @@ export default {
     updateView: async function () {
       this.msg = "";
       this.errMsg = "";
-
-      // お知らせ取得
+      this.fErrMsg = "";
+      this.title = "";
+      this.content = "";
       await this.getInformation();
     },
 
@@ -191,38 +349,142 @@ export default {
       } catch (e) {
         this.msg = "";
         this.errMsg = "検索処理に失敗しました。";
-        console.log(e);
       }
 
       this.isLoading = false;
     },
-    userDelete: async function () {
+    /**
+     * お知らせ新規登録
+     */
+    addInformation: async function () {
       // メッセージ初期化
-      this.msg = "";
-      this.errMsg = "";
-
-      this.isLoading = true;
+      await this.deleteMsg();
 
       try {
-        // 削除
-        await AjaxUtil.deleteUser(this.userId);
-
-        // サインインユーザーが削除された場合
-        if (this.userId == UserUtil.currentUserInfo().userId) {
-          // サインアウト
-          UserUtil.signOut();
-          this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
-        } else {
-          // 一覧画面に遷移する
-          this.$router.push({ name: "userList", params: { flashMsg: "削除に成功しました" } });
+        // 入力チェック
+        if (this.title == null || this.title === "") {
+          this.fErrMsg = "タイトルを入力してください";
+          return;
         }
+
+        if (this.title.length > 100) {
+          this.fErrMsg = "タイトルは100桁以下で入力してください";
+          return;
+        }
+
+        if (this.content == null || this.content === "") {
+          this.fErrMsg = "詳細を入力してください";
+          return;
+        }
+
+        if (this.content.length > 100) {
+          this.fErrMsg = "詳細は100桁以下で入力してください";
+          return;
+        }
+        this.isLoading = true;
+        $("#createInfoModal").modal("hide");
+        // 引数格納
+        const model = {
+          title: this.title,
+          content: this.content,
+        };
+
+        // 登録
+        await AjaxUtil.postInformation(model);
+        await this.getInformation();
+        // 一覧画面に遷移する
+        this.msg = "登録に成功しました";
       } catch (e) {
         this.msg = "";
-        this.errMsg = "ユーザー削除に失敗しました";
-        console.log(e);
+        this.errMsg = "登録に失敗しました";
+      } finally {
+        this.isLoading = false;
       }
+    },
+    /**
+     * お知らせ更新
+     */
+    updateInformation: async function () {
+      // メッセージ初期化
+      await this.deleteMsg();
 
-      this.isLoading = false;
+      try {
+        // 入力チェック
+        if (this.clickedRow.title == null || this.clickedRow.title === "") {
+          this.fErrMsg = "タイトルを入力してください";
+          return;
+        }
+
+        if (this.clickedRow.title.length > 100) {
+          this.fErrMsg = "タイトルは100桁以下で入力してください";
+          return;
+        }
+
+        if (this.clickedRow.content == null || this.clickedRow.content === "") {
+          this.fErrMsg = "詳細を入力してください";
+          return;
+        }
+
+        if (this.clickedRow.content.length > 100) {
+          this.fErrMsg = "詳細は100桁以下で入力してください";
+          return;
+        }
+        this.isLoading = true;
+        $("#updateInfoModal").modal("hide");
+        // 引数格納
+        const model = {
+          no: this.clickedRow.no,
+          title: this.clickedRow.title,
+          content: this.clickedRow.content,
+        };
+
+        //更新
+        await AjaxUtil.putInformation(model);
+        await this.getInformation();
+        this.msg = "更新に成功しました";
+      } catch (e) {
+        this.msg = "";
+        this.errMsg = "更新に失敗しました";
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    /**
+     * お知らせ削除
+     */
+    deleteInformation: async function () {
+      // メッセージ初期化
+      await this.deleteMsg();
+
+      this.isLoading = true;
+      $("#deleteInfoConfirmModal").modal("hide");
+      try {
+        // 削除
+        await AjaxUtil.deleteInformation(this.clickedRow.no);
+        await this.getInformation();
+        this.msg = "お知らせ情報の削除に成功しました";
+      } catch (e) {
+        this.msg = "";
+        this.errMsg = "お知らせ情報の削除に失敗しました";
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    /**
+     * テキスト初期化
+     */
+    deleteText: async function () {
+      this.title = "";
+      this.content = "";
+      this.fErrMsg = "";
+    },
+    /**
+     * エラーメッセージ初期化
+     */
+    deleteMsg: async function () {
+      this.msg = "";
+      this.fErrMsg = "";
+      this.errMsg = "";
     },
   },
 };

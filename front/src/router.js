@@ -73,7 +73,7 @@ export default new Router({
       name: "rentalList",
       component: RentalList,
     },
-        {
+    {
       path: "/pages/information/manager.html",
       name: "informationManager",
       component: InformationManager,
