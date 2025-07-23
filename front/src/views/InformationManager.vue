@@ -108,39 +108,35 @@
               </button>
             </div>
             <div class="modal-body">
-              <div class="multiline-text">
-                <p class="text-danger" v-show="addInfoErrMsg" style="font-size: 15px">{{ addInfoErrMsg }}</p>
-                <form>
-                  <div class="row mb-3">
-                    <label for="informationTitle" class="col-sm-3 col-form-label" style="font-size: 15px"
-                      >タイトル</label
+              <p class="text-danger" v-show="addInfoErrMsg" style="font-size: 15px">{{ addInfoErrMsg }}</p>
+              <form>
+                <div class="row mb-3">
+                  <label for="informationTitle" class="col-sm-3 col-form-label" style="font-size: 15px">タイトル</label>
+                  <div class="col-sm-9">
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      id="informationTitle"
+                      v-model="title"
+                      style="height: 60px; resize: none"
                     >
-                    <div class="col-sm-9">
-                      <textarea
-                        type="text"
-                        class="form-control"
-                        id="informationTitle"
-                        v-model="title"
-                        style="height: 60px; resize: none"
-                      >
-                      </textarea>
-                    </div>
+                    </textarea>
                   </div>
-                  <div class="row mb-3">
-                    <label for="informationText" class="col-sm-3 col-form-label" style="font-size: 15px">詳細</label>
-                    <div class="col-sm-9">
-                      <textarea
-                        type="text"
-                        class="form-control"
-                        id="informationText"
-                        v-model="text"
-                        style="height: 60px; resize: none"
-                      >
-                      </textarea>
-                    </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="informationText" class="col-sm-3 col-form-label" style="font-size: 15px">詳細</label>
+                  <div class="col-sm-9">
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      id="informationText"
+                      v-model="text"
+                      style="height: 60px; resize: none"
+                    >
+                    </textarea>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" v-on:click="addInformation()">登録</button>
@@ -177,50 +173,48 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="multiline-text">
-              <p class="text-danger" v-show="editInfoErrMsg" style="font-size: 15px">{{ editInfoErrMsg }}</p>
-              <div class="row mb-3">
-                <div class="col-sm-3" style="font-size: 15px">番号</div>
-                <div class="col-sm-9" style="font-size: 15px">
-                  {{ clickedRow.no }}
-                </div>
+            <p class="text-danger" v-show="editInfoErrMsg" style="font-size: 15px">{{ editInfoErrMsg }}</p>
+            <div class="row mb-3">
+              <div class="col-sm-3" style="font-size: 15px">番号</div>
+              <div class="col-sm-9" style="font-size: 15px">
+                {{ clickedRow.no }}
               </div>
-              <div class="row mb-3">
-                <div class="col-sm-3" style="font-size: 15px">掲載日</div>
-                <div class="col-sm-9" style="font-size: 15px">
-                  {{ clickedRow.date }}
-                </div>
-              </div>
-              <form>
-                <div class="row mb-3">
-                  <label for="informationTitle" class="col-sm-3 col-form-label" style="font-size: 15px">タイトル</label>
-                  <div class="col-sm-9">
-                    <textarea
-                      type="text"
-                      class="form-control"
-                      id="informationTitle"
-                      v-model="clickedRow.title"
-                      style="height: 70px; resize: none"
-                    >
-                    </textarea>
-                  </div>
-                </div>
-
-                <div class="row mb-3">
-                  <label for="informationText" class="col-sm-3 col-form-label" style="font-size: 15px">詳細</label>
-                  <div class="col-sm-9">
-                    <textarea
-                      type="text"
-                      class="form-control"
-                      id="informationText"
-                      v-model="clickedRow.text"
-                      style="height: 70px; resize: none"
-                    >
-                    </textarea>
-                  </div>
-                </div>
-              </form>
             </div>
+            <div class="row mb-3">
+              <div class="col-sm-3" style="font-size: 15px">掲載日</div>
+              <div class="col-sm-9" style="font-size: 15px">
+                {{ clickedRow.date }}
+              </div>
+            </div>
+            <form>
+              <div class="row mb-3">
+                <label for="informationTitle" class="col-sm-3 col-form-label" style="font-size: 15px">タイトル</label>
+                <div class="col-sm-9">
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="informationTitle"
+                    v-model="clickedRow.title"
+                    style="height: 70px; resize: none"
+                  >
+                  </textarea>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="informationText" class="col-sm-3 col-form-label" style="font-size: 15px">詳細</label>
+                <div class="col-sm-9">
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="informationText"
+                    v-model="clickedRow.text"
+                    style="height: 70px; resize: none"
+                  >
+                  </textarea>
+                </div>
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" v-on:click="updateInformation()">更新</button>
