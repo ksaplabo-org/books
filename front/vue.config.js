@@ -75,7 +75,7 @@ module.exports = {
     informationManager: {
       entry: "src/main.js",
       template: "public/pages/index.html",
-      filename: "pages/InformationManager.html",
+      filename: "pages/information/manager.html",
       title: "お知らせ管理",
     },
     student: {

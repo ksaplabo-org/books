@@ -28,7 +28,7 @@
                     variant="btn btn-primary"
                     data-toggle="modal"
                     data-target="#insertConfirmModal"
-                    v-on:click="resetFunction(),resetMessage()"
+                    v-on:click="(initText(), resetMessage())"
                   >
                     新規登録
                   </b-button>
@@ -44,12 +44,13 @@
                       <b-button
                         variant="outline-primary"
                         v-on:click="
-                          clickedRow = {
+                          ((clickedRow = {
                             no: data.item.no,
                             date: data.item.date,
                             title: data.item.title,
                             content: data.item.content,
-                          },resetMessage()
+                          }),
+                          resetMessage())
                         "
                         data-toggle="modal"
                         data-target="#updateConfirmModal"
@@ -94,49 +95,61 @@
       aria-labelledby="myModalLabel"
       aria-hidden="true"
     >
-      <form @submit.stop.prevent="addInformation" method="post">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <div class="modal-title m-0 font-weight-bold text-primary text-secondary" id="myModalLabel">
-                以下の内容でお知らせを登録してよろしいですか？
-              </div>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title m-0 font-weight-bold text-primary text-secondary" id="myModalLabel">
+              以下の内容でお知らせを登録してよろしいですか？
             </div>
-            <div class="modal-body" style="padding-bottom: 0">
-              <p class="text-danger" v-show="inputErrorMsg">{{ inputErrorMsg }}</p>
-              <table cellpadding="5">
-                <tr>
-                  <td width="120" style="vertical-align: top">
-                    <div>タイトル</div>
-                  </td>
-                  <td>
-                    <div class="form-group">
-                      <textarea rows="2" cols="100" id="title" class="form-control" v-model="title"></textarea>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top">
-                    <div>詳細</div>
-                  </td>
-                  <td>
-                    <div class="form-group">
-                      <textarea rows="2" cols="100" id="content" class="form-control" v-model="content"></textarea>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" v-on:click="addInformation()">登録</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="padding-bottom: 0">
+            <p class="text-danger" v-show="inputErrorMsg">{{ inputErrorMsg }}</p>
+            <table cellpadding="5">
+              <tr>
+                <td width="120" style="vertical-align: top">
+                  <div>タイトル</div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <textarea
+                      rows="2"
+                      cols="100"
+                      id="title"
+                      class="form-control"
+                      v-model="title"
+                      style="resize: none"
+                    ></textarea>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top">
+                  <div>詳細</div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <textarea
+                      rows="2"
+                      cols="100"
+                      id="content"
+                      class="form-control"
+                      v-model="content"
+                      style="resize: none"
+                    ></textarea>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" v-on:click="addInformation()">登録</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
 
     <!-- 更新モーダル -->
@@ -183,7 +196,14 @@
                 </td>
                 <td>
                   <div class="form-group">
-                    <textarea rows="2" cols="100" id="title" class="form-control" v-model="clickedRow.title"></textarea>
+                    <textarea
+                      rows="2"
+                      cols="100"
+                      id="title"
+                      class="form-control"
+                      v-model="clickedRow.title"
+                      style="resize: none"
+                    ></textarea>
                   </div>
                 </td>
               </tr>
@@ -199,6 +219,7 @@
                       id="content"
                       class="form-control"
                       v-model="clickedRow.content"
+                      style="resize: none"
                     ></textarea>
                   </div>
                 </td>
@@ -370,7 +391,7 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました。";
         console.log(e);
       }
       this.isLoading = false;
@@ -397,7 +418,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「タイトルは100桁以下で入力してください」
          */
-        if (this.title.length < 1 || this.title.length > 100) {
+        if (this.title.length > 100) {
           this.inputErrorMsg = "タイトルは100桁以下で入力してください";
           return;
         }
@@ -416,7 +437,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「詳細は100桁以下で入力してください」
          */
-        if (this.content.length < 1 || this.content.length > 100) {
+        if (this.content.length > 100) {
           this.inputErrorMsg = "詳細は100桁以下で入力してください";
           return;
         }
@@ -461,7 +482,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「タイトルは100桁以下で入力してください」
          */
-        if (this.clickedRow.title.length < 1 || this.clickedRow.title.length > 100) {
+        if (this.clickedRow.title.length > 100) {
           this.updateErrorMsg = "タイトルは100桁以下で入力してください";
           return;
         }
@@ -480,7 +501,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「詳細は100桁以下で入力してください」
          */
-        if (this.clickedRow.content.length < 1 || this.clickedRow.content.length > 100) {
+        if (this.clickedRow.content.length > 100) {
           this.updateErrorMsg = "詳細は100桁以下で入力してください";
           return;
         }
@@ -492,7 +513,7 @@ export default {
         };
         // 更新
         await AjaxUtil.putInformation(model);
-        // お知らせ管理に遷移する
+        // モーダルを閉じる
         $("#updateConfirmModal").modal("hide");
         await this.updateView();
         this.msg = "更新に成功しました";
@@ -516,7 +537,6 @@ export default {
         // 削除
         await AjaxUtil.deleteInformation(this.clickedRow.no);
         await this.getInformation();
-        // お知らせ管理に遷移する
         this.msg = "お知らせ情報の削除に成功しました";
       } catch (e) {
         this.msg = "";
@@ -526,11 +546,11 @@ export default {
       this.isLoading = false;
     },
 
-    resetMessage: async function () {
+    resetMessage: function () {
       this.inputErrorMsg = "";
       this.updateErrorMsg = "";
     },
-    resetFunction: async function () {
+    initText: function () {
       this.title = "";
       this.content = "";
     },

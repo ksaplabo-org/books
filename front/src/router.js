@@ -79,7 +79,7 @@ export default new Router({
       component: Student,
     },
     {
-      path: "/pages/InformationManager.html",
+      path: "/pages/information/manager.html",
       name: "informationManager",
       props: true,
       component: InformationManager,
