@@ -234,6 +234,18 @@ app.put("/api/users", async function (req, res) {
    *
    * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
    */
+  // リクエストボディを取得
+  const reqBody = req.body;
+  try {
+    await UserLogic.update(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender, reqBody.auth);
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to update user.", e);
+    res.status(500).send("server error occur");
+  }
+
   /**★問題3[ユーザー管理] End★*/
 });
 
@@ -354,4 +366,57 @@ app.get("/api/students", async function (req, res) {
   }
 });
 
+/**
+ * お知らせ情報追加API
+ */
+app.post("/api/information", async function (req, res) {
+  try {
+    // リクエストボディから値を取得
+    const { title, content } = req.body;
+    // お知らせ情報を追加
+    await InformationLogic.create(db, title, content);
+    res.send({ result: "ok" });
+  } catch (e) {
+    console.log("failed to add information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ情報更新API
+ */
+app.put("/api/information", async function (req, res) {
+  try {
+    const { no, title, content } = req.body;
+    await InformationLogic.update(db, no, title, content);
+    res.send({ result: "ok" });
+  } catch (e) {
+    console.log("faild to update infomation.", e);
+    res.status(500).send("server erroe occur");
+  }
+});
+
+/**
+ * お知らせ情報削除API
+ */
+app.delete("/api/information/:no", async function (req, res) {
+  try {
+    await InformationLogic.remove(db, req.params.no);
+    res.send({ result: "ok" });
+  } catch (e) {
+    console.log("failed to remove information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
 app.listen(process.env.PORT || 3000);
+
+const path = require("path");
+
+// 静的ファイルを提供する設定
+app.use(express.static(path.join(__dirname, "dist")));
+
+// SPAのエントリポイントを処理する
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});

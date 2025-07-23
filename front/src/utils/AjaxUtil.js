@@ -85,6 +85,15 @@ export async function putUser(userModel) {
    * put:更新
    * delete:削除
    */
+  const url = "/api/users";
+
+  return await axios.put(url, {
+    userId: userModel.userId,
+    userName: userModel.userName,
+    password: userModel.password,
+    gender: userModel.gender,
+    auth: userModel.auth,
+  });
   /**★問題2[ユーザー管理] End★*/
 }
 
@@ -143,4 +152,26 @@ export async function getAllStudent() {
   const url = "/api/students";
 
   return await axios.get(url);
+}
+
+export async function postInformation(infoModel) {
+  const url = "/api/information";
+  return await axios.post(url, {
+    title: infoModel.title,
+    content: infoModel.content,
+  });
+}
+
+export async function deleteInformation(no) {
+  const url = "/api/information/" + no;
+  return await axios.delete(url);
+}
+
+export async function putInformation(infoModel) {
+  const url = "/api/information/";
+  return await axios.put(url, {
+    no: infoModel.no,
+    title: infoModel.title,
+    content: infoModel.content,
+  });
 }
