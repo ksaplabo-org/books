@@ -22,7 +22,13 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
               <h5 class="card-title font-weight-bold mb-0">お知らせ一覧</h5>
-              <button class="btn btn-primary ml-5" type="submit" data-toggle="modal" data-target="#addModal">
+              <button
+                class="btn btn-primary ml-5"
+                type="submit"
+                data-toggle="modal"
+                data-target="#addModal"
+                v-on:click="openModal()"
+              >
                 新規登録
               </button>
             </div>
@@ -41,12 +47,13 @@
                         data-toggle="modal"
                         data-target="#updateModal"
                         v-on:click="
-                          clickedRow = {
+                          ((clickedRow = {
                             no: data.item.no,
                             date: data.item.date,
                             title: data.item.title,
                             text: data.item.content,
-                          }
+                          }),
+                          openModal())
                         "
                         >編集</b-button
                       >
@@ -58,12 +65,13 @@
                         data-toggle="modal"
                         data-target="#deleteModal"
                         v-on:click="
-                          clickedRow = {
+                          ((clickedRow = {
                             no: data.item.no,
                             date: data.item.date,
                             title: data.item.title,
                             text: data.item.content,
-                          }
+                          }),
+                          openModal())
                         "
                         >削除</b-button
                       >
@@ -297,13 +305,12 @@ export default {
   },
   methods: {
     /**
-     * お知らせ更新
+     * お知らせ一覧取得
      */
     getInformation: async function () {
       this.isLoading = true;
       this.msg = "";
       this.errMsg = "";
-      this.modalErrMsg = "";
 
       // 一覧を初期化
       this.items = [];
@@ -313,7 +320,7 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました。";
         console.log(e);
       }
       this.isLoading = false;
@@ -357,10 +364,13 @@ export default {
         $("#addModal").modal("hide");
         await AjaxUtil.postInformation(model);
         await this.getInformation();
-        this.msg = "登録処理が完了しました。";
+        //テキストボックスの初期化
+        this.title = "";
+        this.content = "";
+        this.msg = "登録に成功しました。";
       } catch (e) {
         this.msg = "";
-        this.errMsg = "登録処理に失敗しました。";
+        this.errMsg = "登録に失敗しました。";
         console.log(e);
       } finally {
         this.isLoading = false;
@@ -407,10 +417,10 @@ export default {
         $("#updateModal").modal("hide");
         await AjaxUtil.putInformation(model);
         await this.getInformation();
-        this.msg = "お知らせ更新に成功しました";
+        this.msg = "更新に成功しました";
       } catch (e) {
         this.msg = "";
-        this.errMsg = "お知らせ更新に失敗しました";
+        this.errMsg = "更新に失敗しました";
         console.log(e);
       } finally {
         this.isLoading = false;
@@ -431,10 +441,10 @@ export default {
         $("#deleteModal").modal("hide");
         await AjaxUtil.deleteInformation(this.clickedRow.no);
         await this.getInformation();
-        this.msg = "削除が完了しました";
+        this.msg = "お知らせ情報の削除に成功しました";
       } catch (e) {
         this.msg = "";
-        this.errMsg = "削除に失敗しました";
+        this.errMsg = "お知らせ情報の削除に失敗しました";
         console.log(e);
       }
 
@@ -442,9 +452,9 @@ export default {
     },
 
     /**
-     * モーダルを閉じる処理
+     * モーダルを開く処理
      */
-    modalClose: async function () {
+    openModal: async function () {
       // モーダルのエラーメッセージ初期化
       this.modalErrMsg = "";
     },

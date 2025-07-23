@@ -77,7 +77,7 @@ app.post("/api/information", async function (req, res) {
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to get information.", e);
+    console.log("failed to add information.", e);
     res.status(500).send("server error occur");
   }
 });
@@ -94,7 +94,7 @@ app.put("/api/information", async function (req, res) {
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to get information.", e);
+    console.log("failed to update information.", e);
     res.status(500).send("server error occur");
   }
 });
@@ -110,7 +110,7 @@ app.delete("/api/information", async function (req, res) {
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to get information.", e);
+    console.log("failed to delete information.", e);
     res.status(500).send("server error occur");
   }
 });

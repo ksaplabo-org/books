@@ -181,11 +181,11 @@ export async function putInformation(informationModel) {
 }
 
 // お知らせ削除処理
-export async function deleteInformation(num) {
+export async function deleteInformation(no) {
   const url = "/api/information";
 
   return await axios.delete(url, {
-    data: { no: num },
+    data: { no: no },
   });
 }
 
