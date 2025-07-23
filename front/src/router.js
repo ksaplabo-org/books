@@ -1,4 +1,3 @@
-
 import Vue from "vue";
 import Router from "vue-router";
 
@@ -80,7 +79,7 @@ export default new Router({
       component: Student,
     },
     {
-      path: "/pages/information/manager.html",
+      path: "/pages/information-manager.html",
       name: "informationManager",
       component: InformationManager,
     },
