@@ -185,14 +185,14 @@
 
               <div class="d-flex flex-row mb-sm-2">
                 <div class="col-3">番号</div>
-                <div class="multiline-text" v-show="clickedRow">
+                <div v-show="clickedRow">
                   <h6 class="font-weight-normal">{{ clickedRow.no }}</h6>
                 </div>
               </div>
 
               <div class="d-flex flex-row mb-sm-2">
                 <div class="col-3">掲載日</div>
-                <div class="multiline-text" v-show="clickedRow">
+                <div v-show="clickedRow">
                   <h6 class="font-weight-normal">{{ clickedRow.date }}</h6>
                 </div>
               </div>
@@ -257,28 +257,28 @@
             <!--選択したお知らせ情報確認-->
             <div class="d-flex flex-row mb-sm-2">
               <div class="col-3">番号</div>
-              <div class="multiline-text" v-show="clickedRow">
+              <div v-show="clickedRow">
                 <h6 class="font-weight-normal">{{ clickedRow.no }}</h6>
               </div>
             </div>
 
             <div class="d-flex flex-row mb-sm-2">
               <div class="col-3">掲載日</div>
-              <div class="multiline-text" v-show="clickedRow">
+              <div v-show="clickedRow">
                 <h6 class="font-weight-normal">{{ clickedRow.date }}</h6>
               </div>
             </div>
 
             <div class="d-flex flex-row mb-sm-2">
               <div class="col-3">タイトル</div>
-              <div class="multiline-text" v-show="clickedRow">
+              <div v-show="clickedRow">
                 <h6 class="font-weight-normal">{{ clickedRow.title }}</h6>
               </div>
             </div>
 
             <div class="d-flex flex-row mb-6">
               <div class="col-3">詳細</div>
-              <div class="multiline-text" v-show="clickedRow">
+              <div v-show="clickedRow">
                 <h6 class="font-weight-normal">{{ clickedRow.content }}</h6>
               </div>
             </div>
@@ -526,10 +526,10 @@ export default {
         // 画面更新
         await this.updateView();
 
-        this.msg = "お知らせ削除に成功しました";
+        this.msg = "お知らせ情報の削除に成功しました";
       } catch (e) {
         this.msg = "";
-        this.errMsg = "お知らせ削除に失敗しました";
+        this.errMsg = "お知らせ情報の削除に失敗しました";
         console.log(e);
       }
 
