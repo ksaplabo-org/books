@@ -7,7 +7,7 @@
 
       <div id="content-wrapper" class="menu bg-light">
         <div class="container-fluid">
-            <!-- パンくずリスト-->
+          <!-- パンくずリスト-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <router-link tag="a" :to="{ name: 'top' }">トップページ</router-link>
@@ -22,43 +22,68 @@
 
           <!-- お知らせ欄 -->
           <div class="card shadow mb-4">
-            <form @submit.stop.prevent="menu">
-                <div class="card-header py-3">
-                    <b>お知らせ一覧</b>
-                    <button class="btn-primary">新規登録</button>
-                </div>
-              <div class="card-body">
-                <b-table responsive hover :items="items" :fields="fields">
-                  <!-- ボタンセル定義 -->
-                  <template #cell(controls)="data">
-                    <b-button-group>
-                      <b-button
-                        variant="outline-primary"
-                        v-on:click="clickedRow = { title: data.item.title, text: data.item.content }"
-                        data-toggle="modal"
-                        data-target="#imagemodal"
-                      >
-                        編集
-                      </b-button>
-                      <b-button
-                        variant="outline-primary"
-                        v-on:click="clickedRow = { title: data.item.title, text: data.item.content }"
-                        data-toggle="modal"
-                        data-target="#imagemodal"
-                      >
-                        削除
-                      </b-button>
-                    </b-button-group>
-                  </template>
-                </b-table>
+            <div class="card-header py-3">
+              <div class="d-flex justify-content-between">
+                <b>お知らせ一覧</b>
+                <button
+                  class="btn-primary btn-sm"
+                  data-toggle="modal"
+                  data-target="#imagemodal"
+                  v-on:click="
+                    title = '';
+                    text = '';
+                  "
+                >
+                  新規登録
+                </button>
               </div>
-            </form>
+            </div>
+            <div class="card-body">
+              <b-table responsive hover :items="items" :fields="fields">
+                <!-- ボタンセル定義 -->
+                <template #cell(controls)="data">
+                  <b-button
+                    class="editButton"
+                    variant="outline-primary"
+                    v-on:click="
+                      clickedRow = {
+                        no: data.item.no,
+                        date: data.item.date,
+                        title: data.item.title,
+                        text: data.item.content,
+                      }
+                    "
+                    data-toggle="modal"
+                    data-target="#editModal"
+                  >
+                    編集
+                  </b-button>
+
+                  <b-button
+                    class="deleteButton"
+                    variant="outline-danger"
+                    v-on:click="
+                      clickedRow = {
+                        no: data.item.no,
+                        date: data.item.date,
+                        title: data.item.title,
+                        text: data.item.content,
+                      }
+                    "
+                    data-toggle="modal"
+                    data-target="#deleteConfirmModal"
+                  >
+                    削除
+                  </b-button>
+                </template>
+              </b-table>
+            </div>
           </div>
         </div>
         <Footer />
       </div>
 
-      <!-- モーダル -->
+      <!--登録 モーダル -->
       <div
         class="modal fade"
         id="imagemodal"
@@ -66,6 +91,7 @@
         role="dialog"
         aria-labelledby="myModalLabel"
         aria-hidden="true"
+        data-backdrop="static"
       >
         <div class="modal-dialog">
           <div class="modal-content">
@@ -73,32 +99,198 @@
               <div
                 class="modal-title m-0 font-weight-bold text-primary text-secondary"
                 id="myModalLabel"
-                v-show="clickedRow"
+                style="font-size: 15px"
               >
-                {{ clickedRow.title }}
+                以下の内容でお知らせを登録してよろしいですか？
               </div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="modal-body">
-              <div class="multiline-text" v-show="clickedRow">{{ clickedRow.text }}</div>
+              <div class="multiline-text">
+                <p class="text-danger" v-show="addInfoErrMsg" style="font-size: 15px">{{ addInfoErrMsg }}</p>
+                <form>
+                  <div class="row mb-3">
+                    <label for="informationTitle" class="col-sm-3 col-form-label" style="font-size: 15px"
+                      >タイトル</label
+                    >
+                    <div class="col-sm-9">
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        id="informationTitle"
+                        v-model="title"
+                        style="height: 60px; resize: none"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="informationText" class="col-sm-3 col-form-label" style="font-size: 15px">詳細</label>
+                    <div class="col-sm-9">
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        id="informationText"
+                        v-model="text"
+                        style="height: 60px; resize: none"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-default"
-                data-dismiss="modal"
-                v-on:click="
-                  clickedRow.title = '';
-                  clickedRow.content = '';
-                "
-              >
-                閉じる
-              </button>
+              <button type="button" class="btn btn-primary" v-on:click="addInformation()">登録</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
             </div>
           </div>
         </div>
       </div>
       <!-- /modal -->
     </div>
+
+    <!-- 更新 モーダル -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+      data-backdrop="static"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div
+              class="modal-title m-0 font-weight-bold text-primary text-secondary"
+              id="myModalLabel"
+              style="font-size: 15px"
+            >
+              以下の内容でお知らせを更新してよろしいですか？
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="multiline-text">
+              <p class="text-danger" v-show="editInfoErrMsg" style="font-size: 15px">{{ editInfoErrMsg }}</p>
+              <div class="row mb-3">
+                <div class="col-sm-3" style="font-size: 15px">番号</div>
+                <div class="col-sm-9" style="font-size: 15px">
+                  {{ clickedRow.no }}
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-sm-3" style="font-size: 15px">掲載日</div>
+                <div class="col-sm-9" style="font-size: 15px">
+                  {{ clickedRow.date }}
+                </div>
+              </div>
+              <form>
+                <div class="row mb-3">
+                  <label for="informationTitle" class="col-sm-3 col-form-label" style="font-size: 15px">タイトル</label>
+                  <div class="col-sm-9">
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      id="informationTitle"
+                      v-model="clickedRow.title"
+                      style="height: 70px; resize: none"
+                    >
+                    </textarea>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="informationText" class="col-sm-3 col-form-label" style="font-size: 15px">詳細</label>
+                  <div class="col-sm-9">
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      id="informationText"
+                      v-model="clickedRow.text"
+                      style="height: 70px; resize: none"
+                    >
+                    </textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" v-on:click="updateInformation()">更新</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /modal -->
+
+    <!-- 削除確認モーダル -->
+    <div
+      class="modal fade"
+      id="deleteConfirmModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+      data-backdrop="static"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div
+              class="modal-title m-0 font-weight-bold text-primary text-secondary"
+              id="myModalLabel"
+              style="font-size: 15px"
+            >
+              以下のお知らせを削除してよろしいですか？
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-sm-3" style="font-size: 15px">番号</div>
+              <div class="col-sm-9" style="font-size: 15px">
+                {{ clickedRow.no }}
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-3" style="font-size: 15px">掲載日</div>
+              <div class="col-sm-9" style="font-size: 15px">
+                {{ clickedRow.date }}
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-3" style="font-size: 15px">タイトル</div>
+              <div class="col-sm-9" style="font-size: 15px">
+                {{ clickedRow.title }}
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-3" style="font-size: 15px">詳細</div>
+              <div class="col-sm-9" style="font-size: 15px">
+                {{ clickedRow.text }}
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="deleteInformation()">
+              削除
+            </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /modal -->
 
     <!-- スクロールトップボタン -->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -124,10 +316,16 @@ export default {
   components: { NaviMenu, Menu, Footer, Loading },
   data() {
     return {
-      msg: this.flashMsg,
+      msg: "",
       errMsg: "",
+      addInfoErrMsg: "",
+      editInfoErrMsg: "",
       clickedRow: {},
       isLoading: false,
+      no: "",
+      date: "",
+      title: "",
+      text: "",
       fields: [
         { key: "no", label: "番号" },
         { key: "date", label: "掲載日" },
@@ -140,8 +338,8 @@ export default {
   async mounted() {
     try {
       if (UserUtil.isSignIn()) {
-        // 画面更新
-        await this.updateView();
+        // 画面呼び出し
+        await this.getInformation();
       } else {
         this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
@@ -153,32 +351,156 @@ export default {
     /**
      * 画面更新
      */
-    updateView: async function () {
+
+    getInformation: async function () {
+      this.isLoading = true;
+
       this.msg = "";
       this.errMsg = "";
 
       // お知らせ取得
-      await this.getInformation();
-    },
 
-    /**
-     * お知らせ検索
-     */
-    getInformation: async function () {
-      this.isLoading = true;
-
-      // 一覧を初期化
-      this.items = [];
       try {
         // お知らせを取得し、一覧に設定する
         const response = await AjaxUtil.getInformation();
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索処理に失敗しました。";
+        this.errMsg = "検索に失敗しました";
         console.log(e);
       }
 
+      this.isLoading = false;
+    },
+
+    /**
+     * お知らせ新規登録
+     */
+    addInformation: async function () {
+      this.msg = "";
+      this.errMsg = "";
+      this.addInfoErrMsg = "";
+
+      this.isLoading = true;
+
+      try {
+        //タイトルの入力チェック
+        if (this.title == null || this.title == "") {
+          this.addInfoErrMsg = "タイトルを入力してください";
+          return;
+        }
+
+        //タイトルの入力桁数チェック
+        if (this.title.length > 100) {
+          this.addInfoErrMsg = "タイトルは100桁以下で入力してください";
+          return;
+        }
+
+        //詳細の入力チェック
+        if (this.text == null || this.text == "") {
+          this.addInfoErrMsg = "詳細を入力してください";
+          return;
+        }
+
+        //詳細の入力桁数チェック
+        if (this.text.length > 100) {
+          this.addInfoErrMsg = "詳細は100桁以下で入力してください";
+          return;
+        }
+
+        //引数格納
+        const info = {
+          title: this.title,
+          text: this.text,
+        };
+
+        //登録
+        await AjaxUtil.postInformation(info);
+        await this.getInformation();
+        this.msg = "登録に成功しました";
+        console;
+      } catch (e) {
+        this.msg = "";
+        this.errMsg = "登録に失敗しました。";
+        console.log(e);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    /**
+     * お知らせ更新
+     */
+    updateInformation: async function () {
+      this.msg = "";
+      this.errMsg = "";
+      this.editInfoErrMsg = "";
+
+      this.isLoading = true;
+
+      try {
+        //タイトルの入力チェック
+        if (this.clickedRow.title == null || this.clickedRow.title == "") {
+          this.editInfoErrMsg = "タイトルを入力してください";
+          return;
+        }
+
+        //タイトルの入力桁数チェック
+        if (this.clickedRow.title.length > 100) {
+          this.editInfoErrMsg = "タイトルは100桁以下で入力してください";
+          return;
+        }
+
+        //詳細の入力チェック
+        if (this.clickedRow.text == null || this.clickedRow.text == "") {
+          this.editInfoErrMsg = "詳細を入力してください";
+          return;
+        }
+
+        //詳細の入力桁数チェック
+        if (this.clickedRow.text.length > 100) {
+          this.editInfoErrMsg = "詳細は100桁以下で入力してください";
+          return;
+        }
+
+        //引数格納
+        const info = {
+          no: this.clickedRow.no,
+          title: this.clickedRow.title,
+          text: this.clickedRow.text,
+        };
+
+        //登録
+        await AjaxUtil.putInformation(info);
+        await this.getInformation();
+        this.msg = "更新に成功しました";
+      } catch (e) {
+        this.msg = "";
+        this.errMsg = "更新に失敗しました。";
+        console.log(e);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    /**
+     * お知らせ削除
+     */
+    deleteInformation: async function () {
+      this.msg = "";
+      this.errMsg = "";
+      this.isLoading = true;
+
+      try {
+        this.no = this.clickedRow.no;
+        await AjaxUtil.deleteInformation(this.no);
+        await this.getInformation();
+        this.msg = "お知らせ情報の削除に成功しました";
+      } catch (e) {
+        this.msg = "";
+        this.errMsg = "お知らせ情報の削除に失敗しました";
+        console.log(e);
+      }
       this.isLoading = false;
     },
   },

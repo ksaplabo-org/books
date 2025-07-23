@@ -153,3 +153,31 @@ export async function getAllStudent() {
 
   return await axios.get(url);
 }
+
+//お知らせ管理新規登録
+export async function postInformation(info) {
+  const url = "/api/information";
+
+  return await axios.post(url, {
+    title: info.title,
+    content: info.text,
+  });
+}
+
+//お知らせ管理更新
+export async function putInformation(info) {
+  const url = "/api/information";
+
+  return await axios.put(url, {
+    no: info.no,
+    title: info.title,
+    content: info.text,
+  });
+}
+
+//お知らせ管理削除
+export async function deleteInformation(no) {
+  const url = "/api/information/" + no;
+
+  return await axios.delete(url);
+}

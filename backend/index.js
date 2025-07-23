@@ -364,4 +364,56 @@ app.get("/api/students", async function (req, res) {
   }
 });
 
+/**
+ * お知らせ新規登録API
+ */
+app.post("/api/information", async function (req, res) {
+  const reqBody = req.body;
+
+  try {
+    await InformationLogic.create(db, reqBody.title, reqBody.content);
+
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to add information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ更新API
+ */
+app.put("/api/information", async function (req, res) {
+  const reqBody = req.body;
+
+  try {
+    await InformationLogic.update(db, reqBody.no, reqBody.title, reqBody.content);
+
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to put information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ削除API
+ */
+app.delete("/api/information/:no", async function (req, res) {
+  try {
+    await InformationLogic.remove(db, req.params.no);
+
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to remove information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
 app.listen(process.env.PORT || 3000);
