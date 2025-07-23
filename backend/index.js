@@ -388,16 +388,18 @@ app.post("/api/information", async function (req, res) {
  * お知らせ更新API
  */
 app.put("/api/information", async function (req, res) {
+  // リクエストボディを取得
   const reqBody = req.body;
   try {
     await InformationLogic.update(db, reqBody.no, reqBody.title, reqBody.content);
+
+    // 正常レスポンス
     res.send();
   } catch (e) {
     // 異常レスポンス
     console.log("failed to update information.", e);
     res.status(500).send("server error occur");
   }
-  /**★問題3[ユーザー管理] End★*/
 });
 
 /**
@@ -415,4 +417,3 @@ app.delete("/api/information/:no", async function (req, res) {
     res.status(500).send("server error occur");
   }
 });
-

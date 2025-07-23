@@ -29,8 +29,8 @@
                   type="button"
                   class="btn btn-primary"
                   data-toggle="modal"
-                  data-target="#createInfoModal"
-                  v-on:click="deleteText()"
+                  data-target="#addInfoModal"
+                  v-on:click="initAddModalText()"
                 >
                   新規登録
                 </button>
@@ -54,7 +54,7 @@
                               title: data.item.title,
                               content: data.item.content,
                             };
-                            deleteMsg();
+                            initErrMsg();
                           "
                           data-toggle="modal"
                           data-target="#updateInfoModal"
@@ -94,7 +94,7 @@
     <!-- お知らせ登録モーダル -->
     <div
       class="modal fade"
-      id="createInfoModal"
+      id="addInfoModal"
       tabindex="-1"
       role="dialog"
       aria-labelledby="myModalLabel"
@@ -111,12 +111,13 @@
             </button>
           </div>
           <div class="modal-body">
-            <p class="text-danger" v-show="fErrMsg">{{ fErrMsg }}</p>
+            <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
 
             <div class="d-flex flex-row">
               <div class="col-3">タイトル</div>
               <div class="form-group">
                 <textarea
+                  style="resize: none; overflow: hidden; white-space: break-spaces; line-break: anywhere"
                   rows="2"
                   cols="100"
                   id="title"
@@ -131,6 +132,7 @@
               <div class="col-3">詳細</div>
               <div class="form-group">
                 <textarea
+                  style="resize: none; overflow: hidden; white-space: break-spaces; line-break: anywhere"
                   rows="2"
                   cols="100"
                   id="content"
@@ -169,7 +171,7 @@
             </button>
           </div>
           <div class="modal-body" style="line-height: 2.5">
-            <p class="text-danger" v-show="fErrMsg">{{ fErrMsg }}</p>
+            <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
 
             <div class="d-flex flex-row">
               <div class="col-3">番号</div>
@@ -185,6 +187,7 @@
               <div class="col-3">タイトル</div>
               <div class="form-group" style="margin-top: 10px">
                 <textarea
+                  style="resize: none; overflow: hidden; white-space: break-spaces; line-break: anywhere"
                   rows="2"
                   cols="100"
                   id="title"
@@ -200,6 +203,7 @@
               <div class="col-3">詳細</div>
               <div class="form-group" style="margin-top: 10px">
                 <textarea
+                  style="resize: none; overflow: hidden; white-space: break-spaces; line-break: anywhere"
                   rows="2"
                   cols="100"
                   id="content"
@@ -292,7 +296,7 @@ export default {
   data() {
     return {
       msg: this.flashMsg,
-      fErrMsg: this.flashErrMsg,
+      modalErrMsg: "",
       errMsg: "",
       clickedRow: {},
       isLoading: false,
@@ -328,7 +332,7 @@ export default {
     updateView: async function () {
       this.msg = "";
       this.errMsg = "";
-      this.fErrMsg = "";
+      this.modalErrMsg = "";
       this.title = "";
       this.content = "";
       await this.getInformation();
@@ -348,7 +352,7 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました";
       }
 
       this.isLoading = false;
@@ -358,31 +362,31 @@ export default {
      */
     addInformation: async function () {
       // メッセージ初期化
-      await this.deleteMsg();
+      await this.initErrMsg();
 
       try {
         // 入力チェック
         if (this.title == null || this.title === "") {
-          this.fErrMsg = "タイトルを入力してください";
+          this.modalErrMsg = "タイトルを入力してください";
           return;
         }
 
         if (this.title.length > 100) {
-          this.fErrMsg = "タイトルは100桁以下で入力してください";
+          this.modalErrMsg = "タイトルは100桁以下で入力してください";
           return;
         }
 
         if (this.content == null || this.content === "") {
-          this.fErrMsg = "詳細を入力してください";
+          this.modalErrMsg = "詳細を入力してください";
           return;
         }
 
         if (this.content.length > 100) {
-          this.fErrMsg = "詳細は100桁以下で入力してください";
+          this.modalErrMsg = "詳細は100桁以下で入力してください";
           return;
         }
         this.isLoading = true;
-        $("#createInfoModal").modal("hide");
+        $("#addInfoModal").modal("hide");
         // 引数格納
         const model = {
           title: this.title,
@@ -392,7 +396,6 @@ export default {
         // 登録
         await AjaxUtil.postInformation(model);
         await this.getInformation();
-        // 一覧画面に遷移する
         this.msg = "登録に成功しました";
       } catch (e) {
         this.msg = "";
@@ -406,27 +409,27 @@ export default {
      */
     updateInformation: async function () {
       // メッセージ初期化
-      await this.deleteMsg();
+      await this.initErrMsg();
 
       try {
         // 入力チェック
         if (this.clickedRow.title == null || this.clickedRow.title === "") {
-          this.fErrMsg = "タイトルを入力してください";
+          this.modalErrMsg = "タイトルを入力してください";
           return;
         }
 
         if (this.clickedRow.title.length > 100) {
-          this.fErrMsg = "タイトルは100桁以下で入力してください";
+          this.modalErrMsg = "タイトルは100桁以下で入力してください";
           return;
         }
 
         if (this.clickedRow.content == null || this.clickedRow.content === "") {
-          this.fErrMsg = "詳細を入力してください";
+          this.modalErrMsg = "詳細を入力してください";
           return;
         }
 
         if (this.clickedRow.content.length > 100) {
-          this.fErrMsg = "詳細は100桁以下で入力してください";
+          this.modalErrMsg = "詳細は100桁以下で入力してください";
           return;
         }
         this.isLoading = true;
@@ -454,7 +457,7 @@ export default {
      */
     deleteInformation: async function () {
       // メッセージ初期化
-      await this.deleteMsg();
+      await this.initErrMsg();
 
       this.isLoading = true;
       $("#deleteInfoConfirmModal").modal("hide");
@@ -471,19 +474,19 @@ export default {
       }
     },
     /**
-     * テキスト初期化
+     * addInfoModal初期化
      */
-    deleteText: async function () {
+    initAddModalText: async function () {
       this.title = "";
       this.content = "";
-      this.fErrMsg = "";
+      this.modalErrMsg = "";
     },
     /**
-     * エラーメッセージ初期化
+     * メッセージ初期化
      */
-    deleteMsg: async function () {
+    initErrMsg: async function () {
       this.msg = "";
-      this.fErrMsg = "";
+      this.modalErrMsg = "";
       this.errMsg = "";
     },
   },
