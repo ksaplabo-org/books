@@ -411,8 +411,8 @@ export default {
         //登録
         await AjaxUtil.postInformation(info);
         await this.getInformation();
+        $("#imagemodal").modal("hide");
         this.msg = "登録に成功しました";
-        console;
       } catch (e) {
         this.msg = "";
         this.errMsg = "登録に失敗しました。";
@@ -467,6 +467,7 @@ export default {
         //登録
         await AjaxUtil.putInformation(info);
         await this.getInformation();
+        $("#editModal").modal("hide");
         this.msg = "更新に成功しました";
       } catch (e) {
         this.msg = "";
