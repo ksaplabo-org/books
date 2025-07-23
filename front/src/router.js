@@ -14,6 +14,9 @@ import UserList from "./views/UserList.vue";
 import UserCreate from "./views/UserCreate.vue";
 import UserManager from "./views/UserManager.vue";
 
+// お知らせ管理
+import InformationManager from "./views/InformationManager.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -72,6 +75,14 @@ export default new Router({
       name: "rentalList",
       component: RentalList,
     },
+
+    // お知らせ管理
+    {
+      path: "/pages/information.html",
+      name: "informationManager",
+      component: InformationManager,
+    },
+
     {
       path: "/pages/student.html",
       name: "student",

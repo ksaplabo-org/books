@@ -148,6 +148,33 @@ export async function alreadyLending(alreadyModel) {
   });
 }
 
+//お知らせ情報新規登録
+export async function postInformation(informationModel) {
+  const url = "/api/information";
+
+  return await axios.post(url, {
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
+//お知らせ削除
+export async function deleteInformation(no) {
+  const url = "/api/information/" + no;
+  return await axios.delete(url);
+}
+
+//お知らせ更新
+export async function putInformation(informationModel) {
+  const url = "/api/information";
+
+  return await axios.put(url, {
+    no: informationModel.no,
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
 export async function getAllStudent() {
   const url = "/api/students";
 
