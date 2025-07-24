@@ -26,6 +26,7 @@
           <!-- お知らせ欄 -->
           <div class="card shadow mb-4">
             <form @submit.stop.prevent="menu">
+              
               <div class="card-body">
                 <b-table striped responsive hover :items="items" :fields="fields">
                   <!-- ボタンセル定義 -->

@@ -29,6 +29,7 @@
                   function() {}：何もしてない処理。
 
             -->
+            <div class="px-2" style="font-size: 10pt">ユーザーID/ユーザー名を検索</div>
             <div class="row">
               <div class="col-lg-6">
                 <input
@@ -40,7 +41,7 @@
                   required
                 />
               </div>
-              <button class="btn-primary btn-sm" v-on:click="function () {}">検索</button>
+              <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
             </div>
             <!-- ★ 問題1 END ★ -->
           </div>
@@ -101,6 +102,7 @@ export default {
        */
       fields: [
         { key: "user_id", label: "ユーザーID" },
+        { key: "user_name", label: "ユーザ名" },
         { key: "controls", label: "" },
       ],
       /*★問題2 End★*/

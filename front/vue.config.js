@@ -84,6 +84,12 @@ module.exports = {
       filename: "pages/sorry.html",
       title: "Sorry",
     },
+    informationManager: {
+      entry: "src/main.js",
+      template: "public/pages/index.html",
+      filename: "pages/information-manager.html",
+      title: "お知らせ管理",
+    },
   },
   devServer: {
     port: 8080,

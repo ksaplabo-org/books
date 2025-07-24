@@ -13,6 +13,7 @@ import Top from "./views/Top.vue";
 import UserList from "./views/UserList.vue";
 import UserCreate from "./views/UserCreate.vue";
 import UserManager from "./views/UserManager.vue";
+import InformationManager from "./views/InformationManager.vue";
 
 Vue.use(Router);
 
@@ -81,6 +82,11 @@ export default new Router({
       path: "*",
       name: "sorry",
       component: Sorry,
+    },
+    {
+      path: "/pages/information-manager.html",
+      name: "informationManager",
+      component: InformationManager,
     },
   ],
 });
