@@ -164,12 +164,12 @@ export async function postInformation(informationModel) {
 }
 
 //info削除
-export async function deleteInformation(deleteInformationModel) {
+export async function deleteInformation(no) {
   const url = "/api/information";
 
   return await axios.delete(url, {
     data: {
-      no: deleteInformationModel.no,
+      no: no,
     },
   });
 }

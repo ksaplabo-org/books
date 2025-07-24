@@ -175,7 +175,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form @submit.stop.prevent="updateInformation" method="post">
+            <form @submit.stop.prevent="updateInformation" method="put">
               <div class="modal-body">
                 <div>
                   <p class="text-danger">{{ updateErrMsg }}</p>
@@ -317,7 +317,6 @@ import NaviMenu from "../components/NaviMenu.vue";
 import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
-import { deleteInformation } from "../utils/AjaxUtil";
 
 export default {
   name: "InformationManager",
@@ -341,6 +340,7 @@ export default {
       ],
       items: [],
       addErrMsg: "",
+      updateErrMsg: "",
       title: "",
       content: "",
     };
@@ -386,7 +386,7 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました。";
         console.log(e);
       }
 
@@ -428,9 +428,6 @@ export default {
         };
         await AjaxUtil.postInformation(model);
 
-        document.getElementById("title").value = "";
-        $("#createmodal").modal("hide");
-        this.getInformation();
         this.title = "";
         this.content = "";
         this.msg = "登録に成功しました";
@@ -438,10 +435,11 @@ export default {
         this.msg = "";
         this.errMsg = "登録に失敗しました";
         console.log(e);
-        $("#createmodal").modal("hide");
       } finally {
         this.isLoading = false;
       }
+      $("#createmodal").modal("hide");
+      this.getInformation();
     },
     //お知らせ更新
     updateInformation: async function () {
@@ -481,16 +479,16 @@ export default {
 
         await AjaxUtil.putInformation(model);
         this.msg = "更新に成功しました";
-        $("#updatemodal").modal("hide");
+
         this.getInformation();
       } catch (e) {
         this.msg = "";
         this.errMsg = "更新に失敗しました";
         console.log(e);
-        $("#updatemodal").modal("hide");
       } finally {
         this.isLoading = false;
       }
+      $("#updatemodal").modal("hide");
     },
 
     //お知らせ削除
@@ -500,13 +498,10 @@ export default {
       this.errMsg = "";
 
       this.isLoading = true;
-      const model = {
-        no: no,
-      };
 
       try {
         // 削除
-        await AjaxUtil.deleteInformation(model);
+        await AjaxUtil.deleteInformation(no);
         this.msg = "お知らせ情報の削除に成功しました";
         this.getInformation();
       } catch (e) {
