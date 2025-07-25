@@ -74,10 +74,10 @@ module.exports = {
     },
 
     //お知らせ管理
-      rentalList: {
+      informationManager: {
       entry: "src/main.js",
       template: "public/pages/index.html",
-      filename: "pages/information.html",
+      filename: "pages/information/manager.html",
       title: "お知らせ管理",
     },
 

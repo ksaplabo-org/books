@@ -78,7 +78,7 @@ export default new Router({
 
     // お知らせ管理
     {
-      path: "/pages/information.html",
+      path: "/pages/information/manager.html",
       name: "informationManager",
       component: InformationManager,
     },

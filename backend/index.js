@@ -382,7 +382,7 @@ app.post("/api/information", async function (req, res) {
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to add user.", e);
+    console.log("failed to add information.", e);
     res.status(500).send("server error occur");
   }
 });
@@ -390,9 +390,9 @@ app.post("/api/information", async function (req, res) {
 /**
  * お知らせ情報削除API
  */
-app.delete("/api/information/:id", async function (req, res) {
+app.delete("/api/information/:no", async function (req, res) {
   try {
-    await InformationLogic.remove(db, req.params.id);
+    await InformationLogic.remove(db, req.params.no);
 
     // 正常レスポンス
     res.send();
@@ -417,7 +417,7 @@ app.put("/api/information", async function (req, res) {
     res.send();
   } catch (e) {
     // 異常レスポンス
-    console.log("failed to add user.", e);
+    console.log("failed to add information.", e);
     res.status(500).send("server error occur");
   }
 });

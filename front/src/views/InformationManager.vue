@@ -18,8 +18,8 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <div class="form-group m-2">
-            <div class="col-lg-12 mb-4">
+          <div class="form-group my-2">
+            <div class="col-lg-13 mb-4">
               <!-- Illustrations -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -118,7 +118,6 @@
           <!--お知らせ新規登録入力フォーム-->
           <form name="addInformation" @submit.stop.prevent="addInformation" method="post">
             <div class="modal-body">
-              <p class="text-primary" v-show="modalMsg">{{ modalMsg }}</p>
               <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
 
               <!-- タイトル -->
@@ -180,7 +179,6 @@
           <!--選択したお知らせ情報表示-->
           <form name="updateInformation" @submit.stop.prevent="updateInformation" method="post">
             <div class="modal-body">
-              <p class="text-primary" v-show="modalMsg">{{ modalMsg }}</p>
               <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
 
               <div class="d-flex flex-row mb-sm-2">
@@ -320,7 +318,6 @@ export default {
     return {
       msg: "",
       errMsg: "",
-      modalMsg: "",
       modalErrMsg: "",
       isLoading: false,
       clickedRow: {},
@@ -342,7 +339,6 @@ export default {
       title: "",
       content: "",
       items: [],
-      searchWord: "",
     };
   },
   async mounted() {
@@ -350,7 +346,7 @@ export default {
       if (UserUtil.isSignIn()) {
         this.msg = "";
         // 画面更新
-        await this.updateView();
+        await this.getInformation();
       } else {
         this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
@@ -359,14 +355,6 @@ export default {
     }
   },
   methods: {
-    /**
-     * 画面更新
-     */
-    updateView: async function () {
-      // お知らせ取得
-      await this.getInformation();
-    },
-
     /**
      * お知らせ検索
      */
@@ -381,7 +369,7 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "お知らせ取得処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました";
         console.log(e);
       }
 
@@ -395,7 +383,6 @@ export default {
       // メッセージ初期化
       this.msg = "";
       this.errMsg = "";
-      this.modelMsg = "";
       this.modalErrMsg = "";
 
       try {
@@ -423,7 +410,7 @@ export default {
         this.isLoading = true;
 
         //　モーダルを閉じる
-        await this.createModalClose();
+        $("#createConfirmModal").modal("hide");
 
         // 引数格納
         const model = {
@@ -435,7 +422,7 @@ export default {
         await AjaxUtil.postInformation(model);
 
         // 画面更新
-        await this.updateView();
+        await this.getInformation();
 
         this.msg = "登録に成功しました";
       } catch (e) {
@@ -454,7 +441,6 @@ export default {
       // メッセージ初期化
       this.msg = "";
       this.errMsg = "";
-      this.modelMsg = "";
       this.modalErrMsg = "";
 
       try {
@@ -481,7 +467,8 @@ export default {
 
         this.isLoading = true;
 
-        await this.updateModalClose();
+        // モーダルを閉じる
+        $("#updateConfirmModal").modal("hide");
 
         // 引数格納
         const model = {
@@ -494,7 +481,7 @@ export default {
         await AjaxUtil.putInformation(model);
 
         // 画面更新
-        await this.updateView();
+        await this.getInformation();
 
         this.msg = "更新に成功しました";
       } catch (e) {
@@ -518,13 +505,13 @@ export default {
         this.isLoading = true;
 
         // モーダルを閉じる
-        await this.deleteModalClose();
+        $("#deleteConfirmModal").modal("hide");
 
         // 削除
         await AjaxUtil.deleteInformation(this.clickedRow.no);
 
         // 画面更新
-        await this.updateView();
+        await this.getInformation();
 
         this.msg = "お知らせ情報の削除に成功しました";
       } catch (e) {
@@ -539,7 +526,7 @@ export default {
     /**
      * モーダル入力値初期化
      */
-    resetModalValue: async function () {
+    resetModalValue: function () {
       this.title = "";
       this.content = "";
     },
@@ -547,30 +534,8 @@ export default {
     /**
      * モーダルエラーメッセージ初期化
      */
-    resetModalMsg: async function () {
-      this.modelMsg = "";
+    resetModalMsg: function () {
       this.modalErrMsg = "";
-    },
-
-    /**
-     * お知らせ新規登録モーダルを閉じる
-     */
-    createModalClose: async function () {
-      $("#createConfirmModal").modal("hide");
-    },
-
-    /**
-     * お知らせ更新モーダルを閉じる
-     */
-    updateModalClose: async function () {
-      $("#updateConfirmModal").modal("hide");
-    },
-
-    /**
-     * お知らせ削除モーダルを閉じる
-     */
-    deleteModalClose: async function () {
-      $("#deleteConfirmModal").modal("hide");
     },
   },
 };

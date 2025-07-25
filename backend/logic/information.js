@@ -90,7 +90,7 @@ module.exports.remove = async function (db, no) {
   const informationModel = InformationRepository.getInformationModel(db);
 
   try {
-    return await informationModel.destroy({
+    await informationModel.destroy({
       where: {
         no: no,
       },
