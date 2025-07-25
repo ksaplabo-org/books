@@ -72,6 +72,15 @@ module.exports = {
       filename: "pages/book/rental/list.html",
       title: "レンタル一覧",
     },
+
+    //お知らせ管理
+      informationManager: {
+      entry: "src/main.js",
+      template: "public/pages/index.html",
+      filename: "pages/information/manager.html",
+      title: "お知らせ管理",
+    },
+
     student: {
       entry: "src/main.js",
       template: "public/pages/index.html",
