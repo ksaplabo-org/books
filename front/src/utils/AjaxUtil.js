@@ -1,5 +1,6 @@
 // Ajax通信ライブラリ
 import axios from "axios";
+import { timers } from "jquery";
 
 export async function signIn(userId, password) {
   const url = "/api/sign-in";
@@ -21,6 +22,31 @@ export async function getAllSapBooks() {
 export async function getInformation() {
   const url = "/api/information";
   return await axios.get(url);
+}
+
+export async function postInformation(informationModel) {
+  const url = "/api/information";
+
+  return await axios.post(url, {
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
+export async function putInformation(informationModel) {
+  const url = "/api/information";
+
+  return await axios.put(url, {
+    no: informationModel.no,
+    title: informationModel.title,
+    content: informationModel.content,
+  });
+}
+
+export async function deleteInformation(no) {
+  const url = "/api/information/" + no;
+
+  return await axios.delete(url);
 }
 
 export async function searchBooks(keyword) {
