@@ -66,6 +66,56 @@ app.get("/api/information", async function (req, res) {
 });
 
 /**
+ * お知らせ登録API
+ */
+app.post("/api/information", async function (req, res) {
+  const reqBody = req.body;
+  try {
+    await InformationLogic.create(db, reqBody.title, reqBody.content);
+
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to add information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ更新API
+ */
+app.put("/api/information", async function (req, res) {
+  try {
+    const reqBody = req.body;
+    await InformationLogic.update(db, reqBody.no, reqBody.title, reqBody.content);
+
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to update information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
+ * お知らせ削除API
+ */
+app.delete("/api/information", async function (req, res) {
+  const reqBody = req.body;
+  try {
+     await InformationLogic.remove(db, reqBody.no);
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to delete information.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
  * 書籍情報取得API
  */
 app.get("/api/book", async function (req, res) {
@@ -234,6 +284,18 @@ app.put("/api/users", async function (req, res) {
    *
    * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
    */
+  const reqBody = req.body;
+
+  try {
+    await UserLogic.update(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender);
+
+    // 正常レスポンス
+    res.send();
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to add user.", e);
+    res.status(500).send("server error occur");
+  }
   /**★問題3[ユーザー管理] End★*/
 });
 
