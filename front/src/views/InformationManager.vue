@@ -28,10 +28,13 @@
                 <button
                   class="btn-primary btn-sm"
                   data-toggle="modal"
-                  data-target="#imagemodal"
+                  data-target="#registerModal"
                   v-on:click="
                     title = '';
                     text = '';
+                    addInfoErrMsg = '';
+                    msg = '';
+                    errMsg = '';
                   "
                 >
                   新規登録
@@ -51,7 +54,10 @@
                         date: data.item.date,
                         title: data.item.title,
                         text: data.item.content,
-                      }
+                      };
+                      editInfoErrMsg = '';
+                      msg = '';
+                      errMsg = '';
                     "
                     data-toggle="modal"
                     data-target="#editModal"
@@ -68,7 +74,9 @@
                         date: data.item.date,
                         title: data.item.title,
                         text: data.item.content,
-                      }
+                      };
+                      msg = '';
+                      errMsg = '';
                     "
                     data-toggle="modal"
                     data-target="#deleteConfirmModal"
@@ -86,7 +94,7 @@
       <!--登録 モーダル -->
       <div
         class="modal fade"
-        id="imagemodal"
+        id="registerModal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="myModalLabel"
@@ -107,11 +115,11 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-              <p class="text-danger" v-show="addInfoErrMsg" style="font-size: 15px">{{ addInfoErrMsg }}</p>
+            <div class="modal-body" style="font-size: 15px">
+              <p class="text-danger" v-show="addInfoErrMsg">{{ addInfoErrMsg }}</p>
               <form>
                 <div class="row mb-3">
-                  <label for="informationTitle" class="col-sm-3 col-form-label" style="font-size: 15px">タイトル</label>
+                  <label for="informationTitle" class="col-sm-3 col-form-label">タイトル</label>
                   <div class="col-sm-9">
                     <textarea
                       type="text"
@@ -124,7 +132,7 @@
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="informationText" class="col-sm-3 col-form-label" style="font-size: 15px">詳細</label>
+                  <label for="informationText" class="col-sm-3 col-form-label">詳細</label>
                   <div class="col-sm-9">
                     <textarea
                       type="text"
@@ -172,23 +180,23 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <p class="text-danger" v-show="editInfoErrMsg" style="font-size: 15px">{{ editInfoErrMsg }}</p>
+          <div class="modal-body" style="font-size: 15px">
+            <p class="text-danger" v-show="editInfoErrMsg">{{ editInfoErrMsg }}</p>
             <div class="row mb-3">
-              <div class="col-sm-3" style="font-size: 15px">番号</div>
-              <div class="col-sm-9" style="font-size: 15px">
+              <div class="col-sm-3">番号</div>
+              <div class="col-sm-9">
                 {{ clickedRow.no }}
               </div>
             </div>
             <div class="row mb-3">
-              <div class="col-sm-3" style="font-size: 15px">掲載日</div>
-              <div class="col-sm-9" style="font-size: 15px">
+              <div class="col-sm-3">掲載日</div>
+              <div class="col-sm-9">
                 {{ clickedRow.date }}
               </div>
             </div>
             <form>
               <div class="row mb-3">
-                <label for="informationTitle" class="col-sm-3 col-form-label" style="font-size: 15px">タイトル</label>
+                <label for="informationTitle" class="col-sm-3 col-form-label">タイトル</label>
                 <div class="col-sm-9">
                   <textarea
                     type="text"
@@ -202,7 +210,7 @@
               </div>
 
               <div class="row mb-3">
-                <label for="informationText" class="col-sm-3 col-form-label" style="font-size: 15px">詳細</label>
+                <label for="informationText" class="col-sm-3 col-form-label">詳細</label>
                 <div class="col-sm-9">
                   <textarea
                     type="text"
@@ -249,28 +257,28 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" style="font-size: 15px">
             <div class="row mb-3">
-              <div class="col-sm-3" style="font-size: 15px">番号</div>
-              <div class="col-sm-9" style="font-size: 15px">
+              <div class="col-sm-3">番号</div>
+              <div class="col-sm-9">
                 {{ clickedRow.no }}
               </div>
             </div>
             <div class="row mb-3">
-              <div class="col-sm-3" style="font-size: 15px">掲載日</div>
-              <div class="col-sm-9" style="font-size: 15px">
+              <div class="col-sm-3">掲載日</div>
+              <div class="col-sm-9">
                 {{ clickedRow.date }}
               </div>
             </div>
             <div class="row mb-3">
-              <div class="col-sm-3" style="font-size: 15px">タイトル</div>
-              <div class="col-sm-9" style="font-size: 15px">
+              <div class="col-sm-3">タイトル</div>
+              <div class="col-sm-9">
                 {{ clickedRow.title }}
               </div>
             </div>
             <div class="row mb-3">
-              <div class="col-sm-3" style="font-size: 15px">詳細</div>
-              <div class="col-sm-9" style="font-size: 15px">
+              <div class="col-sm-3">詳細</div>
+              <div class="col-sm-9">
                 {{ clickedRow.text }}
               </div>
             </div>
@@ -343,9 +351,8 @@ export default {
   },
   methods: {
     /**
-     * 画面更新
+     * お知らせ一覧
      */
-
     getInformation: async function () {
       this.isLoading = true;
 
@@ -360,7 +367,7 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索に失敗しました";
+        this.errMsg = "お知らせ取得処理に失敗しました";
         console.log(e);
       }
 
@@ -411,11 +418,12 @@ export default {
         //登録
         await AjaxUtil.postInformation(info);
         await this.getInformation();
-        $("#imagemodal").modal("hide");
+        $("#registerModal").modal("hide");
         this.msg = "登録に成功しました";
       } catch (e) {
         this.msg = "";
         this.errMsg = "登録に失敗しました。";
+        $("#registerModal").modal("hide");
         console.log(e);
       } finally {
         this.isLoading = false;
@@ -472,6 +480,7 @@ export default {
       } catch (e) {
         this.msg = "";
         this.errMsg = "更新に失敗しました。";
+        $("#editModal").modal("hide");
         console.log(e);
       } finally {
         this.isLoading = false;

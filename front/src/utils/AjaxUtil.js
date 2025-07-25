@@ -154,7 +154,6 @@ export async function getAllStudent() {
   return await axios.get(url);
 }
 
-//お知らせ管理新規登録
 export async function postInformation(info) {
   const url = "/api/information";
 
@@ -164,7 +163,6 @@ export async function postInformation(info) {
   });
 }
 
-//お知らせ管理更新
 export async function putInformation(info) {
   const url = "/api/information";
 
@@ -175,7 +173,6 @@ export async function putInformation(info) {
   });
 }
 
-//お知らせ管理削除
 export async function deleteInformation(no) {
   const url = "/api/information/" + no;
 
