@@ -125,7 +125,7 @@
               <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="登録" />
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="modalClose()">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                   キャンセル
                 </button>
               </div>
@@ -184,7 +184,7 @@
               <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="更新" />
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="modalClose()">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" >
                   キャンセル
                 </button>
               </div>

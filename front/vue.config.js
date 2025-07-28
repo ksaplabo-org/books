@@ -101,10 +101,9 @@ module.exports = {
     },
   },
   //デバック有無
-  /*
+  
   configureWebpack: {
     devtool: "source-map",
   },
-  */
   
 };

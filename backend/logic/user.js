@@ -60,38 +60,39 @@ module.exports.findById = async function (db, userId) {
  * @param {*} userName
  * @returns {Promise<Object[]>}
  */
-module.exports.findByIdOrNameLike = async function (db, userId, userName) {
+module.exports.findByIdOrNameOrAddressLike = async function (db, userId, userName, address) {
   // ユーザー情報の定義を取得
   const userModel = UserRepository.getUserModel(db);
 
   try {
     return await userModel.findAll({
-      /**
-       * ★問題4[ユーザー一覧] Start
-       * 検索条件指定してデータ取得をする際に、
-       * ユーザーID、もしくはユーザー名の一部が条件に一致しているデータを取得できるようにする。
-       *
-       * Sequelize：Node.js用のORマッパー
-       * Op：様々な演算子を使用できるようになる
-       * 　　<例>
-       *     Op.or：OR条件
-       *     Op.and：AND条件
-       *     Op.like：指定した文字列に一致する
-       *     Op.notLike：指定した文字列に一致しない
-       *
-       * ★問題5[ユーザー一覧] Start
-       * データ抽出結果が設計書の要望通りに出力されているかどうか確認する。
-       */
       where: {
         [Op.or]: {
           user_id: { [Op.like]: "%" + userId + "%" },
           user_name: { [Op.like]: "%" + userName + "%" },
-          auth: "3",
+          address: { [Op.like]: "%" + address + "%" },
         },
       },
       order: [["user_id", "ASC"]],
-      /**★問題4[ユーザー一覧] End*/
-      /**★問題5[ユーザー一覧] End*/
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * ユーザー情報を「権限で」検索
+ */
+module.exports.findByAuth = async function (db, auth) {
+  // ユーザー情報の定義を取得
+  const userModel = UserRepository.getUserModel(db);
+
+  try {
+    return await userModel.findAll({
+      where: {
+          auth: auth,
+      },
+      order: [["user_id", "ASC"]],
     });
   } catch (e) {
     throw e;
@@ -109,7 +110,7 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
  * @param {*} auth
  * @returns {Promise<void>}
  */
-module.exports.create = async function (db, userId, userName, password, gender, auth) {
+module.exports.create = async function (db, userId, userName, password, gender, auth, address) {
   // ユーザー情報の定義を取得
   const userModel = UserRepository.getUserModel(db);
 
@@ -124,6 +125,7 @@ module.exports.create = async function (db, userId, userName, password, gender, 
       password: password,
       gender: gender,
       auth: auth,
+      address: address,
     });
     /**★問題11[ユーザー追加] End*/
   } catch (e) {
@@ -140,9 +142,10 @@ module.exports.create = async function (db, userId, userName, password, gender, 
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
+ * @param {*} address
  * @returns {Promise<void>}
  */
-module.exports.update = async function (db, userId, userName, password, gender, auth) {
+module.exports.update = async function (db, userId, userName, password, gender, auth, address) {
   // ユーザー情報の定義を取得
   const userModel = UserRepository.getUserModel(db);
 
@@ -153,6 +156,7 @@ module.exports.update = async function (db, userId, userName, password, gender, 
         password: password,
         gender: gender,
         auth: auth,
+        address: address,
       },
       {
         /**

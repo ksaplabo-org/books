@@ -105,7 +105,7 @@ app.put("/api/information", async function (req, res) {
 app.delete("/api/information", async function (req, res) {
   const reqBody = req.body;
   try {
-     await InformationLogic.remove(db, reqBody.no);
+    await InformationLogic.remove(db, reqBody.no);
     // 正常レスポンス
     res.send();
   } catch (e) {
@@ -232,15 +232,29 @@ app.get("/api/users", async function (req, res) {
   const query = req.query;
   const userId = query.userId;
   const userName = query.userName;
+  const address = query.address;
+  const auth = query.auth;
+  const searchMethodCheck = query.searchMethodCheck;
 
   try {
     let users;
-    if ((userId != null && userId !== "") || (userName != null && userName !== "")) {
-      // あいまい検索
-      users = await UserLogic.findByIdOrNameLike(db, userId, userName);
+    // ID/名前/住所で検索
+    if (searchMethodCheck == "1") {
+      if (
+        (userId != null && userId !== "") ||
+        (userName != null && userName !== "") ||
+        (address != null && address !== "")
+      ) {
+        // あいまい検索
+        users = await UserLogic.findByIdOrNameOrAddressLike(db, userId, userName, address);
+      } else {
+        // 全件検索
+        users = await UserLogic.findAll(db);
+      }
+
+      // 権限で検索
     } else {
-      // 全件検索
-      users = await UserLogic.findAll(db);
+      users = await UserLogic.findByAuth(db, auth);
     }
 
     // 正常レスポンス
@@ -262,7 +276,15 @@ app.post("/api/users", async function (req, res) {
   const reqBody = req.body;
 
   try {
-    await UserLogic.create(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender, reqBody.auth);
+    await UserLogic.create(
+      db,
+      reqBody.userId,
+      reqBody.userName,
+      reqBody.password,
+      reqBody.gender,
+      reqBody.auth,
+      reqBody.address
+    );
 
     // 正常レスポンス
     res.send();
@@ -287,7 +309,15 @@ app.put("/api/users", async function (req, res) {
   const reqBody = req.body;
 
   try {
-    await UserLogic.update(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender);
+    await UserLogic.update(
+      db,
+      reqBody.userId,
+      reqBody.userName,
+      reqBody.password,
+      reqBody.gender,
+      reqBody.auth,
+      reqBody.address
+    );
 
     // 正常レスポンス
     res.send();

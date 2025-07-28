@@ -73,6 +73,18 @@
                     v-model="password"
                   />
                 </div>
+
+                <!-- パスワード再入力 -->
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="inputPassword"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください。"
+                    v-model="rePassword"
+                  />
+                </div>
                 <!--
                     ★問題3 Start★
                         各ラジオボタンに対応する文言を設定する。
@@ -116,6 +128,7 @@
                     <label class="custom-control-label" for="unknownRadio">非公開</label>
                   </div>
                 </div>
+
                 <!-- 権限 -->
                 <div class="form-group">
                   <label>権限</label>
@@ -145,6 +158,19 @@
                   </div>
                   <!--★問題3 End★-->
                 </div>
+
+                <!-- 住所 -->
+                <div class="form-group">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="address"
+                    class="form-control"
+                    placeholder="150桁以下で入力してください。"
+                    v-model="address"
+                  />
+                </div>
+
                 <!-- 新規登録ボタン -->
                 <div class="form-group">
                   <div class="d-flex justify-content-md-center">
@@ -194,6 +220,8 @@ export default {
       password: "",
       gender: UserConst.Gender.woman,
       auth: UserConst.Auth.general,
+      rePassword: "",
+      address: "",
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -305,12 +333,29 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        if (this.rePassword.length < 8 || this.rePassword.length > 16) {
+          this.errMsg = "パスワード(再確認)は8桁以上16桁以下で入力してください";
+          return;
+        }
+        if (!this.rePassword.match("^[0-9A-Za-z]{8,16}$")) {
+          this.errMsg = "パスワード(再確認)は半角英数で入力してください";
+          return;
+        }
+        if (this.password != this.rePassword) {
+          this.errMsg = "パスワードとパスワード(再確認)が一致しません";
+          return;
+        }
+
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
         if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
+          return;
+        }
+        if (this.address.length > 150) {
+          this.errMsg = "住所は150桁以下で入力してください";
           return;
         }
 
@@ -335,6 +380,7 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         // 登録

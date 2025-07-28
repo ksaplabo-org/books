@@ -7,48 +7,97 @@
 
       <div id="content-wrapper" class="bg-light">
         <div class="container-fluid">
-          <!-- パンくずリスト-->
+          <!-- パンくずリストStart-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <router-link tag="a" :to="{ name: 'top' }">トップページ</router-link>
             </li>
             <li class="breadcrumb-item active">ユーザー一覧</li>
           </ol>
+          <!-- パンくずリストEnd-->
 
+          <!--メッセージ表示Start-->
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
+          <!--メッセージ表示End-->
 
-          <div class="form-group m-2">
-            <!--
-                ★ 問題1 Start★
-                  検索欄上部の文言を設計書通りに変更する。
-                  検索ボタンをクリックした際に検索処理を呼び出すようにする。
+          <!--検索機能Start-->
+          <div class="card mb-1">
+            <!--検索方法選択Start-->
+            <div class="card-header py-3">
+              <div class="px-1">検索方法を選択</div>
 
-                  divタグ：特に単体では意味をなさない。
-                          タグで囲んだ部分をグループ化することができる。
-                  function() {}：何もしてない処理。
-
-            -->
-            <div class="px-2" style="font-size: 10pt">ユーザID/ユーザ名を検索</div>
-            <div class="row">
-              <div class="col-lg-6">
+              <div class="form-check form-check-inline">
                 <input
-                  type="text"
-                  id="searchWord"
-                  class="form-control border-secondary"
-                  v-model="searchWord"
-                  placeholder="入力してください"
-                  required
+                  id="searchMethodRadio1"
+                  class="form-check-input"
+                  type="radio"
+                  v-model="searchMethodCheck"
+                  value="1"
                 />
+                <label class="form-check-label" for="searchMethodRadio1">ID/名前/住所で検索</label>
               </div>
-              <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
+              <div class="form-check form-check-inline">
+                <input
+                  id="searchMethodRadio2"
+                  class="form-check-input"
+                  type="radio"
+                  v-model="searchMethodCheck"
+                  value="2"
+                />
+                <label class="form-check-label" for="searchMethodRadio2">権限で検索</label>
+              </div>
             </div>
-            <!-- ★ 問題1 END ★ -->
+            <!--検索方法選択End-->
+
+            <!--検索表示切替Start-->
+            <div class="card-body">
+              <div class="form-group m-2">
+                <!-- ID/名前/住所で検索 -->
+                <div v-if="searchMethodCheck === '1'" class="row">
+                  <div class="col-lg-6">
+                    <input
+                      type="text"
+                      id="searchWord"
+                      class="form-control border-secondary"
+                      v-model="searchWord"
+                      placeholder="ID/名前/住所のいずれかを入力してください"
+                      required
+                    />
+                  </div>
+                  <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
+                </div>
+
+                <!-- 権限で検索 -->
+                <div v-else-if="searchMethodCheck === '2'" class="row">
+                  <div class="col-lg-6">
+                    <div class="form-check form-check-inline">
+                      <input
+                        id="authRadio1"
+                        class="form-check-input"
+                        type="radio"
+                        v-model="auth"
+                        value="1"
+                        checked
+                      />
+                      <label class="form-check-label" for="authRadio1">一般</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input id="authRadio2" class="form-check-input" type="radio" v-model="auth" value="2" />
+                      <label class="form-check-label" for="authRadio2">社員</label>
+                    </div>
+                  </div>
+                  <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
+                </div>
+              </div>
+            </div>
+            <!--検索表示切替End-->
           </div>
+          <!--検索機能End-->
 
           <br />
 
-          <!-- ユーザー一覧 -->
+          <!-- ユーザー一覧Start -->
           <b-table striped responsive hover :items="items" :fields="fields">
             <!-- ボタンセル定義 -->
             <template #cell(controls)="data">
@@ -58,6 +107,7 @@
             </template>
           </b-table>
         </div>
+        <!-- ユーザー一覧End -->
       </div>
       <Footer />
     </div>
@@ -89,25 +139,18 @@ export default {
       msg: "",
       errMsg: "",
       isLoading: false,
-      /**
-       * ★問題2 Start★
-       * 一覧にユーザー名の列を追加する
-       *
-       * <DB取得項目>
-       * ユーザーID：user_id
-       * ユーザー名：user_name
-       * パスワード：password
-       * 性別：gender
-       * 権限：auth
-       */
+
       fields: [
         { key: "user_id", label: "ユーザーID" },
         { key: "user_name", label: "ユーザー名" },
+        { key: "address", label: "住所" },
         { key: "controls", label: "" },
       ],
-      /*★問題2 End★*/
+
       items: [],
       searchWord: "",
+      searchMethodCheck: "1",
+      auth: "1",
     };
   },
   async mounted() {
@@ -141,6 +184,9 @@ export default {
         const searchParams = {
           userId: this.searchWord,
           userName: this.searchWord,
+          address: this.searchWord,
+          searchMethodCheck: this.searchMethodCheck,
+          auth: this.auth,
         };
         const response = await AjaxUtil.getUser(searchParams);
         this.items = JSON.parse(response.data.Items);
