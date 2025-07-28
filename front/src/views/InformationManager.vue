@@ -18,24 +18,24 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
 
           <div class="card shadow">
-            <div class="card-body mb-5">
-              <div class="card-header py-3">
-                <div class="m-0 font-weight-bold text-primary text-secondary">
-                  <div class="row justify-content-between">
-                    <strong class="ml-3"> お知らせ一覧 </strong>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      variant="outline-primary"
-                      data-toggle="modal"
-                      data-target="#createmodal"
-                      v-on:click="resetModelParam()"
-                    >
-                      新規登録
-                    </button>
-                  </div>
+            <div class="card-header py-3">
+              <div class="m-0 font-weight-bold text-secondary">
+                <div class="row justify-content-between">
+                  <strong class="ml-3"> お知らせ一覧 </strong>
+                  <button
+                    type="button"
+                    class="btn btn-primary mr-3"
+                    variant="outline-primary"
+                    data-toggle="modal"
+                    data-target="#createmodal"
+                    v-on:click="resetModelParam()"
+                  >
+                    新規登録
+                  </button>
                 </div>
               </div>
+            </div>
+            <div class="card-body mb-5">
               <b-table responsive hover :items="items" :fields="fields">
                 <!-- ボタンセル定義 -->
                 <template #cell(controls)="data">
@@ -44,13 +44,14 @@
                       class="btn btn-outline-primary mr-4"
                       variant="outline-primary"
                       v-on:click="
-                        ((clickedRow = {
+                        (((clickedRow = {
                           no: data.item.no,
                           date: data.item.date,
                           title: data.item.title,
                           content: data.item.content,
                         }),
-                        updateModelParam())
+                        updateModelParam()),
+                        resetErrMsg())
                       "
                       data-toggle="modal"
                       data-target="#updatemodal"
@@ -79,7 +80,6 @@
               </b-table>
             </div>
           </div>
-
           <br />
         </div>
         <Footer />
@@ -391,15 +391,19 @@ export default {
       this.isLoading = false;
     },
 
-    /**
-     * お知らせ新規登録
-     */
-
     resetModelParam: function () {
+      this.errMsg = "";
       this.title = "";
       this.content = "";
     },
 
+    resetErrMsg: function () {
+      this.errMsg = "";
+    },
+
+    /**
+     * お知らせ新規登録
+     */
     addInformation: async function () {
       this.isLoading = true;
 
@@ -434,7 +438,9 @@ export default {
         // 登録
         console.log(model);
         await AjaxUtil.postInformation(model);
-        location.reload();
+        //モーダルの非表示
+        $("#createmodal").modal("hide");
+
         await this.updateView();
 
         this.msg = "登録に成功しました";
@@ -469,7 +475,7 @@ export default {
           this.errMsg = "タイトルを入力してください";
           return;
         }
-        if (this.content.length > 100) {
+        if (this.title.length > 100) {
           this.errMsg = "タイトルは100桁以下で入力してください";
           return;
         }
@@ -491,7 +497,9 @@ export default {
 
         console.log(model);
         await AjaxUtil.putInformation(model);
-        location.reload();
+        //モーダルの非表示
+        $("#updatemodal").modal("hide");
+
         await this.updateView();
 
         this.msg = "更新に成功しました";
