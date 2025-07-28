@@ -391,8 +391,8 @@ app.put("/api/information", async function (req, res) {
     await InformationLogic.update(db, no, title, content);
     res.send({ result: "ok" });
   } catch (e) {
-    console.log("faild to update infomation.", e);
-    res.status(500).send("server erroe occur");
+    console.log("failed to update infomation.", e);
+    res.status(500).send("server error occur");
   }
 });
 
@@ -410,8 +410,6 @@ app.delete("/api/information/:no", async function (req, res) {
 });
 
 app.listen(process.env.PORT || 3000);
-
-const path = require("path");
 
 // 静的ファイルを提供する設定
 app.use(express.static(path.join(__dirname, "dist")));

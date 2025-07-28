@@ -25,7 +25,7 @@
                   @click="
                     () => {
                       reg = regType.create;
-                      beforeCreateModal({});
+                      onClickCreateButton({});
                     }
                   "
                   data-toggle="modal"
@@ -92,7 +92,7 @@
           </div>
           <div class="modal-body">
             <!-- ここでモーダル用エラーメッセージを表示 -->
-            <p class="text-danger" v-if="modalErrMsg">{{ modalErrMsg }}</p>
+            <p class="text-danger" v-if="createModalErrMsg">{{ createModalErrMsg }}</p>
             <b-row class="mt-2">
               <b-col sm="3"><label>タイトル</label></b-col>
               <b-col sm="9">
@@ -187,29 +187,29 @@
           </div>
           <div class="modal-body">
             <!-- ここで削除モーダル用エラーメッセージを表示 -->
-            <p class="text-danger" v-if="deleteModalErrMsg">{{ deleteModalErrMsg }}</p>
+            <p class="text-danger" v-if="deleteErrMsg">{{ deleteErrMsg }}</p>
             <b-row class="mt-2">
               <b-col sm="3"><label>番号</label></b-col>
               <b-col sm="9"
-                ><label>{{ selectedInfo.no }}</label></b-col
+                ><label>{{ deleteInfo.no }}</label></b-col
               >
             </b-row>
             <b-row class="mt-2">
               <b-col sm="3"><label>掲載日</label></b-col>
               <b-col sm="9"
-                ><label>{{ selectedInfo.date }}</label></b-col
+                ><label>{{ deleteInfo.date }}</label></b-col
               >
             </b-row>
             <b-row class="mt-2">
               <b-col sm="3"><label>タイトル</label></b-col>
               <b-col sm="9"
-                ><label>{{ selectedInfo.title }}</label></b-col
+                ><label>{{ deleteInfo.title }}</label></b-col
               >
             </b-row>
             <b-row class="mt-2">
               <b-col sm="3"><label>詳細</label></b-col>
               <b-col sm="9"
-                ><label>{{ selectedInfo.content }}</label></b-col
+                ><label>{{ deleteInfo.content }}</label></b-col
               >
             </b-row>
           </div>
@@ -256,15 +256,11 @@ export default {
       items: [],
       title: "",
       content: "",
-      selectedInfo: {}, // 削除対象のお知らせ情報
-      modalErrMsg: "", // 新規登録・編集モーダル用エラー
-      deleteModalErrMsg: "", // 削除モーダル用エラー
+      deleteInfo: {}, // 削除対象のお知らせ情報
+      createModalErrMsg: "", // 新規登録モーダル用エラー
+      deleteErrMsg: "", // 削除エラー
       editModalErrMsg: "", // 編集モーダル用エラー
       editInfo: {}, // 編集対象のお知らせ情報
-      regType: {
-        create: "create",
-        edit: "edit",
-      },
     };
   },
   async mounted() {
@@ -273,7 +269,7 @@ export default {
         // 画面更新
         this.msg = this.flashMsg;
         this.errMsg = this.flashErrMsg;
-        await this.updateView();
+        await this.getInformation();
       } else {
         this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
       }
@@ -287,15 +283,11 @@ export default {
     /**
      * 画面更新
      */
-    updateView: async function () {
-      // お知らせ取得
-      await this.getInformation();
-    },
 
     /**
      * お知らせ検索
      */
-    getInformation: async function () {
+    async getInformation() {
       this.isLoading = true;
 
       // 一覧を初期化
@@ -306,37 +298,37 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました";
         console.log(e);
       }
       this.isLoading = false;
     },
-    beforeCreateModal(data) {
+    onClickCreateButton(data) {
       this.title = "";
       this.content = "";
       this.modalErrMsg = ""; // エラーメッセージを初期化
     },
     async addInformation() {
       // 入力チェック
-      this.modalErrMsg = "";
+      this.createModalErrMsg = "";
       // タイトルの入力チェック
       if (!this.title) {
-        this.modalErrMsg = "タイトルを入力してください";
+        this.createModalErrMsg = "タイトルを入力してください";
         return;
       }
       // タイトルの入力桁数チェック
       if (this.title.length > 100) {
-        this.modalErrMsg = "タイトルは100桁以下で入力してください";
+        this.createModalErrMsg = "タイトルは100桁以下で入力してください";
         return;
       }
       // 詳細の入力チェック
       if (!this.content) {
-        this.modalErrMsg = "詳細を入力してください";
+        this.createModalErrMsg = "詳細を入力してください";
         return;
       }
       // 詳細の入力桁数チェック
       if (this.content.length > 100) {
-        this.modalErrMsg = "詳細は100桁以下で入力してください";
+        this.createModalErrMsg = "詳細は100桁以下で入力してください";
         return;
       }
       // ローディング設定
@@ -344,25 +336,25 @@ export default {
       try {
         // お知らせ新規登録処理
         await AjaxUtil.postInformation({ title: this.title, content: this.content });
-        // モーダルを閉じる
-        $("#modal").modal("hide");
+
         // メッセージ表示
         this.msg = "登録に成功しました";
         this.errMsg = "";
         // お知らせ一覧取得処理
-        await this.updateView();
+        await this.getInformation();
         // タイトルと詳細のフィールドをクリア
         this.title = "";
         this.content = "";
       } catch (e) {
         // エラー時は一覧画面にエラーメッセージ表示
-        $("#modal").modal("hide");
+
         this.errMsg = "登録に失敗しました";
         this.msg = "";
       } finally {
         // ローディング設定解除
         this.isLoading = false;
       }
+      $("#modal").modal("hide");
     },
 
     onClickEditButton(item) {
@@ -402,35 +394,35 @@ export default {
           title: this.editInfo.title,
           content: this.editInfo.content,
         });
-        // モーダルを閉じる
-        $("#editModal").modal("hide");
+
         // お知らせ一覧取得処理
-        await this.updateView();
+        await this.getInformation();
         // メッセージ表示
         this.msg = "更新に成功しました";
         this.errMsg = "";
       } catch (e) {
         // エラー時は一覧画面にエラーメッセージ表示
-        $("#editModal").modal("hide");
+
         this.errMsg = "更新に失敗しました";
         this.msg = "";
       } finally {
         // ローディング設定解除
         this.isLoading = false;
       }
+      $("#editModal").modal("hide");
     },
 
     onClickDeleteButton(item) {
-      this.selectedInfo = { ...item };
+      this.deleteInfo = { ...item };
     },
 
     async deleteInformation() {
-      this.deleteModalErrMsg = ""; // 削除モーダル用エラー初期化
+      this.deleteErrMsg = ""; // 削除用エラー初期化
       try {
-        await AjaxUtil.deleteInformation(this.selectedInfo.no);
+        await AjaxUtil.deleteInformation(this.deleteInfo.no);
         this.msg = "お知らせ情報の削除に成功しました";
         this.errMsg = "";
-        await this.updateView();
+        await this.getInformation();
       } catch (e) {
         this.errMsg = "お知らせ情報の削除に失敗しました";
         this.msg = "";
