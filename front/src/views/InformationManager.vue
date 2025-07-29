@@ -30,7 +30,10 @@
                   class="btn btn-primary"
                   data-toggle="modal"
                   data-target="#addInfoModal"
-                  v-on:click="initAddModalText()"
+                  v-on:click="
+                    initModal();
+                    initMsg();
+                  "
                 >
                   新規登録
                 </button>
@@ -54,7 +57,8 @@
                               title: data.item.title,
                               content: data.item.content,
                             };
-                            initErrMsg();
+                            initModal();
+                            initMsg();
                           "
                           data-toggle="modal"
                           data-target="#updateInfoModal"
@@ -362,7 +366,7 @@ export default {
      */
     addInformation: async function () {
       // メッセージ初期化
-      await this.initErrMsg();
+      this.initMsg();
 
       try {
         // 入力チェック
@@ -409,7 +413,7 @@ export default {
      */
     updateInformation: async function () {
       // メッセージ初期化
-      await this.initErrMsg();
+      this.initMsg();
 
       try {
         // 入力チェック
@@ -457,7 +461,7 @@ export default {
      */
     deleteInformation: async function () {
       // メッセージ初期化
-      await this.initErrMsg();
+      this.initMsg();
 
       this.isLoading = true;
       $("#deleteInfoConfirmModal").modal("hide");
@@ -476,15 +480,14 @@ export default {
     /**
      * addInfoModal初期化
      */
-    initAddModalText: async function () {
+    initModal: function () {
       this.title = "";
       this.content = "";
-      this.modalErrMsg = "";
     },
     /**
      * メッセージ初期化
      */
-    initErrMsg: async function () {
+    initMsg: function () {
       this.msg = "";
       this.modalErrMsg = "";
       this.errMsg = "";
