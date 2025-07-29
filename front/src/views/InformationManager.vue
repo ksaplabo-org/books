@@ -27,7 +27,7 @@
                     <b-button
                       variant="primary btn-md"
                       data-toggle="modal"
-                      data-target="#createmodal"
+                      data-target="#createModal"
                       v-on:click="((addErrMsg = ''), (title = ''), (content = ''))"
                     >
                       新規登録
@@ -55,7 +55,7 @@
                               (updateErrMsg = ''))
                             "
                             data-toggle="modal"
-                            data-target="#updatemodal"
+                            data-target="#updateModal"
                             class="mr-4"
                           >
                             編集
@@ -74,7 +74,7 @@
                               }
                             "
                             data-toggle="modal"
-                            data-target="#deletemodal"
+                            data-target="#deleteModal"
                           >
                             削除
                           </b-button>
@@ -93,7 +93,7 @@
       <!--  登録モーダル -->
       <div
         class="modal fade"
-        id="createmodal"
+        id="createModal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="addModalLabel"
@@ -159,7 +159,7 @@
       <!-- 更新モーダル -->
       <div
         class="modal fade"
-        id="updatemodal"
+        id="updateModal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="updateModalLabel"
@@ -233,7 +233,7 @@
     <!--削除モーダル-->
     <div
       class="modal fade"
-      id="deletemodal"
+      id="deleteModal"
       tabindex="-1"
       role="dialog"
       aria-labelledby="deleteModalLabel"
@@ -386,7 +386,7 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "お知らせ取得処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました";
         console.log(e);
       }
 
@@ -431,6 +431,7 @@ export default {
         this.title = "";
         this.content = "";
         this.msg = "登録に成功しました";
+        await this.getInformation();
       } catch (e) {
         this.msg = "";
         this.errMsg = "登録に失敗しました";
@@ -438,8 +439,7 @@ export default {
       } finally {
         this.isLoading = false;
       }
-      $("#createmodal").modal("hide");
-      this.getInformation();
+      $("#createModal").modal("hide");
     },
     //お知らせ更新
     updateInformation: async function () {
@@ -479,8 +479,7 @@ export default {
 
         await AjaxUtil.putInformation(model);
         this.msg = "更新に成功しました";
-
-        this.getInformation();
+        await this.getInformation();
       } catch (e) {
         this.msg = "";
         this.errMsg = "更新に失敗しました";
@@ -488,7 +487,7 @@ export default {
       } finally {
         this.isLoading = false;
       }
-      $("#updatemodal").modal("hide");
+      $("#updateModal").modal("hide");
     },
 
     //お知らせ削除
