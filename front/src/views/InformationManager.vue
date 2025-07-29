@@ -22,14 +22,9 @@
                 <button
                   type="button"
                   class="btn btn-primary"
-                  @click="
-                    () => {
-                      reg = regType.create;
-                      onClickCreateButton({});
-                    }
-                  "
+                  v-on:click="onClickCreateButton"
                   data-toggle="modal"
-                  data-target="#modal"
+                  data-target="#createModal"
                 >
                   新規登録
                 </button>
@@ -74,16 +69,16 @@
     <!-- 新規登録モーダル -->
     <div
       class="modal fade"
-      id="modal"
+      id="createModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="registerModalLabel"
+      aria-labelledby="createModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h6 class="modal-title text-secondary" id="registerModalLabel">
+            <h6 class="modal-title text-secondary" id="createModalLabel">
               以下の内容でお知らせを登録してよろしいですか？
             </h6>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -306,7 +301,7 @@ export default {
     onClickCreateButton(data) {
       this.title = "";
       this.content = "";
-      this.modalErrMsg = ""; // エラーメッセージを初期化
+      this.createModalErrMsg = ""; // エラーメッセージを初期化
     },
     async addInformation() {
       // 入力チェック
@@ -354,7 +349,7 @@ export default {
         // ローディング設定解除
         this.isLoading = false;
       }
-      $("#modal").modal("hide");
+      $("#createModal").modal("hide");
     },
 
     onClickEditButton(item) {

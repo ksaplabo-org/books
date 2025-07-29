@@ -411,10 +411,6 @@ app.delete("/api/information/:no", async function (req, res) {
 
 app.listen(process.env.PORT || 3000);
 
-// 静的ファイルを提供する設定
-app.use(express.static(path.join(__dirname, "dist")));
+// const path = require("path");
 
-// SPAのエントリポイントを処理する
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
+
