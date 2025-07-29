@@ -28,7 +28,7 @@
                     variant="btn btn-primary"
                     data-toggle="modal"
                     data-target="#insertConfirmModal"
-                    v-on:click="(initText(), resetMessage())"
+                    v-on:click="(initTitle(), initContent(), initInputMessage(), initUpdateMessage())"
                   >
                     新規登録
                   </b-button>
@@ -50,7 +50,8 @@
                             title: data.item.title,
                             content: data.item.content,
                           }),
-                          resetMessage())
+                          initInputMessage(),
+                          initUpdateMessage())
                         "
                         data-toggle="modal"
                         data-target="#updateConfirmModal"
@@ -391,7 +392,7 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "お知らせ取得処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました";
         console.log(e);
       }
       this.isLoading = false;
@@ -546,12 +547,16 @@ export default {
       this.isLoading = false;
     },
 
-    resetMessage: function () {
+    initInputMessage: function () {
       this.inputErrorMsg = "";
+    },
+    initUpdateMessage: function () {
       this.updateErrorMsg = "";
     },
-    initText: function () {
+    initTitle: function () {
       this.title = "";
+    },
+    initContent: function () {
       this.content = "";
     },
   },
