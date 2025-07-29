@@ -27,7 +27,7 @@
                 type="submit"
                 data-toggle="modal"
                 data-target="#addModal"
-                v-on:click="openModal()"
+                v-on:click="modalErrMsg = ''"
               >
                 新規登録
               </button>
@@ -53,7 +53,7 @@
                             title: data.item.title,
                             text: data.item.content,
                           }),
-                          openModal())
+                          (modalErrMsg = ''))
                         "
                         >編集</b-button
                       >
@@ -71,7 +71,7 @@
                             title: data.item.title,
                             text: data.item.content,
                           }),
-                          openModal())
+                          (modalErrMsg = ''))
                         "
                         >削除</b-button
                       >
@@ -125,9 +125,7 @@
               <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="登録" />
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                  キャンセル
-                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
               </div>
             </form>
           </div>
@@ -184,9 +182,7 @@
               <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="更新" />
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" >
-                  キャンセル
-                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
               </div>
             </form>
           </div>
@@ -449,14 +445,6 @@ export default {
       }
 
       this.isLoading = false;
-    },
-
-    /**
-     * モーダルを開く処理
-     */
-    openModal: async function () {
-      // モーダルのエラーメッセージ初期化
-      this.modalErrMsg = "";
     },
   },
 };

@@ -69,7 +69,6 @@
                         id="inputPassword"
                         class="form-control"
                         placeholder="8桁以上16桁以下で入力してください。"
-                        v-on:input="isAvailableConfirmPassword()"
                         v-model="password"
                       />
                     </div>
@@ -95,7 +94,7 @@
                     class="form-control"
                     placeholder="8桁以上16桁以下で入力してください。"
                     v-model="confirmPassword"
-                    :disabled="isUnavaliable"
+                    :disabled="originPassword == password"
                   />
                 </div>
 
@@ -458,16 +457,6 @@ export default {
       this.isLoading = false;
     },
 
-    /**
-     * パスワード(再確認)のdiableの切り替え
-     */
-    isAvailableConfirmPassword: async function () {
-      if (this.originPassword == this.password) {
-        this.isUnavaliable = true;
-      } else {
-        this.isUnavaliable = false;
-      }
-    },
 
     /**
      * パスワードの内容の可視、不可視の切り替え
