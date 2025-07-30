@@ -410,7 +410,3 @@ app.delete("/api/information/:no", async function (req, res) {
 });
 
 app.listen(process.env.PORT || 3000);
-
-// const path = require("path");
-
-
