@@ -16,6 +16,7 @@
           </ol>
 
           <p class="text-primary" v-show="msg">{{ msg }}</p>
+          <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
           <div class="card shadow">
             <div class="card-header py-3">
@@ -27,8 +28,8 @@
                     class="btn btn-primary mr-3"
                     variant="outline-primary"
                     data-toggle="modal"
-                    data-target="#createmodal"
-                    v-on:click="resetModelParam()"
+                    data-target="#createModal"
+                    v-on:click="resetModalParam()"
                   >
                     新規登録
                   </button>
@@ -44,17 +45,17 @@
                       class="btn btn-outline-primary mr-4"
                       variant="outline-primary"
                       v-on:click="
-                        (((clickedRow = {
+                        ((clickedRow = {
                           no: data.item.no,
                           date: data.item.date,
                           title: data.item.title,
                           content: data.item.content,
                         }),
-                        updateModelParam()),
-                        resetErrMsg())
+                        updateModalParam(),
+                        resetErrMeg())
                       "
                       data-toggle="modal"
-                      data-target="#updatemodal"
+                      data-target="#updateModal"
                     >
                       編集
                     </button>
@@ -68,10 +69,10 @@
                           title: data.item.title,
                           content: data.item.content,
                         }),
-                        deleteModelParam())
+                        deleteModalParam())
                       "
                       data-toggle="modal"
-                      data-target="#deletemodal"
+                      data-target="#deleteModal"
                     >
                       削除
                     </button>
@@ -88,7 +89,7 @@
       <!-- 新規登録Modal -->
       <div
         class="modal fade"
-        id="createmodal"
+        id="createModal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="myModalLabel"
@@ -151,7 +152,7 @@
       <!-- 編集モーダル -->
       <div
         class="modal fade"
-        id="updatemodal"
+        id="updateModal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="myModalLabel"
@@ -226,7 +227,7 @@
       <!-- 削除モーダル -->
       <div
         class="modal fade"
-        id="deletemodal"
+        id="deleteModal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="myModalLabel"
@@ -384,21 +385,21 @@ export default {
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";
-        this.errMsg = "検索処理に失敗しました。";
+        this.errMsg = "お知らせ取得処理に失敗しました";
         console.log(e);
       }
 
       this.isLoading = false;
     },
 
-    resetModelParam: function () {
+    resetModalParam: function () {
       this.errMsg = "";
       this.title = "";
       this.content = "";
     },
 
-    resetErrMsg: function () {
-      this.errMsg = "";
+    resetErrMeg: function () {
+      this.errMeg = "";
     },
 
     /**
@@ -409,7 +410,7 @@ export default {
 
       try {
         // 入力チェック
-        if (this.title == null || this.title == "") {
+        if (this.title === null || this.title === "") {
           this.errMsg = "タイトルを入力してください";
           return;
         }
@@ -419,7 +420,7 @@ export default {
           return;
         }
 
-        if (this.content == null || this.content == "") {
+        if (this.content === null || this.content === "") {
           this.errMsg = "詳細を入力してください";
           return;
         }
@@ -436,10 +437,9 @@ export default {
         };
 
         // 登録
-        console.log(model);
         await AjaxUtil.postInformation(model);
         //モーダルの非表示
-        $("#createmodal").modal("hide");
+        $("#createModal").modal("hide");
 
         await this.updateView();
 
@@ -456,7 +456,7 @@ export default {
     /**
      * お知らせ更新
      */
-    updateModelParam: function () {
+    updateModalParam: function () {
       this.no = this.clickedRow.no;
       this.title = this.clickedRow.title;
       this.content = this.clickedRow.content;
@@ -471,7 +471,7 @@ export default {
 
       try {
         // 入力チェック
-        if (this.title == null || this.title == "") {
+        if (this.title === null || this.title === "") {
           this.errMsg = "タイトルを入力してください";
           return;
         }
@@ -479,7 +479,7 @@ export default {
           this.errMsg = "タイトルは100桁以下で入力してください";
           return;
         }
-        if (this.content == null || this.content === "") {
+        if (this.content === null || this.content === "") {
           this.errMsg = "詳細を入力してください";
           return;
         }
@@ -495,10 +495,9 @@ export default {
           content: this.content,
         };
 
-        console.log(model);
         await AjaxUtil.putInformation(model);
         //モーダルの非表示
-        $("#updatemodal").modal("hide");
+        $("#updateModal").modal("hide");
 
         await this.updateView();
 
@@ -515,7 +514,7 @@ export default {
     /**
      * お知らせ削除
      */
-    deleteModelParam: function () {
+    deleteModalParam: function () {
       this.no = this.clickedRow.no;
     },
 
@@ -528,7 +527,6 @@ export default {
 
       try {
         // 削除
-        console.log(this.no);
         await AjaxUtil.deleteInformation(this.no);
         await this.updateView();
 

@@ -1,6 +1,5 @@
 // Ajax通信ライブラリ
 import axios from "axios";
-import { timers } from "jquery";
 
 export async function signIn(userId, password) {
   const url = "/api/sign-in";
@@ -80,10 +79,19 @@ export async function getUserById(userId) {
 }
 
 export async function getUser(searchParams) {
-  const url = "/api/users";
+  const url = "/api/users/search/:word";
   const params = {
     userId: searchParams.userId,
     userName: searchParams.userName,
+    address: searchParams.address,
+  };
+  return await axios.get(url, { params: params });
+}
+
+export async function getAllUser(searchParams) {
+  const url = "/api/users";
+  const params = {
+    auth: searchParams.auth,
   };
   return await axios.get(url, { params: params });
 }
@@ -97,6 +105,7 @@ export async function postUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
 }
 
@@ -119,6 +128,7 @@ export async function putUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
   /**★問題2[ユーザー管理] End★*/
 }
