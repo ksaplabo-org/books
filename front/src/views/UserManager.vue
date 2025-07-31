@@ -70,6 +70,18 @@
                     v-model="password"
                   />
                 </div>
+                <!-- パスワード再入力 -->
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="inputPassword"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください"
+                    v-model="checkPassword"
+                    disabled
+                  />
+                </div>
 
                 <!-- 性別 -->
                 <div class="form-group">
@@ -138,6 +150,17 @@
                     />
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
+                </div>
+                <!-- 住所 -->
+                <div class="form-group">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="inputAddress"
+                    class="form-control"
+                    placeholder="150桁以下で入力してください"
+                    v-model="address"
+                  />
                 </div>
 
                 <!-- 更新・削除ボタン -->
@@ -228,6 +251,8 @@ export default {
       unknown: UserConst.Gender.unknown,
       general: UserConst.Auth.general,
       admin: UserConst.Auth.admin,
+      address: "",
+      checkPassword: "",
     };
   },
   async mounted() {
@@ -289,6 +314,7 @@ export default {
         this.password = userInfo.password;
         this.gender = userInfo.gender;
         this.auth = userInfo.auth;
+        this.addrss = userInfo.address;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー取得に失敗しました";
@@ -330,12 +356,20 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        if(this.checkPassword != this.password){
+          this.errMsg = "パスワードとパスワード(再入力)が一致しません";
+          return;
+        }
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
         if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
+          return;
+        }
+        if(this.address >= 150){
+          this.errMsg = "住所は150桁以下で入力してください";
           return;
         }
 
@@ -346,6 +380,7 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         await AjaxUtil.putUser(model);

@@ -182,12 +182,20 @@ app.get("/api/users", async function (req, res) {
   const query = req.query;
   const userId = query.userId;
   const userName = query.userName;
+  const address = query.address;
+  const auth = query.auth;
 
   try {
     let users;
-    if ((userId != null && userId !== "") || (userName != null && userName !== "")) {
+    if (
+      (userId != null && userId !== "") ||
+      (userName != null && userName !== "") ||
+      (address != null && address != "")
+    ) {
       // あいまい検索
-      users = await UserLogic.findByIdOrNameLike(db, userId, userName);
+      users = await UserLogic.findByIdOrNameLike(db, userId, userName, address);
+    } else if (auth != null && auth !=="") {
+      users = await UserLogic.findByAuth(db, auth);
     } else {
       // 全件検索
       users = await UserLogic.findAll(db);
@@ -212,7 +220,15 @@ app.post("/api/users", async function (req, res) {
   const reqBody = req.body;
 
   try {
-    await UserLogic.create(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender, reqBody.auth);
+    await UserLogic.create(
+      db,
+      reqBody.userId,
+      reqBody.userName,
+      reqBody.password,
+      reqBody.gender,
+      reqBody.auth,
+      reqBody.address
+    );
 
     // 正常レスポンス
     res.send();

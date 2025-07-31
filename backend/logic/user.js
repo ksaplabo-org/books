@@ -58,9 +58,10 @@ module.exports.findById = async function (db, userId) {
  * @param {*} db
  * @param {*} userId
  * @param {*} userName
+ * @param {*} address
  * @returns {Promise<Object[]>}
  */
-module.exports.findByIdOrNameLike = async function (db, userId, userName) {
+module.exports.findByIdOrNameLike = async function (db, userId, userName, address) {
   // ユーザー情報の定義を取得
   const userModel = UserRepository.getUserModel(db);
 
@@ -86,10 +87,31 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
         [Op.or]: {
           user_id: { [Op.like]: "%" + userId + "%" },
           user_name: { [Op.like]: "%" + userName + "%" },
+          address: { [Op.like]: "%" + address + "%" },
         },
       },
       /**★問題4[ユーザー一覧] End*/
       /**★問題5[ユーザー一覧] End*/
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * @param {*} db
+ * @param {*} auth
+ * @returns {Promise<Object[]>}
+ */
+module.exports.findByAuth = async function (db, auth) {
+  // ユーザー情報の定義を取得
+  const userModel = UserRepository.getUserModel(db);
+
+  try {
+    return await userModel.findAll({
+      where: {
+        auth: auth,
+      },
     });
   } catch (e) {
     throw e;
@@ -107,7 +129,7 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
  * @param {*} auth
  * @returns {Promise<void>}
  */
-module.exports.create = async function (db, userId, userName, password, gender, auth) {
+module.exports.create = async function (db, userId, userName, password, gender, auth, address) {
   // ユーザー情報の定義を取得
   const userModel = UserRepository.getUserModel(db);
 
@@ -122,6 +144,7 @@ module.exports.create = async function (db, userId, userName, password, gender, 
       password: password,
       gender: gender,
       auth: auth,
+      address: address,
     });
     /**★問題11[ユーザー追加] End*/
   } catch (e) {

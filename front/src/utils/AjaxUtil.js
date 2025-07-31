@@ -58,6 +58,7 @@ export async function getUser(searchParams) {
   const params = {
     userId: searchParams.userId,
     userName: searchParams.userName,
+    address: searchParams.address,
   };
   return await axios.get(url, { params: params });
 }
@@ -71,6 +72,7 @@ export async function postUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
 }
 
@@ -177,4 +179,13 @@ export async function deleteInformation(no) {
   const url = "/api/information/" + no;
 
   return await axios.delete(url);
+}
+
+export async function getUserByAuth(auth) {
+  const url = "/api/users";
+
+  const params = {
+    auth: auth,
+  };
+  return await axios.get(url, { params: params });
 }

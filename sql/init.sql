@@ -100,9 +100,10 @@ insert into book values ("9784822257903","1","Google Cloud Platform　エンタ�
 # お知らせTBL 初期データ登録
 #------------------------------------------
 DELETE FROM information;
-INSERT INTO information values (1, utc_timestamp(), "BookStation 開設", "新しくブックステーションが開設されました。皆さんぜひご利用ください。");
-INSERT INTO information values (2, utc_timestamp(), "新書籍入荷", "新しい書籍が入荷しました。");
-INSERT INTO information values (3, utc_timestamp(), "不審者報告", "最近館内で怪しい人物の目撃情報が多発しています。");
+INSERT INTO information values (1, "2025/07/14", "BookStation 開設", "新しくブックステーションが開設されました。皆さんぜひご利用ください。");
+INSERT INTO information values (2, "2025/07/14", "新書籍入荷", "新しい書籍が入荷しました。");
+INSERT INTO information values (3, "2025/07/14", "不審者報告", "最近館内で怪しい人物の目撃情報が多発しています。");
+INSERT INTO information values (4, "2025/07/20", "熱中症注意報", "熱中症に気を付けましょう。");
 
 #------------------------------------------
 # ユーザーTBL 初期データ登録

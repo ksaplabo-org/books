@@ -100,7 +100,7 @@ module.exports = {
       },
     },
   },
-  configureWebpack: {
-    devtool: "source-map",
-  },
+  // configureWebpack: {
+  //   devtool: "source-map",
+  // },
 };
