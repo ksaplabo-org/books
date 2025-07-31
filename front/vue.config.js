@@ -72,7 +72,7 @@ module.exports = {
       filename: "pages/book/rental/list.html",
       title: "レンタル一覧",
     },
-    InformationManager: {
+    informationManager: {
       entry: "src/main.js",
       template: "public/pages/index.html",
       filename: "pages/information/manager.html",

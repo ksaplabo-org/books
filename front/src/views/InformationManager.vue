@@ -31,7 +31,7 @@
                   data-toggle="modal"
                   data-target="#addInfoModal"
                   v-on:click="
-                    initModal();
+                    initModal({});
                     initMsg();
                   "
                 >
@@ -51,13 +51,7 @@
                         <b-button
                           variant="outline-primary"
                           v-on:click="
-                            clickedRow = {
-                              no: data.item.no,
-                              date: data.item.date,
-                              title: data.item.title,
-                              content: data.item.content,
-                            };
-                            initModal();
+                            initModal(data.item);
                             initMsg();
                           "
                           data-toggle="modal"
@@ -69,14 +63,7 @@
                       <b-button-group style="margin-left: 20px">
                         <b-button
                           variant="outline-danger"
-                          v-on:click="
-                            clickedRow = {
-                              no: data.item.no,
-                              date: data.item.date,
-                              title: data.item.title,
-                              content: data.item.content,
-                            }
-                          "
+                          v-on:click="initModal(data.item)"
                           data-toggle="modal"
                           data-target="#deleteInfoConfirmModal"
                         >
@@ -179,12 +166,12 @@
 
             <div class="d-flex flex-row">
               <div class="col-3">番号</div>
-              <div class="text" v-show="clickedRow">{{ clickedRow.no }}</div>
+              <div class="text">{{ no }}</div>
             </div>
 
             <div class="d-flex flex-row">
               <div class="col-3">掲載日</div>
-              <div class="text" v-show="clickedRow">{{ clickedRow.date }}</div>
+              <div class="text">{{ date }}</div>
             </div>
 
             <div class="d-flex flex-row">
@@ -196,8 +183,7 @@
                   cols="100"
                   id="title"
                   class="form-control"
-                  v-show="clickedRow"
-                  v-model="clickedRow.title"
+                  v-model="title"
                   autocomplete="off"
                 ></textarea>
               </div>
@@ -212,8 +198,7 @@
                   cols="100"
                   id="content"
                   class="form-control"
-                  v-show="clickedRow"
-                  v-model="clickedRow.content"
+                  v-model="content"
                   autocomplete="off"
                 ></textarea>
               </div>
@@ -249,22 +234,22 @@
           <div class="modal-body" style="line-height: 2.5">
             <div class="d-flex flex-row">
               <div class="col-3">番号</div>
-              <div class="text" v-show="clickedRow">{{ clickedRow.no }}</div>
+              <div class="text">{{ no }}</div>
             </div>
 
             <div class="d-flex flex-row">
               <div class="col-3">掲載日</div>
-              <div class="text" v-show="clickedRow">{{ clickedRow.date }}</div>
+              <div class="text">{{ date }}</div>
             </div>
 
             <div class="d-flex flex-row">
               <div class="col-3">タイトル</div>
-              <div class="text" v-show="clickedRow">{{ clickedRow.title }}</div>
+              <div class="text">{{ title }}</div>
             </div>
 
             <div class="d-flex flex-row">
               <div class="col-3">詳細</div>
-              <div class="text" v-show="clickedRow">{{ clickedRow.content }}</div>
+              <div class="text">{{ content }}</div>
             </div>
           </div>
 
@@ -302,7 +287,6 @@ export default {
       msg: this.flashMsg,
       modalErrMsg: "",
       errMsg: "",
-      clickedRow: {},
       isLoading: false,
       title: "",
       content: "",
@@ -313,6 +297,10 @@ export default {
         { key: "controls", label: "" },
       ],
       items: [],
+      no: "",
+      date: "",
+      title: "",
+      content: "",
     };
   },
   async mounted() {
@@ -417,22 +405,22 @@ export default {
 
       try {
         // 入力チェック
-        if (this.clickedRow.title == null || this.clickedRow.title === "") {
+        if (this.title == null || this.title === "") {
           this.modalErrMsg = "タイトルを入力してください";
           return;
         }
 
-        if (this.clickedRow.title.length > 100) {
+        if (this.title.length > 100) {
           this.modalErrMsg = "タイトルは100桁以下で入力してください";
           return;
         }
 
-        if (this.clickedRow.content == null || this.clickedRow.content === "") {
+        if (this.content == null || this.content === "") {
           this.modalErrMsg = "詳細を入力してください";
           return;
         }
 
-        if (this.clickedRow.content.length > 100) {
+        if (this.content.length > 100) {
           this.modalErrMsg = "詳細は100桁以下で入力してください";
           return;
         }
@@ -440,9 +428,9 @@ export default {
         $("#updateInfoModal").modal("hide");
         // 引数格納
         const model = {
-          no: this.clickedRow.no,
-          title: this.clickedRow.title,
-          content: this.clickedRow.content,
+          no: this.no,
+          title: this.title,
+          content: this.content,
         };
 
         //更新
@@ -467,7 +455,7 @@ export default {
       $("#deleteInfoConfirmModal").modal("hide");
       try {
         // 削除
-        await AjaxUtil.deleteInformation(this.clickedRow.no);
+        await AjaxUtil.deleteInformation(this.no);
         await this.getInformation();
         this.msg = "お知らせ情報の削除に成功しました";
       } catch (e) {
@@ -478,12 +466,15 @@ export default {
       }
     },
     /**
-     * addInfoModal初期化
+     * modalの値を初期化
      */
-    initModal: function () {
-      this.title = "";
-      this.content = "";
+    initModal: function (modalInfo) {
+      this.no = modalInfo.no;
+      this.date = modalInfo.date;
+      this.title = modalInfo.title;
+      this.content = modalInfo.content;
     },
+
     /**
      * メッセージ初期化
      */

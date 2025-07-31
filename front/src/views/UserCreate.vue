@@ -73,6 +73,16 @@
                     v-model="password"
                   />
                 </div>
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください"
+                    v-model="confirmPassword"
+                  />
+                </div>
                 <!--
                     ★問題3 Start★
                         各ラジオボタンに対応する文言を設定する。
@@ -145,6 +155,16 @@
                   </div>
                   <!--★問題3 End★-->
                 </div>
+                <div class="form-group">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="inputAddress"
+                    class="form-control"
+                    placeholder="150桁以上で入力してください"
+                    v-model="address"
+                  />
+                </div>
                 <!-- 新規登録ボタン -->
                 <div class="form-group">
                   <div class="d-flex justify-content-md-center">
@@ -192,8 +212,10 @@ export default {
       userId: "",
       userName: "",
       password: "",
+      confirmPassword: "",
       gender: UserConst.Gender.woman,
       auth: UserConst.Auth.general,
+      address: "",
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -306,6 +328,10 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        if (this.confirmPassword!==this.password) {
+          this.errMsg = "パスワードとパスワード(再入力)が一致しません";
+          return;
+        }
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
@@ -314,7 +340,10 @@ export default {
           this.errMsg = "権限を選択してください";
           return;
         }
-
+        if (this.address.length > 150) {
+          this.errMsg = "住所は150桁以下で入力してください";
+          return;
+        }
         /**
          * ★問題10 Start★
          * データ登録時の重複チェックを正常に行えるようにする。
@@ -336,6 +365,7 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         // 登録

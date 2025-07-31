@@ -68,9 +68,21 @@
                     class="form-control"
                     placeholder="8桁以上16桁以下で入力してください。"
                     v-model="password"
+                    @input="passwordCheck"
                   />
                 </div>
 
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください。"
+                    v-model="confirmPassword"
+                    v-bind:disabled="isDisabled"
+                  />
+                </div>
                 <!-- 性別 -->
                 <div class="form-group">
                   <label>性別</label>
@@ -139,7 +151,16 @@
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
                 </div>
-
+                <div class="form-group">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="inputAddress"
+                    class="form-control"
+                    placeholder="150桁以下で入力してください。"
+                    v-model="address"
+                  />
+                </div>
                 <!-- 更新・削除ボタン -->
                 <div class="form-group d-flex justify-content-center">
                   <div class="p-2 w-50">
@@ -208,6 +229,7 @@ import "../utils/sb-admin";
 import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
+
 export default {
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
@@ -220,8 +242,12 @@ export default {
       userId: "",
       userName: "",
       password: "",
+      confirmPassword: "",
+      checkPassword: "",
       gender: "",
       auth: "",
+      address: "",
+      isDisabled: true,
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -230,6 +256,7 @@ export default {
       admin: UserConst.Auth.admin,
     };
   },
+
   async mounted() {
     try {
       // サインイン確認
@@ -289,6 +316,8 @@ export default {
         this.password = userInfo.password;
         this.gender = userInfo.gender;
         this.auth = userInfo.auth;
+        this.address = userInfo.address;
+        this.checkPassword = userInfo.password;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー取得に失敗しました";
@@ -305,8 +334,6 @@ export default {
       // メッセージ初期化
       this.msg = "";
       this.errMsg = "";
-
-      this.isLoading = true;
 
       try {
         // 入力チェック
@@ -330,6 +357,10 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        if (this.checkPassword !== this.password && this.confirmPassword !== this.password) {
+          this.errMsg = "パスワードとパスワード(再入力)が一致しません";
+          return;
+        }
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
@@ -338,7 +369,11 @@ export default {
           this.errMsg = "権限を選択してください";
           return;
         }
-
+        if (this.address.length > 150) {
+          this.errMsg = "住所は150桁以下で入力してください";
+          return;
+        }
+        this.isLoading = true;
         // 引数格納
         const model = {
           userId: this.userId,
@@ -346,6 +381,7 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         await AjaxUtil.putUser(model);
@@ -389,6 +425,13 @@ export default {
       }
 
       this.isLoading = false;
+    },
+    passwordCheck: function () {
+      if (this.checkPassword != this.password) {
+        this.isDisabled = false;
+      } else {
+        this.isDisabled = true;
+      }
     },
   },
 };

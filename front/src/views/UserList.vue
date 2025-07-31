@@ -18,8 +18,7 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <div class="form-group m-2">
-            <!--
+          <!--
                 ★ 問題1 Start★
                   検索欄上部の文言を設計書通りに変更する。
                   検索ボタンをクリックした際に検索処理を呼び出すようにする。
@@ -29,24 +28,87 @@
                   function() {}：何もしてない処理。
 
             -->
-            <div class="px-2" style="font-size: 10pt">ユーザーID/ユーザー名を検索</div>
-            <div class="row">
-              <div class="col-lg-6">
-                <input
-                  type="text"
-                  id="searchWord"
-                  class="form-control border-secondary"
-                  v-model="searchWord"
-                  placeholder="入力してください"
-                  required
-                />
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <div class="form-group">
+                <label>検索方法を選択</label>
+                <br />
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                    type="radio"
+                    id="IdNameAddressSearchRadio"
+                    name="SearchRadio"
+                    class="custom-control-input"
+                    v-model="search"
+                    v-bind:value="searchIdNameAddress"
+                    checked
+                    v-on:click="initSearch()"
+                  />
+                  <label class="custom-control-label" for="IdNameAddressSearchRadio">ID/名前/住所で検索</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                    type="radio"
+                    id="authSearchRadio"
+                    name="SearchRadio"
+                    class="custom-control-input"
+                    v-model="search"
+                    v-bind:value="searchAuth"
+                    v-on:click="initSearch()"
+                  />
+                  <label class="custom-control-label" for="authSearchRadio">権限で検索</label>
+                </div>
               </div>
-              <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
             </div>
-            <!-- ★ 問題1 END ★ -->
-          </div>
 
-          <br />
+            <div class="card-body">
+              <div class="row" v-if="search === searchIdNameAddress">
+                <div class="col-lg-6">
+                  <input
+                    type="text"
+                    id="searchWord"
+                    class="form-control border-secondary"
+                    v-model="searchWord"
+                    placeholder="ID/名前/住所のいずれかを入力してください"
+                  />
+                </div>
+                <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
+              </div>
+
+              <div class="form-group" v-else="search === searchAuth" style="margin-bottom: auto">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input
+                        type="radio"
+                        id="generalRadio"
+                        name="authRadio"
+                        class="custom-control-input"
+                        v-model="auth"
+                        v-bind:value="general"
+                        checked
+                      />
+                      <label class="custom-control-label" for="generalRadio">一般</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input
+                        type="radio"
+                        id="adminRadio"
+                        name="authRadio"
+                        class="custom-control-input"
+                        v-model="auth"
+                        v-bind:value="admin"
+                      />
+                      <label class="custom-control-label" for="adminRadio">社員</label>
+                    </div>
+                  </div>
+                  <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
+                </div>
+                <!--★問題3 End★-->
+              </div>
+            </div>
+          </div>
+          <!-- ★ 問題1 END ★ -->
 
           <!-- ユーザー一覧 -->
           <b-table striped responsive hover :items="items" :fields="fields">
@@ -81,6 +143,10 @@ import "../utils/sb-admin";
 import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
+
+import SearchConst from "@/utils/const/SearchConst";
+import UserConst from "@/utils/const/UserConst";
+
 export default {
   props: ["flashMsg", "flashErrMsg"],
   components: { NaviMenu, Menu, Footer, Loading },
@@ -89,6 +155,15 @@ export default {
       msg: "",
       errMsg: "",
       isLoading: false,
+
+      search: SearchConst.Search.idNameAddress,
+      auth: UserConst.Auth.general,
+      // 各ラジオボタン設定値
+      searchIdNameAddress: SearchConst.Search.idNameAddress,
+      searchAuth: SearchConst.Search.auth,
+      general: UserConst.Auth.general,
+      admin: UserConst.Auth.admin,
+
       /**
        * ★問題2 Start★
        * 一覧にユーザー名の列を追加する
@@ -106,6 +181,7 @@ export default {
       fields: [
         { key: "user_id", label: "ユーザーID" },
         { key: "user_name", label: "ユーザー名" },
+        { key: "address", label: "住所" },
         { key: "controls", label: "" },
       ],
       /*★問題2 End★*/
@@ -142,8 +218,11 @@ export default {
 
       try {
         const searchParams = {
-          userId: this.searchWord,
+          userId: this.searschWord,
           userName: this.searchWord,
+          address: this.searchWord,
+          search: this.search,
+          auth: this.auth,
         };
         const response = await AjaxUtil.getUser(searchParams);
         this.items = JSON.parse(response.data.Items);
@@ -152,7 +231,6 @@ export default {
         this.errMsg = "ユーザー検索に失敗しました";
         console.log(e);
       }
-
       this.isLoading = false;
     },
 
@@ -164,6 +242,11 @@ export default {
     onClickEditButton: function (data) {
       // 編集画面へ遷移する
       this.$router.push({ name: "userManager", query: { userId: data.user_id } });
+    },
+
+    initSearch: function () {
+      this.searchWord = "";
+      this.auth = "1";
     },
   },
 };
