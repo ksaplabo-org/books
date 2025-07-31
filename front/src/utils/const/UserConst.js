@@ -13,4 +13,9 @@ export default {
     general: "1",
     admin: "2",
   },
+  // 検索
+  Search: {
+    anySearch: "1",
+    authSearch: "2",
+  },
 };

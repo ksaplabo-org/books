@@ -73,6 +73,17 @@
                     v-model="password"
                   />
                 </div>
+                <!-- パスワード再入力 -->
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="againPassword"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください"
+                    v-model="againPassword"
+                  />
+                </div>
                 <!--
                     ★問題3 Start★
                         各ラジオボタンに対応する文言を設定する。
@@ -144,6 +155,17 @@
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
                   <!--★問題3 End★-->
+                  <!-- 住所 -->
+                  <div class="form-group">
+                    <label>住所</label>
+                    <input
+                      type="text"
+                      id="address"
+                      class="form-control"
+                      placeholder="150桁以下で入力してください"
+                      v-model="address"
+                    />
+                  </div>
                 </div>
                 <!-- 新規登録ボタン -->
                 <div class="form-group">
@@ -194,6 +216,7 @@ export default {
       password: "",
       gender: UserConst.Gender.woman,
       auth: UserConst.Auth.general,
+      address: "",
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -242,7 +265,7 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザーIDは16桁以下で入力してください」
          */
-        if (this.userId.length < 1 || this.userId.length > 16) {
+        if (this.userId.length > 16) {
           this.errMsg = "ユーザーIDは16桁以下で入力してください";
           return;
         }
@@ -271,8 +294,8 @@ export default {
          * エラーがある場合は以下のエラーメッセージを表示する。
          * エラーメッセージ：「ユーザー名は100桁以下で入力してください」
          */
-        if (this.userName.length < 1 || this.userName.length > 100) {
-          this.errMsg = "ユーザーIDは100桁以下で入力してください";
+        if (this.userName.length > 100) {
+          this.errMsg = "ユーザー名は100桁以下で入力してください";
           return;
         }
         /*★問題7 End★*/
@@ -306,6 +329,10 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        if (this.password != this.againPassword) {
+          this.errMsg = "パスワードとパスワード(再確認)が一致しません";
+          return;
+        }
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
@@ -314,7 +341,10 @@ export default {
           this.errMsg = "権限を選択してください";
           return;
         }
-
+        if (this.address.length > 150) {
+          this.errMsg = "住所は150桁以下で入力してください";
+          return;
+        }
         /**
          * ★問題10 Start★
          * データ登録時の重複チェックを正常に行えるようにする。
@@ -336,6 +366,7 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         // 登録

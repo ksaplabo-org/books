@@ -58,6 +58,9 @@ export async function getUser(searchParams) {
   const params = {
     userId: searchParams.userId,
     userName: searchParams.userName,
+    address: searchParams.address,
+    auth: searchParams.auth,
+    search: searchParams.search,
   };
   return await axios.get(url, { params: params });
 }
@@ -71,6 +74,7 @@ export async function postUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
 }
 
@@ -83,7 +87,7 @@ export async function putUser(userModel) {
    * get:取得
    * post:登録
    * put:更新
-   * delete:削除
+   * delete:削除F
    */
   const url = "/api/users";
 
@@ -93,6 +97,7 @@ export async function putUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
   /**★問題2[ユーザー管理] End★*/
 }

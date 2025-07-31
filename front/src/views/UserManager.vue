@@ -68,9 +68,21 @@
                     class="form-control"
                     placeholder="8桁以上16桁以下で入力してください。"
                     v-model="password"
+                    @input="inputCheck"
                   />
                 </div>
-
+                <!-- パスワード再入力 -->
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="againPassword"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください"
+                    v-model="againPassword"
+                    v-bind:disabled="isDisabled"
+                  />
+                </div>
                 <!-- 性別 -->
                 <div class="form-group">
                   <label>性別</label>
@@ -138,6 +150,17 @@
                     />
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
+                </div>
+                <!-- 住所 -->
+                <div class="form-group">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="address"
+                    class="form-control"
+                    placeholder="150桁以下で入力してください"
+                    v-model="address"
+                  />
                 </div>
 
                 <!-- 更新・削除ボタン -->
@@ -222,6 +245,10 @@ export default {
       password: "",
       gender: "",
       auth: "",
+      address: "",
+      againPassword: "",
+      passwordCheck: "",
+      isDisabled: true,
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -289,6 +316,8 @@ export default {
         this.password = userInfo.password;
         this.gender = userInfo.gender;
         this.auth = userInfo.auth;
+        this.address = userInfo.address;
+        this.passwordCheck = userInfo.password;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー取得に失敗しました";
@@ -330,12 +359,20 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        if (this.password != this.againPassword && this.password != this.passwordCheck) {
+          this.errMsg = "パスワードとパスワード(再確認)が一致しません";
+          return;
+        }
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
         if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
+          return;
+        }
+        if (this.address.length > 150) {
+          this.errMsg = "住所は150桁以下で入力してください";
           return;
         }
 
@@ -346,10 +383,14 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         await AjaxUtil.putUser(model);
         this.msg = "ユーザー更新に成功しました";
+        this.againPassword = "";
+        this.passwordCheck = this.password;
+        this.isDisabled = true;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー更新に失敗しました";
@@ -389,6 +430,13 @@ export default {
       }
 
       this.isLoading = false;
+    },
+    inputCheck: function () {
+      if (this.password != this.passwordCheck) {
+        this.isDisabled = false;
+      } else {
+        this.isDisabled = true;
+      }
     },
   },
 };
