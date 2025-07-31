@@ -68,6 +68,20 @@
                     class="form-control"
                     placeholder="8桁以上16桁以下で入力してください。"
                     v-model="password"
+                    v-on:input="passwordCheckFormActivation()"
+                  />
+                </div>
+
+                <!-- パスワード再入力 -->
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="inputPasswordCheck"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください"
+                    v-model="passwordCheck"
+                    v-bind:disabled="passwordCheckForm"
                   />
                 </div>
 
@@ -138,6 +152,18 @@
                     />
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
+                </div>
+
+                <div class="form-group mt-4">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="address"
+                    class="form-control"
+                    placeholder="150桁以下で入力してください"
+                    v-model="address"
+                    autocomplete="off"
+                  />
                 </div>
 
                 <!-- 更新・削除ボタン -->
@@ -216,12 +242,16 @@ export default {
       msg: "",
       errMsg: "",
       isLoading: false,
+      passwordCheckForm: true,
       // 各項目初期値
       userId: "",
       userName: "",
       password: "",
+      passwordFirst: "",
+      passwordCheck: "",
       gender: "",
       auth: "",
+      address: "",
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -253,6 +283,7 @@ export default {
      */
     updateView: async function () {
       this.isLoading = true;
+      this.passwordCheckForm = true;
 
       this.msg = "";
       this.errMsg = "";
@@ -287,8 +318,10 @@ export default {
         // ユーザー情報を各項目にセット
         this.userName = userInfo.user_name;
         this.password = userInfo.password;
+        this.passwordFirst = userInfo.password;
         this.gender = userInfo.gender;
         this.auth = userInfo.auth;
+        this.address = userInfo.address;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー取得に失敗しました";
@@ -330,12 +363,28 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+
+        //パスワード再入力チェック
+        if (
+          this.password != this.passwordCheck &&
+          !(this.password == this.passwordFirst && (this.passwordCheck == null || this.passwordCheck === ""))
+        ) {
+          this.errMsg = "パスワードとパスワード(再確認)が一致しません";
+          return;
+        }
+
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
         if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
+          return;
+        }
+
+        //住所桁数チェック
+        if (this.address.length >= 151) {
+          this.errMsg = "住所は150桁以下で入力してください";
           return;
         }
 
@@ -346,6 +395,7 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         await AjaxUtil.putUser(model);
@@ -389,6 +439,18 @@ export default {
       }
 
       this.isLoading = false;
+    },
+
+    /**
+     * パスワード再入力フォーム　活性制御
+     */
+    passwordCheckFormActivation: function () {
+      if (this.password != this.passwordFirst) {
+        this.passwordCheckForm = false;
+      } else {
+        this.passwordCheckForm = true;
+        this.passwordCheck = "";
+      }
     },
   },
 };

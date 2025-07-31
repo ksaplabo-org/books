@@ -71,6 +71,18 @@
                     v-model="password"
                   />
                 </div>
+
+                <!-- パスワード再入力 -->
+                <div class="form-group">
+                  <label>パスワード(再入力)</label>
+                  <input
+                    type="password"
+                    id="inputPasswordCheck"
+                    class="form-control"
+                    placeholder="8桁以上16桁以下で入力してください"
+                    v-model="passwordCheck"
+                  />
+                </div>
                 <!--
                     ★問題3 Start★
                         各ラジオボタンに対応する文言を設定する。
@@ -142,7 +154,20 @@
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
                   <!--★問題3 End★-->
+
+                  <div class="form-group mt-4">
+                    <label>住所</label>
+                    <input
+                      type="text"
+                      id="address"
+                      class="form-control"
+                      placeholder="150桁以下で入力してください"
+                      v-model="address"
+                      autocomplete="off"
+                    />
+                  </div>
                 </div>
+
                 <!-- 新規登録ボタン -->
                 <div class="form-group">
                   <div class="d-flex justify-content-md-center">
@@ -192,6 +217,7 @@ export default {
       password: "",
       gender: UserConst.Gender.woman,
       auth: UserConst.Auth.general,
+      address: "",
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -252,6 +278,20 @@ export default {
           this.errMsg = "ユーザーIDは半角英数で入力してください";
           return;
         }
+
+        /**
+         * ★問題10 Start★
+         * データ登録時の重複チェックを正常に行えるようにする。
+         * ※どこかが違います。
+         */
+        // ユーザーID重複チェック
+        const response = await AjaxUtil.getUserById(this.userId);
+        const userInfo = JSON.parse(response.data.Items);
+        if (userInfo) {
+          this.errMsg = "入力されたユーザーは既に登録されています";
+          return;
+        }
+
         /**
          * ★問題6 Start★
          * ユーザー名必須入力チェックを行う。
@@ -310,6 +350,13 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+
+        //パスワード再入力チェック
+        if (this.password != this.passwordCheck) {
+          this.errMsg = "パスワードとパスワード(再確認)が一致しません";
+          return;
+        }
+
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
@@ -319,18 +366,12 @@ export default {
           return;
         }
 
-        /**
-         * ★問題10 Start★
-         * データ登録時の重複チェックを正常に行えるようにする。
-         * ※どこかが違います。
-         */
-        // ユーザーID重複チェック
-        const response = await AjaxUtil.getUserById(this.userId);
-        const userInfo = JSON.parse(response.data.Items);
-        if (userInfo) {
-          this.errMsg = "入力されたユーザーは既に登録されています";
+        //住所桁数チェック
+        if (this.address.length >= 151) {
+          this.errMsg = "住所は150桁以下で入力してください";
           return;
         }
+
         /*★問題10 End★*/
 
         // 引数格納
@@ -340,6 +381,7 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         // 登録

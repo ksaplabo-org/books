@@ -48,19 +48,48 @@ module.exports.findById = async function (db, userId) {
 };
 
 /**
+ * ユーザー情報を取得（権限）
+ *
+ * [検索条件]
+ * 権限の完全一致
+ *
+ * @param {*} db
+ * @param {*} auth
+ * @returns {Promise<Object>}
+ */
+module.exports.findByAuth = async function (db, auth) {
+  // ユーザー情報の定義を取得
+  const userModel = UserRepository.getUserModel(db);
+
+  try {
+    return await userModel.findAll({
+      where: {
+        auth: auth,
+      },
+      order: [["user_id", "ASC"]],
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
  * ユーザー情報を検索
  *
  * [検索条件]
  * ユーザーIDの部分一致
  * OR
  * ユーザー名の部分一致
+ * OR
+ * 住所の部分一致
  *
  * @param {*} db
  * @param {*} userId
  * @param {*} userName
+ * @param {*} address
  * @returns {Promise<Object[]>}
  */
-module.exports.findByIdOrNameLike = async function (db, userId, userName) {
+module.exports.findByIdOrNameOrAddressLike = async function (db, userId, userName, address) {
   // ユーザー情報の定義を取得
   const userModel = UserRepository.getUserModel(db);
 
@@ -86,6 +115,7 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
         [Op.or]: {
           user_id: { [Op.like]: "%" + userId + "%" },
           user_name: { [Op.like]: "%" + userName + "%" },
+          address: { [Op.like]: "%" + address + "%" },
           auth: "3",
         },
       },
@@ -107,9 +137,10 @@ module.exports.findByIdOrNameLike = async function (db, userId, userName) {
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
+ * @param {*} address
  * @returns {Promise<void>}
  */
-module.exports.create = async function (db, userId, userName, password, gender, auth) {
+module.exports.create = async function (db, userId, userName, password, gender, auth, address) {
   // ユーザー情報の定義を取得
   const userModel = UserRepository.getUserModel(db);
 
@@ -124,6 +155,7 @@ module.exports.create = async function (db, userId, userName, password, gender, 
       password: password,
       gender: gender,
       auth: auth,
+      address: address,
     });
     /**★問題11[ユーザー追加] End*/
   } catch (e) {
@@ -140,9 +172,10 @@ module.exports.create = async function (db, userId, userName, password, gender, 
  * @param {*} password
  * @param {*} gender
  * @param {*} auth
+ * @param {*} address
  * @returns {Promise<void>}
  */
-module.exports.update = async function (db, userId, userName, password, gender, auth) {
+module.exports.update = async function (db, userId, userName, password, gender, auth, address) {
   // ユーザー情報の定義を取得
   const userModel = UserRepository.getUserModel(db);
 
@@ -153,6 +186,7 @@ module.exports.update = async function (db, userId, userName, password, gender, 
         password: password,
         gender: gender,
         auth: auth,
+        address: address,
       },
       {
         /**

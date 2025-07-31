@@ -58,6 +58,8 @@ export async function getUser(searchParams) {
   const params = {
     userId: searchParams.userId,
     userName: searchParams.userName,
+    address: searchParams.address,
+    auth: searchParams.auth,
   };
   return await axios.get(url, { params: params });
 }
@@ -71,6 +73,7 @@ export async function postUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
 }
 
@@ -93,6 +96,7 @@ export async function putUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
   /**★問題2[ユーザー管理] End★*/
 }

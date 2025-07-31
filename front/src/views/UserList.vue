@@ -18,8 +18,46 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <div class="form-group m-2">
-            <!--
+          <div class="form-group my-2">
+            <div class="col-lg-13">
+              <!-- Illustrations -->
+              <div class="card mb-1">
+                <div class="card-header">
+                  <div class="pl-3">
+                    <div class="mt-2 mb-2">検索方法を選択</div>
+
+                    <div class="d-flex justify-content-start mb-2">
+                      <div class="custom-control custom-radio custom-control-inline mr-2">
+                        <input
+                          type="radio"
+                          id="radio"
+                          name="formSelectRadio"
+                          class="custom-control-input"
+                          v-on:click="display()"
+                          checked
+                        />
+                        <label class="custom-control-label" for="radio">ID/名前/住所で検索</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input
+                          type="radio"
+                          id="authRadio"
+                          name="formSelectRadio"
+                          class="custom-control-input"
+                          v-on:click="authDisplay()"
+                        />
+                        <label class="custom-control-label" for="authRadio">権限で検索</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-body" style="height: 100px">
+                  <div class="ml-2 mb-3">
+                    <!-- お知らせ一覧 -->
+
+                    <div class="form-group m-2">
+                      <!--
                 ★ 問題1 Start★
                   検索欄上部の文言を設計書通りに変更する。
                   検索ボタンをクリックした際に検索処理を呼び出すようにする。
@@ -29,22 +67,50 @@
                   function() {}：何もしてない処理。
 
             -->
+                      <div class="row d-flex justify-content-start align-items-center">
+                        <div class="col-6" id="input" style="display: block">
+                          <input
+                            type="text"
+                            id="searchWord"
+                            class="form-control border-secondary"
+                            v-model="searchWord"
+                            placeholder="ID/名前/住所のいずれかを入力してください"
+                            required
+                          />
+                        </div>
 
-            <div class="px-2" style="font-size: 10pt">ユーザID/ユーザ名を検索</div>
-            <div class="row">
-              <div class="col-lg-6">
-                <input
-                  type="text"
-                  id="searchWord"
-                  class="form-control border-secondary"
-                  v-model="searchWord"
-                  placeholder="入力してください"
-                  required
-                />
+                        <div class="col-6 mt-2" id="authInput" style="display: none">
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                              type="radio"
+                              id="generalRadio"
+                              name="authRadio"
+                              class="custom-control-input"
+                              v-model="searchWordAuth"
+                              v-bind:value="general"
+                            />
+                            <label class="custom-control-label" for="generalRadio">一般</label>
+                            <div class="custom-control custom-radio custom-control-inline ml-2">
+                              <input
+                                type="radio"
+                                id="adminRadio"
+                                name="authRadio"
+                                class="custom-control-input"
+                                v-model="searchWordAuth"
+                                v-bind:value="admin"
+                              />
+                              <label class="custom-control-label" for="adminRadio">社員</label>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="btn-primary btn-sm" style="height: 38px" v-on:click="getUsers()">検索</button>
+                        <!-- ★ 問題1 END ★ -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <button class="btn-primary btn-sm" v-on:click="getUsers()">検索</button>
             </div>
-            <!-- ★ 問題1 END ★ -->
           </div>
 
           <br />
@@ -76,6 +142,7 @@
 <script>
 import * as UserUtil from "@/utils/UserUtil";
 import * as AjaxUtil from "@/utils/AjaxUtil";
+import UserConst from "@/utils/const/UserConst";
 // 共通
 import NaviMenu from "../components/NaviMenu.vue";
 import "../utils/sb-admin";
@@ -104,11 +171,16 @@ export default {
       fields: [
         { key: "user_id", label: "ユーザーID" },
         { key: "user_name", label: "ユーザー名" },
+        { key: "address", label: "住所" },
         { key: "controls", label: "" },
       ],
       /*★問題2 End★*/
       items: [],
       searchWord: "",
+      searchWordAuth: "",
+      // 各ラジオボタン設定値
+      general: UserConst.Auth.general,
+      admin: UserConst.Auth.admin,
     };
   },
   async mounted() {
@@ -142,6 +214,8 @@ export default {
         const searchParams = {
           userId: this.searchWord,
           userName: this.searchWord,
+          address: this.searchWord,
+          auth: this.searchWordAuth,
         };
         const response = await AjaxUtil.getUser(searchParams);
         this.items = JSON.parse(response.data.Items);
@@ -152,6 +226,30 @@ export default {
       }
 
       this.isLoading = false;
+    },
+
+    /**
+     * 入力フォーム切り替え（あいまい検索）
+     */
+    display: function () {
+      const input = document.getElementById("input");
+      const authInput = document.getElementById("authInput");
+      input.style.display = "block";
+      authInput.style.display = "none";
+      this.searchWordAuth = "";
+    },
+
+    /**
+     * 入力フォーム切り替え（権限）
+     */
+    authDisplay: function () {
+      const input = document.getElementById("input");
+      const authInput = document.getElementById("authInput");
+      input.style.display = "none";
+      authInput.style.display = "block";
+      this.searchWord = "";
+      // 権限選択ラジオボタン初期値
+      this.searchWordAuth = UserConst.Auth.general;
     },
 
     /**
