@@ -52,7 +52,7 @@
                           content: data.item.content,
                         }),
                         updateModalParam(),
-                        resetErrMeg())
+                        resetModalErrMsg())
                       "
                       data-toggle="modal"
                       data-target="#updateModal"
@@ -110,7 +110,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
+              <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">タイトル</label>
                 <div class="col-sm-9 d-flex align-items-center">
@@ -173,7 +173,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
+              <p class="text-danger" v-show="modalErrMsg">{{ modalErrMsg }}</p>
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">番号</label>
                 <div class="col-sm-9 d-flex align-items-center">
@@ -328,6 +328,7 @@ export default {
     return {
       msg: this.flashMsg,
       errMsg: "",
+      modalErrMsg: "",
       clickedRow: {},
       isLoading: false,
       // 各項目初期値
@@ -364,6 +365,7 @@ export default {
     updateView: async function () {
       this.msg = "";
       this.errMsg = "";
+      this.modalErrMsg = "";
       this.title = "";
       this.content = "";
 
@@ -393,13 +395,13 @@ export default {
     },
 
     resetModalParam: function () {
-      this.errMsg = "";
+      this.modalErrMsg = "";
       this.title = "";
       this.content = "";
     },
 
-    resetErrMeg: function () {
-      this.errMeg = "";
+    resetModalErrMsg: function () {
+      this.modalErrMsg = "";
     },
 
     /**
@@ -411,22 +413,22 @@ export default {
       try {
         // 入力チェック
         if (this.title === null || this.title === "") {
-          this.errMsg = "タイトルを入力してください";
+          this.modalErrMsg = "タイトルを入力してください";
           return;
         }
 
         if (this.title.length > 100) {
-          this.errMsg = "タイトルは100桁以下で入力してください";
+          this.modalErrMsg = "タイトルは100桁以下で入力してください";
           return;
         }
 
         if (this.content === null || this.content === "") {
-          this.errMsg = "詳細を入力してください";
+          this.modalErrMsg = "詳細を入力してください";
           return;
         }
 
         if (this.content.length > 100) {
-          this.errMsg = "詳細は100桁以下で入力してください";
+          this.modalErrMsg = "詳細は100桁以下で入力してください";
           return;
         }
 
@@ -446,7 +448,7 @@ export default {
         this.msg = "登録に成功しました";
       } catch (e) {
         this.msg = "";
-        this.errMsg = "登録に失敗しました";
+        this.modalErrMsg = "登録に失敗しました";
         console.log(e);
       } finally {
         this.isLoading = false;
@@ -466,25 +468,26 @@ export default {
       // メッセージ初期化
       this.msg = "";
       this.errMsg = "";
+      this.modalErrMsg = "";
 
       this.isLoading = true;
 
       try {
         // 入力チェック
         if (this.title === null || this.title === "") {
-          this.errMsg = "タイトルを入力してください";
+          this.modalErrMsg = "タイトルを入力してください";
           return;
         }
         if (this.title.length > 100) {
-          this.errMsg = "タイトルは100桁以下で入力してください";
+          this.modalErrMsg = "タイトルは100桁以下で入力してください";
           return;
         }
         if (this.content === null || this.content === "") {
-          this.errMsg = "詳細を入力してください";
+          this.modalErrMsg = "詳細を入力してください";
           return;
         }
         if (this.content.length > 100) {
-          this.errMsg = "詳細は100桁以下で入力してください";
+          this.modalErrMsg = "詳細は100桁以下で入力してください";
           return;
         }
 
@@ -504,7 +507,7 @@ export default {
         this.msg = "更新に成功しました";
       } catch (e) {
         this.msg = "";
-        this.errMsg = "更新に失敗しました";
+        this.modalErrMsg = "更新に失敗しました";
         console.log(e);
       } finally {
         this.isLoading = false;
@@ -522,6 +525,7 @@ export default {
       // メッセージ初期化
       this.msg = "";
       this.errMsg = "";
+      this.modalErrMsg = "";
 
       this.isLoading = true;
 
@@ -533,7 +537,7 @@ export default {
         this.msg = "削除に成功しました";
       } catch (e) {
         this.msg = "";
-        this.errMsg = "削除に失敗しました";
+        this.modalErrMsg = "削除に失敗しました";
         console.log(e);
       }
 
