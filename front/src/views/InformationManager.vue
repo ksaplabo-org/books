@@ -395,12 +395,14 @@ export default {
     },
 
     resetModalParam: function () {
+      this.errMsg = "";
       this.modalErrMsg = "";
       this.title = "";
       this.content = "";
     },
 
     resetModalErrMsg: function () {
+      this.errMsg = "";
       this.modalErrMsg = "";
     },
 
@@ -447,8 +449,9 @@ export default {
 
         this.msg = "登録に成功しました";
       } catch (e) {
+        $("#createModal").modal("hide");
         this.msg = "";
-        this.modalErrMsg = "登録に失敗しました";
+        this.errMsg = "登録に失敗しました";
         console.log(e);
       } finally {
         this.isLoading = false;
@@ -506,8 +509,9 @@ export default {
 
         this.msg = "更新に成功しました";
       } catch (e) {
+        $("#updateModal").modal("hide");
         this.msg = "";
-        this.modalErrMsg = "更新に失敗しました";
+        this.errMsg = "更新に失敗しました";
         console.log(e);
       } finally {
         this.isLoading = false;
@@ -537,7 +541,7 @@ export default {
         this.msg = "削除に成功しました";
       } catch (e) {
         this.msg = "";
-        this.modalErrMsg = "削除に失敗しました";
+        this.errMsg = "削除に失敗しました";
         console.log(e);
       }
 
