@@ -100,7 +100,10 @@ module.exports = {
       },
     },
   },
+  // frontのデバッグ設定はデフォルトOFFにする。ONにするコメントアウトを削除すること。
+  /*
   configureWebpack: {
     devtool: "source-map",
   },
+  */
 };
