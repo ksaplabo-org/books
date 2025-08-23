@@ -70,7 +70,7 @@
                     type="password"
                     id="inputReenterPassword"
                     class="form-control"
-                    placeholder="8桁以上16桁以下で入力してください"
+                    placeholder="パスワードを再入力してください"
                     v-model="reenterPassword"
                     v-bind:disabled="beforePassword === password"
                   />
@@ -357,7 +357,7 @@ export default {
         // パスワードが変更されている場合のみ、再入力パスワードとの一致チェックを行う
         if (this.beforePassword !== this.password) {
           if (this.password !== this.reenterPassword) {
-            this.errMsg = "パスワードとパスワード(再入力)が一致しません。";
+            this.errMsg = "パスワードとパスワード(再入力)が一致しません";
             return;
           }
         }

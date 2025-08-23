@@ -90,14 +90,8 @@ export default {
       isLoading: false,
       /**
        * ★問題2 Start★
-       * 一覧にユーザー名の列を追加する
-       *
-       * <DB取得項目>
-       * ユーザーID：user_id
-       * ユーザー名：user_name
-       * パスワード：password
-       * 性別：gender
-       * 権限：auth
+       * 一覧に[ユーザー名]の列を追加する。
+       * ※DBから取得できる項目については、基本設計書の[概要]シート.[5. データベース仕様]を参照。
        */
       fields: [
         { key: "user_id", label: "ユーザーID" },
