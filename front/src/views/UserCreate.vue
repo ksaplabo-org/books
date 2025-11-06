@@ -180,7 +180,6 @@ import * as AjaxUtil from "@/utils/AjaxUtil";
 import UserConst from "@/utils/const/UserConst";
 // 共通
 import NaviMenu from "../components/NaviMenu.vue";
-import "../utils/sb-admin";
 import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";
