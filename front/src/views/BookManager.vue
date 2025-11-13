@@ -183,7 +183,6 @@ import * as UserUtil from "@/utils/UserUtil";
 import * as AjaxUtil from "@/utils/AjaxUtil";
 // 共通
 import NaviMenu from "../components/NaviMenu.vue";
-import "../utils/sb-admin";
 import Menu from "../components/Menu.vue";
 import Footer from "../components/Footer.vue";
 import Loading from "../components/Loading.vue";

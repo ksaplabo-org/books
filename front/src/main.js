@@ -26,6 +26,7 @@ import "../public/css/common.css";
 
 import App from "./App.vue";
 import router from "./router";
+import "./utils/sb-admin";
 
 Vue.config.silent = false;
 Vue.config.productionTip = false;
