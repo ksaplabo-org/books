@@ -251,6 +251,9 @@ export default {
       admin: UserConst.Auth.admin,
     };
   },
+  /**
+   * ユーザー管理画面初期処理
+   */
   async mounted() {
     try {
       // サインイン確認
@@ -270,13 +273,12 @@ export default {
   },
   methods: {
     /**
-     * 画面更新
+     * ユーザー管理画面初期表示
      */
     updateView: async function () {
-      this.isLoading = true;
-
       this.msg = "";
       this.errMsg = "";
+      this.isLoading = true;
 
       // クエリストリングを取得
       const query = this.$route.query;
@@ -284,6 +286,7 @@ export default {
       // 編集対象のユーザーIDを設定する
       this.userId = query.userId ? query.userId : UserUtil.currentUserInfo().userId;
 
+      // ラジオボタンの制御
       // サインインユーザーが更新対象の場合
       if (this.userId == UserUtil.currentUserInfo().userId) {
         // 権限の編集不可設定
@@ -328,31 +331,36 @@ export default {
       // メッセージ初期化
       this.msg = "";
       this.errMsg = "";
-
       this.isLoading = true;
-
+      
+      // 入力チェック
       try {
-        // 入力チェック
+        // ユーザー名の必須入力チェック
         if (this.userName == null || this.userName === "") {
           this.errMsg = "ユーザー名を入力してください";
           return;
         }
+        // ユーザー名の入力桁数チェック
         if (this.userName.length > 100) {
           this.errMsg = "ユーザー名は100桁以下で入力してください";
           return;
         }
+        // パスワードの必須入力チェック
         if (this.password == null || this.password === "") {
           this.errMsg = "パスワードを入力してください";
           return;
         }
+        // パスワードの入力桁数チェック
         if (this.password.length < 8 || this.password.length > 16) {
           this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
           return;
         }
+        // パスワードの半角英数チェック
         if (!this.password.match("^[0-9A-Za-z]{8,16}$")) {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        // パスワードとパスワード（再入力）の一致チェック
         // パスワードが変更されている場合のみ、再入力パスワードとの一致チェックを行う
         if (this.beforePassword !== this.password) {
           if (this.password !== this.reenterPassword) {
@@ -360,15 +368,17 @@ export default {
             return;
           }
         }
+        // 性別の必須入力チェック
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
+        // 権限の必須入力チェック
         if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
           return;
         }
-        // 住所の入力チェック
+        // 住所の入力桁数チェック
         if (this.address != null && this.address !== "" && this.address.length > 150) {
           this.errMsg = "住所は150桁以下で入力してください";
           return;
@@ -405,7 +415,6 @@ export default {
       // メッセージ初期化
       this.msg = "";
       this.errMsg = "";
-
       this.isLoading = true;
 
       try {
@@ -418,8 +427,8 @@ export default {
           UserUtil.signOut();
           this.$router.push({ name: "signIn", params: { flashMsg: "サインインしてください" } });
         } else {
-          // 一覧画面に遷移する
-          this.$router.push({ name: "userList", params: { flashMsg: "削除に成功しました" } });
+          // ユーザー一覧画面に遷移する
+          this.$router.push({ name: "userList", params: { flashMsg: "ユーザー削除に成功しました" } });
         }
       } catch (e) {
         this.msg = "";

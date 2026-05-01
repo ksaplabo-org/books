@@ -152,6 +152,9 @@ export default {
       admin: UserConst.Auth.admin,
     };
   },
+  /**
+   * ユーザー一覧画面初期処理
+   */
   async mounted() {
     try {
       // サインイン確認
@@ -174,10 +177,9 @@ export default {
      * ユーザー検索処理
      */
     getUsers: async function () {
-      this.isLoading = true;
-
       this.msg = "";
       this.errMsg = "";
+      this.isLoading = true;
 
       try {
         let response;
@@ -204,7 +206,7 @@ export default {
     },
 
     /**
-     * 編集ボタン押下時
+     * ユーザー管理画面呼び出し
      *
      * @param data
      */

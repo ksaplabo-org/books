@@ -207,6 +207,9 @@ export default {
       admin: UserConst.Auth.admin,
     };
   },
+  /**
+   * ユーザー追加初期処理
+   */
   async mounted() {
     // サインイン確認
     try {
@@ -222,58 +225,69 @@ export default {
   },
   methods: {
     /**
-     * ユーザー作成
+     * ユーザー追加
      */
     userCreate: async function () {
       this.isLoading = true;
 
+      // 入力チェック
       try {
-        // 入力チェック
+        // ユーザーIDの必須入力チェック
         if (this.userId == null || this.userId === "") {
           this.errMsg = "ユーザーIDを入力してください";
           return;
         }
+        // ユーザーIDの入力桁数チェック
         if (this.userId.length > 16) {
           this.errMsg = "ユーザーIDは16桁以下で入力してください";
           return;
         }
+        // ユーザーIDの半角英数チェック
         if (!this.userId.match("^[0-9A-Za-z]*$")) {
           this.errMsg = "ユーザーIDは半角英数で入力してください";
           return;
         }
+        // ユーザー名の必須入力チェック
         if (this.userName == null || this.userName === "") {
           this.errMsg = "ユーザー名を入力してください";
           return;
         }
+        // ユーザー名の入力桁数チェック
         if (this.userName.length > 100) {
           this.errMsg = "ユーザー名は100桁以下で入力してください";
           return;
         }
+        // パスワードの必須入力チェック
         if (this.password == null || this.password === "") {
           this.errMsg = "パスワードを入力してください";
           return;
         }
+        // パスワードの入力桁数チェック
         if (this.password.length < 8 || this.password.length > 16) {
           this.errMsg = "パスワードは8桁以上16桁以下で入力してください";
           return;
         }
+        // パスワードの半角英数チェック
         if (!this.password.match("^[0-9A-Za-z]*$")) {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        // パスワードとパスワード（再入力）の一致チェック
         if (this.password !== this.reenterPassword) {
           this.errMsg = "パスワードとパスワード(再入力)が一致しません";
           return;
         }
+        // 性別の必須入力チェック
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
+        // 権限の必須入力チェック
         if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
           return;
         }
-        // 住所の入力チェック
+        // 住所の入力桁数チェック
         if (this.address != null && this.address !== "" && this.address.length > 150) {
           this.errMsg = "住所は150桁以下で入力してください";
           return;
@@ -301,7 +315,7 @@ export default {
         await AjaxUtil.postUser(model);
 
         // 一覧画面に遷移する
-        this.$router.push({ name: "userList", params: { flashMsg: "登録に成功しました" } });
+        this.$router.push({ name: "userList", params: { flashMsg: "ユーザー登録に成功しました" } });
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー登録に失敗しました";

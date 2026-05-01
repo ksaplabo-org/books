@@ -59,12 +59,15 @@ export default {
       items: [],
     };
   },
+  /**
+   * 学生一覧画面初期処理
+   */
   async mounted() {
     try {
       // サインイン確認
       if (UserUtil.isSignIn()) {
-        // 画面更新
-        await this.updateView();
+        // 学生一覧取得
+        await this.getAllStudent();
 
         // メッセージ設定
         this.msg = this.flashMsg;
@@ -78,19 +81,11 @@ export default {
   },
   methods: {
     /**
-     * 画面更新
-     */
-    updateView: async function () {
-      this.msg = "";
-      this.errMsg = "";
-
-      // 学生を検索する
-      await this.getAllStudent();
-    },
-    /**
-     * 学生検索
+     * 学生一覧取得
      */
     getAllStudent: async function () {
+      this.msg = "";
+      this.errMsg = "";
       this.isLoading = true;
 
       // 一覧を初期化する

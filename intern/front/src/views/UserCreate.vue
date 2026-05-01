@@ -190,6 +190,9 @@ export default {
       admin: UserConst.Auth.admin,
     };
   },
+  /**
+   * ユーザー追加初期処理
+   */
   async mounted() {
     // サインイン確認
     try {
@@ -205,13 +208,14 @@ export default {
   },
   methods: {
     /**
-     * ユーザー作成
+     * ユーザー追加
      */
     userCreate: async function () {
       this.isLoading = true;
 
+      // 入力チェック
       try {
-        // 入力チェック
+        // ユーザーIDの必須入力チェック
         /**
          * ★問題4 Start★
          * ユーザーID必須入力チェックを行う。
@@ -220,6 +224,8 @@ export default {
          */
 
         /*★問題4 End★*/
+
+        // ユーザーIDの入力桁数チェック
         /**
          * ★問題5 Start★
          * ユーザーID桁数チェックを行う。
@@ -230,10 +236,12 @@ export default {
 
         /*★問題5 End★*/
 
+        // ユーザーIDの半角英数チェック
         if (!this.userId.match("^[0-9A-Za-z]*$")) {
           this.errMsg = "ユーザーIDは半角英数で入力してください";
           return;
         }
+        // ユーザー名の必須入力チェック
         /**
          * ★問題6 Start★
          * ユーザー名必須入力チェックを行う。
@@ -243,6 +251,7 @@ export default {
 
         /*★問題6 End★*/
 
+        // ユーザー名の入力桁数チェック
         /**
          * ★問題7 Start★
          * ユーザー名桁数チェックを行う。
@@ -253,6 +262,7 @@ export default {
 
         /*★問題7 End★*/
 
+        // パスワードの必須入力チェック
         /**
          * ★問題8 Start★
          * パスワード必須入力チェックを行う。
@@ -262,6 +272,7 @@ export default {
 
         /*★問題8 End★*/
 
+        // パスワードの入力桁数チェック
         /**
          * ★問題9 Start★
          * パスワード桁数チェックを行う。
@@ -272,14 +283,17 @@ export default {
 
         /*★問題9 End★*/
 
+        // パスワードの半角英数チェック
         if (!this.password.match("^[0-9A-Za-z]*$")) {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        // 性別の必須入力チェック
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
           return;
         }
+        // 権限の必須入力チェック
         if (this.auth == null || this.auth === "") {
           this.errMsg = "権限を選択してください";
           return;
@@ -312,7 +326,7 @@ export default {
         await AjaxUtil.postUser(model);
 
         // 一覧画面に遷移する
-        this.$router.push({ name: "userList", params: { flashMsg: "登録に成功しました" } });
+        this.$router.push({ name: "userList", params: { flashMsg: "ユーザー登録に成功しました" } });
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー登録に失敗しました";
