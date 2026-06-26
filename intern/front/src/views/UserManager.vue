@@ -28,7 +28,7 @@
               <div class="col" />
               <div class="col-6">
                 <!--
-                    ★問題1 Start★
+                    ★課題03-01 Start★
                     ユーザーIDを編集できないようにする。
                     ※inputタグの文末に何か追加する。
                 -->
@@ -42,10 +42,11 @@
                     placeholder="1桁以上16桁以下で入力してください。"
                     v-model="userId"
                     autocomplete="off"
+                    readonly
                   />
                 </div>
-                <!--★問題1 End★-->
-
+                <!-- ★課題03-01 END★ -->
+                
                 <!-- ユーザー名 -->
                 <div class="form-group">
                   <label>ユーザー名</label>
@@ -69,6 +70,14 @@
                     v-model="password"
                   />
                 </div>
+                <!--
+                    ★追加課題03-01 Start★
+                    パスワード(再入力)欄を追加する。
+                    ※入力可能・入力不可能を制御する条件が必要。
+                -->
+                <!-- パスワード(再入力) -->
+
+                <!-- ★追加課題03-01 END★ -->
 
                 <!-- 性別 -->
                 <div class="form-group">
@@ -137,6 +146,19 @@
                     />
                     <label class="custom-control-label" for="adminRadio">社員</label>
                   </div>
+                </div>
+
+                <!-- 住所 -->
+                <div class="form-group">
+                  <label>住所</label>
+                  <input
+                    type="text"
+                    id="address"
+                    class="form-control"
+                    placeholder="150桁以下で入力してください"
+                    v-model="address"
+                    autocomplete="off"
+                  />
                 </div>
 
                 <!-- 更新・削除ボタン -->
@@ -220,6 +242,10 @@ export default {
       password: "",
       gender: "",
       auth: "",
+      reenterPassword: "",
+      address: "",
+      // 変更前のパスワードを保持
+      beforePassword: "",
       // 各ラジオボタン設定値
       man: UserConst.Gender.man,
       woman: UserConst.Gender.woman,
@@ -290,6 +316,8 @@ export default {
         this.password = userInfo.password;
         this.gender = userInfo.gender;
         this.auth = userInfo.auth;
+        this.address = userInfo.address;
+        this.beforePassword = userInfo.password;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー取得に失敗しました";
@@ -307,7 +335,7 @@ export default {
       this.msg = "";
       this.errMsg = "";
       this.isLoading = true;
-
+      
       // 入力チェック
       try {
         // ユーザー名の必須入力チェック
@@ -335,6 +363,18 @@ export default {
           this.errMsg = "パスワードは半角英数で入力してください";
           return;
         }
+        // パスワードとパスワード（再入力）の一致チェック
+        // パスワードが変更されている場合のみ、再入力パスワードとの一致チェックを行う
+        /**
+         * ★追加課題03-02 Start★
+         * パスワードとパスワード（再入力）の一致チェックを行う。
+         * エラーがある場合は以下のエラーメッセージを表示する。
+         * エラーメッセージ：「パスワードとパスワード(再確認)が一致しません」
+         */
+
+
+        /*★課題03-02 END★*/
+
         // 性別の必須入力チェック
         if (this.gender == null || this.gender === "") {
           this.errMsg = "性別を選択してください";
@@ -345,6 +385,11 @@ export default {
           this.errMsg = "権限を選択してください";
           return;
         }
+        // 住所の入力桁数チェック
+        if (this.address != null && this.address !== "" && this.address.length > 150) {
+          this.errMsg = "住所は150桁以下で入力してください";
+          return;
+        }
 
         // 引数格納
         const model = {
@@ -353,10 +398,14 @@ export default {
           password: this.password,
           gender: this.gender,
           auth: this.auth,
+          address: this.address,
         };
 
         await AjaxUtil.putUser(model);
         this.msg = "ユーザー更新に成功しました";
+
+        // 更新後のパスワードに上書き
+        this.beforePassword = this.password;
       } catch (e) {
         this.msg = "";
         this.errMsg = "ユーザー更新に失敗しました";
@@ -373,7 +422,6 @@ export default {
       // メッセージ初期化
       this.msg = "";
       this.errMsg = "";
-
       this.isLoading = true;
 
       try {

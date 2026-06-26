@@ -18,35 +18,106 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <div class="form-group m-2">
-            <!--
-                ★ 問題1 Start★
-                  検索欄上部の文言を設計書通りに変更する。
-                  検索ボタンをクリックした際に検索処理を呼び出すようにする。
+          <!--
+            ★課題01-01 Start★
+              検索欄上部の文言を設計書通りに変更する。
+              検索ボタンをクリックした際に検索処理を呼び出すようにする。
 
-                  divタグ：特に単体では意味をなさない。
-                          タグで囲んだ部分をグループ化することができる。
-                  function() {}：何もしてない処理。
-
-            -->
-            <div class="row">
-              <div class="col-lg-6">
+              divタグ：特に単体では意味をなさない。
+                      タグで囲んだ部分をグループ化することができる。
+              function() {}：何もしてない処理。
+          -->
+          <div class="card">
+            <div class="card-header small">
+              <div class="px-2 mt-2"></div>
+              <div class="custom-control custom-radio custom-control-inline m-2">
                 <input
-                  type="text"
-                  id="searchWord"
-                  class="form-control border-secondary"
-                  v-model="searchWord"
-                  placeholder="入力してください"
-                  required
+                type="radio"
+                id="searchModeLike"
+                name="searchModeRadio"
+                class="custom-control-input"
+                value="modeLike"
+                v-model="searchMode"
+                checked
                 />
+                <label class="custom-control-label" for="searchModeLike">ID/名前/住所で検索</label>
               </div>
-              <button class="btn-primary btn-sm" v-on:click="function () {}">検索</button>
+              <!-- 
+                ★追加課題01-01 Start★
+                  以下の要素のコメントアウトを削除して、権限で検索のタブが表示されることを確認する。
+              -->
+              <!-- <div class="custom-control custom-radio custom-control-inline m-2">
+                <input
+                type="radio"
+                id="searchModeAuth"
+                name="searchModeRadio"
+                class="custom-control-input"
+                value="modeAuth"
+                v-model="searchMode"
+                />
+                <label class="custom-control-label" for="searchModeAuth">権限で検索</label>
+              </div> -->
+              <!-- ★追加課題01-01 END★ -->
             </div>
-            <!-- ★ 問題1 END ★ -->
+
+            <div class="form-group m-2">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div v-if="searchMode === 'modeLike'">
+                      <input
+                      type="text"
+                      id="searchWord"
+                      class="form-control border-secondary"
+                      v-model="searchWord"
+                      placeholder="ID/名前/住所のいずれかを入力してください"
+                      required
+                      />
+                    </div>
+                    <!-- 
+                      ★追加課題01-02 Start★
+                        v-ifの判定条件を修正して設計書通りのレイアウトを実装する。
+                        inputタグに設定しているv-model、v-bindの値を修正して、選択した検索方法の情報を保持させる。
+                        ※それぞれ[test]と書かれた箇所を修正すること。
+                    -->
+                    <div v-if="searchMode === 'test'">
+                      <div class="form-control border-white">
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input
+                          type="radio"
+                          id="generalRadio"
+                          name="authRadio"
+                          class="custom-control-input"
+                          v-model="test"
+                          v-bind:value="test"
+                          checked
+                          />
+                          <label class="custom-control-label" for="generalRadio">一般</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input
+                          type="radio"
+                          id="adminRadio"
+                          name="authRadio"
+                          class="custom-control-input"
+                          v-model="test"
+                          v-bind:value="test"
+                          />
+                          <label class="custom-control-label" for="adminRadio">社員</label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- ★追加課題01-02 END★ -->
+                  </div>
+                  <button class="btn-primary btn-sm" v-on:click="function() {}">検索</button>
+                </div>
+              </div>
+            </div>
           </div>
-
+          <!-- ★課題01-01 END★ -->
+          
           <br />
-
+          
           <!-- ユーザー一覧 -->
           <b-table striped responsive hover :items="items" :fields="fields">
             <!-- ボタンセル定義 -->
@@ -74,6 +145,7 @@
 <script>
 import * as UserUtil from "@/utils/UserUtil";
 import * as AjaxUtil from "@/utils/AjaxUtil";
+import UserConst from "@/utils/const/UserConst";
 // 共通
 import NaviMenu from "../components/NaviMenu.vue";
 import Menu from "../components/Menu.vue";
@@ -88,17 +160,21 @@ export default {
       errMsg: "",
       isLoading: false,
       /**
-       * ★問題2 Start★
-       * 一覧に[ユーザー名]の列を追加する。
+       * ★課題01-02 Start★
+       * 一覧に[ユーザー名]、[住所]の列を追加する。
        * ※DBから取得できる項目については、基本設計書の[概要]シート.[5. データベース仕様]を参照。
        */
       fields: [
         { key: "user_id", label: "ユーザーID" },
         { key: "controls", label: "" },
       ],
-      /*★問題2 End★*/
+      /* ★課題01-02 End★ */
       items: [],
+      searchMode: "modeLike",
       searchWord: "",
+      auth: UserConst.Auth.general,
+      general: UserConst.Auth.general,
+      admin: UserConst.Auth.admin,
     };
   },
   /**
@@ -131,11 +207,25 @@ export default {
       this.isLoading = true;
 
       try {
-        const searchParams = {
-          userId: this.searchWord,
-          userName: this.searchWord,
-        };
-        const response = await AjaxUtil.getUser(searchParams);
+        let response;
+        if (this.searchMode === "modeLike") {
+          // ユーザーID/ユーザー名/住所のあいまい検索
+          const searchParams = {
+            userId: this.searchWord,
+            userName: this.searchWord,
+            address: this.searchWord,
+          };
+          response = await AjaxUtil.getUser(searchParams);
+        } else {
+          /**
+           * ★追加課題01-03 Start★
+           * 権限を選択した場合に権限検索処理を呼び出す。
+           * ※呼び出す関数は、詳細設計書の[ユーザー検索処理]シートを参照。
+           */
+          // 権限の検索
+          
+          /* ★追加課題01-03 End★ */
+        }
         this.items = JSON.parse(response.data.Items);
       } catch (e) {
         this.msg = "";

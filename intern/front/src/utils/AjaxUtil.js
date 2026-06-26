@@ -58,8 +58,25 @@ export async function getUser(searchParams) {
   const params = {
     userId: searchParams.userId,
     userName: searchParams.userName,
+    address: searchParams.address,
   };
   return await axios.get(url, { params: params });
+}
+
+export async function getUserByAuth(auth) {
+  /**
+   * ★追加課題01-04 Start★
+   * 権限検索処理を呼び出せるように記載する。
+   * ※あいまい検索処理(getUser)を参照
+   * ※次に呼び出したい処理はgetUser、getUserByIdと同じ。
+   *
+   * get:取得
+   * post:登録
+   * put:更新
+   * delete:削除
+   */
+
+  /**★追加課題01-04 END★*/
 }
 
 export async function postUser(userModel) {
@@ -71,12 +88,13 @@ export async function postUser(userModel) {
     password: userModel.password,
     gender: userModel.gender,
     auth: userModel.auth,
+    address: userModel.address,
   });
 }
 
 export async function putUser(userModel) {
   /**
-   * ★問題2[ユーザー管理] Start★
+   * ★課題03-02 Start★
    * 編集処理を呼び出せるように処理を記載する。
    * ※ユーザー登録処理(postUser)を参照
    *
@@ -85,7 +103,7 @@ export async function putUser(userModel) {
    * put:更新
    * delete:削除
    */
-  /**★問題2[ユーザー管理] End★*/
+  /**★課題03-02 END★*/
 }
 
 export async function deleteUser(userId) {

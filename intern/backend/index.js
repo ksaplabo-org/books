@@ -182,17 +182,31 @@ app.get("/api/users", async function (req, res) {
   const query = req.query;
   const userId = query.userId;
   const userName = query.userName;
+  const address = query.address;
+  const auth = query.auth;
 
   try {
+    /**
+     * ★追加課題01-05 Start★
+     * 詳細設計書に記載されているクエリパラメータを基に判定条件を追加し、
+     * 権限検索処理を呼び出せるように記載する。
+     *
+     * ※権限検索処理は「UserLogic.findByAuth」処理を呼び出して実行する。
+     */
     let users;
-    if ((userId != null && userId !== "") || (userName != null && userName !== "")) {
+    if (
+      (userId != null && userId !== "") ||
+      (userName != null && userName !== "") ||
+      (address != null && address !== "")
+    ) {
       // あいまい検索
-      users = await UserLogic.findByIdOrNameLike(db, userId, userName);
+      users = await UserLogic.findByIdOrNameOrAddressLike(db, userId, userName, address);
     } else {
       // 全件検索
       users = await UserLogic.findAll(db);
     }
-
+    /**★追加課題01-05 END★*/
+    
     // 正常レスポンス
     res.send({
       Items: JSON.stringify(users),
@@ -212,7 +226,15 @@ app.post("/api/users", async function (req, res) {
   const reqBody = req.body;
 
   try {
-    await UserLogic.create(db, reqBody.userId, reqBody.userName, reqBody.password, reqBody.gender, reqBody.auth);
+    await UserLogic.create(
+      db,
+      reqBody.userId,
+      reqBody.userName,
+      reqBody.password,
+      reqBody.gender,
+      reqBody.auth,
+      reqBody.address
+    );
 
     // 正常レスポンス
     res.send();
@@ -228,13 +250,13 @@ app.post("/api/users", async function (req, res) {
  */
 app.put("/api/users", async function (req, res) {
   /**
-   * ★問題3[ユーザー管理] Start★
+   * ★課題03-03 Start★
    * 更新処理を呼び出せるように処理を記載する。
-   * ※ユーザー情報追加API(app.post("/api/users", function(req, res))を参照
+   * ※ユーザー情報追加API(app.post("/api/users", function(req, res))などを参照
    *
    * ユーザー更新処理は「UserLogic.update」処理を呼び出して実行する。
    */
-  /**★問題3[ユーザー管理] End★*/
+  /**★課題03-03 END★*/
 });
 
 /**
