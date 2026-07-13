@@ -14,12 +14,12 @@ module.exports.findAll = async function (db) {
     const userModel = UserRepository.getUserModel(db);
     return await userModel.findAll({
       /**
-       * ★課題01-03 Start★
+       * ★課題01-04 Start★
        * データ取得時にユーザーIDで昇順表示するようにする。
        * (現在は「権限(auth)」で降順になっている。)
        */
       order: [["auth", "DESC"]],
-      /* ★課題01-03 End★ */
+      /* ★課題01-04 End★ */
     });
   } catch (e) {
     throw e;
@@ -70,7 +70,7 @@ module.exports.findByIdOrNameOrAddressLike = async function (db, userId, userNam
   try {
     return await userModel.findAll({
       /**
-       * ★課題01-04 Start★
+       * ★課題01-05 Start★
        * 検索条件指定してデータ取得をする際に、
        * ユーザーID、ユーザー名、住所の一部が条件に一致しているデータを取得できるようにする。
       *
@@ -84,17 +84,18 @@ module.exports.findByIdOrNameOrAddressLike = async function (db, userId, userNam
       */
      where: {
        [Op.or]: {
-         user_id: { [Op.like]: "%" + userId + "%" }
+         user_id: { [Op.like]: "%" + userId + "%" },
+         auth: "3"
         },
       },
-      /* ★課題01-04 End★ */
+      /* ★課題01-05 End★ */
       
       /**
-       * ★課題01-05 Start★
+       * ★課題01-06 Start★
        * データ抽出結果が設計書の要望通りに出力されているかどうか確認する。
       */
      order: [["user_id", "ASC"]],
-     /* ★課題01-05 End★ */
+     /* ★課題01-06 End★ */
     });
   } catch (e) {
     throw e;
@@ -186,7 +187,7 @@ module.exports.update = async function (db, userId, userName, password, gender, 
          * 更新対象データを絞る条件を追加してください。
          * ※現在は全てのデータを更新するように設定されています。
          */
-        v/**★課題03-04 END★*/
+        /**★課題03-04 END★*/
       }
     );
   } catch (e) {

@@ -18,18 +18,17 @@
           <p class="text-primary" v-show="msg">{{ msg }}</p>
           <p class="text-danger" v-show="errMsg">{{ errMsg }}</p>
 
-          <!--
-            ★課題01-01 Start★
-              検索欄上部の文言を設計書通りに変更する。
-              検索ボタンをクリックした際に検索処理を呼び出すようにする。
-
-              divタグ：特に単体では意味をなさない。
-                      タグで囲んだ部分をグループ化することができる。
-              function() {}：何もしてない処理。
-          -->
           <div class="card">
             <div class="card-header small">
+              <!--
+                ★課題01-01 Start★
+                  検索欄上部の文言を設計書通りに変更する。
+    
+                  divタグ：特に単体では意味をなさない。
+                          タグで囲んだ部分をグループ化することができる。
+              -->
               <div class="px-2 mt-2"></div>
+              <!-- ★課題01-01 END★ -->
               <div class="custom-control custom-radio custom-control-inline m-2">
                 <input
                 type="radio"
@@ -46,7 +45,7 @@
                 ★追加課題01-01 Start★
                   以下の要素のコメントアウトを削除して、権限で検索のタブが表示されることを確認する。
               -->
-              <!-- <div class="custom-control custom-radio custom-control-inline m-2">
+              <div class="custom-control custom-radio custom-control-inline m-2">
                 <input
                 type="radio"
                 id="searchModeAuth"
@@ -56,7 +55,7 @@
                 v-model="searchMode"
                 />
                 <label class="custom-control-label" for="searchModeAuth">権限で検索</label>
-              </div> -->
+              </div>
               <!-- ★追加課題01-01 END★ -->
             </div>
 
@@ -109,12 +108,18 @@
                     </div>
                     <!-- ★追加課題01-02 END★ -->
                   </div>
+                  <!--
+                    ★課題01-02 Start★
+                      検索ボタンをクリックした際に検索処理を呼び出すようにする。
+        
+                      function() {}：何もしてない処理。
+                  -->
                   <button class="btn-primary btn-sm" v-on:click="function() {}">検索</button>
+                  <!-- ★課題01-02 END★ -->
                 </div>
               </div>
             </div>
           </div>
-          <!-- ★課題01-01 END★ -->
           
           <br />
           
@@ -160,7 +165,7 @@ export default {
       errMsg: "",
       isLoading: false,
       /**
-       * ★課題01-02 Start★
+       * ★課題01-03 Start★
        * 一覧に[ユーザー名]、[住所]の列を追加する。
        * ※DBから取得できる項目については、基本設計書の[概要]シート.[5. データベース仕様]を参照。
        */
@@ -168,7 +173,7 @@ export default {
         { key: "user_id", label: "ユーザーID" },
         { key: "controls", label: "" },
       ],
-      /* ★課題01-02 End★ */
+      /* ★課題01-03 End★ */
       items: [],
       searchMode: "modeLike",
       searchWord: "",

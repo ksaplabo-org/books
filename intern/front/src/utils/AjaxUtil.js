@@ -67,7 +67,7 @@ export async function getUserByAuth(auth) {
   /**
    * ★追加課題01-04 Start★
    * 権限検索処理を呼び出せるように記載する。
-   * ※あいまい検索処理(getUser)を参照
+   * ※あいまい検索処理(getUser)などが参考になります。
    * ※次に呼び出したい処理はgetUser、getUserByIdと同じ。
    *
    * get:取得
@@ -96,7 +96,7 @@ export async function putUser(userModel) {
   /**
    * ★課題03-02 Start★
    * 編集処理を呼び出せるように処理を記載する。
-   * ※ユーザー登録処理(postUser)を参照
+   * ※ユーザー登録処理(postUser)などが参考になります。
    *
    * get:取得
    * post:登録

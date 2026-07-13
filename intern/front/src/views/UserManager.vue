@@ -373,7 +373,7 @@ export default {
          */
 
 
-        /*★課題03-02 END★*/
+        /*★追加課題03-02 END★*/
 
         // 性別の必須入力チェック
         if (this.gender == null || this.gender === "") {
