@@ -45,7 +45,7 @@
                 ★追加課題01-01 Start★
                   以下の要素のコメントアウトを削除して、権限で検索のタブが表示されることを確認する。
               -->
-              <div class="custom-control custom-radio custom-control-inline m-2">
+              <!-- <div class="custom-control custom-radio custom-control-inline m-2">
                 <input
                 type="radio"
                 id="searchModeAuth"
@@ -55,7 +55,7 @@
                 v-model="searchMode"
                 />
                 <label class="custom-control-label" for="searchModeAuth">権限で検索</label>
-              </div>
+              </div> -->
               <!-- ★追加課題01-01 END★ -->
             </div>
 
