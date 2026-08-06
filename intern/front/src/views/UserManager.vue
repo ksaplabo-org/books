@@ -42,7 +42,6 @@
                     placeholder="1桁以上16桁以下で入力してください。"
                     v-model="userId"
                     autocomplete="off"
-                    readonly
                   />
                 </div>
                 <!-- ★課題03-01 END★ -->
@@ -373,7 +372,7 @@ export default {
          */
 
 
-        /*★課題03-02 END★*/
+        /*★追加課題03-02 END★*/
 
         // 性別の必須入力チェック
         if (this.gender == null || this.gender === "") {
