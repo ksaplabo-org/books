@@ -47,7 +47,7 @@ export async function deleteInformation(no) {
 
 export async function searchBooks(keyword) {
   // search url : google books api.
-  const url = "https://www.googleapis.com/books/v1/volumes?q=" + keyword.replace(" ", "+");
+  const url = "https://www.googleapis.com/books/v1/volumes?q=" + keyword.replace(" ", "+") + "&key=" + process.env.VUE_APP_GOOGLE_BOOKS_API_KEY;
   return await axios.get(url);
 }
 
