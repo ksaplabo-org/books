@@ -362,18 +362,7 @@ app.post("/api/lending/already", async function (req, res) {
  * 学生情報検索API
  */
 app.get("/api/students", async function (req, res) {
-  try {
-    const students = await StudentLogic.getAll(db);
 
-    // 正常レスポンス
-    res.send({
-      Items: JSON.stringify(students),
-    });
-  } catch (e) {
-    // 異常レスポンス
-    console.log("failed to get student.", e);
-    res.status(500).send("server error occur");
-  }
 });
 
 app.listen(process.env.PORT || 3000);
