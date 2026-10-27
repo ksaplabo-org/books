@@ -45,10 +45,12 @@ export async function deleteInformation(no) {
   return await axios.delete(url);
 }
 
-export async function searchBooks(keyword) {
-  // search url : google books api.
-  const url = "https://www.googleapis.com/books/v1/volumes?q=" + keyword.replace(" ", "+") + "&key=" + process.env.VUE_APP_GOOGLE_BOOKS_API_KEY;
-  return await axios.get(url);
+export async function searchBooks(title) {
+  const url = "/api/google-book"
+  const params = {
+    title: title
+  };
+  return await axios.get(url, { params: params });
 }
 
 export async function addBook(addBookModel) {
