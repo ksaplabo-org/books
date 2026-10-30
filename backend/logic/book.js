@@ -3,6 +3,7 @@ const Op = sequelize.Op;
 const moment = require("moment");
 
 const BookRepository = require("../db/book");
+const GoogleBookRepository = require("../db/googleBook");
 
 /**
  * 書籍情報を全件検索
@@ -15,6 +16,29 @@ module.exports.getAll = async function (db) {
 
   try {
     return await bookModel.findAll();
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * 書籍情報(Google books API)を全件検索
+ *
+ * @param {*} db
+ * @param {*} title
+ * @returns {Promise<Object[]>}
+ */
+module.exports.findGoogleBookByTitle = async function (db, title) {
+  const googleBookModel = GoogleBookRepository.getGoogleBookModel(db);
+
+  try {
+    return await googleBookModel.findAll({
+      where: {
+        title: {
+          [Op.like]: "%" + title + "%",
+        },
+      },
+    });
   } catch (e) {
     throw e;
   }

@@ -222,7 +222,7 @@ export default {
 
       try {
         // 書籍一覧の取得
-        const books = (await AjaxUtil.searchBooks(this.searchWord)).data.items;
+        const books = JSON.parse((await AjaxUtil.searchBooks(this.searchWord)).data.Items);
         // マスタ管理している書籍一覧の取得
         const masterBooks = JSON.parse((await AjaxUtil.getAllSapBooks()).data.Items);
 
