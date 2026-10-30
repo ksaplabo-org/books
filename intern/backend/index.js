@@ -84,6 +84,24 @@ app.get("/api/book", async function (req, res) {
 });
 
 /**
+ * 書籍情報(Google books API)取得API
+ */
+app.get("/api/google-book/", async function (req, res) {
+  try {
+    const books = await BookLogic.findGoogleBookByTitle(db, req.query.title);
+
+    // 正常レスポンス
+    res.send({
+      Items: JSON.stringify(books.map((book) => book.response_json)),
+    });
+  } catch (e) {
+    // 異常レスポンス
+    console.log("failed to get book.", e);
+    res.status(500).send("server error occur");
+  }
+});
+
+/**
  * 書籍名のあいまい検索結果取得API
  */
 app.get("/api/book/search/:searchWord", async function (req, res) {

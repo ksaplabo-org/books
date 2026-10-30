@@ -23,10 +23,12 @@ export async function getInformation() {
   return await axios.get(url);
 }
 
-export async function searchBooks(keyword) {
-  // search url : google books api.
-  const url = "https://www.googleapis.com/books/v1/volumes?q=" + keyword.replace(" ", "+");
-  return await axios.get(url);
+export async function searchBooks(title) {
+  const url = "/api/google-book"
+  const params = {
+    title: title
+  };
+  return await axios.get(url, { params: params });
 }
 
 export async function addBook(addBookModel) {
